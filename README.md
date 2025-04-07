@@ -7,8 +7,10 @@
 
 ## General
 
-Pinecone Snake (PSC) is a collection of various open source desktop application.
+Pinecone Snake (PCS) is a collection of various open source desktop applications.
 
 ## List of applications
+
+* [TxtEditor](pcstxteditor/README.md)
 
 
