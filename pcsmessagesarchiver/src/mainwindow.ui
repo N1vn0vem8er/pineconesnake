@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1253</width>
+    <height>644</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Messages Archiver</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QPushButton" name="homeButton">
+          <property name="text">
+           <string>Home</string>
+          </property>
+          <property name="icon">
+           <iconset theme="go-home"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveMessageButton">
+          <property name="text">
+           <string>Save Message</string>
+          </property>
+          <property name="icon">
+           <iconset theme="document-save"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="browseMessagesButton">
+          <property name="text">
+           <string>Browse Messages</string>
+          </property>
+          <property name="icon">
+           <iconset theme="text-x-generic"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="manageContactsButton">
+          <property name="text">
+           <string>Manage Contacts</string>
+          </property>
+          <property name="icon">
+           <iconset theme="address-book-new"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="settingsButton">
+          <property name="text">
+           <string>Settings</string>
+          </property>
+          <property name="icon">
+           <iconset theme="preferences-other"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="aboutQtButton">
+          <property name="text">
+           <string>About Qt</string>
+          </property>
+          <property name="icon">
+           <iconset theme="help-about"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="aboutButton">
+          <property name="text">
+           <string>About Application</string>
+          </property>
+          <property name="icon">
+           <iconset theme="help-about"/>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>-1</number>
+       </property>
+       <property name="tabsClosable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1253</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -15,21 +15,21 @@ PCS TxtEditor is a basic text files editor.
 ## Features
 
 * Opens multiple files in tabs
-* Line numering
+* Line numbering
 * Minimalist design
 
 ## Technologies
 
 This project was created with:
 
-* Qt varsion: >4
+* Qt version: >4
 
 ## Setup
 
 ```
 $ mkdir -p build
 $ cd build
-$ qmake ../src/psctxteditor.pro
+$ qmake ../src/pcstxteditor.pro
 $ make
 $ make install
 ```
