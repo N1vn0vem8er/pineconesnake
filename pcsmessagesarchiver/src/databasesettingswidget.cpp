@@ -13,7 +13,7 @@ DatabaseSettingsWidget::DatabaseSettingsWidget(QWidget *parent)
     connect(ui->applyButton, &QPushButton::clicked, this, &DatabaseSettingsWidget::apply);
     connect(ui->selectPathButton, &QPushButton::clicked, this, &DatabaseSettingsWidget::selectPath);
     connect(ui->exportButton, &QPushButton::clicked, this, &DatabaseSettingsWidget::exportDatabaseToFile);
-    connect(ui->ptoFileButton, &QPushButton::clicked, this, &DatabaseSettingsWidget::exportPeopleToFile);
+    connect(ui->ptoFileButton, &QPushButton::clicked, this, &DatabaseSettingsWidget::exportContactsToFile);
     ui->dbLocationLine->setText(Settings::databasePath);
 }
 
@@ -62,9 +62,9 @@ void DatabaseSettingsWidget::exportDatabaseToFile()
     }
 }
 
-void DatabaseSettingsWidget::exportPeopleToFile()
+void DatabaseSettingsWidget::exportContactsToFile()
 {
-    const QString path = QFileDialog::getSaveFileName(this, tr("Export People"), QDir::homePath());
+    const QString path = QFileDialog::getSaveFileName(this, tr("Export Contacts"), QDir::homePath());
     if(!path.isEmpty())
     {
         QFile file(path);

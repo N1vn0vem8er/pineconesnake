@@ -21,7 +21,7 @@ private slots:
     void apply();
     void selectPath();
     void exportDatabaseToFile();
-    void exportPeopleToFile();
+    void exportContactsToFile();
 };
 
 #endif // DATABASESETTINGSWIDGET_H

@@ -119,8 +119,9 @@
     </message>
     <message>
         <location filename="databasesettingswidget.ui" line="67"/>
-        <source>Export people to file</source>
-        <translation>Wyeksportuj ludzi do pliku</translation>
+        <source>Export contacts to file</source>
+        <oldsource>Export people to file</oldsource>
+        <translation>Wyeksportuj kontakty do pliku</translation>
     </message>
     <message>
         <location filename="databasesettingswidget.ui" line="91"/>
@@ -134,8 +135,9 @@
     </message>
     <message>
         <location filename="databasesettingswidget.cpp" line="67"/>
-        <source>Export People</source>
-        <translation>Wyeksportuj ludzi</translation>
+        <source>Export Contacts</source>
+        <oldsource>Export People</oldsource>
+        <translation>Wyeksportuj kontakty</translation>
     </message>
 </context>
 <context>
