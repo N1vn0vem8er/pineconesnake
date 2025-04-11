@@ -98,7 +98,7 @@
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actionAbout_PSC_TxtEditor"/>
+    <addaction name="actionAbout_PCS_TxtEditor"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
@@ -175,7 +175,7 @@
     <string>&amp;Settings</string>
    </property>
   </action>
-  <action name="actionAbout_PSC_TxtEditor">
+  <action name="actionAbout_PCS_TxtEditor">
    <property name="text">
     <string>&amp;About TxtEditor</string>
    </property>

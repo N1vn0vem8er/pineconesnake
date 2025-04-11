@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionClose_File, &QAction::triggered, this, [this]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
-    connect(ui->actionAbout_PSC_TxtEditor, &QAction::triggered, this, &MainWindow::displayAboutDialog);
+    connect(ui->actionAbout_PCS_TxtEditor, &QAction::triggered, this, &MainWindow::displayAboutDialog);
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
     connect(ui->actionPaste, &QAction::triggered, this, &MainWindow::paste);
     connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
