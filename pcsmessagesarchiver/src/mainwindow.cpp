@@ -34,10 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     ResourcesManager* rm = ResourcesManager::getInstance();
     rm->loadMessagesTitles();
     addNewHomeWidget();
-    // if(QStyleFactory::keys().contains(Settings::theme))
-    // {
-    //     QApplication::setStyle(Settings::theme);
-    // }
+    if(QStyleFactory::keys().contains(Settings::theme))
+    {
+        QApplication::setStyle(Settings::theme);
+    }
 }
 
 MainWindow::~MainWindow()
