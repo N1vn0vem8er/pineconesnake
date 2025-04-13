@@ -7,7 +7,7 @@
 #include <QDir>
 #include <QMessageBox>
 
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -62,6 +62,16 @@ MainWindow::MainWindow(QWidget *parent)
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addWidget(pathLabel);
     ui->searchWidget->setVisible(false);
+
+    QStringList args = qApp->arguments();
+    if(args.size() >= 2)
+    {
+        for(int i=1;i<args.size(); i++)
+        {
+            openFile(args[i]);
+        }
+    }
+
 }
 
 MainWindow::~MainWindow()
