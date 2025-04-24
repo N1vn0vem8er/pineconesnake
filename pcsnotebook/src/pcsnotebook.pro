@@ -11,15 +11,22 @@ CONFIG += c++17
 SOURCES += \
     allnoteswidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    resourcesmanager.cpp \
+    settings.cpp
 
 HEADERS += \
     allnoteswidget.h \
-    mainwindow.h
+    mainwindow.h \
+    resourcesmanager.h \
+    settings.h \
+    structs.h
 
 FORMS += \
     allnoteswidget.ui \
     mainwindow.ui
+
+LIBS += -lsqlite3
 
 TRANSLATIONS += \
     pcsnotebook_pl_PL.ts
