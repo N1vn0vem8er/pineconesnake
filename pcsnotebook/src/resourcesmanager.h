@@ -1,6 +1,7 @@
 #ifndef RESOURCESMANAGER_H
 #define RESOURCESMANAGER_H
 
+#include "structs.h"
 #include <mutex>
 #include <sqlite3.h>
 
@@ -13,6 +14,9 @@ public:
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager& operator=(const ResourcesManager&) = delete;
     void close();
+    QList<Note> getAllNotes();
+    QList<Note> getNotesForTitle(const QString title);
+    void addNote(const Note& note);
 private:
     ResourcesManager();
     ~ResourcesManager();

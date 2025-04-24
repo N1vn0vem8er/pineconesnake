@@ -13,6 +13,7 @@ SOURCES += \
     inputtitledialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    notecardwidget.cpp \
     resourcesmanager.cpp \
     settings.cpp \
     writer.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     allnoteswidget.h \
     inputtitledialog.h \
     mainwindow.h \
+    notecardwidget.h \
     resourcesmanager.h \
     settings.h \
     structs.h \
@@ -34,6 +36,7 @@ FORMS += \
     allnoteswidget.ui \
     inputtitledialog.ui \
     mainwindow.ui \
+    notecardwidget.ui \
     writer.ui
 
 LIBS += -lsqlite3

@@ -9,5 +9,5 @@ Settings::Settings()
     }
 }
 
-QString Settings::databasePath = QDir::homePath() + "/.local/share/pcsnotebook";
+QString Settings::databasePath = QDir::homePath() + "/.local/share/pineconesnake/pcsnotebook";
 QString Settings::databaseName = "database.db";
