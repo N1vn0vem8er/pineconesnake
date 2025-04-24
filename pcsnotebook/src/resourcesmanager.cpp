@@ -10,6 +10,13 @@ ResourcesManager::ResourcesManager()
     if(rc == SQLITE_OK)
     {
         char* err;
+        rc = sqlite3_exec(database, "CREATE TABLE notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(32), contents VARCHAR(100000), created varchar(32), modified varchar(32));", nullptr, nullptr, &err);
+        if(rc != SQLITE_OK)
+        {
+            printf("%s", err);
+            sqlite3_free(err);
+            throw std::exception();
+        }
     }
 }
 
@@ -46,3 +53,6 @@ ResourcesManager* ResourcesManager::getInstance()
     }
     return instancePtr;
 }
+
+ResourcesManager* ResourcesManager::instancePtr = nullptr;
+std::mutex ResourcesManager::mutex;

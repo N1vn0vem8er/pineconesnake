@@ -19,6 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void addTab(const QString& title, QWidget* widget);
 
 private slots:
     void addNewNote();

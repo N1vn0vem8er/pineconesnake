@@ -10,21 +10,31 @@ CONFIG += c++17
 
 SOURCES += \
     allnoteswidget.cpp \
+    inputtitledialog.cpp \
     main.cpp \
     mainwindow.cpp \
     resourcesmanager.cpp \
-    settings.cpp
+    settings.cpp \
+    writer.cpp \
+    linenumberarea.cpp \
+    texteditor.cpp
 
 HEADERS += \
     allnoteswidget.h \
+    inputtitledialog.h \
     mainwindow.h \
     resourcesmanager.h \
     settings.h \
-    structs.h
+    structs.h \
+    writer.h \
+    linenumberarea.h \
+    texteditor.h
 
 FORMS += \
     allnoteswidget.ui \
-    mainwindow.ui
+    inputtitledialog.ui \
+    mainwindow.ui \
+    writer.ui
 
 LIBS += -lsqlite3
 
