@@ -149,6 +149,13 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QLabel" name="savedLabel">
+       <property name="text">
+        <string>Saved</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

@@ -22,6 +22,7 @@ Writer::Writer(const Note &note, QWidget *parent)
     connect(ui->saveAsButton, &QPushButton::clicked, this, &Writer::saveAs);
     connect(ui->undoButton, &QPushButton::clicked, this, &Writer::undo);
     connect(ui->redoButton, &QPushButton::clicked, this, &Writer::redo);
+    connect(ui->saveButton, &QPushButton::clicked, this, &Writer::manualSave);
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &Writer::save);
     timer->setInterval(1000);
@@ -39,6 +40,7 @@ void Writer::save()
     note.content = ui->editor->toPlainText();
     note.modified = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
     ResourcesManager::getInstance()->editNote(note);
+    ui->savedLabel->setVisible(true);
 }
 
 void Writer::copy()
@@ -88,6 +90,7 @@ void Writer::redo()
 
 void Writer::textChanged()
 {
+    ui->savedLabel->setVisible(false);
     timer->stop();
     timer->start();
 }
@@ -95,4 +98,10 @@ void Writer::textChanged()
 void Writer::deletePressed()
 {
     emit requestDelete();
+}
+
+void Writer::manualSave()
+{
+    timer->stop();
+    save();
 }

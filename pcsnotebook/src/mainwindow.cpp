@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::addNewNote);
     connect(ui->allButton, &QPushButton::clicked, this, &MainWindow::showAllNotes);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, [&](int index){delete ui->tabWidget->widget(index);});
+    connect(ui->actionClose_Tab, &QAction::triggered, this, [&]{delete ui->tabWidget->currentWidget();});
     connect(ui->actionRefresh, &QAction::triggered, this, &MainWindow::refreshNotes);
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
     connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
@@ -79,7 +80,7 @@ void MainWindow::save()
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
     if(widget!= nullptr)
     {
-        widget->save();
+        widget->manualSave();
     }
 }
 

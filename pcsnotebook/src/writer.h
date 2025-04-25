@@ -26,6 +26,7 @@ public slots:
     void saveAs();
     void undo();
     void redo();
+    void manualSave();
 
 private:
     Ui::Writer *ui;

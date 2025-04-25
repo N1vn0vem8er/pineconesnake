@@ -108,7 +108,7 @@
     <iconset theme="help-about"/>
    </property>
    <property name="text">
-    <string>About Notebook</string>
+    <string>&amp;About Notebook</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
@@ -116,7 +116,7 @@
     <iconset theme="help-about"/>
    </property>
    <property name="text">
-    <string>About Qt</string>
+    <string>About &amp;Qt</string>
    </property>
   </action>
   <action name="actionNew">
@@ -124,7 +124,10 @@
     <iconset theme="contact-new"/>
    </property>
    <property name="text">
-    <string>New</string>
+    <string>&amp;New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionSave">
@@ -132,7 +135,10 @@
     <iconset theme="document-save"/>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionSave_As">
@@ -140,7 +146,10 @@
     <iconset theme="document-save-as"/>
    </property>
    <property name="text">
-    <string>Save As</string>
+    <string>Save &amp;As</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actionExit">
@@ -148,7 +157,10 @@
     <iconset theme="application-exit"/>
    </property>
    <property name="text">
-    <string>Exit</string>
+    <string>&amp;Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -156,7 +168,7 @@
     <iconset theme="edit-undo"/>
    </property>
    <property name="text">
-    <string>Undo</string>
+    <string>&amp;Undo</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
@@ -167,7 +179,7 @@
     <iconset theme="edit-redo"/>
    </property>
    <property name="text">
-    <string>Redo</string>
+    <string>&amp;Redo</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Z</string>
@@ -178,7 +190,7 @@
     <iconset theme="edit-cut"/>
    </property>
    <property name="text">
-    <string>Cut</string>
+    <string>&amp;Cut</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
@@ -189,7 +201,7 @@
     <iconset theme="edit-copy"/>
    </property>
    <property name="text">
-    <string>Copy</string>
+    <string>C&amp;opy</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
@@ -200,7 +212,7 @@
     <iconset theme="edit-paste"/>
    </property>
    <property name="text">
-    <string>Paste</string>
+    <string>&amp;Paste</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
@@ -211,7 +223,7 @@
     <iconset theme="edit-select-all"/>
    </property>
    <property name="text">
-    <string>Select All</string>
+    <string>&amp;Select All</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
@@ -222,7 +234,10 @@
     <iconset theme="view-refresh"/>
    </property>
    <property name="text">
-    <string>Refresh</string>
+    <string>&amp;Refresh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionClose_Tab">
@@ -230,7 +245,10 @@
     <iconset theme="list-remove"/>
    </property>
    <property name="text">
-    <string>Close Tab</string>
+    <string>&amp;Close Tab</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
    </property>
   </action>
  </widget>
