@@ -26,5 +26,14 @@ private slots:
     void addNewNote();
     void showAllNotes();
     void openWriter(const Note& note);
+    void refreshNotes();
+    void save();
+    void copy();
+    void cut();
+    void paste();
+    void selectAll();
+    void saveAs();
+    void undo();
+    void redo();
 };
 #endif // MAINWINDOW_H

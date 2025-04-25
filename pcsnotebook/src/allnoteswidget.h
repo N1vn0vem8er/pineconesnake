@@ -17,6 +17,8 @@ public:
     explicit AllNotesWidget(QWidget *parent = nullptr);
     ~AllNotesWidget();
 
+public slots:
+    void all();
 private:
     Ui::AllNotesWidget *ui;
     QLayout* layout = nullptr;
@@ -25,7 +27,6 @@ private:
 
 private slots:
     void search(const QString &text);
-    void all();
     void openNote(const Note& note);
 
 signals:

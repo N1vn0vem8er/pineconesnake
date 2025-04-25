@@ -14,6 +14,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::addNewNote);
     connect(ui->allButton, &QPushButton::clicked, this, &MainWindow::showAllNotes);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, [&](int index){delete ui->tabWidget->widget(index);});
+    connect(ui->actionRefresh, &QAction::triggered, this, &MainWindow::refreshNotes);
+    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
+    connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
+    connect(ui->actionPaste, &QAction::triggered, this, &MainWindow::paste);
+    connect(ui->actionSelectAll, &QAction::triggered, this, &MainWindow::selectAll);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::addNewNote);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
     showAllNotes();
 }
 
@@ -38,6 +47,7 @@ void MainWindow::addNewNote()
         Note note = Note(-1, title, "", dt.toString("yyyy-MM-dd HH:mm:ss"), dt.toString("yyyy-MM-dd HH:mm:ss"));
         ResourcesManager* rm = ResourcesManager::getInstance();
         rm->addNote(note);
+        refreshNotes();
         note.id = rm->getLastId();
         addTab(title, new Writer(note, this));
     }
@@ -53,4 +63,85 @@ void MainWindow::showAllNotes()
 void MainWindow::openWriter(const Note &note)
 {
     addTab(note.title, new Writer(note, this));
+}
+
+void MainWindow::refreshNotes()
+{
+    AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->all();
+    }
+}
+
+void MainWindow::save()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->save();
+    }
+}
+
+void MainWindow::copy()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->copy();
+    }
+}
+
+void MainWindow::cut()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->cut();
+    }
+}
+
+void MainWindow::paste()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->paste();
+    }
+}
+
+void MainWindow::selectAll()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->selectAll();
+    }
+}
+
+void MainWindow::saveAs()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->saveAs();
+    }
+}
+
+void MainWindow::undo()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->undo();
+    }
+}
+
+void MainWindow::redo()
+{
+    Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(widget!= nullptr)
+    {
+        widget->redo();
+    }
 }

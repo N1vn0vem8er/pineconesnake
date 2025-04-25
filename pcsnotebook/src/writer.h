@@ -19,6 +19,13 @@ public:
 
 public slots:
     void save();
+    void copy();
+    void cut();
+    void paste();
+    void selectAll();
+    void saveAs();
+    void undo();
+    void redo();
 
 private:
     Ui::Writer *ui;
