@@ -25,6 +25,7 @@ private:
 
 private slots:
     void openPressed();
+    void editTitle();
 
 signals:
     void openNote(const Note& note);

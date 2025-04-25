@@ -53,6 +53,19 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <widget class="QPushButton" name="renameButton">
+         <property name="toolTip">
+          <string>Edit Title</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset theme="insert-text"/>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="editButton">
          <property name="toolTip">
           <string>Edit</string>

@@ -1,4 +1,5 @@
 #include "notecardwidget.h"
+#include "inputtitledialog.h"
 #include "resourcesmanager.h"
 #include "ui_notecardwidget.h"
 
@@ -11,6 +12,7 @@ NoteCardWidget::NoteCardWidget(const Note &note, QWidget *parent)
     ui->setupUi(this);
     connect(ui->editButton, &QPushButton::clicked, this, &NoteCardWidget::openPressed);
     connect(ui->deleteButton, &QPushButton::clicked, this, &NoteCardWidget::deletePressed);
+    connect(ui->renameButton, &QPushButton::clicked, this, &NoteCardWidget::editTitle);
     this->note = note;
     ui->titleLabel->setText(note.title);
     ui->contentLabel->setText(note.content.left(500));
@@ -24,6 +26,17 @@ NoteCardWidget::~NoteCardWidget()
 void NoteCardWidget::openPressed()
 {
     emit openNote(note);
+}
+
+void NoteCardWidget::editTitle()
+{
+    InputTitleDialog dialog;
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        note.title = dialog.getTitle();
+        ResourcesManager::getInstance()->editNote(note);
+        emit requestRefresh();
+    }
 }
 
 void NoteCardWidget::deletePressed()
