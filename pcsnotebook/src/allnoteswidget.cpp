@@ -33,7 +33,10 @@ void AllNotesWidget::refresh()
     layout = new QVBoxLayout(ui->contents);
     for(const auto& i : notes)
     {
-        layout->addWidget(new NoteCardWidget(i, this));
+        NoteCardWidget* widget = new NoteCardWidget(i, this);
+        connect(widget, &NoteCardWidget::openNote, this, &AllNotesWidget::openNote);
+        connect(widget, &NoteCardWidget::requestRefresh, this, &AllNotesWidget::all);
+        layout->addWidget(widget);
     }
     layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
     ui->contents->setLayout(layout);
@@ -49,4 +52,9 @@ void AllNotesWidget::all()
 {
     notes = ResourcesManager::getInstance()->getAllNotes();
     refresh();
+}
+
+void AllNotesWidget::openNote(const Note &note)
+{
+    emit openWriter(note);
 }

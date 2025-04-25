@@ -25,6 +25,7 @@ MainWindow::~MainWindow()
 void MainWindow::addTab(const QString &title, QWidget *widget)
 {
     ui->tabWidget->addTab(widget, title);
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }
 
 void MainWindow::addNewNote()
@@ -33,14 +34,23 @@ void MainWindow::addNewNote()
     if(dialog.exec() == QDialog::Accepted)
     {
         const QString title = dialog.getTitle();
-        addTab(title, new Writer(this));
-        ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
         QDateTime dt = QDateTime::currentDateTime();
-        ResourcesManager::getInstance()->addNote(Note(-1, title, "", dt.toString("yyyy-MM-dd HH:mm:ss"), dt.toString("yyyy-MM-dd HH:mm:ss")));
+        Note note = Note(-1, title, "", dt.toString("yyyy-MM-dd HH:mm:ss"), dt.toString("yyyy-MM-dd HH:mm:ss"));
+        ResourcesManager* rm = ResourcesManager::getInstance();
+        rm->addNote(note);
+        note.id = rm->getLastId();
+        addTab(title, new Writer(note, this));
     }
 }
 
 void MainWindow::showAllNotes()
 {
-    addTab("Notes", new AllNotesWidget(this));
+    AllNotesWidget* widget = new AllNotesWidget(this);
+    connect(widget, &AllNotesWidget::openWriter, this, &MainWindow::openWriter);
+    addTab("Notes", widget);
+}
+
+void MainWindow::openWriter(const Note &note)
+{
+    addTab(note.title, new Writer(note, this));
 }

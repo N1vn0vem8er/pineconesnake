@@ -26,6 +26,10 @@ private:
 private slots:
     void search(const QString &text);
     void all();
+    void openNote(const Note& note);
+
+signals:
+    void openWriter(const Note& note);
 };
 
 #endif // ALLNOTESWIDGET_H

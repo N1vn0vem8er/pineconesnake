@@ -16,9 +16,19 @@ public:
     explicit NoteCardWidget(const Note& note, QWidget *parent = nullptr);
     ~NoteCardWidget();
 
+public slots:
+    void deletePressed();
+
 private:
     Ui::NoteCardWidget *ui;
     Note note;
+
+private slots:
+    void openPressed();
+
+signals:
+    void openNote(const Note& note);
+    void requestRefresh();
 };
 
 #endif // NOTECARDWIDGET_H

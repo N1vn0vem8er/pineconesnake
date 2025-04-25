@@ -16,7 +16,10 @@ public:
     void close();
     QList<Note> getAllNotes();
     QList<Note> getNotesForTitle(const QString title);
+    int getLastId();
     void addNote(const Note& note);
+    void editNote(const Note& note);
+    void deleteNote(const Note& note);
 private:
     ResourcesManager();
     ~ResourcesManager();

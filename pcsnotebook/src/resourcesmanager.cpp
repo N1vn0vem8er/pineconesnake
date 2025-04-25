@@ -67,6 +67,11 @@ QList<Note> ResourcesManager::getNotesForTitle(const QString title)
     return notes;
 }
 
+int ResourcesManager::getLastId()
+{
+    return sqlite3_last_insert_rowid(database);
+}
+
 void ResourcesManager::addNote(const Note &note)
 {
     std::vector<std::vector<QString>> resoult;
@@ -74,6 +79,35 @@ void ResourcesManager::addNote(const Note &note)
     char* query;
     asprintf(&query, "INSERT INTO notes (title, contents, created, modified) VALUES ('%s', '%s', '%s', '%s');", note.title.toStdString().c_str(), note.content.toStdString().c_str(), note.created.toStdString().c_str(),
              note.modified.toStdString().c_str());
+    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
+void ResourcesManager::editNote(const Note &note)
+{
+    std::vector<std::vector<QString>> resoult;
+    char* err;
+    char* query;
+    asprintf(&query, "UPDATE notes SET title='%s', contents = '%s', created = '%s', modified = '%s' WHERE id = %i;", note.title.toStdString().c_str(), note.content.toStdString().c_str(), note.created.toStdString().c_str(),
+             note.modified.toStdString().c_str(), note.id);
+    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
+void ResourcesManager::deleteNote(const Note &note)
+{
+    std::vector<std::vector<QString>> resoult;
+    char* err;
+    char* query;
+    asprintf(&query, "DELETE FROM notes WHERE id = %i;", note.id);
     if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
     {
         printf("%s", err);

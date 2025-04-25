@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "structs.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -24,5 +25,6 @@ private:
 private slots:
     void addNewNote();
     void showAllNotes();
+    void openWriter(const Note& note);
 };
 #endif // MAINWINDOW_H
