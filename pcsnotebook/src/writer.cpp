@@ -97,7 +97,7 @@ void Writer::textChanged()
 
 void Writer::deletePressed()
 {
-    emit requestDelete();
+    emit requestDelete(note);
 }
 
 void Writer::manualSave()

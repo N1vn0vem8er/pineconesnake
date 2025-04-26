@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include "inputtitledialog.h"
 #include "qdatetime.h"
+#include "qmessagebox.h"
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 #include "writer.h"
 #include "allnoteswidget.h"
+
+#define VERSION "1.0.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::addNewNote);
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionAbout_Notebook, &QAction::triggered, this, &MainWindow::displayAbout);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     showAllNotes();
 }
 
@@ -63,7 +69,9 @@ void MainWindow::showAllNotes()
 
 void MainWindow::openWriter(const Note &note)
 {
-    addTab(note.title, new Writer(note, this));
+    Writer* widget = new Writer(note, this);
+    connect(widget, &Writer::requestDelete, this, &MainWindow::deleteRequested);
+    addTab(note.title, widget);
 }
 
 void MainWindow::refreshNotes()
@@ -145,4 +153,28 @@ void MainWindow::redo()
     {
         widget->redo();
     }
+}
+
+void MainWindow::deleteRequested(const Note& note)
+{
+    QMessageBox::StandardButton dialog = QMessageBox::question(this, tr("Delete note?"), tr("Do you want to delete %1?").arg(note.title), QMessageBox::Yes | QMessageBox::No);
+    if(dialog == QMessageBox::Yes)
+    {
+        ResourcesManager::getInstance()->deleteNote(note);
+        delete ui->tabWidget->currentWidget();
+    }
+    for(int i=0;i<ui->tabWidget->count(); i++)
+    {
+        AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->currentWidget());
+        if(widget!= nullptr)
+        {
+            widget->all();
+        }
+    }
+}
+
+void MainWindow::displayAbout()
+{
+    QMessageBox::about(this, tr("About Notebook"), tr("<html><body><h3>PCS Notebook</h3><p>PCS Notebook is an application for taking notes. It is a part of Pinecone Snake project</p><p>Version: %1</p><p><a href=\"%2\">License</a></p></body></html>")
+                                                       .arg(VERSION).arg(LICENSELINK));
 }

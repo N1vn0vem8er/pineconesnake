@@ -15,7 +15,7 @@ NoteCardWidget::NoteCardWidget(const Note &note, QWidget *parent)
     connect(ui->renameButton, &QPushButton::clicked, this, &NoteCardWidget::editTitle);
     this->note = note;
     ui->titleLabel->setText(note.title);
-    ui->contentLabel->setText(note.content.left(500));
+    ui->contentLabel->setText(note.content.left(100));
 }
 
 NoteCardWidget::~NoteCardWidget()

@@ -38,7 +38,7 @@ private slots:
     void deletePressed();
 
 signals:
-    void requestDelete();
+    void requestDelete(const Note& note);
 
 };
 

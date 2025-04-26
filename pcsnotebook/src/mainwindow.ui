@@ -33,7 +33,7 @@
       <item>
        <widget class="QPushButton" name="allButton">
         <property name="text">
-         <string>All</string>
+         <string>Notes</string>
         </property>
         <property name="icon">
          <iconset theme="go-home"/>

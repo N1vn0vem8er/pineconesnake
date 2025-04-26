@@ -35,5 +35,7 @@ private slots:
     void saveAs();
     void undo();
     void redo();
+    void deleteRequested(const Note &note);
+    void displayAbout();
 };
 #endif // MAINWINDOW_H
