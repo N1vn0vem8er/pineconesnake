@@ -175,6 +175,6 @@ void MainWindow::deleteRequested(const Note& note)
 
 void MainWindow::displayAbout()
 {
-    QMessageBox::about(this, tr("About Notebook"), tr("<html><body><h3>PCS Notebook</h3><p>PCS Notebook is an application for taking notes. It is a part of Pinecone Snake project</p><p>Version: %1</p><p><a href=\"%2\">License</a></p></body></html>")
+    QMessageBox::about(this, tr("About Notebook"), tr("<html><body><h3>PCS Notebook</h3><p>PCS Notebook is an application for taking notes. It is a part of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
                                                        .arg(VERSION).arg(LICENSELINK));
 }
