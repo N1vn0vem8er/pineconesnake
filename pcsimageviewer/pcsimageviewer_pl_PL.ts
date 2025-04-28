@@ -21,119 +21,129 @@ CTRL + Q - Wyjdź</translation>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="85"/>
+        <location filename="src/mainwindow.ui" line="26"/>
+        <source>Rotate Left</source>
+        <translation>Obróć w lewo</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.ui" line="39"/>
+        <source>Rotate Right</source>
+        <translation>Obróć w prawo</translation>
+    </message>
+    <message>
+        <location filename="src/mainwindow.ui" line="91"/>
         <source>File</source>
         <translation>Plik</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="89"/>
+        <location filename="src/mainwindow.ui" line="95"/>
         <source>&amp;Recent</source>
         <translation>O&amp;statnie</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="104"/>
+        <location filename="src/mainwindow.ui" line="113"/>
         <source>&amp;View</source>
         <translation>&amp;Widok</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="111"/>
+        <location filename="src/mainwindow.ui" line="120"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="126"/>
+        <location filename="src/mainwindow.ui" line="135"/>
         <source>&amp;Open</source>
         <translation>&amp;Otwórz</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="129"/>
+        <location filename="src/mainwindow.ui" line="138"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="137"/>
+        <location filename="src/mainwindow.ui" line="146"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="140"/>
+        <location filename="src/mainwindow.ui" line="149"/>
         <source>Ctrl+W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="151"/>
+        <location filename="src/mainwindow.ui" line="160"/>
         <source>&amp;Exit</source>
         <translation>&amp;Wyjdź</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="154"/>
+        <location filename="src/mainwindow.ui" line="163"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="162"/>
+        <location filename="src/mainwindow.ui" line="171"/>
         <source>&amp;Properties</source>
         <translation>&amp;Właściwości</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="170"/>
-        <location filename="src/mainwindow.ui" line="210"/>
+        <location filename="src/mainwindow.ui" line="179"/>
+        <location filename="src/mainwindow.ui" line="225"/>
         <source>&amp;Rotate Left</source>
         <translation>Obróć w &amp;lewo</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="173"/>
-        <location filename="src/mainwindow.ui" line="213"/>
+        <location filename="src/mainwindow.ui" line="182"/>
+        <location filename="src/mainwindow.ui" line="228"/>
         <source>Ctrl+Shift+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="181"/>
+        <location filename="src/mainwindow.ui" line="190"/>
         <source>Ro&amp;tate Right</source>
         <translation>Obróć w &amp;prawo</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="184"/>
+        <location filename="src/mainwindow.ui" line="193"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="192"/>
+        <location filename="src/mainwindow.ui" line="201"/>
         <source>&amp;on recent</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="197"/>
+        <location filename="src/mainwindow.ui" line="209"/>
         <source>A&amp;bout Image Viewer</source>
         <translation>O &amp;Image Viewer</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="202"/>
+        <location filename="src/mainwindow.ui" line="217"/>
         <source>&amp;About Qt</source>
         <translation>O &amp;Qt</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="221"/>
+        <location filename="src/mainwindow.ui" line="236"/>
         <source>&amp;Next</source>
         <translation>&amp;Następny</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="224"/>
+        <location filename="src/mainwindow.ui" line="239"/>
         <source>Right</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="232"/>
+        <location filename="src/mainwindow.ui" line="247"/>
         <source>Pre&amp;vious</source>
-        <translation>Osta&amp;tni</translation>
+        <translation>&amp;Poprzedni</translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="235"/>
+        <location filename="src/mainwindow.ui" line="250"/>
         <source>Left</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/mainwindow.ui" line="243"/>
+        <location filename="src/mainwindow.ui" line="258"/>
         <source>C&amp;lear Recent</source>
         <translation>Wycz&amp;yść ostatnie</translation>
     </message>

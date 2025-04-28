@@ -22,6 +22,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QPushButton" name="rotateLeftButton">
+        <property name="toolTip">
+         <string>Rotate Left</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -32,6 +35,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="rotateRightButton">
+        <property name="toolTip">
+         <string>Rotate Right</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -87,6 +93,9 @@
     <widget class="QMenu" name="menuRecent">
      <property name="title">
       <string>&amp;Recent</string>
+     </property>
+     <property name="icon">
+      <iconset theme="document-open-recent"/>
      </property>
      <addaction name="actionon_recent"/>
     </widget>
@@ -193,11 +202,17 @@
    </property>
   </action>
   <action name="actionAbout_Application">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>A&amp;bout Image Viewer</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>&amp;About Qt</string>
    </property>
