@@ -15,7 +15,9 @@ PCS Notebook is a simple application for taking notes.
 
 ## Features
 
-TODO
+* Save notes in database
+* Search notes
+* Minimalist design
 
 ## Technologies
 
