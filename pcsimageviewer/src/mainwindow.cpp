@@ -107,10 +107,7 @@ void MainWindow::zoom(){
 
 void MainWindow::saveToRecent()
 {
-    const QString path = QDir::homePath() + "/.local/share/pcsimageviewer";
-    if(!QDir(path).exists())
-        QDir(path).mkdir(QDir::homePath() + "/.local/share/pcsimageviewer");
-    QFile file(path + "/recent.txt");
+    QFile file(getRecentPath());
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     if(file.isOpen())
     {
@@ -143,10 +140,7 @@ void MainWindow::saveToRecent()
 
 void MainWindow::loadRecent()
 {
-    const QString path = QDir::homePath() + "/.local/share/pcsimageviewer";
-    if(!QDir(path).exists())
-        QDir(path).mkdir(QDir::homePath() + "/.local/share/pcsimageviewer");
-    QFile file(path + "/recent.txt");
+    QFile file(getRecentPath());
     file.open(QIODevice::ReadOnly);
     if(file.isOpen())
     {
@@ -223,10 +217,7 @@ QFileInfoList MainWindow::getImagesInDirectory()
 
 void MainWindow::clearRecent()
 {
-    const QString path = QDir::homePath() + "/.local/share/pcsimageviewer";
-    if(!QDir(path).exists())
-        QDir(path).mkdir(QDir::homePath() + "/.local/share/pcsimageviewer");
-    QFile file(path + "/recent.txt");
+    QFile file(getRecentPath());
     file.open(QIODevice::ReadWrite | QIODevice::Text | QIODevice::Truncate);
     if(file.isOpen())
     {
@@ -247,6 +238,25 @@ void MainWindow::setVisibility(bool val)
     ui->rotateRightButton->setVisible(val);
     ui->actionNext->setVisible(val);
     ui->actionPrevious->setVisible(val);
+}
+
+QString MainWindow::getRecentPath() const
+{
+    QString path = QDir::homePath() + "/.local/share/pineconesnake/pcsimageviewer";
+    if(!QDir(path).exists())
+        QDir(path).mkpath(path);
+    path += "/recent.txt";
+    if(!QFileInfo(path).exists())
+    {
+        QFile file(path);
+        file.open(QIODevice::WriteOnly);
+        if(file.isOpen())
+        {
+            file.write(0);
+            file.close();
+        }
+    }
+    return path;
 }
 
 void MainWindow::changeScaleSlider(double factor)

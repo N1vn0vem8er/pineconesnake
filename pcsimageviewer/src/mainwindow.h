@@ -42,6 +42,7 @@ private:
     QFileInfoList getImagesInDirectory();
     void clearRecent();
     void setVisibility(bool val);
+    QString getRecentPath() const;
 public slots:
     void changeScaleSlider(double factor);
 };
