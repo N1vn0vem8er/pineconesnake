@@ -1,5 +1,6 @@
 #include "resourcemanager.h"
 #include "qdebug.h"
+#include "qdir.h"
 #include "settings.h"
 #include <QList>
 #include <QString>
@@ -8,6 +9,10 @@
 
 ResourceManager::ResourceManager()
 {
+    if(!QDir(Settings::databasePath).exists())
+    {
+        QDir().mkpath(Settings::databasePath);
+    }
     int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath).arg(Settings::databaseName).toStdString().c_str(), &database);
     if(rc == SQLITE_OK)
     {
@@ -98,8 +103,8 @@ void ResourceManager::addItem(const Item &item)
     std::vector<std::vector<QString>> ret;
     char* err;
     char* query;
-    asprintf(&query, "INSERT INTO items (title, description, status, image, link) VALUES ('%s', '%s', %i, '%s', '%s');", item.title.toStdString().c_str(),
-             item.description.toStdString().c_str(), item.status, item.image.toStdString().c_str(), item.link.toStdString().c_str());
+    asprintf(&query, "INSERT INTO items (title, description, status, image, link, chapters, chapter) VALUES ('%s', '%s', %i, '%s', '%s', %i, 0);", item.title.toStdString().c_str(),
+             item.description.toStdString().c_str(), item.status, item.image.toStdString().c_str(), item.link.toStdString().c_str(), item.chapters);
     if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
     {
         printf("%s", err);

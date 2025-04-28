@@ -13,5 +13,5 @@ Settings::Settings() {
 }
 
 QString Settings::databaseName = "database.db";
-QString Settings::databasePath = QDir::homePath() + "/.local/share/pcscontenttracker";
-QString Settings::imagesPath = QDir::homePath() + "/.local/share/pcscontenttracker/images";
+QString Settings::databasePath = QDir::homePath() + "/.local/share/pineconesnake/pcscontenttracker";
+QString Settings::imagesPath = QDir::homePath() + "/.local/share/pineconesnake/pcscontenttracker/images";
