@@ -6,7 +6,7 @@ Settings::Settings() {}
 
 void Settings::loadSettings()
 {
-    QString dbDefaultPath = QDir().homePath() + "/.local/share/pcsmessagesarchiver";
+    QString dbDefaultPath = QDir().homePath() + "/.local/share/pineconesnake/pcsmessagesarchiver";
     if(!QDir(dbDefaultPath).exists())
     {
         QDir().mkpath(dbDefaultPath);
