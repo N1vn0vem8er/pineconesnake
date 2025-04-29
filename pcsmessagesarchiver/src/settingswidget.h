@@ -18,7 +18,7 @@ public:
 
 private:
     Ui::SettingsWidget *ui;
-    QStringList settingsCategories = {"Appearance", "Database"};
+    QStringList settingsCategories = {tr("Appearance"), tr("Database")};
     QStringListModel* model;
 private slots:
     void openSettingsPage(const QModelIndex &index);

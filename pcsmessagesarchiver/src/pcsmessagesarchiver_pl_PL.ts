@@ -104,7 +104,7 @@
     <message>
         <location filename="databasesettingswidget.ui" line="32"/>
         <source>Export database to file</source>
-        <translation>Wyeksportuj bazę danych do pliku</translation>
+        <translation>Wyeksportuj wiadomości do pliku</translation>
     </message>
     <message>
         <location filename="databasesettingswidget.ui" line="39"/>
@@ -129,9 +129,14 @@
         <translation>Zastosuj</translation>
     </message>
     <message>
+        <location filename="databasesettingswidget.cpp" line="37"/>
+        <source>Select Directory</source>
+        <translation>Wybierz Katalog</translation>
+    </message>
+    <message>
         <location filename="databasesettingswidget.cpp" line="46"/>
         <source>Export Database</source>
-        <translation>Wyeksportuj bazę danych</translation>
+        <translation>Wyeksportuj wiadomości</translation>
     </message>
     <message>
         <location filename="databasesettingswidget.cpp" line="67"/>
@@ -280,6 +285,16 @@
         <source>Form</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="settingswidget.h" line="21"/>
+        <source>Appearance</source>
+        <translation>Wygląd</translation>
+    </message>
+    <message>
+        <location filename="settingswidget.h" line="21"/>
+        <source>Database</source>
+        <translation>Baza danych</translation>
+    </message>
 </context>
 <context>
     <name>Writer</name>
@@ -304,12 +319,37 @@
         <translation>Tytuł</translation>
     </message>
     <message>
-        <location filename="writer.ui" line="109"/>
+        <location filename="writer.ui" line="59"/>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="72"/>
+        <source>Save</source>
+        <translation>Zapisz</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="85"/>
+        <source>Save As</source>
+        <translation>Zapisz Jako</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="98"/>
+        <source>Undo</source>
+        <translation>Cofnij</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="111"/>
+        <source>Redo</source>
+        <translation>Przywróć</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="124"/>
         <source>Font Size:</source>
         <translation>Wielkość czcionki:</translation>
     </message>
     <message>
-        <location filename="writer.ui" line="119"/>
+        <location filename="writer.ui" line="134"/>
         <source>Font:</source>
         <translation>Czcionka:</translation>
     </message>

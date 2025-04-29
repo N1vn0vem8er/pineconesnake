@@ -11,7 +11,7 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
 MainWindow::MainWindow(QWidget *parent)
