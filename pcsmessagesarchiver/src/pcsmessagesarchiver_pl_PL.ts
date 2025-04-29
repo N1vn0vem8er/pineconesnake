@@ -104,7 +104,7 @@
     <message>
         <location filename="databasesettingswidget.ui" line="32"/>
         <source>Export database to file</source>
-        <translation>Wyeksportuj bazę danych do pliku</translation>
+        <translation>Wyeksportuj wiadomości do pliku</translation>
     </message>
     <message>
         <location filename="databasesettingswidget.ui" line="39"/>
@@ -129,9 +129,14 @@
         <translation>Zastosuj</translation>
     </message>
     <message>
+        <location filename="databasesettingswidget.cpp" line="37"/>
+        <source>Select Directory</source>
+        <translation>Wybierz Katalog</translation>
+    </message>
+    <message>
         <location filename="databasesettingswidget.cpp" line="46"/>
         <source>Export Database</source>
-        <translation>Wyeksportuj bazę danych</translation>
+        <translation>Wyeksportuj wiadomości</translation>
     </message>
     <message>
         <location filename="databasesettingswidget.cpp" line="67"/>
@@ -279,6 +284,16 @@
         <location filename="settingswidget.ui" line="14"/>
         <source>Form</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="settingswidget.h" line="21"/>
+        <source>Appearance</source>
+        <translation>Wygląd</translation>
+    </message>
+    <message>
+        <location filename="settingswidget.h" line="21"/>
+        <source>Database</source>
+        <translation>Baza danych</translation>
     </message>
 </context>
 <context>

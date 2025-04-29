@@ -34,7 +34,7 @@ void DatabaseSettingsWidget::apply()
 
 void DatabaseSettingsWidget::selectPath()
 {
-    const QString path = QFileDialog::getExistingDirectory(this, "Select Directory", Settings::databasePath);
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Select Directory"), Settings::databasePath);
     if(!path.isEmpty())
     {
         ui->dbLocationLine->setText(path);
