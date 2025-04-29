@@ -319,12 +319,37 @@
         <translation>Tytuł</translation>
     </message>
     <message>
-        <location filename="writer.ui" line="109"/>
+        <location filename="writer.ui" line="59"/>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="72"/>
+        <source>Save</source>
+        <translation>Zapisz</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="85"/>
+        <source>Save As</source>
+        <translation>Zapisz Jako</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="98"/>
+        <source>Undo</source>
+        <translation>Cofnij</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="111"/>
+        <source>Redo</source>
+        <translation>Przywróć</translation>
+    </message>
+    <message>
+        <location filename="writer.ui" line="124"/>
         <source>Font Size:</source>
         <translation>Wielkość czcionki:</translation>
     </message>
     <message>
-        <location filename="writer.ui" line="119"/>
+        <location filename="writer.ui" line="134"/>
         <source>Font:</source>
         <translation>Czcionka:</translation>
     </message>
