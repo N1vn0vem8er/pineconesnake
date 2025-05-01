@@ -6,7 +6,7 @@ SearchWidget::SearchWidget(QWidget *parent)
     , ui(new Ui::SearchWidget)
 {
     ui->setupUi(this);
-    connect(ui->findButton, &QPushButton::clicked, this, QOverload<>::of(&SearchWidget::find));
+    connect(ui->searchLine, &QLineEdit::textChanged, this, QOverload<>::of(&SearchWidget::find));
     connect(ui->replaceButton, &QPushButton::clicked, this, QOverload<>::of(&SearchWidget::replace));
     connect(ui->exchangeButton, &QPushButton::clicked, this, &SearchWidget::exchange);
 }
@@ -18,10 +18,7 @@ SearchWidget::~SearchWidget()
 
 void SearchWidget::find()
 {
-    if(!ui->searchLine->text().isEmpty())
-    {
-        emit find(ui->searchLine->text());
-    }
+    emit find(ui->searchLine->text());
 }
 
 void SearchWidget::replace()
