@@ -16,6 +16,7 @@ SOURCES += \
     playlistmodel.cpp \
     playlistwidget.cpp \
     resourcesmanager.cpp \
+    searchworker.cpp \
     settings.cpp
 
 HEADERS += \
@@ -25,6 +26,7 @@ HEADERS += \
     playlistmodel.h \
     playlistwidget.h \
     resourcesmanager.h \
+    searchworker.h \
     settings.h \
     structs.h
 

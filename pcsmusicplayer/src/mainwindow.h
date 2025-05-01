@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "structs.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -19,5 +20,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QThread* searchThread = nullptr;
+
+private slots:
+    void startMusicSearch();
+    void searchResoultsReady(const QList<Track> tracks);
+
+signals:
+    void startSearch(const QString& path);
 };
 #endif // MAINWINDOW_H
