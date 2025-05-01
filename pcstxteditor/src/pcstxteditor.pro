@@ -15,7 +15,8 @@ SOURCES += \
     savewarningdialog.cpp \
     searchwidget.cpp \
     tabwidget.cpp \
-    texteditor.cpp
+    texteditor.cpp \
+    texthighlighter.cpp
 
 HEADERS += \
     linenumberarea.h \
@@ -23,7 +24,8 @@ HEADERS += \
     savewarningdialog.h \
     searchwidget.h \
     tabwidget.h \
-    texteditor.h
+    texteditor.h \
+    texthighlighter.h
 
 FORMS += \
     mainwindow.ui \

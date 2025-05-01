@@ -27,6 +27,7 @@ void TextEditor::init()
     connect(this, &TextEditor::textChanged, this, [this]{setSaved(false);});
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
+    highlighter = new TextHighlighter(this->document());
 }
 
 QString TextEditor::getPath() const
@@ -109,21 +110,8 @@ void TextEditor::setName(const QString &newName)
 
 void TextEditor::find(const QString &text)
 {
-    clearSearchFormatting();
-    QTextCursor cursor = textCursor();
-    cursor.setPosition(0);
-    QTextCharFormat format = QTextCharFormat();
-    format.setBackground(Qt::yellow);
-    while(true)
-    {
-        cursor = document()->find(text, cursor.position());
-        if(cursor.isNull())
-        {
-            break;
-        }
-        cursor.mergeCharFormat(format);
-        setTextCursor(cursor);
-    }
+    highlighter->setPattern(text);
+    highlighter->rehighlight();
 }
 
 void TextEditor::replace(const QString &find, const QString &replace)
@@ -145,11 +133,8 @@ void TextEditor::replace(const QString &find, const QString &replace)
 
 void TextEditor::clearSearchFormatting()
 {
-    QTextCursor cursor = textCursor();
-    cursor.select(QTextCursor::Document);
-    cursor.setCharFormat(defaultFormat);
-    cursor.clearSelection();
-    setTextCursor(cursor);
+    highlighter->setPattern("");
+    highlighter->rehighlight();
 }
 
 bool TextEditor::getSaved() const

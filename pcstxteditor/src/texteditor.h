@@ -1,5 +1,6 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
+#include "texthighlighter.h"
 #include <QPlainTextEdit>
 
 class TextEditor : public QPlainTextEdit
@@ -33,6 +34,7 @@ private:
     void updateLineNumberWidth(int count);
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
+    TextHighlighter* highlighter = nullptr;
 };
 
 #endif // TEXTEDITOR_H
