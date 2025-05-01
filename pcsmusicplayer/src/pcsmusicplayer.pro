@@ -10,13 +10,16 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    playingwidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    playingwidget.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    playingwidget.ui
 
 TRANSLATIONS += \
     pcsmusicplayer_pl_PL.ts

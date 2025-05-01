@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlayingWidget</class>
+ <widget class="QWidget" name="PlayingWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1038</width>
+    <height>44</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,8,0,0,0">
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>title</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="previousButton">
+     <property name="toolTip">
+      <string>Previous</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="media-skip-backward"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="playButton">
+     <property name="toolTip">
+      <string>Play</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="media-playback-start"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pauseButton">
+     <property name="toolTip">
+      <string>Pause</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="media-playback-pause"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="nextButton">
+     <property name="toolTip">
+      <string>Next</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="media-skip-forward"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="timePassedLabel">
+     <property name="text">
+      <string>passed</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSlider" name="durationSlider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="durationLabel">
+     <property name="text">
+      <string>duration</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="muteButton">
+     <property name="toolTip">
+      <string>Mute</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="audio-volume-muted"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSlider" name="volume">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

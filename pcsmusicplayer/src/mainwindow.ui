@@ -77,7 +77,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidget" name="playingWidget" native="true"/>
+     <widget class="PlayingWidget" name="playingWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -93,6 +93,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlayingWidget</class>
+   <extends>QWidget</extends>
+   <header>playingwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
