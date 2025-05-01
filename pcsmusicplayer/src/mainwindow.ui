@@ -6,20 +6,87 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1180</width>
+    <height>725</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QWidget" name="playlistWidget" native="true"/>
+        <widget class="QWidget" name="verticalLayoutWidget">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QTabWidget" name="tabWidget">
+            <property name="currentIndex">
+             <number>6</number>
+            </property>
+            <widget class="QWidget" name="nowPlayingTab">
+             <attribute name="title">
+              <string>Now Playing</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="favoritesTab">
+             <attribute name="title">
+              <string>Favorites</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="recentTab">
+             <attribute name="title">
+              <string>Recent</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="albumsTab">
+             <attribute name="title">
+              <string>Albums</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="artistsTab">
+             <attribute name="title">
+              <string>Artists</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="songsTab">
+             <attribute name="title">
+              <string>Songs</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="filesTab">
+             <attribute name="title">
+              <string>Files</string>
+             </attribute>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="playingWidget" native="true"/>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1180</width>
      <height>23</height>
     </rect>
    </property>
