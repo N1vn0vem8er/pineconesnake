@@ -12,11 +12,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     playingwidget.cpp \
+    playlistitem.cpp \
+    playlistmodel.cpp \
     playlistwidget.cpp
 
 HEADERS += \
     mainwindow.h \
     playingwidget.h \
+    playlistitem.h \
+    playlistmodel.h \
     playlistwidget.h \
     structs.h
 

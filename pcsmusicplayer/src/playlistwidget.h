@@ -1,6 +1,10 @@
 #ifndef PLAYLISTWIDGET_H
 #define PLAYLISTWIDGET_H
 
+#include "playlistitem.h"
+#include "playlistmodel.h"
+#include "structs.h"
+
 #include <QWidget>
 
 namespace Ui {
@@ -13,13 +17,29 @@ class PlaylistWidget : public QWidget
 
 public:
     explicit PlaylistWidget(QWidget *parent = nullptr);
+    explicit PlaylistWidget(QList<Track> tracks, QWidget *parent = nullptr);
     ~PlaylistWidget();
+    void loadTracks(const QList<Track> &tracks);
+
+public slots:
+    void playingTrack(const Track& track);
+    void addTrack(const Track& track);
 
 private:
     Ui::PlaylistWidget *ui;
+    QList<Track> tracks;
+    PlaylistItem* delegate = nullptr;
+    PlaylistModel* model = nullptr;
+    void init();
+
+private slots:
+    void removeTrack(const Track& track);
+    void playTrack(int index);
+    void removeTrack(int index);
 
 signals:
-    void trackSelected();
+    void trackSelected(const Track& track);
+
 };
 
 #endif // PLAYLISTWIDGET_H
