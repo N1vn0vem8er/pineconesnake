@@ -14,7 +14,9 @@ SOURCES += \
     playingwidget.cpp \
     playlistitem.cpp \
     playlistmodel.cpp \
-    playlistwidget.cpp
+    playlistwidget.cpp \
+    resourcesmanager.cpp \
+    settings.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -22,6 +24,8 @@ HEADERS += \
     playlistitem.h \
     playlistmodel.h \
     playlistwidget.h \
+    resourcesmanager.h \
+    settings.h \
     structs.h
 
 FORMS += \
@@ -33,6 +37,8 @@ TRANSLATIONS += \
     pcsmusicplayer_pl_PL.ts
 CONFIG += lrelease
 CONFIG += embed_translations
+
+LIBS += -lsqlite3
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
