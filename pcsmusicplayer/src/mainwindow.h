@@ -27,6 +27,6 @@ private slots:
     void searchResoultsReady(const QList<Track> tracks);
 
 signals:
-    void startSearch(const QString& path);
+    void startSearch(const QString& path, const QStringList& paths);
 };
 #endif // MAINWINDOW_H

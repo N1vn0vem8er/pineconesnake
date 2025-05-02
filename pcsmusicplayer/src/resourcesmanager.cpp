@@ -32,6 +32,61 @@ void ResourcesManager::close()
     sqlite3_close(database);
 }
 
+void ResourcesManager::saveTracks(QList<Track> tracks)
+{
+    for(auto& i : tracks)
+    {
+        char* err;
+        char* query;
+        asprintf(&query, "INSERT INTO tracks (path, title, artist, album, number, length, played, favorite) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %i, %i, %i, %b);", i.path.toStdString().c_str(),
+                 i.title.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), i.artist.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(),
+                 i.album.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), i.number, i.length, i.played, i.favorite);
+        if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+        {
+            printf("%s", err);
+            sqlite3_free(err);
+            throw std::exception();
+        }
+        delete[] query;
+    }
+}
+
+QStringList ResourcesManager::getAllPaths()
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    if(sqlite3_exec(database, "SELECT path FROM tracks", callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    QStringList paths;
+    for(const auto& i : ret)
+    {
+        paths.append(i[0]);
+    }
+    return paths;
+}
+
+QList<Track> ResourcesManager::getAllTracks()
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    if(sqlite3_exec(database, "SELECT * FROM tracks", callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    QList<Track> tracks;
+    for(const auto& i : ret)
+    {
+        tracks.append(Track(i[0].toInt(), i[1], i[2], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+    }
+    return tracks;
+}
+
 ResourcesManager::~ResourcesManager()
 {
     close();

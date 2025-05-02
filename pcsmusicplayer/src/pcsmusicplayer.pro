@@ -40,7 +40,7 @@ TRANSLATIONS += \
 CONFIG += lrelease
 CONFIG += embed_translations
 
-LIBS += -lsqlite3
+LIBS += -lsqlite3 -ltag
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
