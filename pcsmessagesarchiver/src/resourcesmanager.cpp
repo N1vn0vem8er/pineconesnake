@@ -67,7 +67,6 @@ void ResourcesManager::saveMessage(Globals::Message message)
     char* query;
     asprintf(&query, "INSERT INTO MESSAGES (title, contents, sender, reciver, created, modified) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');", message.title.toStdString().c_str(), message.contents.toStdString().c_str(),
              message.from.toStdString().c_str(), message.to.toStdString().c_str(), message.created.toStdString().c_str(), message.modified.toStdString().c_str());
-    sqlite3_exec(database, query, callback, nullptr, &err);
     if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
     {
         printf("%s", err);
