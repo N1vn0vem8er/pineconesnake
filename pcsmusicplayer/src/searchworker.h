@@ -15,6 +15,7 @@ public slots:
 
 signals:
     void resultReady(const QList<Track>& tracks);
+    void finished();
 };
 
 #endif // SEARCHWORKER_H

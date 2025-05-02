@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "searchworker.h"
 #include "ui_mainwindow.h"
+#include <QDir>
 #include <QThread>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -9,15 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->splitter->setStretchFactor(1, 1);
+    startMusicSearch();
 }
 
 MainWindow::~MainWindow()
 {
-    if(searchThread != nullptr)
-    {
-        searchThread->requestInterruption();
-        searchThread->wait();
-    }
     delete ui;
 }
 
@@ -34,7 +31,10 @@ void MainWindow::startMusicSearch()
     connect(searchThread, &QThread::finished, worker, &QObject::deleteLater);
     connect(this, &MainWindow::startSearch, worker, &SearchWorker::doWork);
     connect(worker, &SearchWorker::resultReady, this, &MainWindow::searchResoultsReady);
-
+    connect(worker, &SearchWorker::finished, searchThread, &QThread::quit);
+    connect(searchThread, &QThread::finished, searchThread, &QThread::deleteLater);
+    searchThread->start();
+    emit startSearch(QDir::homePath());
 }
 
 void MainWindow::searchResoultsReady(const QList<Track> tracks)
