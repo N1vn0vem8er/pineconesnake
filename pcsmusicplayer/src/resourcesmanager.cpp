@@ -82,7 +82,7 @@ QList<Track> ResourcesManager::getAllTracks()
     QList<Track> tracks;
     for(const auto& i : ret)
     {
-        tracks.append(Track(i[0].toInt(), i[1], i[2], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+        tracks.append(Track(i[0].toInt(), i[2], i[1], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
     }
     return tracks;
 }

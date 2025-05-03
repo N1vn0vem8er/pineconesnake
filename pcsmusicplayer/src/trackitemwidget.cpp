@@ -1,22 +1,20 @@
-#include "playlistitem.h"
-#include "qapplication.h"
+#include "trackitemwidget.h"
 
 #include <QMouseEvent>
-#include <QPainter>
+#include <QApplication>
 
-PlaylistItem::PlaylistItem(QObject *parent) : QStyledItemDelegate(parent)
-{
+TrackItemWidget::TrackItemWidget(QObject *parent)
+    : QStyledItemDelegate{parent}
+{}
 
-}
-
-void PlaylistItem::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void TrackItemWidget::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
 
     if (index.column() == 0) {
         QStyledItemDelegate::paint(painter, opt, index);
-    } else if (index.column() == 3 || index.column() == 4) {
+    } else if (index.column() == 1 || index.column() == 2) {
         QStyleOptionButton button;
         button.rect = QRect(opt.rect.right() - 32,
                             opt.rect.top() + (opt.rect.height() - 32) / 2,
@@ -27,7 +25,7 @@ void PlaylistItem::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     }
 }
 
-QSize PlaylistItem::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize TrackItemWidget::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.column() == 0) {
         return QStyledItemDelegate::sizeHint(option, index);
@@ -36,7 +34,7 @@ QSize PlaylistItem::sizeHint(const QStyleOptionViewItem &option, const QModelInd
     }
 }
 
-bool PlaylistItem::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+bool TrackItemWidget::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
 {
     if(event->type() == QEvent::MouseButtonRelease)
     {
@@ -53,7 +51,7 @@ bool PlaylistItem::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
         }
         else if(index.column() == 2 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
-            emit removePressed(index.row());
+            emit addToPlaylist(index.row());
         }
     }
     return true;

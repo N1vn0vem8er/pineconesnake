@@ -31,7 +31,7 @@
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>6</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="nowPlayingTab">
              <attribute name="title">
@@ -58,7 +58,7 @@
               <string>Artists</string>
              </attribute>
             </widget>
-            <widget class="QWidget" name="songsTab">
+            <widget class="AllTracksWidget" name="songsTab">
              <attribute name="title">
               <string>Songs</string>
              </attribute>
@@ -104,6 +104,12 @@
    <class>PlaylistWidget</class>
    <extends>QWidget</extends>
    <header>playlistwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AllTracksWidget</class>
+   <extends>QWidget</extends>
+   <header>alltrackswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

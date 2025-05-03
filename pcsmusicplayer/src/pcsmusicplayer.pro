@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    alltrackswidget.cpp \
     main.cpp \
     mainwindow.cpp \
     playingwidget.cpp \
@@ -17,9 +18,12 @@ SOURCES += \
     playlistwidget.cpp \
     resourcesmanager.cpp \
     searchworker.cpp \
-    settings.cpp
+    settings.cpp \
+    trackitemwidget.cpp \
+    tracklistmodel.cpp
 
 HEADERS += \
+    alltrackswidget.h \
     mainwindow.h \
     playingwidget.h \
     playlistitem.h \
@@ -28,9 +32,12 @@ HEADERS += \
     resourcesmanager.h \
     searchworker.h \
     settings.h \
-    structs.h
+    structs.h \
+    trackitemwidget.h \
+    tracklistmodel.h
 
 FORMS += \
+    alltrackswidget.ui \
     mainwindow.ui \
     playingwidget.ui \
     playlistwidget.ui
