@@ -60,8 +60,11 @@ void PlaylistWidget::playingTrack(const Track &track)
 
 void PlaylistWidget::addTrack(const Track &track)
 {
-    tracks.append(track);
-    loadTracks(tracks);
+    if(std::find_if(tracks.begin(), tracks.end(), ([&track](const Track& t){return t.path == track.path && t.title == track.title;})) == tracks.end())
+    {
+        tracks.append(track);
+        loadTracks(tracks);
+    }
 }
 
 void PlaylistWidget::removeTrack(const Track &track)
@@ -76,5 +79,9 @@ void PlaylistWidget::playTrack(int index)
 
 void PlaylistWidget::removeTrack(int index)
 {
-    qDebug() << index;
+    if(index >= 0 && index < tracks.length())
+    {
+        tracks.removeAt(index);
+        loadTracks(tracks);
+    }
 }

@@ -11,6 +11,20 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     delegate = new TrackItemWidget(ui->tableView);
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &TrackItemWidget::addToPlaylist, this, qOverload<int>(&AllTracksWidget::addToPlayList));
+    loadTracks();
+}
+
+AllTracksWidget::~AllTracksWidget()
+{
+    delete ui;
+}
+
+void AllTracksWidget::loadTracks()
+{
+    if(model != nullptr)
+    {
+        delete model;
+    }
     model = new TrackListModel(this);
     tracks = ResourcesManager::getInstance()->getAllTracks();
     model->setItems(tracks);
@@ -20,11 +34,6 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-}
-
-AllTracksWidget::~AllTracksWidget()
-{
-    delete ui;
 }
 
 void AllTracksWidget::addToPlayList(int index)

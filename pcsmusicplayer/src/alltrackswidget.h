@@ -16,6 +16,7 @@ class AllTracksWidget : public QWidget
 public:
     explicit AllTracksWidget(QWidget *parent = nullptr);
     ~AllTracksWidget();
+    void loadTracks();
 
 private:
     Ui::AllTracksWidget *ui;
