@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->splitter->setStretchFactor(1, 1);
     startMusicSearch();
+    connect(ui->songsTab, &AllTracksWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
 }
 
 MainWindow::~MainWindow()

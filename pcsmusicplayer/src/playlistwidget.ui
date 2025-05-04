@@ -40,6 +40,19 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="playAllButton">
+       <property name="toolTip">
+        <string>Play</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset theme="media-playback-start"/>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="saveButton">
        <property name="toolTip">
         <string>Save</string>

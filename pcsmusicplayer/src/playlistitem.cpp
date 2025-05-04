@@ -16,7 +16,7 @@ void PlaylistItem::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     if (index.column() == 0) {
         QStyledItemDelegate::paint(painter, opt, index);
-    } else if (index.column() == 3 || index.column() == 4) {
+    } else if (index.column() == 1 || index.column() == 2) {
         QStyleOptionButton button;
         button.rect = QRect(opt.rect.right() - 32,
                             opt.rect.top() + (opt.rect.height() - 32) / 2,

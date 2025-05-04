@@ -2,6 +2,7 @@
 #include "playlistitem.h"
 #include "playlistmodel.h"
 #include "ui_playlistwidget.h"
+#include <QFileInfo>
 
 
 PlaylistWidget::PlaylistWidget(QWidget *parent)
@@ -41,7 +42,7 @@ void PlaylistWidget::loadTracks(const QList<Track>& tracks)
     }
     this->tracks = tracks;
     QStringList titles;
-    std::for_each(this->tracks.begin(), this->tracks.end(), [&](const Track& track){titles.append(track.title);});
+    std::for_each(this->tracks.begin(), this->tracks.end(), [&](const Track& track){titles.append(track.title.isEmpty() ? QFileInfo(track.path).fileName() : track.title);});
     model = new PlaylistModel(titles, ui->tableView);
     ui->tableView->setModel(model);
     if(!this->tracks.isEmpty())
@@ -59,7 +60,8 @@ void PlaylistWidget::playingTrack(const Track &track)
 
 void PlaylistWidget::addTrack(const Track &track)
 {
-
+    tracks.append(track);
+    loadTracks(tracks);
 }
 
 void PlaylistWidget::removeTrack(const Track &track)

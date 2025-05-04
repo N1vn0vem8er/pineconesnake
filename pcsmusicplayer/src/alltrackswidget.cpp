@@ -10,8 +10,10 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     ui->searchLine->setVisible(false);
     delegate = new TrackItemWidget(ui->tableView);
     ui->tableView->setItemDelegate(delegate);
+    connect(delegate, &TrackItemWidget::addToPlaylist, this, qOverload<int>(&AllTracksWidget::addToPlayList));
     model = new TrackListModel(this);
-    model->setItems(ResourcesManager::getInstance()->getAllTracks());
+    tracks = ResourcesManager::getInstance()->getAllTracks();
+    model->setItems(tracks);
     ui->tableView->setModel(model);
     ui->tableView->setColumnWidth(3, 32);
     ui->tableView->setColumnWidth(4, 32);
@@ -23,4 +25,12 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
 AllTracksWidget::~AllTracksWidget()
 {
     delete ui;
+}
+
+void AllTracksWidget::addToPlayList(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit addToPlaylist(tracks[index]);
+    }
 }

@@ -26,7 +26,7 @@ void TrackItemWidget::paint(QPainter *painter, const QStyleOptionViewItem &optio
                             opt.rect.top() + (opt.rect.height() - 32) / 2,
                             32, 32);
         button.state = QStyle::State_Enabled;
-        button.icon = (index.column() == 3) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("edit-delete");
+        button.icon = (index.column() == 3) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("list-add");
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
         break;
     }

@@ -21,6 +21,13 @@ private:
     Ui::AllTracksWidget *ui;
     TrackItemWidget* delegate = nullptr;
     TrackListModel* model = nullptr;
+    QList<Track> tracks;
+
+private slots:
+    void addToPlayList(int index);
+
+signals:
+    void addToPlaylist(const Track& track);
 };
 
 #endif // ALLTRACKSWIDGET_H
