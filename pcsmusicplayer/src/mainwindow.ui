@@ -60,7 +60,7 @@
             </widget>
             <widget class="AllTracksWidget" name="songsTab">
              <attribute name="title">
-              <string>Songs</string>
+              <string>All Track</string>
              </attribute>
             </widget>
             <widget class="QWidget" name="filesTab">

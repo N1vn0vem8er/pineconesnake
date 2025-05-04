@@ -13,6 +13,11 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     model = new TrackListModel(this);
     model->setItems(ResourcesManager::getInstance()->getAllTracks());
     ui->tableView->setModel(model);
+    ui->tableView->setColumnWidth(3, 32);
+    ui->tableView->setColumnWidth(4, 32);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 }
 
 AllTracksWidget::~AllTracksWidget()

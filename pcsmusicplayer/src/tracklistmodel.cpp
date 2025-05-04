@@ -1,4 +1,5 @@
 #include "tracklistmodel.h"
+#include <QFileInfo>
 
 TrackListModel::TrackListModel(QObject *parent)
     : QAbstractListModel{parent}
@@ -25,7 +26,7 @@ QVariant TrackListModel::data(const QModelIndex &index, int role) const
         switch(index.column())
         {
         case 0:
-            return items.at(index.row()).title;
+            return items.at(index.row()).title.isEmpty() ? QFileInfo(items.at(index.row()).path).fileName() : items.at(index.row()).title;
             break;
         case 1:
             return items.at(index.row()).artist;
