@@ -12,6 +12,7 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &TrackItemWidget::addToPlaylist, this, qOverload<int>(&AllTracksWidget::addToPlayList));
     connect(delegate, &TrackItemWidget::playPressed, this, &AllTracksWidget::playPressed);
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &AllTracksWidget::sort);
     loadTracks();
 }
 
@@ -22,12 +23,17 @@ AllTracksWidget::~AllTracksWidget()
 
 void AllTracksWidget::loadTracks()
 {
+    tracks = ResourcesManager::getInstance()->getAllTracks();
+    displayTracks();
+}
+
+void AllTracksWidget::displayTracks()
+{
     if(model != nullptr)
     {
         delete model;
     }
     model = new TrackListModel(this);
-    tracks = ResourcesManager::getInstance()->getAllTracks();
     model->setItems(tracks);
     ui->tableView->setModel(model);
     ui->tableView->setColumnWidth(3, 32);
@@ -51,4 +57,25 @@ void AllTracksWidget::playPressed(int index)
     {
         emit play(tracks[index]);
     }
+}
+
+void AllTracksWidget::sort(int index)
+{
+    switch (index) {
+    case 0:
+        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.album < track2.album;});
+        break;
+    case 1:
+        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.title < track2.title;});
+        break;
+    case 2:
+        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.artist < track2.artist;});
+        break;
+    case 3:
+        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.played < track2.played;});
+        break;
+    default:
+        break;
+    }
+    displayTracks();
 }

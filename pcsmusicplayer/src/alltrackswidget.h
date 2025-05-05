@@ -23,10 +23,12 @@ private:
     TrackItemWidget* delegate = nullptr;
     TrackListModel* model = nullptr;
     QList<Track> tracks;
+    void displayTracks();
 
 private slots:
     void addToPlayList(int index);
     void playPressed(int index);
+    void sort(int index);
 
 signals:
     void addToPlaylist(const Track& track);
