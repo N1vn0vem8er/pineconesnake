@@ -12,6 +12,7 @@ SOURCES += \
     alltrackswidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    nowplayingwidget.cpp \
     playingwidget.cpp \
     playlistitem.cpp \
     playlistmodel.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     alltrackswidget.h \
     mainwindow.h \
+    nowplayingwidget.h \
     playingwidget.h \
     playlistitem.h \
     playlistmodel.h \
@@ -39,6 +41,7 @@ HEADERS += \
 FORMS += \
     alltrackswidget.ui \
     mainwindow.ui \
+    nowplayingwidget.ui \
     playingwidget.ui \
     playlistwidget.ui
 

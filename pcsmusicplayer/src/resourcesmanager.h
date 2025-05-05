@@ -14,6 +14,7 @@ public:
     void saveTracks(QList<Track> tracks);
     QStringList getAllPaths();
     QList<Track> getAllTracks();
+    void modifyTrack(Track track);
 
 private:
     ResourcesManager();

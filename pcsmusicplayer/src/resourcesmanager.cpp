@@ -87,6 +87,22 @@ QList<Track> ResourcesManager::getAllTracks()
     return tracks;
 }
 
+void ResourcesManager::modifyTrack(Track track)
+{
+    char* err;
+    char* query;
+    asprintf(&query, "UPDATE tracks SET path = \"%s\", title = \"%s\", artist = \"%s\", album = \"%s\", number = %i, length = %i, played = %i, favorite = %b WHERE id = %i;", track.path.toStdString().c_str(),
+             track.title.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), track.artist.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(),
+             track.album.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), track.number, track.length, track.played, track.favorite, track.id);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    delete[] query;
+}
+
 ResourcesManager::~ResourcesManager()
 {
     close();
