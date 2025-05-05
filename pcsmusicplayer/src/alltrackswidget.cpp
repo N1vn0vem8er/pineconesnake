@@ -11,6 +11,7 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     delegate = new TrackItemWidget(ui->tableView);
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &TrackItemWidget::addToPlaylist, this, qOverload<int>(&AllTracksWidget::addToPlayList));
+    connect(delegate, &TrackItemWidget::playPressed, this, &AllTracksWidget::playPressed);
     loadTracks();
 }
 
@@ -41,5 +42,13 @@ void AllTracksWidget::addToPlayList(int index)
     if(index >= 0 && index < tracks.length())
     {
         emit addToPlaylist(tracks[index]);
+    }
+}
+
+void AllTracksWidget::playPressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit play(tracks[index]);
     }
 }
