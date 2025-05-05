@@ -28,6 +28,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
 
 PlayingWidget::~PlayingWidget()
 {
+    delete audioOutput;
     delete ui;
 }
 

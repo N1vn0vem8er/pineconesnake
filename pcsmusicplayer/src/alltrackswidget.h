@@ -24,6 +24,7 @@ private:
     TrackListModel* model = nullptr;
     QList<Track> tracks;
     void displayTracks();
+    void search();
 
 private slots:
     void addToPlayList(int index);

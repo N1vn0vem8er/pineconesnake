@@ -13,6 +13,8 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     connect(delegate, &TrackItemWidget::addToPlaylist, this, qOverload<int>(&AllTracksWidget::addToPlayList));
     connect(delegate, &TrackItemWidget::playPressed, this, &AllTracksWidget::playPressed);
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &AllTracksWidget::sort);
+    connect(ui->searchButton, &QPushButton::clicked, this, [&]{ui->searchLine->setVisible(!ui->searchLine->isVisible());});
+    connect(ui->searchLine, &QLineEdit::textChanged, this, &AllTracksWidget::search);
     loadTracks();
 }
 
@@ -41,6 +43,20 @@ void AllTracksWidget::displayTracks()
     ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+}
+
+void AllTracksWidget::search()
+{
+    tracks = ResourcesManager::getInstance()->getAllTracks();
+    QList<Track> tmp;
+    const QString query = ui->searchLine->text();
+    for(const auto& i : tracks)
+    {
+        if(i.title.contains(query) || i.album.contains(query) || i.artist.contains(query) || i.path.contains(query))
+            tmp.append(i);
+    }
+    tracks = tmp;
+    displayTracks();
 }
 
 void AllTracksWidget::addToPlayList(int index)
