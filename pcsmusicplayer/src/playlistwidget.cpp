@@ -24,8 +24,9 @@ void PlaylistWidget::init()
 {
     ui->setupUi(this);
     delegate = new PlaylistItem(ui->tableView);
-    connect(delegate, &PlaylistItem::playPressed, this, &PlaylistWidget::playTrack);
+    connect(delegate, &PlaylistItem::playPressed, this, qOverload<int>(&PlaylistWidget::playTrack));
     connect(delegate, &PlaylistItem::removePressed, this, QOverload<int>::of(&PlaylistWidget::removeTrack));
+    connect(ui->playAllButton, &QPushButton::pressed, this, [&]{playTrack(0);});
     ui->tableView->setItemDelegate(delegate);
 }
 
@@ -67,6 +68,14 @@ void PlaylistWidget::addTrack(const Track &track)
     }
 }
 
+void PlaylistWidget::trackFinished(const Track &track)
+{
+    if(std::find_if(tracks.begin(), tracks.end(), ([&track](const Track& t){return t.path == track.path && t.title == track.title;})) != tracks.end())
+    {
+        playTrack(playingIndex + 1);
+    }
+}
+
 void PlaylistWidget::removeTrack(const Track &track)
 {
 
@@ -74,7 +83,12 @@ void PlaylistWidget::removeTrack(const Track &track)
 
 void PlaylistWidget::playTrack(int index)
 {
-    qDebug() << index;
+    if(index >= 0 && index < tracks.length())
+    {
+        ui->tableView->selectRow(index);
+        playingIndex = index;
+        emit playTrack(tracks[index]);
+    }
 }
 
 void PlaylistWidget::removeTrack(int index)

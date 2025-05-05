@@ -9,6 +9,10 @@ public:
     Settings();
     static QString databasePath;
     static QString databaseName;
+    static float volume;
+    const QString settingsFileName = "pcsmusicplayer";
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // SETTINGS_H

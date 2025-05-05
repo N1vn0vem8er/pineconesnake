@@ -24,12 +24,14 @@ public:
 public slots:
     void playingTrack(const Track& track);
     void addTrack(const Track& track);
+    void trackFinished(const Track& track);
 
 private:
     Ui::PlaylistWidget *ui;
     QList<Track> tracks;
     PlaylistItem* delegate = nullptr;
     PlaylistModel* model = nullptr;
+    int playingIndex = 0;
     void init();
 
 private slots:
@@ -39,6 +41,7 @@ private slots:
 
 signals:
     void trackSelected(const Track& track);
+    void playTrack(const Track& track);
 
 };
 

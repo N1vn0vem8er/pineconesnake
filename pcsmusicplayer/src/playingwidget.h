@@ -25,6 +25,14 @@ private:
     Track track;
     QMediaPlayer* player = nullptr;
     QAudioOutput* audioOutput = nullptr;
+
+private slots:
+    void diplayPostion(qint64);
+    void positionChanged();
+    void setVolume(float value);
+
+signals:
+    void trackFinished(const Track& track);
 };
 
 #endif // PLAYINGWIDGET_H

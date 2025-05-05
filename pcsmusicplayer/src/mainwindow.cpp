@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "resourcesmanager.h"
 #include "searchworker.h"
+#include "settings.h"
 #include "ui_mainwindow.h"
 #include <QDir>
 #include <QThread>
@@ -14,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     startMusicSearch();
     connect(ui->songsTab, &AllTracksWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->songsTab, &AllTracksWidget::play, ui->playingWidget, &PlayingWidget::play);
+    connect(ui->playingWidget, &PlayingWidget::trackFinished, ui->playlistWidget, &PlaylistWidget::trackFinished);
+    connect(ui->playlistWidget, qOverload<const Track&>(&PlaylistWidget::playTrack), ui->playingWidget, &PlayingWidget::play);
+    Settings s;
+    s.loadSettings();
 }
 
 MainWindow::~MainWindow()

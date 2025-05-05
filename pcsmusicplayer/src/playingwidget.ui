@@ -20,7 +20,7 @@
    <item>
     <widget class="QLabel" name="titleLabel">
      <property name="text">
-      <string>title</string>
+      <string>Not playing</string>
      </property>
     </widget>
    </item>
@@ -79,7 +79,7 @@
    <item>
     <widget class="QLabel" name="timePassedLabel">
      <property name="text">
-      <string>passed</string>
+      <string>00:00:00</string>
      </property>
     </widget>
    </item>
@@ -93,7 +93,7 @@
    <item>
     <widget class="QLabel" name="durationLabel">
      <property name="text">
-      <string>duration</string>
+      <string>00:00:00</string>
      </property>
     </widget>
    </item>
@@ -112,6 +112,9 @@
    </item>
    <item>
     <widget class="QSlider" name="volume">
+     <property name="maximum">
+      <number>100</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
