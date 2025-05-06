@@ -10,6 +10,9 @@ CONFIG += c++17
 
 SOURCES += \
     alltrackswidget.cpp \
+    fileslistitemwidget.cpp \
+    fileslistmodel.cpp \
+    fileswidget.cpp \
     main.cpp \
     mainwindow.cpp \
     nowplayingwidget.cpp \
@@ -25,6 +28,9 @@ SOURCES += \
 
 HEADERS += \
     alltrackswidget.h \
+    fileslistitemwidget.h \
+    fileslistmodel.h \
+    fileswidget.h \
     mainwindow.h \
     nowplayingwidget.h \
     playingwidget.h \
@@ -40,6 +46,7 @@ HEADERS += \
 
 FORMS += \
     alltrackswidget.ui \
+    fileswidget.ui \
     mainwindow.ui \
     nowplayingwidget.ui \
     playingwidget.ui \

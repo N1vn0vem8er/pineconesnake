@@ -31,7 +31,7 @@
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>0</number>
+             <number>6</number>
             </property>
             <widget class="NowPlayingWidget" name="nowPlayingTab">
              <attribute name="title">
@@ -63,7 +63,7 @@
               <string>All Track</string>
              </attribute>
             </widget>
-            <widget class="QWidget" name="filesTab">
+            <widget class="FilesWidget" name="filesTab">
              <attribute name="title">
               <string>Files</string>
              </attribute>
@@ -115,6 +115,12 @@
    <class>NowPlayingWidget</class>
    <extends>QWidget</extends>
    <header>nowplayingwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FilesWidget</class>
+   <extends>QWidget</extends>
+   <header>fileswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
