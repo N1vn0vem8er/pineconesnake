@@ -31,14 +31,14 @@
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>6</number>
+             <number>1</number>
             </property>
             <widget class="NowPlayingWidget" name="nowPlayingTab">
              <attribute name="title">
               <string>Now Playing</string>
              </attribute>
             </widget>
-            <widget class="QWidget" name="favoritesTab">
+            <widget class="FavoriteWidget" name="favoritesTab">
              <attribute name="title">
               <string>Favorites</string>
              </attribute>
@@ -121,6 +121,12 @@
    <class>FilesWidget</class>
    <extends>QWidget</extends>
    <header>fileswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FavoriteWidget</class>
+   <extends>QWidget</extends>
+   <header>favoritewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

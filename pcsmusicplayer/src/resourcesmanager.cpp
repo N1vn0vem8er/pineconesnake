@@ -103,6 +103,24 @@ void ResourcesManager::modifyTrack(Track track)
     delete[] query;
 }
 
+QList<Track> ResourcesManager::getAllFavoriteTracks()
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    if(sqlite3_exec(database, "SELECT * FROM tracks WHERE favorite = true", callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    QList<Track> tracks;
+    for(const auto& i : ret)
+    {
+        tracks.append(Track(i[0].toInt(), i[2], i[1], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+    }
+    return tracks;
+}
+
 ResourcesManager::~ResourcesManager()
 {
     close();
