@@ -13,6 +13,10 @@ AlbumsWidget::AlbumsWidget(QWidget *parent)
     connect(ui->backButton, &QPushButton::clicked, this, &AlbumsWidget::backPressed);
     ui->tableView->setVisible(false);
     ui->backButton->setVisible(false);
+    delegate = new TrackItemWidget(ui->tableView);
+    ui->tableView->setItemDelegate(delegate);
+    connect(delegate, &TrackItemWidget::addToPlaylist, this, &AlbumsWidget::addToPlaylistPressed);
+    connect(delegate, &TrackItemWidget::playPressed, this, &AlbumsWidget::playPressed);
     loadAlbums();
 }
 
@@ -46,6 +50,19 @@ void AlbumsWidget::openAlbum(const QString &title)
     ui->tableView->setVisible(true);
     ui->backButton->setVisible(true);
     ui->scrollArea->setVisible(false);
+    if(model != nullptr)
+    {
+        delete model;
+    }
+    model = new TrackListModel(this);
+    tracks = ResourcesManager::getInstance()->getAllTrackInAlbum(title);
+    model->setItems(tracks);
+    ui->tableView->setModel(model);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->tableView->setColumnWidth(3, 32);
+    ui->tableView->setColumnWidth(4, 32);
 }
 
 void AlbumsWidget::backPressed()
@@ -53,4 +70,20 @@ void AlbumsWidget::backPressed()
     ui->backButton->setVisible(false);
     ui->tableView->setVisible(false);
     ui->scrollArea->setVisible(true);
+}
+
+void AlbumsWidget::playPressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit play(tracks.at(index));
+    }
+}
+
+void AlbumsWidget::addToPlaylistPressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit addToPlaylist(tracks.at(index));
+    }
 }
