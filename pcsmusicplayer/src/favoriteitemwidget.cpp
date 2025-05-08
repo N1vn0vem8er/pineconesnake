@@ -11,7 +11,7 @@ void FavoriteItemWidget::paint(QPainter *painter, const QStyleOptionViewItem &op
 {
     QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
-
+    QStyleOptionButton button;
     switch(index.column())
     {
     case 0:
@@ -20,14 +20,27 @@ void FavoriteItemWidget::paint(QPainter *painter, const QStyleOptionViewItem &op
         QStyledItemDelegate::paint(painter, opt, index);
         break;
     case 3:
-    case 4:
-    case 5:
-        QStyleOptionButton button;
+        button.icon = QIcon::fromTheme("media-playback-start");
         button.rect = QRect(opt.rect.right() - 32,
                             opt.rect.top() + (opt.rect.height() - 32) / 2,
                             32, 32);
         button.state = QStyle::State_Enabled;
-        button.icon = (index.column() == 3) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("list-add");
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        break;
+    case 4:
+        button.rect = QRect(opt.rect.right() - 32,
+                            opt.rect.top() + (opt.rect.height() - 32) / 2,
+                            32, 32);
+        button.state = QStyle::State_Enabled;
+        button.icon = QIcon::fromTheme("list-add");
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        break;
+    case 5:
+        button.rect = QRect(opt.rect.right() - 32,
+                            opt.rect.top() + (opt.rect.height() - 32) / 2,
+                            32, 32);
+        button.state = QStyle::State_Enabled;
+        button.icon = QIcon::fromTheme("emblem-favorite");
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
         break;
     }
@@ -60,6 +73,10 @@ bool FavoriteItemWidget::editorEvent(QEvent *event, QAbstractItemModel *model, c
         else if(index.column() == 4 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit addToPlaylist(index.row());
+        }
+        else if(index.column() == 5 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        {
+            emit unFavorite(index.row());
         }
     }
     return true;

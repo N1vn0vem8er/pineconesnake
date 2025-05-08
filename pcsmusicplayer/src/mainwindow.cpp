@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->playlistWidget, qOverload<const Track&>(&PlaylistWidget::playTrack), ui->nowPlayingTab, &NowPlayingWidget::setTrack);
     connect(ui->songsTab, &AllTracksWidget::play, ui->nowPlayingTab, &NowPlayingWidget::setTrack);
     connect(ui->nowPlayingTab, &NowPlayingWidget::favorite, ui->songsTab, &AllTracksWidget::loadTracks);
+    connect(ui->favoritesTab, &FavoriteWidget::play, ui->playingWidget, &PlayingWidget::play);
+    connect(ui->favoritesTab, &FavoriteWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     Settings s;
     s.loadSettings();
 }
