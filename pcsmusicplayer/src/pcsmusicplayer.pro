@@ -9,6 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    albumitemwidget.cpp \
+    albumswidget.cpp \
     alltrackswidget.cpp \
     favoriteitemwidget.cpp \
     favoritemodel.cpp \
@@ -30,6 +32,8 @@ SOURCES += \
     tracklistmodel.cpp
 
 HEADERS += \
+    albumitemwidget.h \
+    albumswidget.h \
     alltrackswidget.h \
     favoriteitemwidget.h \
     favoritemodel.h \
@@ -51,6 +55,7 @@ HEADERS += \
     tracklistmodel.h
 
 FORMS += \
+    albumswidget.ui \
     alltrackswidget.ui \
     favoritewidget.ui \
     fileswidget.ui \

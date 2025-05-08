@@ -16,7 +16,7 @@ public:
     QList<Track> getAllTracks();
     void modifyTrack(Track track);
     QList<Track> getAllFavoriteTracks();
-    QList<QString> getAllAblums();
+    QList<QString> getAllAlbums();
     QList<QString> getAllArtists();
     QList<Track> getAllTrackInAlbum(const QString& album);
     QList<Track> getAllTracksForArtist(const QString& artist);

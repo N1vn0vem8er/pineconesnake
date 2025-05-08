@@ -121,18 +121,18 @@ QList<Track> ResourcesManager::getAllFavoriteTracks()
     return tracks;
 }
 
-QList<QString> ResourcesManager::getAllAblums()
+QList<QString> ResourcesManager::getAllAlbums()
 {
     std::vector<std::vector<QString>> ret;
     char* err;
-    if(sqlite3_exec(database, "SELECT album FROM tracks;", callback, &ret, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, "SELECT DISTINCT album FROM tracks;", callback, &ret, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
         throw std::exception();
     }
     QStringList names;
-    std::copy(ret.begin(), ret.end(), names);
+    std::for_each(ret.begin(), ret.end(), [&names](std::vector<QString> i){names.append(i[0]);});
     return names;
 }
 
@@ -140,14 +140,14 @@ QList<QString> ResourcesManager::getAllArtists()
 {
     std::vector<std::vector<QString>> ret;
     char* err;
-    if(sqlite3_exec(database, "SELECT artist FROM tracks;", callback, &ret, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, "SELECT DISTINCT artist FROM tracks;", callback, &ret, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
         throw std::exception();
     }
     QStringList names;
-    std::copy(ret.begin(), ret.end(), names);
+    std::for_each(ret.begin(), ret.end(), [&names](std::vector<QString> i){names.append(i[0]);});
     return names;
 }
 
