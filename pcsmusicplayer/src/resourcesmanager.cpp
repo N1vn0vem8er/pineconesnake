@@ -107,12 +107,84 @@ QList<Track> ResourcesManager::getAllFavoriteTracks()
 {
     std::vector<std::vector<QString>> ret;
     char* err;
-    if(sqlite3_exec(database, "SELECT * FROM tracks WHERE favorite = true", callback, &ret, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, "SELECT * FROM tracks WHERE favorite = true;", callback, &ret, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
         throw std::exception();
     }
+    QList<Track> tracks;
+    for(const auto& i : ret)
+    {
+        tracks.append(Track(i[0].toInt(), i[2], i[1], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+    }
+    return tracks;
+}
+
+QList<QString> ResourcesManager::getAllAblums()
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    if(sqlite3_exec(database, "SELECT album FROM tracks;", callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    QStringList names;
+    std::copy(ret.begin(), ret.end(), names);
+    return names;
+}
+
+QList<QString> ResourcesManager::getAllArtists()
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    if(sqlite3_exec(database, "SELECT artist FROM tracks;", callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    QStringList names;
+    std::copy(ret.begin(), ret.end(), names);
+    return names;
+}
+
+QList<Track> ResourcesManager::getAllTrackInAlbum(const QString &album)
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    char* query;
+    asprintf(&query, "SELECT * FROM tracks WHERE album = \'%s\';", album.toStdString().c_str());
+    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    delete[] query;
+    QList<Track> tracks;
+    for(const auto& i : ret)
+    {
+        tracks.append(Track(i[0].toInt(), i[2], i[1], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+    }
+    return tracks;
+}
+
+QList<Track> ResourcesManager::getAllTracksForArtist(const QString &artist)
+{
+    std::vector<std::vector<QString>> ret;
+    char* err;
+    char* query;
+    asprintf(&query, "SELECT * FROM tracks WHERE artist = \'%s\';", artist.toStdString().c_str());
+    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    delete[] query;
     QList<Track> tracks;
     for(const auto& i : ret)
     {
