@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->nowPlayingTab, &NowPlayingWidget::favorite, ui->songsTab, &AllTracksWidget::loadTracks);
     connect(ui->favoritesTab, &FavoriteWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->favoritesTab, &FavoriteWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
+    connect(ui->albumsTab, &AlbumsWidget::play, ui->playingWidget, &PlayingWidget::play);
+    connect(ui->albumsTab, &AlbumsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
+    connect(ui->artistsTab, &ArtistsWidget::play, ui->playingWidget, &PlayingWidget::play);
+    connect(ui->artistsTab, &ArtistsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     Settings s;
     s.loadSettings();
 }

@@ -12,6 +12,8 @@ SOURCES += \
     albumitemwidget.cpp \
     albumswidget.cpp \
     alltrackswidget.cpp \
+    artistitemwidget.cpp \
+    artistswidget.cpp \
     favoriteitemwidget.cpp \
     favoritemodel.cpp \
     favoritewidget.cpp \
@@ -35,6 +37,8 @@ HEADERS += \
     albumitemwidget.h \
     albumswidget.h \
     alltrackswidget.h \
+    artistitemwidget.h \
+    artistswidget.h \
     favoriteitemwidget.h \
     favoritemodel.h \
     favoritewidget.h \
@@ -57,6 +61,7 @@ HEADERS += \
 FORMS += \
     albumswidget.ui \
     alltrackswidget.ui \
+    artistswidget.ui \
     favoritewidget.ui \
     fileswidget.ui \
     mainwindow.ui \
