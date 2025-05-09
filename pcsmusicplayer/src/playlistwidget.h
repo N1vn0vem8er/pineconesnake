@@ -38,6 +38,7 @@ private slots:
     void removeTrack(const Track& track);
     void playTrack(int index);
     void removeTrack(int index);
+    void clear();
 
 signals:
     void trackSelected(const Track& track);
