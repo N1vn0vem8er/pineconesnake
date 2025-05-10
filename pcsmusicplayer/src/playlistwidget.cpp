@@ -79,7 +79,7 @@ void PlaylistWidget::trackFinished(const Track &track)
 
 void PlaylistWidget::removeTrack(const Track &track)
 {
-    tracks.removeAll(track);
+    tracks.removeIf([&track](const Track& t){return t.id == track.id;});
     loadTracks(tracks);
 }
 

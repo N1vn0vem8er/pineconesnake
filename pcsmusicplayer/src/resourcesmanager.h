@@ -20,6 +20,9 @@ public:
     QList<QString> getAllArtists();
     QList<Track> getAllTrackInAlbum(const QString& album);
     QList<Track> getAllTracksForArtist(const QString& artist);
+    void savePlaylist(const Playlist& playlist);
+    Playlist getPlaylistById(const int id);
+    QList<Playlist> getPlaylists();
 
 private:
     ResourcesManager();

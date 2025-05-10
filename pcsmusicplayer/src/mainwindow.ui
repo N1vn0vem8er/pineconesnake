@@ -31,7 +31,7 @@
           <item>
            <widget class="QTabWidget" name="tabWidget">
             <property name="currentIndex">
-             <number>4</number>
+             <number>2</number>
             </property>
             <widget class="NowPlayingWidget" name="nowPlayingTab">
              <attribute name="title">
@@ -43,9 +43,9 @@
               <string>Favorites</string>
              </attribute>
             </widget>
-            <widget class="QWidget" name="recentTab">
+            <widget class="QWidget" name="playlistsTab">
              <attribute name="title">
-              <string>Recent</string>
+              <string>Playlists</string>
              </attribute>
             </widget>
             <widget class="AlbumsWidget" name="albumsTab">

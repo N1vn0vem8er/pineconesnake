@@ -26,6 +26,7 @@ SOURCES += \
     playingwidget.cpp \
     playlistitem.cpp \
     playlistmodel.cpp \
+    playlistswidget.cpp \
     playlistwidget.cpp \
     resourcesmanager.cpp \
     searchworker.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     playingwidget.h \
     playlistitem.h \
     playlistmodel.h \
+    playlistswidget.h \
     playlistwidget.h \
     resourcesmanager.h \
     searchworker.h \
@@ -67,6 +69,7 @@ FORMS += \
     mainwindow.ui \
     nowplayingwidget.ui \
     playingwidget.ui \
+    playlistswidget.ui \
     playlistwidget.ui
 
 TRANSLATIONS += \

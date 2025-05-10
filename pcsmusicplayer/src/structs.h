@@ -19,4 +19,13 @@ struct Track
     bool favorite;
 };
 
+struct Playlist
+{
+    Playlist(){};
+    Playlist(int id, QString name, QList<Track> tracks) : id(id), name(name), tracks(tracks){};
+    int id;
+    QString name;
+    QList<Track> tracks;
+};
+
 #endif // STRUCTS_H
