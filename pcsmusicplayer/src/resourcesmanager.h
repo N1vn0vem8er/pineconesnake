@@ -22,7 +22,10 @@ public:
     QList<Track> getAllTracksForArtist(const QString& artist);
     void savePlaylist(const Playlist& playlist);
     Playlist getPlaylistById(const int id);
+    Playlist getPlaylistByName(const QString& name);
     QList<Playlist> getPlaylists();
+    Track getTrackById(int id);
+    QStringList getAllPlaylistNames();
 
 private:
     ResourcesManager();

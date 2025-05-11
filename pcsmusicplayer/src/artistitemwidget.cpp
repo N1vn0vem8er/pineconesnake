@@ -14,6 +14,7 @@ ArtistItemWidget::ArtistItemWidget(const QString &title, QWidget *parent)
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(img);
     layout->addWidget(label);
+    layout->addStretch();
     setLayout(layout);
 }
 

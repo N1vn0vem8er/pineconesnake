@@ -2,6 +2,7 @@
 #define ALBUMITEMWIDGET_H
 
 #include "qwidget.h"
+#include "structs.h"
 
 class AlbumItemWidget : public QWidget
 {
@@ -15,8 +16,12 @@ protected:
 private:
     QString title;
 
+private slots:
+    void buttonClicked();
+
 signals:
     void doubleClicked(const QString& title);
+    void addToPlaylist(const QList<Track> tracks);
 };
 
 #endif // ALBUMITEMWIDGET_H
