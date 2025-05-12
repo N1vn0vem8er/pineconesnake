@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "playlistswidget.h"
 #include "resourcesmanager.h"
 #include "searchworker.h"
 #include "settings.h"
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->albumsTab, &AlbumsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->artistsTab, &ArtistsWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->artistsTab, &ArtistsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
+    connect(ui->playlistWidget, &PlaylistWidget::playlistSaved, ui->playlistsTab, &PlaylistsWidget::loadPlaylists);
     Settings s;
     s.loadSettings();
 }

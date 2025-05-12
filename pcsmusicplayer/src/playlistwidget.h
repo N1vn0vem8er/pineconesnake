@@ -39,10 +39,13 @@ private slots:
     void playTrack(int index);
     void removeTrack(int index);
     void clear();
+    void savePlaylist();
+    void playlistName(const QString& name);
 
 signals:
     void trackSelected(const Track& track);
     void playTrack(const Track& track);
+    void playlistSaved();
 
 };
 

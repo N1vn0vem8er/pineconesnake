@@ -33,6 +33,7 @@ private slots:
     void backPressed();
     void playPressed(int index);
     void addToPlaylistPressed(int index);
+    void addAllTracksToPlaylist(const QList<Track> tracks);
 
 signals:
     void play(const Track& track);

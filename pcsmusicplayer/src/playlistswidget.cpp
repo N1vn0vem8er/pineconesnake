@@ -12,3 +12,8 @@ PlaylistsWidget::~PlaylistsWidget()
 {
     delete ui;
 }
+
+void PlaylistsWidget::loadPlaylists()
+{
+
+}

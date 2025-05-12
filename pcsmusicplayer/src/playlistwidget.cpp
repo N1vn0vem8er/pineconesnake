@@ -1,8 +1,11 @@
 #include "playlistwidget.h"
 #include "playlistitem.h"
 #include "playlistmodel.h"
+#include "playlistnamedialog.h"
+#include "resourcesmanager.h"
 #include "ui_playlistwidget.h"
 #include <QFileInfo>
+#include <QMessageBox>
 
 
 PlaylistWidget::PlaylistWidget(QWidget *parent)
@@ -28,6 +31,7 @@ void PlaylistWidget::init()
     connect(delegate, &PlaylistItem::removePressed, this, QOverload<int>::of(&PlaylistWidget::removeTrack));
     connect(ui->playAllButton, &QPushButton::clicked, this, [&]{playTrack(0);});
     connect(ui->clearButton, &QPushButton::clicked, this, &PlaylistWidget::clear);
+    connect(ui->saveButton, &QPushButton::clicked, this, &PlaylistWidget::savePlaylist);
     ui->tableView->setItemDelegate(delegate);
 }
 
@@ -105,4 +109,26 @@ void PlaylistWidget::removeTrack(int index)
 void PlaylistWidget::clear()
 {
     loadTracks({});
+}
+
+void PlaylistWidget::savePlaylist()
+{
+    PlaylistNameDialog* dialog = new PlaylistNameDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &PlaylistNameDialog::playlistName, this, &PlaylistWidget::playlistName);
+    dialog->show();
+}
+
+void PlaylistWidget::playlistName(const QString &name)
+{
+    try
+    {
+        ResourcesManager::getInstance()->savePlaylist(Playlist(-1, name, tracks));
+        emit playlistSaved();
+    }
+    catch (std::exception)
+    {
+        QMessageBox::critical(this, tr("Critical"), tr("Playlist with that name exists"));
+        savePlaylist();
+    }
 }

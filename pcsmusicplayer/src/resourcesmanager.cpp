@@ -209,7 +209,7 @@ QList<Track> ResourcesManager::getAllTracksForArtist(const QString &artist)
 
 void ResourcesManager::savePlaylist(const Playlist &playlist)
 {
-    if(getPlaylistByName(playlist.name).id == -1)
+    if(getPlaylistByName(playlist.name).id != -1)
         throw std::invalid_argument("Playlist with that name already exists");
     char* err;
     char* query;
@@ -274,11 +274,10 @@ Playlist ResourcesManager::getPlaylistByName(const QString &name)
     char* err;
     char* query;
     asprintf(&query, "SELECT * FROM playlists WHERE name = %s;", name.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, query, callback, &ret, nullptr) != SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        delete[] query;
+        return Playlist(-1, "", {});
     }
     delete[] query;
     if(ret.empty()) return Playlist(-1, "", {});

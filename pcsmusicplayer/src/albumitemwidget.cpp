@@ -15,6 +15,7 @@ AlbumItemWidget::AlbumItemWidget(const QString title, QWidget *parent)
     titleLabel->setText(title);
     QPushButton* button = new QPushButton(this);
     button->setIcon(QIcon::fromTheme("list-add"));
+    connect(button, &QPushButton::clicked, this, &AlbumItemWidget::buttonClicked);
     layout->addWidget(icon);
     layout->addWidget(titleLabel);
     layout->addStretch();

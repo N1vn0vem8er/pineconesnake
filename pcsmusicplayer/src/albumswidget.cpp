@@ -39,6 +39,7 @@ void AlbumsWidget::loadAlbums()
     {
         AlbumItemWidget* widget = new AlbumItemWidget(i, this);
         connect(widget, &AlbumItemWidget::doubleClicked, this, &AlbumsWidget::openAlbum);
+        connect(widget, &AlbumItemWidget::addToPlaylist, this, &AlbumsWidget::addAllTracksToPlaylist);
         albumWidgets.append(widget);
         this->layout->addWidget(widget);
     }
@@ -85,5 +86,13 @@ void AlbumsWidget::addToPlaylistPressed(int index)
     if(index >= 0 && index < tracks.length())
     {
         emit addToPlaylist(tracks.at(index));
+    }
+}
+
+void AlbumsWidget::addAllTracksToPlaylist(const QList<Track> tracks)
+{
+    for(const auto& i : tracks)
+    {
+        emit addToPlaylist(i);
     }
 }

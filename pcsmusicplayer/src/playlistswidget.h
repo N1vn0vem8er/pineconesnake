@@ -14,6 +14,7 @@ class PlaylistsWidget : public QWidget
 public:
     explicit PlaylistsWidget(QWidget *parent = nullptr);
     ~PlaylistsWidget();
+    void loadPlaylists();
 
 private:
     Ui::PlaylistsWidget *ui;

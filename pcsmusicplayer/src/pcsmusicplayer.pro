@@ -26,6 +26,7 @@ SOURCES += \
     playingwidget.cpp \
     playlistitem.cpp \
     playlistmodel.cpp \
+    playlistnamedialog.cpp \
     playlistswidget.cpp \
     playlistwidget.cpp \
     resourcesmanager.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     playingwidget.h \
     playlistitem.h \
     playlistmodel.h \
+    playlistnamedialog.h \
     playlistswidget.h \
     playlistwidget.h \
     resourcesmanager.h \
@@ -69,6 +71,7 @@ FORMS += \
     mainwindow.ui \
     nowplayingwidget.ui \
     playingwidget.ui \
+    playlistnamedialog.ui \
     playlistswidget.ui \
     playlistwidget.ui
 

@@ -43,7 +43,7 @@
               <string>Favorites</string>
              </attribute>
             </widget>
-            <widget class="QWidget" name="playlistsTab">
+            <widget class="PlaylistsWidget" name="playlistsTab">
              <attribute name="title">
               <string>Playlists</string>
              </attribute>
@@ -139,6 +139,12 @@
    <class>ArtistsWidget</class>
    <extends>QWidget</extends>
    <header>artistswidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlaylistsWidget</class>
+   <extends>QWidget</extends>
+   <header>playlistswidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
