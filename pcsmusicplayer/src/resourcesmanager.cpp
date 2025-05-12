@@ -326,7 +326,7 @@ QStringList ResourcesManager::getAllPlaylistNames()
     std::vector<std::vector<QString>> ret;
     char* err;
     char* query;
-    asprintf(&query, "SELECT name FROM playlists;");
+    asprintf(&query, "SELECT DISTINCT name FROM playlists;");
     if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
     {
         printf("%s", err);

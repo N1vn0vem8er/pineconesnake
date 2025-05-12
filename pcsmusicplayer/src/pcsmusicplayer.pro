@@ -25,6 +25,7 @@ SOURCES += \
     nowplayingwidget.cpp \
     playingwidget.cpp \
     playlistitem.cpp \
+    playlistitemwidget.cpp \
     playlistmodel.cpp \
     playlistnamedialog.cpp \
     playlistswidget.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     nowplayingwidget.h \
     playingwidget.h \
     playlistitem.h \
+    playlistitemwidget.h \
     playlistmodel.h \
     playlistnamedialog.h \
     playlistswidget.h \

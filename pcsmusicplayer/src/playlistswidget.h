@@ -1,6 +1,8 @@
 #ifndef PLAYLISTSWIDGET_H
 #define PLAYLISTSWIDGET_H
 
+#include "qgridlayout.h"
+#include "structs.h"
 #include <QWidget>
 
 namespace Ui {
@@ -18,6 +20,10 @@ public:
 
 private:
     Ui::PlaylistsWidget *ui;
+    Playlist playlist;
+    QStringList playlistNames;
+    QGridLayout* layout = nullptr;
+    QList<QWidget*> playlistWidgets;
 };
 
 #endif // PLAYLISTSWIDGET_H
