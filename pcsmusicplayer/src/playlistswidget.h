@@ -24,6 +24,16 @@ private:
     QStringList playlistNames;
     QGridLayout* layout = nullptr;
     QList<QWidget*> playlistWidgets;
+
+private slots:
+    void playlistSelected(const QString& name);
+    void playPressed(int index);
+    void addToPlaylistPressed(int index);
+    void playPlaylist(const QString& name);
+
+signals:
+    void play(const Track& track);
+    void playlistPlay(const QList<Track> tracks);
 };
 
 #endif // PLAYLISTSWIDGET_H

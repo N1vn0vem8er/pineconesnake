@@ -9,6 +9,8 @@ PlaylistsWidget::PlaylistsWidget(QWidget *parent)
 {
     ui->setupUi(this);
     ui->tableView->setVisible(false);
+    ui->pushButton->setVisible(false);
+    connect(ui->pushButton, &QPushButton::clicked, this, &PlaylistsWidget::loadPlaylists);
     loadPlaylists();
 }
 
@@ -19,6 +21,9 @@ PlaylistsWidget::~PlaylistsWidget()
 
 void PlaylistsWidget::loadPlaylists()
 {
+    ui->tableView->setVisible(false);
+    ui->pushButton->setVisible(false);
+    ui->scrollArea->setVisible(true);
     playlistNames = ResourcesManager::getInstance()->getAllPlaylistNames();
     if(layout != nullptr)
     {
@@ -26,12 +31,40 @@ void PlaylistsWidget::loadPlaylists()
     }
     layout = new QGridLayout(ui->scrollAreaWidgetContents);
     if(!playlistWidgets.isEmpty())
+    {
         for(const auto& i : playlistWidgets) delete i;
+        playlistWidgets.clear();
+    }
     for(const auto& i : playlistNames)
     {
         PlaylistItemWidget* widget = new PlaylistItemWidget(i, this);
+        connect(widget, &PlaylistItemWidget::doubleClicked, this, &PlaylistsWidget::playlistSelected);
         playlistWidgets.append(widget);
         this->layout->addWidget(widget);
     }
     ui->scrollAreaWidgetContents->setLayout(layout);
+}
+
+void PlaylistsWidget::playlistSelected(const QString &name)
+{
+    ui->tableView->setVisible(true);
+    ui->pushButton->setVisible(true);
+    ui->scrollArea->setVisible(false);
+    playlist = ResourcesManager::getInstance()->getPlaylistByName(name);
+
+}
+
+void PlaylistsWidget::playPressed(int index)
+{
+
+}
+
+void PlaylistsWidget::addToPlaylistPressed(int index)
+{
+
+}
+
+void PlaylistsWidget::playPlaylist(const QString &name)
+{
+
 }

@@ -33,7 +33,10 @@ void AlbumsWidget::loadAlbums()
     }
     layout = new QGridLayout(ui->scrollAreaWidgetContents);
     if(!albumWidgets.isEmpty())
+    {
         for(const auto& i : albumWidgets) delete i;
+        albumWidgets.clear();
+    }
     albums = ResourcesManager::getInstance()->getAllAlbums();
     for(const auto& i : albums)
     {
