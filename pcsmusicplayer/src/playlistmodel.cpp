@@ -1,9 +1,10 @@
 #include "playlistmodel.h"
+#include "qfileinfo.h"
 
-PlaylistModel::PlaylistModel(QStringList items, QObject *parent)
+PlaylistModel::PlaylistModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    this->items = items;
+
 }
 
 int PlaylistModel::rowCount(const QModelIndex &parent) const
@@ -19,11 +20,11 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
     }
     if(index.column() == 0 && role == Qt::DisplayRole)
     {
-        return items.at(index.row());
+        return items.at(index.row()).title.isEmpty() ? QFileInfo(items.at(index.row()).path).fileName() : items.at(index.row()).title;
     }
     if(index.column() == 1 && role == Qt::DisplayRole)
     {
-        return items.at(index.row());
+        return items.at(index.row()).artist;
     }
     return QVariant();
 }
@@ -31,5 +32,10 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
 int PlaylistModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 3;
+    return 4;
+}
+
+void PlaylistModel::setItems(const QList<Track> &items)
+{
+    this->items = items;
 }

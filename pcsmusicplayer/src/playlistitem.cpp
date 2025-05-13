@@ -14,16 +14,22 @@ void PlaylistItem::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
 
-    if (index.column() == 0) {
+    switch(index.column())
+    {
+    case 0:
+    case 1:
         QStyledItemDelegate::paint(painter, opt, index);
-    } else if (index.column() == 1 || index.column() == 2) {
+        break;
+    case 2:
+    case 3:
         QStyleOptionButton button;
         button.rect = QRect(opt.rect.right() - 32,
                             opt.rect.top() + (opt.rect.height() - 32) / 2,
                             32, 32);
         button.state = QStyle::State_Enabled;
-        button.icon = (index.column() == 1) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("edit-delete");
+        button.icon = (index.column() == 2) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("edit-delete");
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        break;
     }
 }
 
@@ -47,11 +53,11 @@ bool PlaylistItem::editorEvent(QEvent *event, QAbstractItemModel *model, const Q
         int w = 32;
         int h = 32;
 
-        if(index.column() == 1 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        if(index.column() == 2 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit playPressed(index.row());
         }
-        else if(index.column() == 2 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        else if(index.column() == 3 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit removePressed(index.row());
         }

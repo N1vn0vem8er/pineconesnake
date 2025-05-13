@@ -257,11 +257,7 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
     for(const auto& i : playlist.tracks)
     {
         asprintf(&query, "INSERT INTO playlists_tracks (playlist_id, track_id) VALUES (%i, %i);", playlist.id, i.id);
-        if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
-        {
-            printf("%s", err);
-            sqlite3_free(err);
-        }
+        sqlite3_exec(database, query, callback, nullptr, nullptr);
         delete[] query;
     }
 }

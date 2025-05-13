@@ -12,6 +12,8 @@ PlaylistsWidget::PlaylistsWidget(QWidget *parent)
     ui->pushButton->setVisible(false);
     connect(ui->pushButton, &QPushButton::clicked, this, &PlaylistsWidget::loadPlaylists);
     loadPlaylists();
+    delegate = new PlaylistItem(ui->tableView);
+    ui->tableView->setItemDelegate(delegate);
 }
 
 PlaylistsWidget::~PlaylistsWidget()
@@ -52,7 +54,18 @@ void PlaylistsWidget::playlistSelected(const QString &name)
     ui->pushButton->setVisible(true);
     ui->scrollArea->setVisible(false);
     playlist = ResourcesManager::getInstance()->getPlaylistByName(name);
-
+    if(model != nullptr)
+    {
+        delete model;
+    }
+    model = new PlaylistModel(ui->tableView);
+    model->setItems(playlist.tracks);
+    ui->tableView->setModel(model);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+    ui->tableView->setColumnWidth(3, 32);
+    ui->tableView->setColumnWidth(4, 32);
 }
 
 void PlaylistsWidget::playPressed(int index)

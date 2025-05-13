@@ -1,6 +1,8 @@
 #ifndef PLAYLISTSWIDGET_H
 #define PLAYLISTSWIDGET_H
 
+#include "playlistitem.h"
+#include "playlistmodel.h"
 #include "qgridlayout.h"
 #include "structs.h"
 #include <QWidget>
@@ -24,6 +26,8 @@ private:
     QStringList playlistNames;
     QGridLayout* layout = nullptr;
     QList<QWidget*> playlistWidgets;
+    PlaylistModel* model = nullptr;
+    PlaylistItem* delegate = nullptr;
 
 private slots:
     void playlistSelected(const QString& name);

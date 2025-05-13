@@ -47,14 +47,13 @@ void PlaylistWidget::loadTracks(const QList<Track>& tracks)
         delete model;
     }
     this->tracks = tracks;
-    QStringList titles;
-    std::for_each(this->tracks.begin(), this->tracks.end(), [&](const Track& track){titles.append(track.title.isEmpty() ? QFileInfo(track.path).fileName() : track.title);});
-    model = new PlaylistModel(titles, ui->tableView);
+    model = new PlaylistModel(ui->tableView);
+    model->setItems(tracks);
     ui->tableView->setModel(model);
     if(!this->tracks.isEmpty())
     {
-        ui->tableView->setColumnWidth(1, 32);
         ui->tableView->setColumnWidth(2, 32);
+        ui->tableView->setColumnWidth(3, 32);
         ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     }
 }
