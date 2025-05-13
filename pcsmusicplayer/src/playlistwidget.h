@@ -25,12 +25,14 @@ public slots:
     void playingTrack(const Track& track);
     void addTrack(const Track& track);
     void trackFinished(const Track& track);
+    void loadPlaylist(const Playlist& playlist);
 
 private:
     Ui::PlaylistWidget *ui;
     QList<Track> tracks;
     PlaylistItem* delegate = nullptr;
     PlaylistModel* model = nullptr;
+    Playlist playlist = Playlist(-1, "", {});
     int playingIndex = 0;
     void init();
 

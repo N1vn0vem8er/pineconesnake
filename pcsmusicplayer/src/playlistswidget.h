@@ -33,7 +33,7 @@ private slots:
 
 signals:
     void play(const Track& track);
-    void playlistPlay(const QList<Track> tracks);
+    void playlistPlay(const Playlist& playlist);
 };
 
 #endif // PLAYLISTSWIDGET_H

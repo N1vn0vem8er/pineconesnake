@@ -81,6 +81,15 @@ void PlaylistWidget::trackFinished(const Track &track)
     }
 }
 
+void PlaylistWidget::loadPlaylist(const Playlist &playlist)
+{
+    this->playlist = playlist;
+    for(const auto& i : this->playlist.tracks)
+    {
+        addTrack(i);
+    }
+}
+
 void PlaylistWidget::removeTrack(const Track &track)
 {
     tracks.removeIf([&track](const Track& t){return t.id == track.id;});
@@ -108,11 +117,18 @@ void PlaylistWidget::removeTrack(int index)
 
 void PlaylistWidget::clear()
 {
+    playlist = Playlist(-1, "", {});
     loadTracks({});
 }
 
 void PlaylistWidget::savePlaylist()
 {
+    if(playlist.id != -1)
+    {
+        playlist.tracks = tracks;
+        ResourcesManager::getInstance()->modifyPlaylist(playlist);
+        return;
+    }
     PlaylistNameDialog* dialog = new PlaylistNameDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     connect(dialog, &PlaylistNameDialog::playlistName, this, &PlaylistWidget::playlistName);
@@ -126,7 +142,7 @@ void PlaylistWidget::playlistName(const QString &name)
         ResourcesManager::getInstance()->savePlaylist(Playlist(-1, name, tracks));
         emit playlistSaved();
     }
-    catch (std::exception)
+    catch (std::exception&)
     {
         QMessageBox::critical(this, tr("Critical"), tr("Playlist with that name exists"));
         savePlaylist();

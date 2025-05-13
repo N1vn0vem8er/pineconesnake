@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->artistsTab, &ArtistsWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->artistsTab, &ArtistsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->playlistWidget, &PlaylistWidget::playlistSaved, ui->playlistsTab, &PlaylistsWidget::loadPlaylists);
+    connect(ui->playlistsTab, &PlaylistsWidget::playlistPlay, ui->playlistWidget, &PlaylistWidget::loadPlaylist);
     Settings s;
     s.loadSettings();
 }

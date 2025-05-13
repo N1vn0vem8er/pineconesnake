@@ -67,8 +67,7 @@ void PlaylistsWidget::addToPlaylistPressed(int index)
 
 void PlaylistsWidget::playPlaylist(const QString &name)
 {
-    for(const auto& i : ResourcesManager::getInstance()->getPlaylistByName(name).tracks)
-    {
-        emit play(i);
-    }
+    Playlist pl = ResourcesManager::getInstance()->getPlaylistByName(name);
+    if(pl.id != -1)
+        playlistPlay(pl);
 }

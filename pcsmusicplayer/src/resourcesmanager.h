@@ -21,6 +21,7 @@ public:
     QList<Track> getAllTrackInAlbum(const QString& album);
     QList<Track> getAllTracksForArtist(const QString& artist);
     void savePlaylist(const Playlist& playlist);
+    void modifyPlaylist(const Playlist& playlist);
     Playlist getPlaylistById(const int id);
     Playlist getPlaylistByName(const QString& name);
     QList<Playlist> getPlaylists();

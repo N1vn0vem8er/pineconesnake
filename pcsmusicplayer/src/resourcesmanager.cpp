@@ -235,6 +235,37 @@ void ResourcesManager::savePlaylist(const Playlist &playlist)
     }
 }
 
+void ResourcesManager::modifyPlaylist(const Playlist &playlist)
+{
+    char* err;
+    char* query;
+    Playlist old = getPlaylistByName(playlist.name);
+    for(const auto& i : old.tracks)
+    {
+        if(std::find_if(playlist.tracks.begin(), playlist.tracks.end(), [&i](const Track& t){return t.id == i.id;}) == playlist.tracks.end())
+        {
+            asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i AND track_id = %i;", playlist.id, i.id);
+            if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+            {
+                printf("%s", err);
+                sqlite3_free(err);
+            }
+            delete[] query;
+        }
+    }
+
+    for(const auto& i : playlist.tracks)
+    {
+        asprintf(&query, "INSERT INTO playlists_tracks (playlist_id, track_id) VALUES (%i, %i);", playlist.id, i.id);
+        if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+        {
+            printf("%s", err);
+            sqlite3_free(err);
+        }
+        delete[] query;
+    }
+}
+
 Playlist ResourcesManager::getPlaylistById(const int id)
 {
     std::vector<std::vector<QString>> ret;
@@ -273,7 +304,7 @@ Playlist ResourcesManager::getPlaylistByName(const QString &name)
     std::vector<std::vector<QString>> ret;
     char* err;
     char* query;
-    asprintf(&query, "SELECT * FROM playlists WHERE name = %s;", name.toStdString().c_str());
+    asprintf(&query, "SELECT * FROM playlists WHERE name = \'%s\';", name.toStdString().c_str());
     if(sqlite3_exec(database, query, callback, &ret, nullptr) != SQLITE_OK)
     {
         delete[] query;
@@ -318,7 +349,7 @@ Track ResourcesManager::getTrackById(int id)
     }
     delete[] query;
     if(ret.empty()) return Track();
-    return Track(ret[0][0].toInt(), ret[0][1], ret[0][2], ret[0][3], ret[0][4], ret[0][5].toInt(), ret[0][6].toInt(), ret[0][7].toInt(), ret[0][8].toInt());
+    return Track(ret[0][0].toInt(), ret[0][2], ret[0][1], ret[0][3], ret[0][4], ret[0][5].toInt(), ret[0][6].toInt(), ret[0][7].toInt(), ret[0][8].toInt());
 }
 
 QStringList ResourcesManager::getAllPlaylistNames()
