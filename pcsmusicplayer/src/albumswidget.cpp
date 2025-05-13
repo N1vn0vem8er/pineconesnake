@@ -92,8 +92,9 @@ void AlbumsWidget::addToPlaylistPressed(int index)
     }
 }
 
-void AlbumsWidget::addAllTracksToPlaylist(const QList<Track> tracks)
+void AlbumsWidget::addAllTracksToPlaylist(QList<Track> tracks)
 {
+    std::sort(tracks.begin(), tracks.end(), [](const Track& a, const Track& b){return a.number < b.number;});
     for(const auto& i : tracks)
     {
         emit addToPlaylist(i);

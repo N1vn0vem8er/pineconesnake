@@ -39,6 +39,7 @@ void PlaylistsWidget::loadPlaylists()
     {
         PlaylistItemWidget* widget = new PlaylistItemWidget(i, this);
         connect(widget, &PlaylistItemWidget::doubleClicked, this, &PlaylistsWidget::playlistSelected);
+        connect(widget, &PlaylistItemWidget::play, this, &PlaylistsWidget::playPlaylist);
         playlistWidgets.append(widget);
         this->layout->addWidget(widget);
     }
@@ -66,5 +67,8 @@ void PlaylistsWidget::addToPlaylistPressed(int index)
 
 void PlaylistsWidget::playPlaylist(const QString &name)
 {
-
+    for(const auto& i : ResourcesManager::getInstance()->getPlaylistByName(name).tracks)
+    {
+        emit play(i);
+    }
 }
