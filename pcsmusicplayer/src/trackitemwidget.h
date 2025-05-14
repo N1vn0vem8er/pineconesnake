@@ -14,6 +14,7 @@ public:
 signals:
     void addToPlaylist(int index);
     void playPressed(int index);
+    void makeFavorite(int index);
 };
 
 #endif // TRACKITEMWIDGET_H

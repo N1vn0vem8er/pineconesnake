@@ -13,7 +13,7 @@ int TrackListModel::rowCount(const QModelIndex &parent) const
 int TrackListModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 5;
+    return 7;
 }
 
 QVariant TrackListModel::data(const QModelIndex &index, int role) const
@@ -33,6 +33,9 @@ QVariant TrackListModel::data(const QModelIndex &index, int role) const
             break;
         case 2:
             return items.at(index.row()).album;
+            break;
+        case 3:
+            return items.at(index.row()).number;
             break;
         }
     return QVariant();

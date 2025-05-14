@@ -11,22 +11,29 @@ void TrackItemWidget::paint(QPainter *painter, const QStyleOptionViewItem &optio
 {
     QStyleOptionViewItem opt = option;
     initStyleOption(&opt, index);
-
+    QStyleOptionButton button;
+    button.rect = QRect(opt.rect.right() - 32,
+                        opt.rect.top() + (opt.rect.height() - 32) / 2,
+                        32, 32);
+    button.state = QStyle::State_Enabled;
     switch(index.column())
     {
     case 0:
     case 1:
     case 2:
+    case 3:
         QStyledItemDelegate::paint(painter, opt, index);
         break;
-    case 3:
     case 4:
-        QStyleOptionButton button;
-        button.rect = QRect(opt.rect.right() - 32,
-                            opt.rect.top() + (opt.rect.height() - 32) / 2,
-                            32, 32);
-        button.state = QStyle::State_Enabled;
-        button.icon = (index.column() == 3) ? QIcon::fromTheme("media-playback-start") : QIcon::fromTheme("list-add");
+        button.icon = QIcon::fromTheme("media-playback-start");
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        break;
+    case 5:
+        button.icon = QIcon::fromTheme("list-add");
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
+        break;
+    case 6:
+        button.icon = QIcon::fromTheme("emblem-favorite");
         QApplication::style()->drawControl(QStyle::CE_PushButton, &button, painter);
         break;
     }
@@ -52,13 +59,17 @@ bool TrackItemWidget::editorEvent(QEvent *event, QAbstractItemModel *model, cons
         int w = 32;
         int h = 32;
 
-        if(index.column() == 3 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        if(index.column() == 4 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit playPressed(index.row());
         }
-        else if(index.column() == 4 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        else if(index.column() == 5 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit addToPlaylist(index.row());
+        }
+        else if(index.column() == 6 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        {
+            emit makeFavorite(index.row());
         }
     }
     return true;
