@@ -1,5 +1,6 @@
 #include "playlistswidget.h"
 #include "playlistitemwidget.h"
+#include "qmessagebox.h"
 #include "resourcesmanager.h"
 #include "ui_playlistswidget.h"
 
@@ -42,6 +43,7 @@ void PlaylistsWidget::loadPlaylists()
         PlaylistItemWidget* widget = new PlaylistItemWidget(i, this);
         connect(widget, &PlaylistItemWidget::doubleClicked, this, &PlaylistsWidget::playlistSelected);
         connect(widget, &PlaylistItemWidget::play, this, &PlaylistsWidget::playPlaylist);
+        connect(widget, &PlaylistItemWidget::del, this, &PlaylistsWidget::deletePlaylist);
         playlistWidgets.append(widget);
         this->layout->addWidget(widget);
     }
@@ -83,4 +85,16 @@ void PlaylistsWidget::playPlaylist(const QString &name)
     Playlist pl = ResourcesManager::getInstance()->getPlaylistByName(name);
     if(pl.id != -1)
         playlistPlay(pl);
+}
+
+void PlaylistsWidget::deletePlaylist(const QString& name)
+{
+    QMessageBox::StandardButton dialog = QMessageBox::question(this, tr("Are you sure?"), tr("Delete playlist?"), QMessageBox::Yes | QMessageBox::No);
+    if(dialog == QMessageBox::Yes)
+    {
+        ResourcesManager* rm = ResourcesManager::getInstance();
+        Playlist playlist = rm->getPlaylistByName(name);
+        rm->deletePlaylist(playlist.id);
+        loadPlaylists();
+    }
 }

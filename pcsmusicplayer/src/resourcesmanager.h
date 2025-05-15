@@ -27,6 +27,7 @@ public:
     QList<Playlist> getPlaylists();
     Track getTrackById(int id);
     QStringList getAllPlaylistNames();
+    void deletePlaylist(int id);
 
 private:
     ResourcesManager();

@@ -369,6 +369,26 @@ QStringList ResourcesManager::getAllPlaylistNames()
     return names;
 }
 
+void ResourcesManager::deletePlaylist(int id)
+{
+    char* err;
+    char* query;
+    asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i;", id);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+    asprintf(&query, "DELETE FROM playlists WHERE id = %i;", id);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
 ResourcesManager::~ResourcesManager()
 {
     close();
