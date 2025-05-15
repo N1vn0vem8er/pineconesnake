@@ -15,6 +15,7 @@ AllTracksWidget::AllTracksWidget(QWidget *parent)
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &AllTracksWidget::sort);
     connect(ui->searchButton, &QPushButton::clicked, this, [&]{ui->searchLine->setVisible(!ui->searchLine->isVisible());});
     connect(ui->searchLine, &QLineEdit::textChanged, this, &AllTracksWidget::search);
+    connect(delegate, &TrackItemWidget::makeFavorite, this, &AllTracksWidget::madeFavorite);
     loadTracks();
 }
 
@@ -96,4 +97,15 @@ void AllTracksWidget::sort(int index)
         break;
     }
     displayTracks();
+}
+
+void AllTracksWidget::madeFavorite(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        Track t = tracks[index];
+        t.favorite = !t.favorite;
+        emit makeFavorite(t);
+        loadTracks();
+    }
 }

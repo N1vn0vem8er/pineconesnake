@@ -1,6 +1,5 @@
 #include "nowplayingwidget.h"
 #include "qfileinfo.h"
-#include "resourcesmanager.h"
 #include "ui_nowplayingwidget.h"
 
 NowPlayingWidget::NowPlayingWidget(QWidget *parent)
@@ -9,7 +8,7 @@ NowPlayingWidget::NowPlayingWidget(QWidget *parent)
 {
     ui->setupUi(this);
     ui->pushButton->setVisible(false);
-    connect(ui->pushButton, &QPushButton::clicked, this, &NowPlayingWidget::makeFavorite);
+    connect(ui->pushButton, &QPushButton::clicked, this, &NowPlayingWidget::madeFavorite);
 }
 
 NowPlayingWidget::~NowPlayingWidget()
@@ -28,10 +27,9 @@ void NowPlayingWidget::setTrack(const Track &track)
     this->track = track;
 }
 
-void NowPlayingWidget::makeFavorite()
+void NowPlayingWidget::madeFavorite()
 {
     track.favorite = !track.favorite;
-    ResourcesManager::getInstance()->modifyTrack(track);
+    emit makeFavorite(track);
     setTrack(track);
-    emit favorite();
 }

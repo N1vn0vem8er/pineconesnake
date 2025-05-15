@@ -23,6 +23,16 @@ private:
     FilesListItemWidget* delegate = nullptr;
     FilesListModel* model = nullptr;
     QList<Track> tracks;
+
+private slots:
+    void playPressed(int index);
+    void addToPlaylistPressed(int index);
+    void makeFavoritePressed(int index);
+
+signals:
+    void play(const Track& track);
+    void addToPlaylist(const Track& track);
+    void makeFavorite(const Track& track);
 };
 
 #endif // FILESWIDGET_H

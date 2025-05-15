@@ -30,3 +30,27 @@ void FilesWidget::loadFiles()
     ui->tableView->setColumnWidth(2, 32);
     ui->tableView->setColumnWidth(3, 32);
 }
+
+void FilesWidget::playPressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit play(tracks.at(index));
+    }
+}
+
+void FilesWidget::addToPlaylistPressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit addToPlaylist(tracks.at(index));
+    }
+}
+
+void FilesWidget::makeFavoritePressed(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        emit makeFavorite(tracks.at(index));
+    }
+}

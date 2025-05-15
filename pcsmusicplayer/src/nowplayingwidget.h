@@ -24,10 +24,10 @@ private:
     Track track;
 
 private slots:
-    void makeFavorite();
+    void madeFavorite();
 
 signals:
-    void favorite();
+    void makeFavorite(const Track& track);
 };
 
 #endif // NOWPLAYINGWIDGET_H

@@ -11,7 +11,7 @@ FavoriteWidget::FavoriteWidget(QWidget *parent)
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &FavoriteItemWidget::playPressed, this, &FavoriteWidget::playPressed);
     connect(delegate, &FavoriteItemWidget::addToPlaylist, this, &FavoriteWidget::addToPlaylistPressed);
-    connect(delegate, &FavoriteItemWidget::unFavorite, this, &FavoriteWidget::makeFavorite);
+    connect(delegate, &FavoriteItemWidget::unFavorite, this, &FavoriteWidget::madeFavorite);
     loadFavorites();
 }
 
@@ -38,12 +38,13 @@ void FavoriteWidget::loadFavorites()
     ui->tableView->setColumnWidth(5, 32);
 }
 
-void FavoriteWidget::makeFavorite(int index)
+void FavoriteWidget::madeFavorite(int index)
 {
     if(index >= 0 && index < tracks.length())
     {
-        ResourcesManager::getInstance()->modifyTrack(tracks.at(index));
-        loadFavorites();
+        Track t = tracks.at(index);
+        t.favorite = !t.favorite;
+        emit makeFavorite(t);
     }
 }
 

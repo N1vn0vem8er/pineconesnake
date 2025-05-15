@@ -25,13 +25,14 @@ private:
     QList<Track> tracks;
 
 private slots:
-    void makeFavorite(int index);
+    void madeFavorite(int index);
     void playPressed(int index);
     void addToPlaylistPressed(int index);
 
 signals:
     void play(const Track& track);
     void addToPlaylist(const Track& track);
+    void makeFavorite(const Track& track);
 };
 
 #endif // FAVORITEWIDGET_H

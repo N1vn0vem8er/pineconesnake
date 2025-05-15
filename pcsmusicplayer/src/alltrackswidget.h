@@ -30,10 +30,12 @@ private slots:
     void addToPlayList(int index);
     void playPressed(int index);
     void sort(int index);
+    void madeFavorite(int index);
 
 signals:
     void addToPlaylist(const Track& track);
     void play(const Track& track);
+    void makeFavorite(const Track& track);
 };
 
 #endif // ALLTRACKSWIDGET_H
