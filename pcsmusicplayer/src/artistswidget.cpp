@@ -82,6 +82,8 @@ void ArtistsWidget::openTracks(const QString &title)
     ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-    ui->tableView->setColumnWidth(3, 32);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
     ui->tableView->setColumnWidth(4, 32);
+    ui->tableView->setColumnWidth(5, 32);
+    ui->tableView->setColumnWidth(6, 32);
 }
