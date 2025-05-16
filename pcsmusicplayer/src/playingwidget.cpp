@@ -14,16 +14,22 @@ PlayingWidget::PlayingWidget(QWidget *parent)
     player = new QMediaPlayer(this);
     audioOutput = new QAudioOutput;
     audioOutput->setVolume(100);
-    connect(ui->pauseButton, &QPushButton::clicked, player, &QMediaPlayer::pause);
-    connect(ui->playButton, &QPushButton::clicked, player, &QMediaPlayer::play);
+    connect(ui->pauseButton, &QPushButton::clicked, this, [&]{player->pause(); ui->playButton->setVisible(true); ui->pauseButton->setVisible(false);ui->playButton->setFocus();});
+    connect(ui->playButton, &QPushButton::clicked, this, [&]{player->play(); ui->playButton->setVisible(false); ui->pauseButton->setVisible(true);ui->pauseButton->setFocus();});
     connect(player, &QMediaPlayer::positionChanged, this, &PlayingWidget::diplayPostion);
     connect(ui->volume, &QSlider::valueChanged, this, &PlayingWidget::setVolume);
     connect(ui->durationSlider, &QSlider::sliderReleased, this, &PlayingWidget::positionChanged);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, [&](QMediaPlayer::MediaStatus status){if(status == QMediaPlayer::MediaStatus::EndOfMedia) emit trackFinished(track);});
+    connect(ui->nextButton, &QPushButton::clicked, this, [&]{emit playNext();});
+    connect(ui->previousButton, &QPushButton::clicked, this, [&]{emit playPreviout();});
     Settings s;
     s.loadSettings();
     setVolume(Settings::volume * 100);
     ui->volume->setValue(Settings::volume * 100);
+    ui->playButton->setVisible(false);
+    ui->pauseButton->setVisible(false);
+    ui->nextButton->setVisible(false);
+    ui->previousButton->setVisible(false);
 }
 
 PlayingWidget::~PlayingWidget()
@@ -41,13 +47,18 @@ void PlayingWidget::play(const Track &track)
     ui->durationSlider->setMaximum(this->track.length);
     player->setSource(QUrl(this->track.path));
     player->play();
+    emit playingTrack(track);
+    ui->pauseButton->setVisible(true);
+    ui->pauseButton->setFocus();
+    ui->nextButton->setVisible(true);
+    ui->previousButton->setVisible(true);
 }
 
-void PlayingWidget::diplayPostion(qint64)
+void PlayingWidget::diplayPostion(qint64 position)
 {
-    auto tmp = player->position() / 3600;
+    qint64 tmp = position / 1000;
     ui->durationSlider->setValue(tmp);
-    ui->timePassedLabel->setText(QString("%1:%2:%3").arg((tmp / 60 / 60) % 60).arg((tmp / 60) % 60).arg(tmp % 60));
+    ui->timePassedLabel->setText(QString("%1:%2:%3").arg((tmp / 60 / 60) % 60).arg((tmp / 60) % 60).arg(tmp));
 }
 
 void PlayingWidget::positionChanged()

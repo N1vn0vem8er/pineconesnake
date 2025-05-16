@@ -27,12 +27,15 @@ private:
     QAudioOutput* audioOutput = nullptr;
 
 private slots:
-    void diplayPostion(qint64);
+    void diplayPostion(qint64 position);
     void positionChanged();
     void setVolume(float value);
 
 signals:
     void trackFinished(const Track& track);
+    void playNext();
+    void playPreviout();
+    void playingTrack(const Track& track);
 };
 
 #endif // PLAYINGWIDGET_H

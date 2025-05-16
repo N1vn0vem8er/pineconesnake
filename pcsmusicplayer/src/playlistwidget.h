@@ -26,6 +26,8 @@ public slots:
     void addTrack(const Track& track);
     void trackFinished(const Track& track);
     void loadPlaylist(const Playlist& playlist);
+    void playNext();
+    void playPrevious();
 
 private:
     Ui::PlaylistWidget *ui;

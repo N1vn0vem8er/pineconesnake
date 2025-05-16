@@ -89,6 +89,30 @@ void PlaylistWidget::loadPlaylist(const Playlist &playlist)
     }
 }
 
+void PlaylistWidget::playNext()
+{
+    if(playingIndex + 1 >= tracks.length())
+    {
+        playTrack(0);
+    }
+    else
+    {
+        playTrack(playingIndex+1);
+    }
+}
+
+void PlaylistWidget::playPrevious()
+{
+    if(playingIndex - 1 < 0)
+    {
+        playTrack(tracks.length()-1);
+    }
+    else
+    {
+        playTrack(playingIndex-1);
+    }
+}
+
 void PlaylistWidget::removeTrack(const Track &track)
 {
     tracks.removeIf([&track](const Track& t){return t.id == track.id;});
