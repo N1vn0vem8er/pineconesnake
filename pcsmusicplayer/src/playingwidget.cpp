@@ -1,5 +1,6 @@
 #include "playingwidget.h"
 #include "qfileinfo.h"
+#include "resourcesmanager.h"
 #include "settings.h"
 #include "ui_playingwidget.h"
 #include <QAudioOutput>
@@ -41,13 +42,15 @@ PlayingWidget::~PlayingWidget()
 void PlayingWidget::play(const Track &track)
 {
     this->track = track;
+    this->track.played ++;
     player->setAudioOutput(audioOutput);
     ui->titleLabel->setText(this->track.title.isEmpty() ? QFileInfo(this->track.path).fileName() : this->track.title);
     ui->durationLabel->setText(QString("%1:%2:%3").arg((this->track.length / 60 / 60) % 60).arg((this->track.length / 60) % 60).arg(this->track.length % 60));
     ui->durationSlider->setMaximum(this->track.length);
     player->setSource(QUrl(this->track.path));
     player->play();
-    emit playingTrack(track);
+    ResourcesManager::getInstance()->modifyTrack(this->track);
+    emit playingTrack(this->track);
     ui->pauseButton->setVisible(true);
     ui->pauseButton->setFocus();
     ui->nextButton->setVisible(true);

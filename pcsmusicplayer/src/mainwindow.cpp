@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->songsTab, &AllTracksWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->playingWidget, &PlayingWidget::trackFinished, ui->playlistWidget, &PlaylistWidget::trackFinished);
     connect(ui->playlistWidget, qOverload<const Track&>(&PlaylistWidget::playTrack), ui->playingWidget, &PlayingWidget::play);
-    connect(ui->playlistWidget, qOverload<const Track&>(&PlaylistWidget::playTrack), ui->nowPlayingTab, &NowPlayingWidget::setTrack);
     connect(ui->playingWidget, &PlayingWidget::playingTrack, ui->nowPlayingTab, &NowPlayingWidget::setTrack);
     connect(ui->nowPlayingTab, &NowPlayingWidget::makeFavorite, this, &MainWindow::makeFavorite);
     connect(ui->favoritesTab, &FavoriteWidget::makeFavorite, this, &MainWindow::makeFavorite);
