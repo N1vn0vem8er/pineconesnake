@@ -60,6 +60,7 @@ void AlbumsWidget::openAlbum(const QString &title)
     }
     model = new TrackListModel(this);
     tracks = ResourcesManager::getInstance()->getAllTrackInAlbum(title);
+    std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.number < track2.number;});
     model->setItems(tracks);
     ui->tableView->setModel(model);
     ui->tableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);

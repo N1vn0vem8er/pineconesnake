@@ -11,7 +11,7 @@ public:
     explicit SearchWorker(QObject *parent = nullptr);
 
 public slots:
-    void doWork(const QString& path, const QStringList& paths);
+    void doWork(const QStringList &searchPaths, const QStringList& paths);
 
 signals:
     void resultReady(const QList<Track>& tracks);

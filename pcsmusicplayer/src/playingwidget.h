@@ -30,6 +30,7 @@ private slots:
     void diplayPostion(qint64 position);
     void positionChanged();
     void setVolume(float value);
+    void openSettings();
 
 signals:
     void trackFinished(const Track& track);

@@ -33,6 +33,7 @@ SOURCES += \
     resourcesmanager.cpp \
     searchworker.cpp \
     settings.cpp \
+    settingswidget.cpp \
     trackitemwidget.cpp \
     tracklistmodel.cpp
 
@@ -60,6 +61,7 @@ HEADERS += \
     resourcesmanager.h \
     searchworker.h \
     settings.h \
+    settingswidget.h \
     structs.h \
     trackitemwidget.h \
     tracklistmodel.h
@@ -75,7 +77,8 @@ FORMS += \
     playingwidget.ui \
     playlistnamedialog.ui \
     playlistswidget.ui \
-    playlistwidget.ui
+    playlistwidget.ui \
+    settingswidget.ui
 
 TRANSLATIONS += \
     pcsmusicplayer_pl_PL.ts

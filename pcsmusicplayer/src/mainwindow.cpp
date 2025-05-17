@@ -57,13 +57,16 @@ void MainWindow::startMusicSearch()
     connect(worker, &SearchWorker::finished, searchThread, &QThread::quit);
     connect(searchThread, &QThread::finished, searchThread, &QThread::deleteLater);
     searchThread->start();
-    emit startSearch(QDir::homePath() + "/Music", ResourcesManager::getInstance()->getAllPaths());
+    emit startSearch(Settings::searchDirs, ResourcesManager::getInstance()->getAllPaths());
 }
 
 void MainWindow::searchResoultsReady(const QList<Track> tracks)
 {
     ResourcesManager::getInstance()->saveTracks(tracks);
     ui->songsTab->loadTracks();
+    ui->filesTab->loadFiles();
+    ui->albumsTab->loadAlbums();
+    ui->artistsTab->loadArtists();
 }
 
 void MainWindow::makeFavorite(const Track &track)

@@ -1,7 +1,9 @@
 #include "playingwidget.h"
+#include "qdialog.h"
 #include "qfileinfo.h"
 #include "resourcesmanager.h"
 #include "settings.h"
+#include "settingswidget.h"
 #include "ui_playingwidget.h"
 #include <QAudioOutput>
 #include <QMediaPlayer>
@@ -23,6 +25,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
     connect(player, &QMediaPlayer::mediaStatusChanged, this, [&](QMediaPlayer::MediaStatus status){if(status == QMediaPlayer::MediaStatus::EndOfMedia) emit trackFinished(track);});
     connect(ui->nextButton, &QPushButton::clicked, this, [&]{emit playNext();});
     connect(ui->previousButton, &QPushButton::clicked, this, [&]{emit playPreviout();});
+    connect(ui->settingsButton, &QPushButton::clicked, this, &PlayingWidget::openSettings);
     Settings s;
     s.loadSettings();
     setVolume(Settings::volume * 100);
@@ -74,5 +77,15 @@ void PlayingWidget::setVolume(float value)
     audioOutput->setVolume((float) value / 100);
     Settings::volume = value / 100; Settings s;
     s.saveSettings();
+}
+
+void PlayingWidget::openSettings()
+{
+    QDialog* dialog = new QDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    QLayout* layout = new QHBoxLayout(dialog);
+    layout->addWidget(new SettingsWidget(dialog));
+    dialog->setLayout(layout);
+    dialog->show();
 }
 

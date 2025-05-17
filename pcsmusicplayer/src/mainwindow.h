@@ -28,6 +28,6 @@ private slots:
     void makeFavorite(const Track& track);
 
 signals:
-    void startSearch(const QString& path, const QStringList& paths);
+    void startSearch(const QStringList& searchPaths, const QStringList& paths);
 };
 #endif // MAINWINDOW_H
