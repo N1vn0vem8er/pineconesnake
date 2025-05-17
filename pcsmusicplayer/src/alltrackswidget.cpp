@@ -91,7 +91,7 @@ void AllTracksWidget::sort(int index)
         std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.artist < track2.artist;});
         break;
     case 3:
-        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.played < track2.played;});
+        std::sort(tracks.begin(), tracks.end(), [](const Track& track1, const Track& track2){return track1.played > track2.played;});
         break;
     default:
         break;

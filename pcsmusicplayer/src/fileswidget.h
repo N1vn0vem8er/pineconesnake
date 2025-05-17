@@ -23,11 +23,14 @@ private:
     FilesListItemWidget* delegate = nullptr;
     FilesListModel* model = nullptr;
     QList<Track> tracks;
+    void search();
+    void displayFiles();
 
 private slots:
     void playPressed(int index);
     void addToPlaylistPressed(int index);
     void makeFavoritePressed(int index);
+    void sort(int index);
 
 signals:
     void play(const Track& track);
