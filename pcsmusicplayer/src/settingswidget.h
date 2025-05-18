@@ -20,6 +20,7 @@ private:
 
 private slots:
     void apply();
+
 };
 
 #endif // SETTINGSWIDGET_H

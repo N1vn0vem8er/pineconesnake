@@ -5,7 +5,11 @@
 #include "settings.h"
 #include "ui_mainwindow.h"
 #include <QDir>
+#include <QMessageBox>
 #include <QThread>
+
+#define VERSION "1.0.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->splitter->setStretchFactor(1, 1);
     startMusicSearch();
+    connect(qApp, &QApplication::aboutToQuit, this, []{ResourcesManager::getInstance()->close();});
     connect(ui->songsTab, &AllTracksWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->songsTab, &AllTracksWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->playingWidget, &PlayingWidget::trackFinished, ui->playlistWidget, &PlaylistWidget::trackFinished);
@@ -32,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->songsTab, &AllTracksWidget::makeFavorite, this, &MainWindow::makeFavorite);
     connect(ui->playingWidget, &PlayingWidget::playNext, ui->playlistWidget, &PlaylistWidget::playNext);
     connect(ui->playingWidget, &PlayingWidget::playPreviout, ui->playlistWidget, &PlaylistWidget::playPrevious);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_Music_Player, &QAction::triggered, this, &MainWindow::openAbout);
     Settings s;
     s.loadSettings();
 }
@@ -73,4 +81,11 @@ void MainWindow::makeFavorite(const Track &track)
 {
     ResourcesManager::getInstance()->modifyTrack(track);
     ui->favoritesTab->loadFavorites();
+}
+
+void MainWindow::openAbout()
+{
+    QMessageBox::about(this,
+                       tr("About PCS Music Player"), tr("<html><body><h3>PCS Music Player</h3><p>PCS Music Player is a simple music player. It is a part of the Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
+                       .arg(VERSION).arg(LICENSELINK));
 }

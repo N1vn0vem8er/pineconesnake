@@ -389,6 +389,26 @@ void ResourcesManager::deletePlaylist(int id)
     delete[] query;
 }
 
+void ResourcesManager::clearDatabase()
+{
+    char* err;
+    if(sqlite3_exec(database, "DELETE FROM playlists_tracks;", callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    if(sqlite3_exec(database, "DELETE FROM playlists;", callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    if(sqlite3_exec(database, "DELETE FROM tracks;", callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+}
+
 ResourcesManager::~ResourcesManager()
 {
     close();

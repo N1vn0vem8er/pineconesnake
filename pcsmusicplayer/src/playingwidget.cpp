@@ -84,8 +84,8 @@ void PlayingWidget::openSettings()
     QDialog* dialog = new QDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     QLayout* layout = new QHBoxLayout(dialog);
-    layout->addWidget(new SettingsWidget(dialog));
+    SettingsWidget* widget = new SettingsWidget(dialog);
+    layout->addWidget(widget);
     dialog->setLayout(layout);
     dialog->show();
 }
-
