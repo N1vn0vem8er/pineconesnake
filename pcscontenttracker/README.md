@@ -24,6 +24,7 @@ PCS Content Tracker is an application that helps keep track of the books you rea
 This project was created with:
 
 * Qt version: >4
+* SQLite3 version: >=3.46.1
 
 ## Setup
 

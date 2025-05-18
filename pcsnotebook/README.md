@@ -24,6 +24,7 @@ PCS Notebook is a simple application for taking notes.
 This project was created with:
 
 * Qt version: >4
+* SQLite3 version: >=3.46.1
 
 ## Setup
 
