@@ -27,6 +27,7 @@ private slots:
     void searchResoultsReady(const QList<Track> tracks);
     void makeFavorite(const Track& track);
     void openAbout();
+    void openFile();
 
 signals:
     void startSearch(const QStringList& searchPaths, const QStringList& paths);

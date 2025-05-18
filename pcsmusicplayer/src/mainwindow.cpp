@@ -5,8 +5,10 @@
 #include "settings.h"
 #include "ui_mainwindow.h"
 #include <QDir>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QThread>
+#include <taglib/fileref.h>
 
 #define VERSION "1.0.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -40,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Music_Player, &QAction::triggered, this, &MainWindow::openAbout);
+    connect(ui->actionOpen_Track, &QAction::triggered, this, &MainWindow::openFile);
     Settings s;
     s.loadSettings();
 }
@@ -88,4 +91,19 @@ void MainWindow::openAbout()
     QMessageBox::about(this,
                        tr("About PCS Music Player"), tr("<html><body><h3>PCS Music Player</h3><p>PCS Music Player is a simple music player. It is a part of the Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
                        .arg(VERSION).arg(LICENSELINK));
+}
+
+void MainWindow::openFile()
+{
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open track"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        TagLib::FileRef f(path.toStdString().c_str());
+        if(!f.isNull() && f.tag())
+        {
+            Track track(-1, QString::fromStdString(f.tag()->title().toCString()), path, QString::fromStdString(f.tag()->artist().toCString()),
+                                QString::fromStdString(f.tag()->album().toCString()), f.tag()->track(), f.audioProperties()->lengthInSeconds(), 0, false);
+            ui->playingWidget->play(track);
+        }
+    }
 }
