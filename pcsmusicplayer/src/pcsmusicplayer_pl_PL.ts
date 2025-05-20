@@ -24,7 +24,7 @@
     <message>
         <location filename="alltrackswidget.ui" line="38"/>
         <source>Sort</source>
-        <translation>Sortój</translation>
+        <translation>Sortuj</translation>
     </message>
     <message>
         <location filename="alltrackswidget.ui" line="46"/>
@@ -83,7 +83,7 @@
     <message>
         <location filename="fileswidget.ui" line="38"/>
         <source>Sort</source>
-        <translation>Sortój</translation>
+        <translation>Sortuj</translation>
     </message>
     <message>
         <location filename="fileswidget.ui" line="46"/>
@@ -316,7 +316,7 @@
     <message>
         <location filename="playlistwidget.cpp" line="170"/>
         <source>Playlist with that name exists</source>
-        <translation>Playlist z tą nazwą już istnieje</translation>
+        <translation>Playlista z tą nazwą już istnieje</translation>
     </message>
 </context>
 <context>
@@ -329,7 +329,7 @@
     <message>
         <location filename="playlistswidget.ui" line="42"/>
         <source>Back</source>
-        <translation>Powtót</translation>
+        <translation>Powrót</translation>
     </message>
     <message>
         <location filename="playlistswidget.cpp" line="92"/>
