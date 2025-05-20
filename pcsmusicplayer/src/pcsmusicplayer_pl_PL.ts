@@ -234,38 +234,38 @@
     <message>
         <location filename="playingwidget.ui" line="23"/>
         <source>Not playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie odtwarza</translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="30"/>
         <source>Previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatnie</translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="43"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz</translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="56"/>
         <source>Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Pauza</translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="69"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Następny</translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="82"/>
         <location filename="playingwidget.ui" line="96"/>
         <source>00:00:00</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="playingwidget.ui" line="103"/>
         <source>Mute</source>
-        <translation type="unfinished"></translation>
+        <translation>Wycisz</translation>
     </message>
 </context>
 <context>
@@ -273,12 +273,12 @@
     <message>
         <location filename="playlistnamedialog.ui" line="14"/>
         <source>Playlist Name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="playlistnamedialog.ui" line="23"/>
         <source>Enter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Wprowadź nazwę</translation>
     </message>
 </context>
 <context>
@@ -286,37 +286,37 @@
     <message>
         <location filename="playlistwidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="playlistwidget.ui" line="25"/>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Playlista</translation>
     </message>
     <message>
         <location filename="playlistwidget.ui" line="45"/>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Odtwórz</translation>
     </message>
     <message>
         <location filename="playlistwidget.ui" line="58"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="playlistwidget.ui" line="71"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść</translation>
     </message>
     <message>
         <location filename="playlistwidget.cpp" line="170"/>
         <source>Critical</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="playlistwidget.cpp" line="170"/>
         <source>Playlist with that name exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Playlist z tą nazwą już istnieje</translation>
     </message>
 </context>
 <context>
@@ -324,22 +324,22 @@
     <message>
         <location filename="playlistswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="playlistswidget.ui" line="42"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Powtót</translation>
     </message>
     <message>
         <location filename="playlistswidget.cpp" line="92"/>
         <source>Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno?</translation>
     </message>
     <message>
         <location filename="playlistswidget.cpp" line="92"/>
         <source>Delete playlist?</source>
-        <translation type="unfinished"></translation>
+        <translation>Usunąć playlistę?</translation>
     </message>
 </context>
 <context>
@@ -347,22 +347,22 @@
     <message>
         <location filename="settingswidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="settingswidget.ui" line="23"/>
         <source>Search directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Przeszukuj katalogi</translation>
     </message>
     <message>
         <location filename="settingswidget.ui" line="32"/>
         <source>Separate with ;</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdziel używając ;</translation>
     </message>
     <message>
         <location filename="settingswidget.ui" line="42"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastosuj</translation>
     </message>
 </context>
 </TS>
