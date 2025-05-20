@@ -26,6 +26,7 @@ PlayingWidget::PlayingWidget(QWidget *parent)
     connect(ui->nextButton, &QPushButton::clicked, this, [&]{emit playNext();});
     connect(ui->previousButton, &QPushButton::clicked, this, [&]{emit playPreviout();});
     connect(ui->settingsButton, &QPushButton::clicked, this, &PlayingWidget::openSettings);
+    connect(ui->muteButton, &QPushButton::clicked, this, &PlayingWidget::mute);
     Settings s;
     s.loadSettings();
     setVolume(Settings::volume * 100);
@@ -51,6 +52,7 @@ void PlayingWidget::play(const Track &track)
     ui->durationLabel->setText(QString("%1:%2:%3").arg((this->track.length / 60 / 60) % 60).arg((this->track.length / 60) % 60).arg(this->track.length % 60));
     ui->durationSlider->setMaximum(this->track.length);
     player->setSource(QUrl(this->track.path));
+    audioOutput->setMuted(muted);
     player->play();
     ResourcesManager::getInstance()->modifyTrack(this->track);
     emit playingTrack(this->track);
@@ -75,7 +77,8 @@ void PlayingWidget::positionChanged()
 void PlayingWidget::setVolume(float value)
 {
     audioOutput->setVolume((float) value / 100);
-    Settings::volume = value / 100; Settings s;
+    Settings::volume = value / 100;
+    Settings s;
     s.saveSettings();
 }
 
@@ -88,4 +91,11 @@ void PlayingWidget::openSettings()
     layout->addWidget(widget);
     dialog->setLayout(layout);
     dialog->show();
+}
+
+void PlayingWidget::mute()
+{
+    muted = !muted;
+    audioOutput->setMuted(muted);
+    ui->muteButton->setIcon(muted ? QIcon::fromTheme("audio-volume-muted") : QIcon::fromTheme("audio-volume-high"));
 }

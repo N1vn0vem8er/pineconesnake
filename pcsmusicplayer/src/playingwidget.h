@@ -25,12 +25,14 @@ private:
     Track track;
     QMediaPlayer* player = nullptr;
     QAudioOutput* audioOutput = nullptr;
+    bool muted = false;
 
 private slots:
     void diplayPostion(qint64 position);
     void positionChanged();
     void setVolume(float value);
     void openSettings();
+    void mute();
 
 signals:
     void trackFinished(const Track& track);

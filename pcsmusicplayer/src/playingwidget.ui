@@ -106,7 +106,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset theme="audio-volume-muted"/>
+      <iconset theme="audio-volume-high"/>
      </property>
     </widget>
    </item>
