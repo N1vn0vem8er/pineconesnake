@@ -34,7 +34,7 @@ void FilesWidget::search()
     tracks = ResourcesManager::getInstance()->getAllTracks();
     QList<Track> tmp;
     const QString query = ui->searchBar->text();
-    for(const auto& i : tracks)
+    for(const auto& i : std::as_const(tracks))
     {
         if(i.title.contains(query) || i.album.contains(query) || i.artist.contains(query) || i.path.contains(query) || i.path.contains(query))
             tmp.append(i);

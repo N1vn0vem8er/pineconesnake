@@ -32,9 +32,9 @@ void ArtistsWidget::loadArtists()
     }
     layout = new QGridLayout(ui->scrollAreaWidgetContents);
     if(!artistWidgets.isEmpty())
-        for(const auto& i : artistWidgets) delete i;
+        for(const auto& i : std::as_const(artistWidgets)) delete i;
     artists = ResourcesManager::getInstance()->getAllArtists();
-    for(const auto& i : artists)
+    for(const auto& i : std::as_const(artists))
     {
         ArtistItemWidget* widget = new ArtistItemWidget(i, this);
         connect(widget, &ArtistItemWidget::doubleClicked, this, &ArtistsWidget::openTracks);

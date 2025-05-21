@@ -35,10 +35,10 @@ void PlaylistsWidget::loadPlaylists()
     layout = new QGridLayout(ui->scrollAreaWidgetContents);
     if(!playlistWidgets.isEmpty())
     {
-        for(const auto& i : playlistWidgets) delete i;
+        for(const auto& i : std::as_const(playlistWidgets)) delete i;
         playlistWidgets.clear();
     }
-    for(const auto& i : playlistNames)
+    for(const auto& i : std::as_const(playlistNames))
     {
         PlaylistItemWidget* widget = new PlaylistItemWidget(i, this);
         connect(widget, &PlaylistItemWidget::doubleClicked, this, &PlaylistsWidget::playlistSelected);
@@ -84,7 +84,7 @@ void PlaylistsWidget::playPlaylist(const QString &name)
 {
     Playlist pl = ResourcesManager::getInstance()->getPlaylistByName(name);
     if(pl.id != -1)
-        playlistPlay(pl);
+        emit playlistPlay(pl);
 }
 
 void PlaylistsWidget::deletePlaylist(const QString& name)

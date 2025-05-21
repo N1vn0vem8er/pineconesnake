@@ -9,7 +9,7 @@ SettingsWidget::SettingsWidget(QWidget *parent)
     ui->setupUi(this);
     connect(ui->applyButton, &QPushButton::clicked, this, &SettingsWidget::apply);
     QString paths = "";
-    for(const auto& i : Settings::searchDirs)
+    for(const auto& i : std::as_const(Settings::searchDirs))
     {
         paths.append(i).append(';');
     }

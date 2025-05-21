@@ -94,7 +94,7 @@ void MainWindow::openAbout()
 {
     QMessageBox::about(this,
                        tr("About PCS Music Player"), tr("<html><body><h3>PCS Music Player</h3><p>PCS Music Player is a simple music player. It is a part of the Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
-                       .arg(VERSION).arg(LICENSELINK));
+                       .arg(VERSION, LICENSELINK));
 }
 
 void MainWindow::openFile()

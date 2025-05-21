@@ -83,7 +83,7 @@ void PlaylistWidget::trackFinished(const Track &track)
 void PlaylistWidget::loadPlaylist(const Playlist &playlist)
 {
     this->playlist = playlist;
-    for(const auto& i : this->playlist.tracks)
+    for(const auto& i : std::as_const(this->playlist.tracks))
     {
         addTrack(i);
     }

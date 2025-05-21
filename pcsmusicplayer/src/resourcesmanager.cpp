@@ -13,7 +13,7 @@ ResourcesManager::ResourcesManager()
     {
         QDir().mkpath(Settings::databasePath);
     }
-    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath).arg(Settings::databaseName).toStdString().c_str(), &database);
+    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath, Settings::databaseName).toStdString().c_str(), &database);
     if(rc == SQLITE_OK)
     {
         char* err;
@@ -240,7 +240,7 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
     char* err;
     char* query;
     Playlist old = getPlaylistByName(playlist.name);
-    for(const auto& i : old.tracks)
+    for(const auto& i : std::as_const(old.tracks))
     {
         if(std::find_if(playlist.tracks.begin(), playlist.tracks.end(), [&i](const Track& t){return t.id == i.id;}) == playlist.tracks.end())
         {
@@ -328,7 +328,7 @@ Playlist ResourcesManager::getPlaylistByName(const QString &name)
 
 QList<Playlist> ResourcesManager::getPlaylists()
 {
-
+    return {};
 }
 
 Track ResourcesManager::getTrackById(int id)
