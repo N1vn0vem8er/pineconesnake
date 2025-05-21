@@ -309,6 +309,7 @@ Playlist ResourcesManager::getPlaylistByName(const QString &name)
     delete[] query;
     if(ret.empty()) return Playlist(-1, "", {});
     const int pId = ret[0][0].toInt();
+    ret.clear();
     asprintf(&query, "SELECT track_id FROM playlists_tracks WHERE playlist_id = %i;", pId);
     if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
     {
