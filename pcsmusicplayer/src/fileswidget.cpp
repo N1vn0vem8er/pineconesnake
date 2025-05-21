@@ -9,6 +9,8 @@ FilesWidget::FilesWidget(QWidget *parent)
     ui->setupUi(this);
     delegate = new FilesListItemWidget(ui->tableView);
     ui->tableView->setItemDelegate(delegate);
+    connect(delegate, &FilesListItemWidget::playPressed, this, &FilesWidget::playPressed);
+    connect(delegate, &FilesListItemWidget::addToPlaylist, this, &FilesWidget::addToPlaylistPressed);
     connect(ui->searchButton, &QPushButton::clicked, this, [&]{ui->searchBar->setVisible(!ui->searchBar->isVisible());});
     connect(ui->searchBar, &QLineEdit::textChanged, this, &FilesWidget::search);
         connect(ui->comboBox, &QComboBox::currentIndexChanged, this, &FilesWidget::sort);

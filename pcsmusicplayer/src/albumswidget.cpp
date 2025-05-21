@@ -17,6 +17,7 @@ AlbumsWidget::AlbumsWidget(QWidget *parent)
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &TrackItemWidget::addToPlaylist, this, &AlbumsWidget::addToPlaylistPressed);
     connect(delegate, &TrackItemWidget::playPressed, this, &AlbumsWidget::playPressed);
+    connect(delegate, &TrackItemWidget::makeFavorite, this, &AlbumsWidget::madeFavorite);
     loadAlbums();
 }
 
@@ -34,11 +35,11 @@ void AlbumsWidget::loadAlbums()
     layout = new QGridLayout(ui->scrollAreaWidgetContents);
     if(!albumWidgets.isEmpty())
     {
-        for(const auto& i : albumWidgets) delete i;
+        for(const auto& i : std::as_const(albumWidgets)) delete i;
         albumWidgets.clear();
     }
     albums = ResourcesManager::getInstance()->getAllAlbums();
-    for(const auto& i : albums)
+    for(const auto& i : std::as_const(albums))
     {
         AlbumItemWidget* widget = new AlbumItemWidget(i, this);
         connect(widget, &AlbumItemWidget::doubleClicked, this, &AlbumsWidget::openAlbum);
@@ -101,5 +102,15 @@ void AlbumsWidget::addAllTracksToPlaylist(QList<Track> tracks)
     for(const auto& i : tracks)
     {
         emit addToPlaylist(i);
+    }
+}
+
+void AlbumsWidget::madeFavorite(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        Track t = tracks[index];
+        t.favorite = !t.favorite;
+        emit makeFavorite(t);
     }
 }

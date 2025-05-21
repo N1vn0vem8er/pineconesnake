@@ -46,11 +46,11 @@ bool FilesListItemWidget::editorEvent(QEvent *event, QAbstractItemModel *model, 
         int w = 32;
         int h = 32;
 
-        if(index.column() == 1 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        if(index.column() == 2 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit playPressed(index.row());
         }
-        else if(index.column() == 2 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
+        else if(index.column() == 3 && e->pos().x() > x && e->pos().x() < x + w && e->pos().y() > y && e->pos().y() < y + h)
         {
             emit addToPlaylist(index.row());
         }

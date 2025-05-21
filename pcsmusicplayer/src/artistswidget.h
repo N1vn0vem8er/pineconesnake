@@ -34,10 +34,12 @@ private slots:
     void addToPlaylistPressed(int index);
     void playPressed(int index);
     void openTracks(const QString& title);
+    void madeFavorite(int index);
 
 signals:
     void play(const Track& track);
     void addToPlaylist(const Track& track);
+    void makeFavorite(const Track& track);
 };
 
 #endif // ARTISTSWIDGET_H

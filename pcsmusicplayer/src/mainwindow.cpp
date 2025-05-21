@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Music_Player, &QAction::triggered, this, &MainWindow::openAbout);
     connect(ui->actionOpen_Track, &QAction::triggered, this, &MainWindow::openFile);
+    connect(ui->artistsTab, &ArtistsWidget::makeFavorite, this, &MainWindow::makeFavorite);
+    connect(ui->albumsTab, &AlbumsWidget::makeFavorite, this, &MainWindow::makeFavorite);
+    connect(ui->filesTab, &FilesWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
+    connect(ui->filesTab, &FilesWidget::play, ui->playingWidget, &PlayingWidget::play);
     Settings s;
     s.loadSettings();
 }

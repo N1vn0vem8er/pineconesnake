@@ -15,6 +15,7 @@ ArtistsWidget::ArtistsWidget(QWidget *parent)
     ui->tableView->setItemDelegate(delegate);
     connect(delegate, &TrackItemWidget::addToPlaylist, this, &ArtistsWidget::addToPlaylistPressed);
     connect(delegate, &TrackItemWidget::playPressed, this, &ArtistsWidget::playPressed);
+    connect(delegate, &TrackItemWidget::makeFavorite, this, &ArtistsWidget::madeFavorite);
     loadArtists();
 }
 
@@ -86,4 +87,14 @@ void ArtistsWidget::openTracks(const QString &title)
     ui->tableView->setColumnWidth(4, 32);
     ui->tableView->setColumnWidth(5, 32);
     ui->tableView->setColumnWidth(6, 32);
+}
+
+void ArtistsWidget::madeFavorite(int index)
+{
+    if(index >= 0 && index < tracks.length())
+    {
+        Track t = tracks.at(index);
+        t.favorite = !t.favorite;
+        emit makeFavorite(t);
+    }
 }
