@@ -57,6 +57,7 @@ void PlayingWidget::play(const Track &track)
     ResourcesManager::getInstance()->modifyTrack(this->track);
     emit playingTrack(this->track);
     ui->pauseButton->setVisible(true);
+    ui->playButton->setVisible(false);
     ui->pauseButton->setFocus();
     ui->nextButton->setVisible(true);
     ui->previousButton->setVisible(true);
