@@ -28,6 +28,8 @@ This project was created with:
 * SQLite3 version: >=3.46.1
 * TagLib version: 2.0.2
 
+Requires `find` for automatic music searching.
+
 ## Setup
 
 ```
