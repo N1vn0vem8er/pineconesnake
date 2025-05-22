@@ -67,7 +67,7 @@ void PlayingWidget::diplayPostion(qint64 position)
 {
     qint64 tmp = position / 1000;
     ui->durationSlider->setValue(tmp);
-    ui->timePassedLabel->setText(QString("%1:%2:%3").arg((tmp / 60 / 60) % 60).arg((tmp / 60) % 60).arg(tmp));
+    ui->timePassedLabel->setText(QString("%1:%2:%3").arg((tmp / 60 / 60) % 60).arg((tmp / 60) % 60).arg(tmp % 60));
 }
 
 void PlayingWidget::positionChanged()
