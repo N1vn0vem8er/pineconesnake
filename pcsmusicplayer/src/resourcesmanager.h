@@ -28,6 +28,7 @@ public:
     Track getTrackById(int id);
     QStringList getAllPlaylistNames();
     void deletePlaylist(int id);
+    void removeFromPlaylist(int playlistId, int trackId);
     void clearDatabase();
 
 private:

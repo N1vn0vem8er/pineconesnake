@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->artistsTab, &ArtistsWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->playlistWidget, &PlaylistWidget::playlistSaved, ui->playlistsTab, &PlaylistsWidget::loadPlaylists);
     connect(ui->playlistsTab, &PlaylistsWidget::playlistPlay, ui->playlistWidget, &PlaylistWidget::loadPlaylist);
+    connect(ui->playlistsTab, &PlaylistsWidget::play, ui->playingWidget, &PlayingWidget::play);
     connect(ui->songsTab, &AllTracksWidget::makeFavorite, this, &MainWindow::makeFavorite);
     connect(ui->playingWidget, &PlayingWidget::playNext, ui->playlistWidget, &PlaylistWidget::playNext);
     connect(ui->playingWidget, &PlayingWidget::playPreviout, ui->playlistWidget, &PlaylistWidget::playPrevious);

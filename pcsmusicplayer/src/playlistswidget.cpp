@@ -14,6 +14,8 @@ PlaylistsWidget::PlaylistsWidget(QWidget *parent)
     connect(ui->pushButton, &QPushButton::clicked, this, &PlaylistsWidget::loadPlaylists);
     loadPlaylists();
     delegate = new PlaylistItem(ui->tableView);
+    connect(delegate, &PlaylistItem::playPressed, this, &PlaylistsWidget::playPressed);
+    connect(delegate, &PlaylistItem::removePressed, this, &PlaylistsWidget::removeFormPlaylist);
     ui->tableView->setItemDelegate(delegate);
 }
 
@@ -72,7 +74,10 @@ void PlaylistsWidget::playlistSelected(const QString &name)
 
 void PlaylistsWidget::playPressed(int index)
 {
-
+    if(index >= 0 && index < playlist.tracks.size())
+    {
+        emit play(playlist.tracks.at(index));
+    }
 }
 
 void PlaylistsWidget::addToPlaylistPressed(int index)
@@ -96,5 +101,15 @@ void PlaylistsWidget::deletePlaylist(const QString& name)
         Playlist playlist = rm->getPlaylistByName(name);
         rm->deletePlaylist(playlist.id);
         loadPlaylists();
+    }
+}
+
+void PlaylistsWidget::removeFormPlaylist(int index)
+{
+    if(index >= 0 && index < playlist.tracks.size())
+    {
+        Track t = playlist.tracks.at(index);
+        ResourcesManager::getInstance()->removeFromPlaylist(playlist.id, t.id);
+        playlistSelected(playlist.name);
     }
 }

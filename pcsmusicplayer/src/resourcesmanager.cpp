@@ -390,6 +390,19 @@ void ResourcesManager::deletePlaylist(int id)
     delete[] query;
 }
 
+void ResourcesManager::removeFromPlaylist(int playlistId, int trackId)
+{
+    char* err;
+    char* query;
+    asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i AND track_id = %i;", playlistId, trackId);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
 void ResourcesManager::clearDatabase()
 {
     char* err;

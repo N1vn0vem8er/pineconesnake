@@ -35,6 +35,7 @@ private slots:
     void addToPlaylistPressed(int index);
     void playPlaylist(const QString& name);
     void deletePlaylist(const QString &name);
+    void removeFormPlaylist(int index);
 
 signals:
     void play(const Track& track);
