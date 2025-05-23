@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "eventmanager.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    MainWindow w;
-    w.show();
+    EventManager* eventManager = new EventManager();
+    EventManager::connect(qApp, &QApplication::aboutToQuit, eventManager, [&]{delete eventManager;});
     return a.exec();
 }
