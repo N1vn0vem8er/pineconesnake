@@ -15,13 +15,15 @@ public:
         QString title;
         QString content;
         bool repeat = false;
-        QDate date();
+        QString date;
+        bool enabled;
     };
     struct RepeatedEvent{
         int id;
         QString title;
         QString content;
         int everySeconds;
+        bool enabled;
     };
 
 private:
