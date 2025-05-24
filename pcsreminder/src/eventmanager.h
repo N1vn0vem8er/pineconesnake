@@ -10,6 +10,19 @@ class EventManager : public QObject
 public:
     explicit EventManager(QObject *parent = nullptr);
     ~EventManager();
+    struct Event{
+        int id;
+        QString title;
+        QString content;
+        bool repeat = false;
+        QDate date();
+    };
+    struct RepeatedEvent{
+        int id;
+        QString title;
+        QString content;
+        int everySeconds;
+    };
 
 private:
     QSystemTrayIcon* icon = nullptr;

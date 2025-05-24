@@ -12,3 +12,22 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::refresh()
+{
+    if(layout!=nullptr)
+    {
+        delete layout;
+    }
+    layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
+}
+
+void MainWindow::addReminderPressed()
+{
+
+}
+
+void MainWindow::addRepeatingPressed()
+{
+
+}

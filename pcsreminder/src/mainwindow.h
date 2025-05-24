@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qboxlayout.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -24,9 +25,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QVBoxLayout* layout = nullptr;
+    QList<QWidget*> widgets;
 
 private slots:
-
+    void refresh();
+    void addReminderPressed();
+    void addRepeatingPressed();
 
 };
 #endif // MAINWINDOW_H
