@@ -10,15 +10,21 @@ CONFIG += c++17
 
 SOURCES += \
     eventmanager.cpp \
+    eventwidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    repeatedeventwidget.cpp
 
 HEADERS += \
     eventmanager.h \
-    mainwindow.h
+    eventwidget.h \
+    mainwindow.h \
+    repeatedeventwidget.h
 
 FORMS += \
-    mainwindow.ui
+    eventwidget.ui \
+    mainwindow.ui \
+    repeatedeventwidget.ui
 
 TRANSLATIONS += \
     pcsreminder_pl_PL.ts
