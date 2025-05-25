@@ -1,3 +1,4 @@
+#include "createeventdialog.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -6,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::addReminderPressed);
 }
 
 MainWindow::~MainWindow()
@@ -24,10 +26,17 @@ void MainWindow::refresh()
 
 void MainWindow::addReminderPressed()
 {
+    CreateEventDialog* dialog = new CreateEventDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+}
+
+void MainWindow::addReminder(const EventManager::Event &event)
+{
 
 }
 
-void MainWindow::addRepeatingPressed()
+void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
 {
 
 }

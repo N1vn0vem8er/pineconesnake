@@ -30,16 +30,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="addRepeatingButton">
-        <property name="text">
-         <string>Add repeating reminder</string>
-        </property>
-        <property name="icon">
-         <iconset theme="QIcon::ThemeIcon::ContactNew"/>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>

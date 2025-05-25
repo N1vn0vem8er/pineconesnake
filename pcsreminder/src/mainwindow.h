@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "eventmanager.h"
 #include "qboxlayout.h"
 #include <QMainWindow>
 
@@ -31,7 +32,8 @@ private:
 private slots:
     void refresh();
     void addReminderPressed();
-    void addRepeatingPressed();
+    void addReminder(const EventManager::Event& event);
+    void addRepeating(const EventManager::RepeatedEvent& event);
 
 };
 #endif // MAINWINDOW_H

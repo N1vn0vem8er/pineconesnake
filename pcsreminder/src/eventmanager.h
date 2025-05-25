@@ -11,14 +11,18 @@ public:
     explicit EventManager(QObject *parent = nullptr);
     ~EventManager();
     struct Event{
+        Event(){};
+        Event(int id, QString title, QString content, bool repeat, QString date, bool enabled) : id(id), title(title), content(content), repeat(repeat), date(date), enabled(enabled){}
         int id;
         QString title;
         QString content;
-        bool repeat = false;
+        bool repeat;
         QString date;
         bool enabled;
     };
     struct RepeatedEvent{
+        RepeatedEvent(){}
+        RepeatedEvent(int id, QString title, QString content, int everySeconds, bool enabled) : id(id), title(title), content(content), everySeconds(everySeconds), enabled(enabled){}
         int id;
         QString title;
         QString content;
