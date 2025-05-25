@@ -1,5 +1,6 @@
 #include "createeventdialog.h"
 #include "mainwindow.h"
+#include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -35,10 +36,12 @@ void MainWindow::addReminderPressed()
 
 void MainWindow::addReminder(const EventManager::Event &event)
 {
-
+    ResourcesManager::getInstance()->saveEvent(event);
+    refresh();
 }
 
 void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
 {
-
+    ResourcesManager::getInstance()->saveRepeating(event);
+    refresh();
 }

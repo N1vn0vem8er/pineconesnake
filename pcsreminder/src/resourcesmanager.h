@@ -1,6 +1,7 @@
 #ifndef RESOURCESMANAGER_H
 #define RESOURCESMANAGER_H
 
+#include "eventmanager.h"
 #include <mutex>
 #include <sqlite3.h>
 #include <QString>
@@ -13,6 +14,8 @@ public:
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager& operator=(const ResourcesManager&) = delete;
     void close();
+    void saveEvent(const EventManager::Event& event);
+    void saveRepeating(const EventManager::RepeatedEvent& event);
 private:
     ResourcesManager();
     ~ResourcesManager();

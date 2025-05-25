@@ -132,20 +132,6 @@
      <item row="4" column="1">
       <widget class="QDateTimeEdit" name="dateTimeEdit"/>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="repeatLabel">
-       <property name="text">
-        <string>Repeat</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QCheckBox" name="checkBox">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>

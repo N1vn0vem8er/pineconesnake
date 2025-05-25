@@ -28,7 +28,7 @@ void CreateEventDialog::okPressed()
         break;
     case 1:
     {
-        EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->checkBox->isChecked(), ui->dateTimeEdit->dateTime().toString(""), true);
+        EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->dateTimeEdit->dateTime().toString(""), true);
         emit addEvent(event);
     }
         break;
@@ -49,8 +49,6 @@ void CreateEventDialog::optionChanged(int index)
         ui->secondsLine->setVisible(true);
         ui->dateTimeLabel->setVisible(false);
         ui->dateTimeEdit->setVisible(false);
-        ui->repeatLabel->setVisible(false);
-        ui->checkBox->setVisible(false);
         break;
     case 1:
         ui->hoursLabel->setVisible(false);
@@ -62,8 +60,6 @@ void CreateEventDialog::optionChanged(int index)
         ui->secondsLine->setVisible(false);
         ui->dateTimeLabel->setVisible(true);
         ui->dateTimeEdit->setVisible(true);
-        ui->repeatLabel->setVisible(true);
-        ui->checkBox->setVisible(true);
         break;
     }
 }

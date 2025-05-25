@@ -16,7 +16,7 @@ ResourcesManager::ResourcesManager()
     if(rc == SQLITE_OK)
     {
         char* err;
-        rc = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(128), content VARCHAR(1000), repeat INTEGER, date TEXT, enabled INTEGER);", nullptr, nullptr, &err);
+        rc = sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS events (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(128), content VARCHAR(1000), date TEXT, enabled INTEGER);", nullptr, nullptr, &err);
         if(rc != SQLITE_OK)
         {
             printf("%s", err);
@@ -36,6 +36,36 @@ ResourcesManager::ResourcesManager()
 void ResourcesManager::close()
 {
     sqlite3_close(database);
+}
+
+void ResourcesManager::saveEvent(const EventManager::Event &event)
+{
+    char* err;
+    char* query;
+    asprintf(&query, "INSERT INTO events (title, content, date, enabled) VALUES ('%s', '%s', '%s', %i);", event.title.toStdString().c_str(),
+             event.content.toStdString().c_str(), event.date.toStdString().c_str(), event.enabled);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    delete[] query;
+}
+
+void ResourcesManager::saveRepeating(const EventManager::RepeatedEvent &event)
+{
+    char* err;
+    char* query;
+    asprintf(&query, "INSERT INTO repeated (title, content, repeat, date, enabled) VALUES ('%s', '%s', %i, %i);", event.title.toStdString().c_str(),
+             event.content.toStdString().c_str(), event.everySeconds, event.enabled);
+    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+        throw std::exception();
+    }
+    delete[] query;
 }
 
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)

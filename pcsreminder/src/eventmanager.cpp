@@ -1,6 +1,7 @@
 #include "eventmanager.h"
 #include "mainwindow.h"
 #include "qapplication.h"
+#include "resourcesmanager.h"
 
 #include <QMenu>
 
@@ -14,6 +15,7 @@ EventManager::EventManager(QObject *parent)
     connect(settingsAction, &QAction::triggered, this, &EventManager::openSettings);
     QAction* closeAction = menu->addAction(tr("Close"));
     connect(closeAction, &QAction::triggered, this, &EventManager::close);
+    connect(qApp, &QApplication::aboutToQuit, this, []{ResourcesManager::getInstance()->close();});
     icon->setContextMenu(menu);
     icon->show();
 }

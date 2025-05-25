@@ -12,11 +12,10 @@ public:
     ~EventManager();
     struct Event{
         Event(){};
-        Event(int id, QString title, QString content, bool repeat, QString date, bool enabled) : id(id), title(title), content(content), repeat(repeat), date(date), enabled(enabled){}
+        Event(int id, QString title, QString content, QString date, bool enabled) : id(id), title(title), content(content),  date(date), enabled(enabled){}
         int id;
         QString title;
         QString content;
-        bool repeat;
         QString date;
         bool enabled;
     };
