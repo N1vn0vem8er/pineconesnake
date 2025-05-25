@@ -14,14 +14,18 @@ SOURCES += \
     eventwidget.cpp \
     main.cpp \
     mainwindow.cpp \
-    repeatedeventwidget.cpp
+    repeatedeventwidget.cpp \
+    resourcesmanager.cpp \
+    settings.cpp
 
 HEADERS += \
     createeventdialog.h \
     eventmanager.h \
     eventwidget.h \
     mainwindow.h \
-    repeatedeventwidget.h
+    repeatedeventwidget.h \
+    resourcesmanager.h \
+    settings.h
 
 FORMS += \
     createeventdialog.ui \
@@ -33,6 +37,8 @@ TRANSLATIONS += \
     pcsreminder_pl_PL.ts
 CONFIG += lrelease
 CONFIG += embed_translations
+
+LIBS += -lsqlite3
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

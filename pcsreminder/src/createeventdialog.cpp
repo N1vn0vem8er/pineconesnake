@@ -23,11 +23,13 @@ void CreateEventDialog::okPressed()
     case 0:
     {
         EventManager::RepeatedEvent repeatedEvent(-1, ui->titleLine->text(), ui->descriptionLine->text(), (ui->hoursLine->text().toInt() * 3600 + ui->minutesLine->text().toInt() * 60 + ui->secondsLine->text().toInt() > 0? ui->secondsLine->text().toInt() : 1), true);
+        emit addRepeating(repeatedEvent);
     }
         break;
     case 1:
     {
         EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->checkBox->isChecked(), ui->dateTimeEdit->dateTime().toString(""), true);
+        emit addEvent(event);
     }
         break;
     }

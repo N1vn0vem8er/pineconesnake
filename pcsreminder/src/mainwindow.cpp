@@ -28,6 +28,8 @@ void MainWindow::addReminderPressed()
 {
     CreateEventDialog* dialog = new CreateEventDialog(this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &CreateEventDialog::addEvent, this, &MainWindow::addReminder);
+    connect(dialog, &CreateEventDialog::addRepeating, this, &MainWindow::addRepeating);
     dialog->show();
 }
 

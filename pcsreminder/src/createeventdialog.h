@@ -25,7 +25,7 @@ private slots:
 
 signals:
     void addEvent(const EventManager::Event& event);
-    void addRepeating(const EventManager::Event& event);
+    void addRepeating(const EventManager::RepeatedEvent& event);
 };
 
 #endif // CREATEEVENTDIALOG_H
