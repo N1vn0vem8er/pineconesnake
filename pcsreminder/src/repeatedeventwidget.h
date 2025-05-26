@@ -15,7 +15,7 @@ class RepeatedEventWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit RepeatedEventWidget(EventManager::RepeatedEvent &event, QWidget *parent = nullptr);
+    explicit RepeatedEventWidget(const EventManager::RepeatedEvent &event, QWidget *parent = nullptr);
     ~RepeatedEventWidget();
 
 private:

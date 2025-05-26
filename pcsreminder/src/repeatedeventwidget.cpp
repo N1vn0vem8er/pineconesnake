@@ -1,7 +1,7 @@
 #include "repeatedeventwidget.h"
 #include "ui_repeatedeventwidget.h"
 
-RepeatedEventWidget::RepeatedEventWidget(EventManager::RepeatedEvent &event, QWidget *parent)
+RepeatedEventWidget::RepeatedEventWidget(const EventManager::RepeatedEvent &event, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::RepeatedEventWidget)
 {

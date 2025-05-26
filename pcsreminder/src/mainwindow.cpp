@@ -1,5 +1,6 @@
 #include "createeventdialog.h"
 #include "mainwindow.h"
+#include "repeatedeventwidget.h"
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 
@@ -9,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::addReminderPressed);
+    refresh();
 }
 
 MainWindow::~MainWindow()
@@ -23,6 +25,16 @@ void MainWindow::refresh()
         delete layout;
     }
     layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
+    ResourcesManager* rm = ResourcesManager::getInstance();
+    events = rm->getAllEvents();
+    repeatedEvents = rm->getAllRepeating();
+    for(const auto& i : repeatedEvents)
+    {
+        RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
+        layout->addWidget(widget);
+        widgets.append(widget);
+    }
+    ui->scrollAreaWidgetContents->setLayout(layout);
 }
 
 void MainWindow::addReminderPressed()

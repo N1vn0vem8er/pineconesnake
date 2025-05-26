@@ -28,6 +28,8 @@ private:
     Ui::MainWindow *ui;
     QVBoxLayout* layout = nullptr;
     QList<QWidget*> widgets;
+    QList<EventManager::RepeatedEvent> repeatedEvents;
+    QList<EventManager::Event> events;
 
 private slots:
     void refresh();

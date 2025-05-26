@@ -13,86 +13,97 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="titleLabel">
-         <property name="text">
-          <string>title</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="titleLabel">
+           <property name="text">
+            <string>title</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="repearEveryLabel">
+           <property name="text">
+            <string>repear every</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="enabledLabel">
+           <property name="text">
+            <string>enabled</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QLabel" name="repearEveryLabel">
+        <widget class="QLabel" name="contentLabel">
          <property name="text">
-          <string>repear every</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="enabledLabel">
-         <property name="text">
-          <string>enabled</string>
+          <string>description</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="contentLabel">
-       <property name="text">
-        <string>description</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="enableButton">
+         <property name="text">
+          <string>Enable</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::AppointmentNew"/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="disableButton">
+         <property name="text">
+          <string>Disable</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="editButton">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::DocumentProperties"/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="deleteButton">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+         <property name="icon">
+          <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QPushButton" name="enableButton">
-       <property name="text">
-        <string>Enable</string>
-       </property>
-       <property name="icon">
-        <iconset theme="QIcon::ThemeIcon::AppointmentNew"/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="disableButton">
-       <property name="text">
-        <string>Disable</string>
-       </property>
-       <property name="icon">
-        <iconset theme="QIcon::ThemeIcon::ListRemove"/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="editButton">
-       <property name="text">
-        <string>Edit</string>
-       </property>
-       <property name="icon">
-        <iconset theme="QIcon::ThemeIcon::DocumentProperties"/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="deleteButton">
-       <property name="text">
-        <string>Delete</string>
-       </property>
-       <property name="icon">
-        <iconset theme="QIcon::ThemeIcon::EditDelete"/>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

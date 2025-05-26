@@ -57,7 +57,7 @@ void ResourcesManager::saveRepeating(const EventManager::RepeatedEvent &event)
 {
     char* err;
     char* query;
-    asprintf(&query, "INSERT INTO repeated (title, content, repeat, date, enabled) VALUES ('%s', '%s', %i, %i);", event.title.toStdString().c_str(),
+    asprintf(&query, "INSERT INTO repeated (title, content, everySeconds, enabled) VALUES ('%s', '%s', %i, %i);", event.title.toStdString().c_str(),
              event.content.toStdString().c_str(), event.everySeconds, event.enabled);
     if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
     {
@@ -68,9 +68,49 @@ void ResourcesManager::saveRepeating(const EventManager::RepeatedEvent &event)
     delete[] query;
 }
 
+QList<EventManager::RepeatedEvent> ResourcesManager::getAllRepeating()
+{
+    QList<EventManager::RepeatedEvent> ret;
+    std::vector<std::vector<QString>> r;
+    char* err;
+    if(sqlite3_exec(database, "SELECT * FROM repeated;", callback, &r, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    for(const auto& i : r)
+    {
+        ret.append(EventManager::RepeatedEvent(i[0].toInt(), i[1], i[2], i[3].toInt(), i[4].toInt()));
+    }
+    return ret;
+}
+
+QList<EventManager::Event> ResourcesManager::getAllEvents()
+{
+    QList<EventManager::Event> ret;
+    std::vector<std::vector<QString>> r;
+    char* err;
+    if(sqlite3_exec(database, "SELECT * FROM events;", callback, &r, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    for(const auto& i : r)
+    {
+        ret.append(EventManager::Event(i[0].toInt(), i[1], i[2], i[3], i[4].toInt()));
+    }
+    return ret;
+}
+
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)
 {
-
+    std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);
+    std::vector<QString> row;
+    for (int i = 0; i < argc; i++) {
+        row.push_back(argv[i] ? argv[i] : "NULL");
+    }
+    results->push_back(row);
+    return 0;
 }
 
 ResourcesManager::~ResourcesManager()
