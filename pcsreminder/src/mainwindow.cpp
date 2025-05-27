@@ -28,12 +28,13 @@ void MainWindow::refresh()
     ResourcesManager* rm = ResourcesManager::getInstance();
     events = rm->getAllEvents();
     repeatedEvents = rm->getAllRepeating();
-    for(const auto& i : repeatedEvents)
+    for(const auto& i : std::as_const(repeatedEvents))
     {
         RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
         layout->addWidget(widget);
         widgets.append(widget);
     }
+    layout->addStretch();
     ui->scrollAreaWidgetContents->setLayout(layout);
 }
 
@@ -50,10 +51,12 @@ void MainWindow::addReminder(const EventManager::Event &event)
 {
     ResourcesManager::getInstance()->saveEvent(event);
     refresh();
+    emit requestRefresh();
 }
 
 void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
 {
     ResourcesManager::getInstance()->saveRepeating(event);
     refresh();
+    emit requestRefresh();
 }

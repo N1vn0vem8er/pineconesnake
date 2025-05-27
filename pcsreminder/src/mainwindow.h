@@ -37,5 +37,8 @@ private slots:
     void addReminder(const EventManager::Event& event);
     void addRepeating(const EventManager::RepeatedEvent& event);
 
+signals:
+    void requestRefresh();
+
 };
 #endif // MAINWINDOW_H

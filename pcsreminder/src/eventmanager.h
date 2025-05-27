@@ -1,6 +1,7 @@
 #ifndef EVENTMANAGER_H
 #define EVENTMANAGER_H
 
+#include <QMap>
 #include <QObject>
 #include <QSystemTrayIcon>
 
@@ -32,10 +33,15 @@ public:
 private:
     QSystemTrayIcon* icon = nullptr;
     QMenu* menu = nullptr;
+    QTimer* timer = nullptr;
+    QList<QPair<RepeatedEvent, int>> repeatedEvents;
+    QList<Event> events;
 
 private slots:
     void close();
     void openSettings();
+    void checkEvents();
+    void refresh();
 
 signals:
 };
