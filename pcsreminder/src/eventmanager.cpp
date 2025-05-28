@@ -3,6 +3,7 @@
 #include "qapplication.h"
 #include "resourcesmanager.h"
 
+#include <QDateTime>
 #include <QMenu>
 #include <QTimer>
 
@@ -40,6 +41,7 @@ void EventManager::openSettings()
 {
     MainWindow* w = new MainWindow();
     w->setAttribute(Qt::WA_DeleteOnClose);
+    connect(w, &MainWindow::requestRefresh, this, &EventManager::refresh);
     w->show();
 }
 
@@ -51,6 +53,13 @@ void EventManager::checkEvents()
         if(i.second <= 0)
         {
             i.second = i.first.everySeconds;
+        }
+    }
+    for(const auto& i : std::as_const(events))
+    {
+        if(QDateTime::currentDateTime().toSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
+        {
+
         }
     }
 }

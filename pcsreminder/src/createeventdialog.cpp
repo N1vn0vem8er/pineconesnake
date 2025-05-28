@@ -28,7 +28,7 @@ void CreateEventDialog::okPressed()
         break;
     case 1:
     {
-        EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->dateTimeEdit->dateTime().toString(""), true);
+        EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd HH:mm:ss"), true);
         emit addEvent(event);
     }
         break;
