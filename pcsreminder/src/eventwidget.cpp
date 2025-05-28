@@ -1,4 +1,5 @@
 #include "eventwidget.h"
+#include "editeventdialog.h"
 #include "ui_eventwidget.h"
 
 #include <QMessageBox>
@@ -32,7 +33,9 @@ void EventWidget::refresh()
 
 void EventWidget::editPressed()
 {
-
+    EditEventDialog* dialog = new EditEventDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void EventWidget::deletePressed()

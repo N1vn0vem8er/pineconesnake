@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     createeventdialog.cpp \
+    editeventdialog.cpp \
     eventmanager.cpp \
     eventwidget.cpp \
     main.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     createeventdialog.h \
+    editeventdialog.h \
     eventmanager.h \
     eventwidget.h \
     mainwindow.h \
@@ -29,6 +31,7 @@ HEADERS += \
 
 FORMS += \
     createeventdialog.ui \
+    editeventdialog.ui \
     eventwidget.ui \
     mainwindow.ui \
     repeatedeventwidget.ui

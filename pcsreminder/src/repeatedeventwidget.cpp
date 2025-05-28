@@ -1,4 +1,5 @@
 #include "repeatedeventwidget.h"
+#include "editeventdialog.h"
 #include "resourcesmanager.h"
 #include "ui_repeatedeventwidget.h"
 
@@ -32,7 +33,9 @@ void RepeatedEventWidget::refresh()
 
 void RepeatedEventWidget::editPressed()
 {
-
+    EditEventDialog* dialog = new EditEventDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
 
 void RepeatedEventWidget::deletePressed()
