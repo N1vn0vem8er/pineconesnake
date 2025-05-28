@@ -1,5 +1,6 @@
 #include "createeventdialog.h"
 #include "mainwindow.h"
+#include "eventwidget.h"
 #include "repeatedeventwidget.h"
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
@@ -31,6 +32,12 @@ void MainWindow::refresh()
     for(const auto& i : std::as_const(repeatedEvents))
     {
         RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
+        layout->addWidget(widget);
+        widgets.append(widget);
+    }
+    for(const auto& i : std::as_const(events))
+    {
+        EventWidget* widget = new EventWidget(i, this);
         layout->addWidget(widget);
         widgets.append(widget);
     }

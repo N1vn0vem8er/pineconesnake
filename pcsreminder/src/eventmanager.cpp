@@ -52,6 +52,7 @@ void EventManager::checkEvents()
         i.second--;
         if(i.second <= 0)
         {
+            system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
             i.second = i.first.everySeconds;
         }
     }
@@ -59,7 +60,7 @@ void EventManager::checkEvents()
     {
         if(QDateTime::currentDateTime().toSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
         {
-
+            system(QString("notify-send \"%1\" \"%2\"").arg(i.title, i.content).toStdString().c_str());
         }
     }
 }

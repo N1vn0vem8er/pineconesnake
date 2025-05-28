@@ -1,7 +1,7 @@
 #include "eventwidget.h"
 #include "ui_eventwidget.h"
 
-EventWidget::EventWidget(EventManager::Event &event, QWidget *parent)
+EventWidget::EventWidget(const EventManager::Event &event, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::EventWidget)
 {

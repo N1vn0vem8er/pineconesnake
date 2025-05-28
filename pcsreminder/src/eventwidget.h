@@ -13,7 +13,7 @@ class EventWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit EventWidget(EventManager::Event& event ,QWidget *parent = nullptr);
+    explicit EventWidget(const EventManager::Event& event ,QWidget *parent = nullptr);
     ~EventWidget();
 
 private:
