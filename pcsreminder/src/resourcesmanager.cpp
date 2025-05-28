@@ -102,6 +102,34 @@ QList<EventManager::Event> ResourcesManager::getAllEvents()
     return ret;
 }
 
+void ResourcesManager::deleteRepeating(const EventManager::RepeatedEvent &event)
+{
+    std::vector<std::vector<QString>> msgs;
+    char* query;
+    asprintf(&query, "DELETE FROM repeated WHERE id = %i;", event.id);
+    char* err;
+    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
+void ResourcesManager::deleteEvent(const EventManager::Event &event)
+{
+    std::vector<std::vector<QString>> msgs;
+    char* query;
+    asprintf(&query, "DELETE FROM events WHERE id = %i;", event.id);
+    char* err;
+    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+    delete[] query;
+}
+
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)
 {
     std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);

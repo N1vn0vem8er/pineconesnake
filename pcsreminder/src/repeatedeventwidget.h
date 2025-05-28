@@ -22,6 +22,13 @@ private:
     Ui::RepeatedEventWidget *ui;
     EventManager::RepeatedEvent event;
     void refresh();
+
+private slots:
+    void editPressed();
+    void deletePressed();
+
+signals:
+    void requestRefresh();
 };
 
 #endif // REPEATEDEVENTWIDGET_H

@@ -32,12 +32,16 @@ void MainWindow::refresh()
     for(const auto& i : std::as_const(repeatedEvents))
     {
         RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
+        connect(widget, &RepeatedEventWidget::requestRefresh, this, &MainWindow::refresh);
+        connect(widget, &RepeatedEventWidget::requestRefresh, this, [&]{emit requestRefresh();});
         layout->addWidget(widget);
         widgets.append(widget);
     }
     for(const auto& i : std::as_const(events))
     {
         EventWidget* widget = new EventWidget(i, this);
+        connect(widget, &EventWidget::requestRefresh, this, &MainWindow::refresh);
+        connect(widget, &EventWidget::requestRefresh, this, [&]{emit requestRefresh();});
         layout->addWidget(widget);
         widgets.append(widget);
     }

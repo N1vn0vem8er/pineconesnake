@@ -20,6 +20,13 @@ private:
     Ui::EventWidget *ui;
     EventManager::Event event;
     void refresh();
+
+private slots:
+    void editPressed();
+    void deletePressed();
+
+signals:
+    void requestRefresh();
 };
 
 #endif // EVENTWIDGET_H

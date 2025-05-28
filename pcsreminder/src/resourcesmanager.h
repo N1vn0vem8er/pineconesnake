@@ -18,6 +18,8 @@ public:
     void saveRepeating(const EventManager::RepeatedEvent& event);
     QList<EventManager::RepeatedEvent> getAllRepeating();
     QList<EventManager::Event> getAllEvents();
+    void deleteRepeating(const EventManager::RepeatedEvent& event);
+    void deleteEvent(const EventManager::Event& event);
 private:
     ResourcesManager();
     ~ResourcesManager();
