@@ -1,6 +1,8 @@
 #include "createeventdialog.h"
 #include "ui_createeventdialog.h"
 
+#include <QMessageBox>
+
 CreateEventDialog::CreateEventDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CreateEventDialog)
@@ -18,17 +20,31 @@ CreateEventDialog::~CreateEventDialog()
 
 void CreateEventDialog::okPressed()
 {
+    const QString title = ui->titleLine->text();
+    const QString content = ui->descriptionLine->text();
+    const QString date = ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd HH:mm:ss");
+    const int seconds = ui->hoursLine->text().toInt() * 3600 + ui->minutesLine->text().toInt() * 60 + ui->secondsLine->text().toInt();
+    if(title.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Title connot be empty"));
+        return;
+    }
     switch(ui->comboBox->currentIndex())
     {
     case 0:
     {
-        EventManager::RepeatedEvent repeatedEvent(-1, ui->titleLine->text(), ui->descriptionLine->text(), (ui->hoursLine->text().toInt() * 3600 + ui->minutesLine->text().toInt() * 60 + ui->secondsLine->text().toInt() > 0? ui->secondsLine->text().toInt() : 1), true);
+        if(seconds < 1)
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
+            return;
+        }
+        EventManager::RepeatedEvent repeatedEvent(-1, title, content, seconds, true);
         emit addRepeating(repeatedEvent);
     }
         break;
     case 1:
     {
-        EventManager::Event event(-1, ui->titleLine->text(), ui->descriptionLine->text(), ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd HH:mm:ss"), true);
+        EventManager::Event event(-1, title, content, date, true);
         emit addEvent(event);
     }
         break;

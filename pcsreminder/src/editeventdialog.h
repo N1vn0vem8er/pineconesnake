@@ -17,6 +17,9 @@ public:
 
 private:
     Ui::EditEventDialog *ui;
+
+private slots:
+    void submit();
 };
 
 #endif // EDITEVENTDIALOG_H
