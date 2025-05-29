@@ -24,6 +24,8 @@ void MainWindow::refresh()
     if(layout!=nullptr)
     {
         delete layout;
+        for(const auto& i : std::as_const(widgets)) delete i;
+        widgets.clear();
     }
     layout = new QVBoxLayout(ui->scrollAreaWidgetContents);
     ResourcesManager* rm = ResourcesManager::getInstance();

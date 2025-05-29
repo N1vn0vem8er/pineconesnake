@@ -41,31 +41,25 @@ void ResourcesManager::close()
 void ResourcesManager::saveEvent(const EventManager::Event &event)
 {
     char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO events (title, content, date, enabled) VALUES ('%s', '%s', '%s', %i);", event.title.toStdString().c_str(),
-             event.content.toStdString().c_str(), event.date.toStdString().c_str(), event.enabled);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, QString("INSERT INTO events (title, content, date, enabled) VALUES ('%1', '%2', '%3', %4);").
+                               arg(event.title, event.content, event.date, QString::number(event.enabled)).toStdString().c_str(), callback, nullptr, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
         throw std::exception();
     }
-    delete[] query;
 }
 
 void ResourcesManager::saveRepeating(const EventManager::RepeatedEvent &event)
 {
     char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO repeated (title, content, everySeconds, enabled) VALUES ('%s', '%s', %i, %i);", event.title.toStdString().c_str(),
-             event.content.toStdString().c_str(), event.everySeconds, event.enabled);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, QString("INSERT INTO repeated (title, content, everySeconds, enabled) VALUES ('%1', '%2', '%3', %4);").
+                               arg(event.title, event.content, QString::number(event.everySeconds), QString::number(event.enabled)).toStdString().c_str(), callback, nullptr, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
         throw std::exception();
     }
-    delete[] query;
 }
 
 QList<EventManager::RepeatedEvent> ResourcesManager::getAllRepeating()
@@ -105,29 +99,47 @@ QList<EventManager::Event> ResourcesManager::getAllEvents()
 void ResourcesManager::deleteRepeating(const EventManager::RepeatedEvent &event)
 {
     std::vector<std::vector<QString>> msgs;
-    char* query;
-    asprintf(&query, "DELETE FROM repeated WHERE id = %i;", event.id);
     char* err;
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, QString("DELETE FROM repeated WHERE id = %1;").arg(QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
     }
-    delete[] query;
 }
 
 void ResourcesManager::deleteEvent(const EventManager::Event &event)
 {
     std::vector<std::vector<QString>> msgs;
-    char* query;
-    asprintf(&query, "DELETE FROM events WHERE id = %i;", event.id);
     char* err;
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, QString("DELETE FROM events WHERE id = %1;").arg(QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
     {
         printf("%s", err);
         sqlite3_free(err);
     }
-    delete[] query;
+}
+
+void ResourcesManager::modifyEvent(const EventManager::Event &event)
+{
+    std::vector<std::vector<QString>> msgs;
+    char* err;
+    if(sqlite3_exec(database, QString("UPDATE events SET title = \'%1\', content = \'%2\', date = %3, enabled = %4 WHERE id = %5;")
+                                   .arg(event.title, event.content, event.date, QString::number(event.enabled), QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
+}
+
+void ResourcesManager::modifyRepeating(const EventManager::RepeatedEvent &event)
+{
+    std::vector<std::vector<QString>> msgs;
+    char* err;
+    if(sqlite3_exec(database, QString("UPDATE repeated SET title = \'%1\', content = \'%2\', everySeconds = %3, enabled = %4 WHERE id = %5;")
+                                   .arg(event.title, event.content, QString::number(event.everySeconds), QString::number(event.enabled), QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    {
+        printf("%s", err);
+        sqlite3_free(err);
+    }
 }
 
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)
