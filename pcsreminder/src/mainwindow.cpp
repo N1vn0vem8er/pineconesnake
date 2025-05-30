@@ -73,3 +73,17 @@ void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
     refresh();
     emit requestRefresh();
 }
+
+void MainWindow::editReminder(const EventManager::Event &event)
+{
+    ResourcesManager::getInstance()->modifyEvent(event);
+    refresh();
+    emit requestRefresh();
+}
+
+void MainWindow::editRepeating(const EventManager::RepeatedEvent &event)
+{
+    ResourcesManager::getInstance()->modifyRepeating(event);
+    refresh();
+    emit requestRefresh();
+}
