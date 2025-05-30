@@ -12,6 +12,8 @@ RepeatedEventWidget::RepeatedEventWidget(const EventManager::RepeatedEvent &even
     ui->setupUi(this);
     connect(ui->deleteButton, &QPushButton::clicked, this, &RepeatedEventWidget::deletePressed);
     connect(ui->editButton, &QPushButton::clicked, this, &RepeatedEventWidget::editPressed);
+    connect(ui->enableButton, &QPushButton::clicked, this, &RepeatedEventWidget::enable);
+    connect(ui->disableButton, &QPushButton::clicked, this, &RepeatedEventWidget::disable);
     this->event = event;
     refresh();
 }
@@ -53,5 +55,25 @@ void RepeatedEventWidget::editRepeating(const EventManager::RepeatedEvent &event
 {
     ResourcesManager::getInstance()->modifyRepeating(event);
     refresh();
+    emit requestRefresh();
+}
+
+void RepeatedEventWidget::enable()
+{
+    event.enabled = true;
+    ResourcesManager::getInstance()->modifyRepeating(event);
+    ui->enableButton->setVisible(false);
+    ui->disableButton->setVisible(true);
+    ui->disableButton->setFocus();
+    emit requestRefresh();
+}
+
+void RepeatedEventWidget::disable()
+{
+    event.enabled = false;
+    ResourcesManager::getInstance()->modifyRepeating(event);
+    ui->enableButton->setVisible(true);
+    ui->disableButton->setVisible(false);
+    ui->enableButton->setFocus();
     emit requestRefresh();
 }

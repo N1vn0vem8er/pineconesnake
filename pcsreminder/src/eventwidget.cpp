@@ -12,6 +12,8 @@ EventWidget::EventWidget(const EventManager::Event &event, QWidget *parent)
     ui->setupUi(this);
     connect(ui->deleteButton, &QPushButton::clicked, this, &EventWidget::deletePressed);
     connect(ui->editButton, &QPushButton::clicked, this, &EventWidget::editPressed);
+    connect(ui->enableButton, &QPushButton::clicked, this, &EventWidget::enable);
+    connect(ui->disableButton, &QPushButton::clicked, this, &EventWidget::disable);
     this->event = event;
     refresh();
 }
@@ -53,5 +55,25 @@ void EventWidget::editReminder(const EventManager::Event &event)
 {
     ResourcesManager::getInstance()->modifyEvent(event);
     refresh();
+    emit requestRefresh();
+}
+
+void EventWidget::enable()
+{
+    event.enabled = true;
+    ResourcesManager::getInstance()->modifyEvent(event);
+    ui->enableButton->setVisible(false);
+    ui->disableButton->setVisible(true);
+    ui->disableButton->setFocus();
+    emit requestRefresh();
+}
+
+void EventWidget::disable()
+{
+    event.enabled = false;
+    ResourcesManager::getInstance()->modifyEvent(event);
+    ui->enableButton->setVisible(true);
+    ui->disableButton->setVisible(false);
+    ui->enableButton->setFocus();
     emit requestRefresh();
 }

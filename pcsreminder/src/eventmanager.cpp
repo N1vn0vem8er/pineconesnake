@@ -49,16 +49,19 @@ void EventManager::checkEvents()
 {
     for(auto& i : repeatedEvents)
     {
-        i.second--;
-        if(i.second <= 0)
+        if(i.first.enabled)
         {
-            system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
-            i.second = i.first.everySeconds;
+            i.second--;
+            if(i.second <= 0)
+            {
+                system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
+                i.second = i.first.everySeconds;
+            }
         }
     }
     for(const auto& i : std::as_const(events))
     {
-        if(QDateTime::currentSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
+        if(i.enabled && QDateTime::currentSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
         {
             system(QString("notify-send \"%1\" \"%2\"").arg(i.title, i.content).toStdString().c_str());
         }
