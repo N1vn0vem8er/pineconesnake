@@ -39,6 +39,7 @@ EditEventDialog::~EditEventDialog()
 void EditEventDialog::init()
 {
     connect(this, &QDialog::accepted, this, &EditEventDialog::submit);
+    optionChanged(type);
 }
 
 void EditEventDialog::submit()
@@ -52,18 +53,47 @@ void EditEventDialog::submit()
         QMessageBox::critical(this, tr("Error"), tr("Title connot be empty"));
         return;
     }
-    if(seconds < 1)
-    {
-        QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
-        return;
-    }
-    switch(ui->comboBox->currentIndex())
+    switch(type)
     {
     case 0:
+        if(seconds < 1)
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
+            return;
+        }
         emit editRepeating(EventManager::RepeatedEvent(repeated.id, title, content, seconds, repeated.enabled));
         break;
     case 1:
         emit editEvent(EventManager::Event(event.id, title, content, date, event.enabled));
+        break;
+    }
+}
+
+void EditEventDialog::optionChanged(int index)
+{
+    switch(index)
+    {
+    case 0:
+        ui->hoursLabel->setVisible(true);
+        ui->minutesLabel->setVisible(true);
+        ui->secondsLabel->setVisible(true);
+        ui->repeatEveryLabel->setVisible(true);
+        ui->hoursLine->setVisible(true);
+        ui->minutesLine->setVisible(true);
+        ui->secondsLine->setVisible(true);
+        ui->dateTimeLabel->setVisible(false);
+        ui->dateTimeEdit->setVisible(false);
+        break;
+    case 1:
+        ui->hoursLabel->setVisible(false);
+        ui->minutesLabel->setVisible(false);
+        ui->secondsLabel->setVisible(false);
+        ui->repeatEveryLabel->setVisible(false);
+        ui->hoursLine->setVisible(false);
+        ui->minutesLine->setVisible(false);
+        ui->secondsLine->setVisible(false);
+        ui->dateTimeLabel->setVisible(true);
+        ui->dateTimeEdit->setVisible(true);
         break;
     }
 }

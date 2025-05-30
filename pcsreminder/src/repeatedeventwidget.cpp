@@ -33,8 +33,9 @@ void RepeatedEventWidget::refresh()
 
 void RepeatedEventWidget::editPressed()
 {
-    EditEventDialog* dialog = new EditEventDialog(this);
+    EditEventDialog* dialog = new EditEventDialog(event, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &EditEventDialog::editRepeating, this, &RepeatedEventWidget::editRepeating);
     dialog->show();
 }
 
@@ -46,4 +47,11 @@ void RepeatedEventWidget::deletePressed()
         ResourcesManager::getInstance()->deleteRepeating(event);
         emit requestRefresh();
     }
+}
+
+void RepeatedEventWidget::editRepeating(const EventManager::RepeatedEvent &event)
+{
+    ResourcesManager::getInstance()->modifyRepeating(event);
+    refresh();
+    emit requestRefresh();
 }

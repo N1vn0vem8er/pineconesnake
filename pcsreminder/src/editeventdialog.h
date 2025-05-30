@@ -26,6 +26,7 @@ private:
 
 private slots:
     void submit();
+    void optionChanged(int index);
 
 signals:
     void editEvent(const EventManager::Event& event);

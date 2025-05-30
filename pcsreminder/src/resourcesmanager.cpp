@@ -122,7 +122,7 @@ void ResourcesManager::modifyEvent(const EventManager::Event &event)
 {
     std::vector<std::vector<QString>> msgs;
     char* err;
-    if(sqlite3_exec(database, QString("UPDATE events SET title = \'%1\', content = \'%2\', date = %3, enabled = %4 WHERE id = %5;")
+    if(sqlite3_exec(database, QString("UPDATE events SET title = \'%1\', content = \'%2\', date = \'%3\', enabled = %4 WHERE id = %5;")
                                    .arg(event.title, event.content, event.date, QString::number(event.enabled), QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
     {
         printf("%s", err);

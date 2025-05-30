@@ -58,7 +58,7 @@ void EventManager::checkEvents()
     }
     for(const auto& i : std::as_const(events))
     {
-        if(QDateTime::currentDateTime().toSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
+        if(QDateTime::currentSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
         {
             system(QString("notify-send \"%1\" \"%2\"").arg(i.title, i.content).toStdString().c_str());
         }

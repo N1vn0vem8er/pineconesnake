@@ -33,8 +33,9 @@ void EventWidget::refresh()
 
 void EventWidget::editPressed()
 {
-    EditEventDialog* dialog = new EditEventDialog(this);
+    EditEventDialog* dialog = new EditEventDialog(event, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, &EditEventDialog::editEvent, this, &EventWidget::editReminder);
     dialog->show();
 }
 
@@ -46,4 +47,11 @@ void EventWidget::deletePressed()
         ResourcesManager::getInstance()->deleteEvent(event);
         emit requestRefresh();
     }
+}
+
+void EventWidget::editReminder(const EventManager::Event &event)
+{
+    ResourcesManager::getInstance()->modifyEvent(event);
+    refresh();
+    emit requestRefresh();
 }

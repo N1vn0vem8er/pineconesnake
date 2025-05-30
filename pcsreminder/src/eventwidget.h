@@ -24,6 +24,7 @@ private:
 private slots:
     void editPressed();
     void deletePressed();
+    void editReminder(const EventManager::Event &event);
 
 signals:
     void requestRefresh();
