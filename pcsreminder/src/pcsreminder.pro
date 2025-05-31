@@ -13,6 +13,7 @@ SOURCES += \
     editeventdialog.cpp \
     eventmanager.cpp \
     eventwidget.cpp \
+    fullscreendialog.cpp \
     main.cpp \
     mainwindow.cpp \
     repeatedeventwidget.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     editeventdialog.h \
     eventmanager.h \
     eventwidget.h \
+    fullscreendialog.h \
     mainwindow.h \
     repeatedeventwidget.h \
     resourcesmanager.h \
@@ -33,6 +35,7 @@ FORMS += \
     createeventdialog.ui \
     editeventdialog.ui \
     eventwidget.ui \
+    fullscreendialog.ui \
     mainwindow.ui \
     repeatedeventwidget.ui
 
