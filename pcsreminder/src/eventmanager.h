@@ -13,21 +13,23 @@ public:
     ~EventManager();
     struct Event{
         Event(){};
-        Event(int id, QString title, QString content, QString date, bool enabled) : id(id), title(title), content(content),  date(date), enabled(enabled){}
+        Event(int id, QString title, QString content, QString date, bool enabled, int type) : id(id), title(title), content(content),  date(date), enabled(enabled), type(type){}
         int id;
         QString title;
         QString content;
         QString date;
         bool enabled;
+        int type;
     };
     struct RepeatedEvent{
         RepeatedEvent(){}
-        RepeatedEvent(int id, QString title, QString content, int everySeconds, bool enabled) : id(id), title(title), content(content), everySeconds(everySeconds), enabled(enabled){}
+        RepeatedEvent(int id, QString title, QString content, int everySeconds, bool enabled, int type) : id(id), title(title), content(content), everySeconds(everySeconds), enabled(enabled), type(type){}
         int id;
         QString title;
         QString content;
         int everySeconds;
         bool enabled;
+        int type;
     };
 
 private:

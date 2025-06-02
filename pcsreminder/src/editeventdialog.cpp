@@ -61,10 +61,10 @@ void EditEventDialog::submit()
             QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
             return;
         }
-        emit editRepeating(EventManager::RepeatedEvent(repeated.id, title, content, seconds, repeated.enabled));
+        emit editRepeating(EventManager::RepeatedEvent(repeated.id, title, content, seconds, repeated.enabled, 0));
         break;
     case 1:
-        emit editEvent(EventManager::Event(event.id, title, content, date, event.enabled));
+        emit editEvent(EventManager::Event(event.id, title, content, date, event.enabled, 0));
         break;
     }
 }

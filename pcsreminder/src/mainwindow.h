@@ -18,11 +18,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    enum ReminderOptions{
-        Notification,
-        Window,
-        Fullscreen
-    };
 
 private:
     Ui::MainWindow *ui;
