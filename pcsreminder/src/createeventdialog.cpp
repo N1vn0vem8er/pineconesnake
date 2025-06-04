@@ -38,13 +38,13 @@ void CreateEventDialog::okPressed()
             QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
             return;
         }
-        EventManager::RepeatedEvent repeatedEvent(-1, title, content, seconds, true, 0);
+        EventManager::RepeatedEvent repeatedEvent(-1, title, content, seconds, true, ui->showAsComboBox->currentIndex());
         emit addRepeating(repeatedEvent);
     }
         break;
     case 1:
     {
-        EventManager::Event event(-1, title, content, date, true, 0);
+        EventManager::Event event(-1, title, content, date, true, ui->showAsComboBox->currentIndex());
         emit addEvent(event);
     }
         break;

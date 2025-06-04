@@ -1,4 +1,5 @@
 #include "eventmanager.h"
+#include "fullscreendialog.h"
 #include "mainwindow.h"
 #include "qapplication.h"
 #include "resourcesmanager.h"
@@ -54,7 +55,14 @@ void EventManager::checkEvents()
             i.second--;
             if(i.second <= 0)
             {
-                system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
+                if(i.first.type == 0)
+                    system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
+                else
+                {
+                    FullScreenDialog* dialog = new FullScreenDialog(i.first);
+                    dialog->setAttribute(Qt::WA_DeleteOnClose);
+                    dialog->showFullScreen();
+                }
                 i.second = i.first.everySeconds;
             }
         }
@@ -63,7 +71,14 @@ void EventManager::checkEvents()
     {
         if(i.enabled && QDateTime::currentSecsSinceEpoch() - QDateTime::fromString(i.date, "yyyy-MM-dd HH:mm:ss").toSecsSinceEpoch() == 0)
         {
-            system(QString("notify-send \"%1\" \"%2\"").arg(i.title, i.content).toStdString().c_str());
+            if(i.type == 0)
+                system(QString("notify-send \"%1\" \"%2\"").arg(i.title, i.content).toStdString().c_str());
+            else if(i.type == 1)
+            {
+                FullScreenDialog* dialog = new FullScreenDialog(i);
+                dialog->setAttribute(Qt::WA_DeleteOnClose);
+                dialog->showFullScreen();
+            }
         }
     }
 }

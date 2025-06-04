@@ -12,6 +12,7 @@ EditEventDialog::EditEventDialog(const EventManager::Event& event, QWidget *pare
     ui->titleLine->setText(event.title);
     ui->descriptionLine->setText(event.content);
     ui->dateTimeEdit->setDateTime(QDateTime::fromString(event.date, "yyyy-MM-dd HH:mm:ss"));
+    ui->showAsComboBox->setCurrentIndex(event.type);
     type = 1;
     init();
 }
@@ -27,6 +28,7 @@ EditEventDialog::EditEventDialog(const EventManager::RepeatedEvent &event, QWidg
     ui->hoursLine->setText(QString::number(event.everySeconds / 3600));
     ui->minutesLine->setText(QString::number(event.everySeconds / 60));
     ui->secondsLine->setText(QString::number(event.everySeconds));
+    ui->showAsComboBox->setCurrentIndex(event.type);
     type = 0;
     init();
 }
@@ -61,10 +63,10 @@ void EditEventDialog::submit()
             QMessageBox::critical(this, tr("Error"), tr("Time must be greater then one second"));
             return;
         }
-        emit editRepeating(EventManager::RepeatedEvent(repeated.id, title, content, seconds, repeated.enabled, 0));
+        emit editRepeating(EventManager::RepeatedEvent(repeated.id, title, content, seconds, repeated.enabled, ui->showAsComboBox->currentIndex()));
         break;
     case 1:
-        emit editEvent(EventManager::Event(event.id, title, content, date, event.enabled, 0));
+        emit editEvent(EventManager::Event(event.id, title, content, date, event.enabled, ui->showAsComboBox->currentIndex()));
         break;
     }
 }

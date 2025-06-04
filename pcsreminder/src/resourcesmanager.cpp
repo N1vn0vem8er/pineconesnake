@@ -41,7 +41,7 @@ void ResourcesManager::close()
 void ResourcesManager::saveEvent(const EventManager::Event &event)
 {
     char* err;
-    if(sqlite3_exec(database, QString("INSERT INTO events (title, content, date, enabled) VALUES ('%1', '%2', '%3', %4, %5);").
+    if(sqlite3_exec(database, QString("INSERT INTO events (title, content, date, enabled, type) VALUES ('%1', '%2', '%3', %4, %5);").
                                arg(event.title, event.content, event.date, QString::number(event.enabled), QString::number(event.type)).toStdString().c_str(), callback, nullptr, &err) != SQLITE_OK)
     {
         printf("%s", err);
@@ -53,7 +53,7 @@ void ResourcesManager::saveEvent(const EventManager::Event &event)
 void ResourcesManager::saveRepeating(const EventManager::RepeatedEvent &event)
 {
     char* err;
-    if(sqlite3_exec(database, QString("INSERT INTO repeated (title, content, everySeconds, enabled) VALUES ('%1', '%2', '%3', %4, %5);").
+    if(sqlite3_exec(database, QString("INSERT INTO repeated (title, content, everySeconds, enabled, type) VALUES ('%1', '%2', '%3', %4, %5);").
                                arg(event.title, event.content, QString::number(event.everySeconds), QString::number(event.enabled), QString::number(event.type)).toStdString().c_str(), callback, nullptr, &err) != SQLITE_OK)
     {
         printf("%s", err);
