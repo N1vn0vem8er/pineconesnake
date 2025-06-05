@@ -83,12 +83,30 @@
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout_PCS_Reminder"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuAbout"/>
   </widget>
+  <action name="actionAbout_PCS_Reminder">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About PCS Reminder</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="resources/resources.qrc"/>

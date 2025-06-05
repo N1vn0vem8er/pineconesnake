@@ -1,9 +1,13 @@
 #include "createeventdialog.h"
 #include "mainwindow.h"
 #include "eventwidget.h"
+#include <QMessageBox>
 #include "repeatedeventwidget.h"
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
+
+#define VERSION "1.0.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::addReminderPressed);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_Reminder, &QAction::triggered, this, &MainWindow::openAbout);
     refresh();
 }
 
@@ -72,4 +78,10 @@ void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
     ResourcesManager::getInstance()->saveRepeating(event);
     refresh();
     emit requestRefresh();
+}
+
+void MainWindow::openAbout()
+{
+    QMessageBox::about(this, tr("About PCS Reminder"), tr("<html><body><h3>PCS Reminder</h3><p>PCS Reminder is a simple reminder application. It is a part of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
+                                                           .arg(VERSION, LICENSELINK));
 }

@@ -31,6 +31,7 @@ private slots:
     void addReminderPressed();
     void addReminder(const EventManager::Event& event);
     void addRepeating(const EventManager::RepeatedEvent& event);
+    void openAbout();
 
 signals:
     void requestRefresh();
