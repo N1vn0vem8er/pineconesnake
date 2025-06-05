@@ -12,7 +12,7 @@ EventManager::EventManager(QObject *parent)
     : QObject{parent}
 {
     icon = new QSystemTrayIcon(this);
-    icon->setIcon(QIcon::fromTheme("media-record")); //placeholder replace
+    icon->setIcon(QIcon(":/icons/icon.svg"));
     menu = new QMenu();
     QAction* settingsAction = menu->addAction(tr("Settings"));
     connect(settingsAction, &QAction::triggered, this, &EventManager::openSettings);
@@ -53,7 +53,7 @@ void EventManager::checkEvents()
         if(i.first.enabled)
         {
             i.second--;
-            if(i.second <= 0)
+            if(i.second <= 0 && i.first.enabled)
             {
                 if(i.first.type == 0)
                     system(QString("notify-send \"%1\" \"%2\"").arg(i.first.title, i.first.content).toStdString().c_str());
