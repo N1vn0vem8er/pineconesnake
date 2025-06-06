@@ -41,7 +41,6 @@ void MainWindow::refresh()
     {
         RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
         connect(widget, &RepeatedEventWidget::requestRefresh, this, &MainWindow::refresh);
-        connect(widget, &RepeatedEventWidget::requestRefresh, this, [&]{emit requestRefresh();});
         layout->addWidget(widget);
         widgets.append(widget);
     }
@@ -49,12 +48,12 @@ void MainWindow::refresh()
     {
         EventWidget* widget = new EventWidget(i, this);
         connect(widget, &EventWidget::requestRefresh, this, &MainWindow::refresh);
-        connect(widget, &EventWidget::requestRefresh, this, [&]{emit requestRefresh();});
         layout->addWidget(widget);
         widgets.append(widget);
     }
     layout->addStretch();
     ui->scrollAreaWidgetContents->setLayout(layout);
+    emit requestRefresh();
 }
 
 void MainWindow::addReminderPressed()

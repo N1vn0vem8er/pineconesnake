@@ -86,6 +86,7 @@ void EventManager::checkEvents()
 void EventManager::refresh()
 {
     ResourcesManager* rm = ResourcesManager::getInstance();
+    repeatedEvents.clear();
     for(const auto& i : rm->getAllRepeating())
     {
         repeatedEvents.append(QPair(i, i.everySeconds));
