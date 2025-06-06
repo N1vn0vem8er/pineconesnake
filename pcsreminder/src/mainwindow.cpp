@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::addReminderPressed);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Reminder, &QAction::triggered, this, &MainWindow::openAbout);
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::quit);
+    connect(ui->actionClose_Window, &QAction::triggered, this, &MainWindow::close);
     refresh();
 }
 
@@ -41,6 +43,8 @@ void MainWindow::refresh()
     {
         RepeatedEventWidget* widget = new RepeatedEventWidget(i, this);
         connect(widget, &RepeatedEventWidget::requestRefresh, this, &MainWindow::refresh);
+        connect(ui->actionEnable_all, &QAction::triggered, widget, &RepeatedEventWidget::enable);
+        connect(ui->actionDisable_all, &QAction::triggered, widget, &RepeatedEventWidget::disable);
         layout->addWidget(widget);
         widgets.append(widget);
     }
@@ -48,6 +52,8 @@ void MainWindow::refresh()
     {
         EventWidget* widget = new EventWidget(i, this);
         connect(widget, &EventWidget::requestRefresh, this, &MainWindow::refresh);
+        connect(ui->actionEnable_all, &QAction::triggered, widget, &EventWidget::enable);
+        connect(ui->actionDisable_all, &QAction::triggered, widget, &EventWidget::disable);
         layout->addWidget(widget);
         widgets.append(widget);
     }

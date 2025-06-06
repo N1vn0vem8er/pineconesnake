@@ -16,6 +16,10 @@ public:
     explicit EventWidget(const EventManager::Event& event ,QWidget *parent = nullptr);
     ~EventWidget();
 
+public slots:
+    void enable();
+    void disable();
+
 private:
     Ui::EventWidget *ui;
     EventManager::Event event;
@@ -25,8 +29,6 @@ private slots:
     void editPressed();
     void deletePressed();
     void editReminder(const EventManager::Event &event);
-    void enable();
-    void disable();
 
 signals:
     void requestRefresh();

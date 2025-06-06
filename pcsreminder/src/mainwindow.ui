@@ -68,16 +68,21 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionClose_Window"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionDisable_all"/>
+    <addaction name="actionEnable_all"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
+    <addaction name="actionRefresh"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -105,6 +110,43 @@
    </property>
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionDisable_all">
+   <property name="text">
+    <string>Disable all</string>
+   </property>
+  </action>
+  <action name="actionEnable_all">
+   <property name="text">
+    <string>Enable all</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionClose_Window">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
+   <property name="text">
+    <string>Close Window</string>
    </property>
   </action>
  </widget>

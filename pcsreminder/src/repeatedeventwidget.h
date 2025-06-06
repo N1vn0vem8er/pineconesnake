@@ -18,6 +18,10 @@ public:
     explicit RepeatedEventWidget(const EventManager::RepeatedEvent &event, QWidget *parent = nullptr);
     ~RepeatedEventWidget();
 
+public slots:
+    void enable();
+    void disable();
+
 private:
     Ui::RepeatedEventWidget *ui;
     EventManager::RepeatedEvent event;
@@ -28,8 +32,6 @@ private slots:
     void deletePressed();
     void editRepeating(const EventManager::RepeatedEvent &event);
 
-    void enable();
-    void disable();
 signals:
     void requestRefresh();
 };
