@@ -1,4 +1,5 @@
 #include "fullscreendialog.h"
+#include "resourcesmanager.h"
 #include "ui_fullscreendialog.h"
 
 FullScreenDialog::FullScreenDialog(const EventManager::Event &event, QWidget *parent)
@@ -29,6 +30,7 @@ FullScreenDialog::~FullScreenDialog()
 void FullScreenDialog::init()
 {
     connect(ui->closeButton, &QPushButton::clicked, this, &QDialog::accept);
+    connect(ui->disableButton, &QPushButton::clicked, this, &FullScreenDialog::disable);
     switch(type)
     {
     case 0:
@@ -46,5 +48,16 @@ void FullScreenDialog::init()
 
 void FullScreenDialog::disable()
 {
-
+    switch(type)
+    {
+    case 0:
+        repeated.enabled = false;
+        ResourcesManager::getInstance()->modifyRepeating(repeated);
+        break;
+    case 1:
+        event.enabled = false;
+        ResourcesManager::getInstance()->modifyEvent(event);
+        break;
+    }
+    emit requestRefresh();
 }

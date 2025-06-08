@@ -43,6 +43,7 @@ void EventManager::openSettings()
     MainWindow* w = new MainWindow();
     w->setAttribute(Qt::WA_DeleteOnClose);
     connect(w, &MainWindow::requestRefresh, this, &EventManager::refresh);
+    connect(this, &EventManager::requestRefresh, w, &MainWindow::refresh);
     w->show();
 }
 
@@ -61,6 +62,7 @@ void EventManager::checkEvents()
                 {
                     FullScreenDialog* dialog = new FullScreenDialog(i.first);
                     dialog->setAttribute(Qt::WA_DeleteOnClose);
+                    connect(dialog, &FullScreenDialog::requestRefresh, this, &EventManager::refresh);
                     dialog->showFullScreen();
                 }
                 i.second = i.first.everySeconds;
@@ -77,6 +79,7 @@ void EventManager::checkEvents()
             {
                 FullScreenDialog* dialog = new FullScreenDialog(i);
                 dialog->setAttribute(Qt::WA_DeleteOnClose);
+                connect(dialog, &FullScreenDialog::requestRefresh, this, &EventManager::refresh);
                 dialog->showFullScreen();
             }
         }

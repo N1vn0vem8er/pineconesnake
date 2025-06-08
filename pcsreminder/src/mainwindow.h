@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void refresh();
 
 private:
     Ui::MainWindow *ui;
@@ -27,7 +28,6 @@ private:
     QList<EventManager::Event> events;
 
 private slots:
-    void refresh();
     void addReminderPressed();
     void addReminder(const EventManager::Event& event);
     void addRepeating(const EventManager::RepeatedEvent& event);

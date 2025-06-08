@@ -46,6 +46,7 @@ private slots:
     void refresh();
 
 signals:
+    void requestRefresh();
 };
 
 #endif // EVENTMANAGER_H

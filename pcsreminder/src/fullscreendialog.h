@@ -27,6 +27,9 @@ private:
 
 private slots:
     void disable();
+
+signals:
+    void requestRefresh();
 };
 
 #endif // FULLSCREENDIALOG_H
