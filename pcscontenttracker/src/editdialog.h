@@ -20,6 +20,9 @@ public:
 private:
     Ui::EditDialog *ui;
     Item item;
+
+private slots:
+    void openSelectImage();
 };
 
 #endif // EDITDIALOG_H

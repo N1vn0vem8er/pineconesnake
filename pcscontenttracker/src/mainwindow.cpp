@@ -148,6 +148,7 @@ void MainWindow::displayPlanned()
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
+        connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
         layout->addWidget(widget);
     }
@@ -174,6 +175,7 @@ void MainWindow::displayCurrent()
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
+        connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
         layout->addWidget(widget);
     }
