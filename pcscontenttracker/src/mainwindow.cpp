@@ -52,28 +52,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::refresh()
 {
-    if(layout != nullptr)
+    switch(selected)
     {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
+    case SelectedModes::All:
+        displayAll();
+        break;
+    case SelectedModes::Finished:
+        displayFinished();
+        break;
+    case SelectedModes::Planned:
+        displayPlanned();
+        break;
+    case SelectedModes::Current:
+        displayCurrent();
+        break;
     }
-    layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->getAllItems())
-    {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
-        connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
-        connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
-        connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
-    }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
 }
 
 void MainWindow::addNewItem()
@@ -134,6 +127,7 @@ void MainWindow::displayFinished()
     }
     layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
     ui->titlesView->setLayout(layout);
+    selected = SelectedModes::Finished;
 }
 
 void MainWindow::displayPlanned()
@@ -159,6 +153,7 @@ void MainWindow::displayPlanned()
     }
     layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
     ui->titlesView->setLayout(layout);
+    selected = SelectedModes::Planned;
 }
 
 void MainWindow::displayCurrent()
@@ -184,11 +179,34 @@ void MainWindow::displayCurrent()
     }
     layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
     ui->titlesView->setLayout(layout);
+    selected = SelectedModes::Current;
 }
 
 void MainWindow::displayAll()
 {
-    refresh();
+    if(layout != nullptr)
+    {
+        QLayoutItem* layoutItem;
+        while((layoutItem = layout->takeAt(0)) != nullptr)
+        {
+            delete layoutItem->widget();
+            delete layoutItem;
+        }
+        delete layout;
+        layout = nullptr;
+    }
+    layout = new QVBoxLayout(ui->titlesView);
+    for(const auto& i : ResourceManager::getInstance()->getAllItems())
+    {
+        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
+        connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
+        connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
+        layout->addWidget(widget);
+    }
+    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
+    ui->titlesView->setLayout(layout);
+    selected = SelectedModes::All;
 }
 
 void MainWindow::search()
