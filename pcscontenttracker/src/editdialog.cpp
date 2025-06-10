@@ -29,9 +29,10 @@ EditDialog::~EditDialog()
 
 Item EditDialog::getIten() const
 {
-    QString imageName = "";
+
     QString tmpImagePath = ui->imageLine->text();
-    if(!tmpImagePath.isEmpty() && QFileInfo(tmpImagePath).exists())
+    QString imageName = item.image;
+    if(tmpImagePath != item.image && !tmpImagePath.isEmpty() && QFileInfo(tmpImagePath).exists())
     {
         if(!item.image.isEmpty() && tmpImagePath != item.image && QFileInfo(Settings::imagesPath + "/" + item.image).exists())
         {
