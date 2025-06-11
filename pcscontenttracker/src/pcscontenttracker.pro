@@ -43,3 +43,6 @@ TRANSLATIONS += \
 
 CONFIG += lrelease
 CONFIG += embed_translations
+
+RESOURCES += \
+    resources/resources.qrc
