@@ -17,6 +17,20 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        linenumberarea.cpp
+        linenumberarea.h
+        savewarningdialog.cpp
+        savewarningdialog.h
+        savewarningdialog.ui
+        searchwidget.cpp
+        searchwidget.h
+        searchwidget.ui
+        tabwidget.cpp
+        tabwidget.h
+        texteditor.cpp
+        texteditor.h
+        texthighlighter.cpp
+        texthighlighter.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
