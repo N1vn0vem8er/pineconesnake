@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,18 +17,25 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
     <item>
-     <widget class="QSplitter" name="splitter">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <widget class="QStackedWidget" name="stackedWidget">
-       <widget class="QWidget" name="page"/>
-       <widget class="QWidget" name="page_2"/>
-      </widget>
-      <widget class="TabWidget" name="tabWidget" native="true"/>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <widget class="QStackedWidget" name="stackedWidget">
+         <widget class="QWidget" name="page"/>
+         <widget class="QWidget" name="page_2"/>
+        </widget>
+        <widget class="TabWidget" name="tabWidget" native="true"/>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="SearchWidget" name="searchWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -37,7 +44,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1200</width>
      <height>23</height>
     </rect>
    </property>
@@ -169,7 +176,13 @@
   <customwidget>
    <class>TabWidget</class>
    <extends>QWidget</extends>
-   <header>tabwidget.h</header>
+   <header>../../../../tabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SearchWidget</class>
+   <extends>QWidget</extends>
+   <header>../../../../searchwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
