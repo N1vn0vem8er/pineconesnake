@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "savewarningdialog.h"
 #include "texteditor.h"
+#include "globals.h"
 #include <qfileinfo.h>
 #include <QFileInfo>
 #include <QDir>
@@ -24,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setVisible(false);
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(pathLabel);
+    loadHunspell();
 }
 
 MainWindow::~MainWindow()
@@ -96,6 +98,20 @@ void MainWindow::openFile(const QString& path)
             ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
             pathLabel->setText(path);
             file.close();
+        }
+    }
+}
+
+void MainWindow::loadHunspell()
+{
+    QDir dir("/usr/share/hunspell");
+    if(dir.exists())
+    {
+        Globals::hunspellLanguages = dir.entryList(QStringList() << "*.dic" << "*.aff", QDir::Files);
+        for(int i=0; i<Globals::hunspellLanguages.size(); i+=2)
+        {
+            QAction* action = new QAction(Globals::hunspellLanguages[i].left(Globals::hunspellLanguages[i].indexOf(".")), ui->menuLanguages);
+            ui->menuLanguages->addAction(action);
         }
     }
 }

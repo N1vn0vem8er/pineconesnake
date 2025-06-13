@@ -26,6 +26,7 @@ private:
     void saveFile(const QString &path, const QString &text);
     void openSaveWarningDialog(const QString path);
     void openFile(const QString &path);
+    void loadHunspell();
 
 private slots:
     void newFilePressed();

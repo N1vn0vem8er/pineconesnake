@@ -83,6 +83,20 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuSpell_checking">
+     <property name="title">
+      <string>Spell checking</string>
+     </property>
+     <widget class="QMenu" name="menuLanguages">
+      <property name="title">
+       <string>Languages</string>
+      </property>
+     </widget>
+     <addaction name="menuLanguages"/>
+     <addaction name="actionEnabled"/>
+    </widget>
+    <addaction name="actionFindReplace"/>
+    <addaction name="menuSpell_checking"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -211,6 +225,27 @@
   <action name="actionSelect_All">
    <property name="text">
     <string>Select All</string>
+   </property>
+  </action>
+  <action name="actionFindReplace">
+   <property name="text">
+    <string>Find/Replace</string>
+   </property>
+  </action>
+  <action name="action7">
+   <property name="text">
+    <string>7</string>
+   </property>
+  </action>
+  <action name="actionEnabled">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Enabled</string>
    </property>
   </action>
  </widget>
