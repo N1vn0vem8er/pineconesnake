@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <qlabel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,18 +20,21 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    void open(const QString& path);
+    QLabel* pathLabel = nullptr;
     void openDir(const QString& path);
     void addTab(QWidget* widget, const QString& title);
     void saveFile(const QString &path, const QString &text);
-
     void openSaveWarningDialog(const QString path);
+    void openFile(const QString &path);
+
 private slots:
     void newFilePressed();
     void openFilePressed();
     void openDirPressed();
     void saveAs();
     void save();
+    void open();
     void closeTab(const int index);
+    void tabChanged(const int index);
 };
 #endif // MAINWINDOW_H

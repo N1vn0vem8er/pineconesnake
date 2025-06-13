@@ -13,11 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::newFilePressed);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::newFilePressed);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
+    pathLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(pathLabel);
 }
 
 MainWindow::~MainWindow()
@@ -63,13 +69,35 @@ void MainWindow::saveFile(const QString &path, const QString &text)
     if(file.isOpen())
     {
         file.write(text.toLatin1());
+        ui->statusbar->showMessage(tr("Saved %1").arg(path), 5000);
         file.close();
     }
+    else
+        ui->statusbar->showMessage(tr("Couldn't save %1").arg(path), 5000);
 }
 
-void MainWindow::open(const QString &path)
+void MainWindow::open()
 {
+    const QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
+    if(!filePath.isEmpty())
+        openFile(filePath);
+}
 
+void MainWindow::openFile(const QString& path)
+{
+    if(QFileInfo::exists(path))
+    {
+        QFile file(path);
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        if(file.isOpen())
+        {
+            QString content = file.readAll();
+            addTab(new TextEditor(content, path), QFileInfo(file).fileName());
+            ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+            pathLabel->setText(path);
+            file.close();
+        }
+    }
 }
 
 void MainWindow::openDir(const QString &path)
@@ -95,6 +123,19 @@ void MainWindow::closeTab(const int index)
         }
         ui->tabWidget->removeTab(index);
         delete widget;
+    }
+}
+
+void MainWindow::tabChanged(const int index)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->widget(index));
+    if(editor != nullptr)
+    {
+        pathLabel->setText(editor->getPath());
+    }
+    else
+    {
+        pathLabel->clear();
     }
 }
 
