@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count())closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
