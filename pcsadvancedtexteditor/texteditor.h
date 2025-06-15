@@ -2,6 +2,7 @@
 #define TEXTEDITOR_H
 #include "texthighlighter.h"
 #include <QPlainTextEdit>
+#include <hunspell/hunspell.hxx>
 
 class TextEditor : public QPlainTextEdit
 {
@@ -35,6 +36,10 @@ private:
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
     TextHighlighter* highlighter = nullptr;
+    std::unique_ptr<Hunspell> spellChecker;
+
+private slots:
+    void checkSpelling();
 };
 
 #endif // TEXTEDITOR_H

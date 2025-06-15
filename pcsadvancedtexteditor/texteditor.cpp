@@ -1,6 +1,7 @@
 #include "texteditor.h"
 #include "linenumberarea.h"
 #include "qfileinfo.h"
+#include "settings.h"
 #include <QPainter>
 #include <QTextBlock>
 
@@ -25,9 +26,12 @@ void TextEditor::init()
     connect(this, &TextEditor::blockCountChanged, this, &TextEditor::updateLineNumberWidth);
     connect(this, &TextEditor::updateRequest, this, &TextEditor::updateLineNumber);
     connect(this, &TextEditor::textChanged, this, [this]{setSaved(false);});
+    connect(this, &TextEditor::textChanged, this, &TextEditor::checkSpelling);
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
     highlighter = new TextHighlighter(this->document());
+    spellChecker = std::make_unique<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(Settings::defaultLanguage).toStdString().c_str(),
+                                QString("/usr/share/hunspell/%1.dic").arg(Settings::defaultLanguage).toStdString().c_str());
 }
 
 QString TextEditor::getPath() const
@@ -88,6 +92,53 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
         lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
     if (rect.contains(viewport()->rect()))
         updateLineNumberWidth(0);
+}
+
+void TextEditor::checkSpelling()
+{
+    QTextCursor oldCursor = textCursor();
+    QTextCursor cursor(document());
+
+    setExtraSelections({});
+    QCoreApplication::processEvents();
+
+    QTextCharFormat highlightFormat;
+    highlightFormat.setBackground(QBrush(QColor("#ff6060")));
+    highlightFormat.setForeground(QBrush(QColor("#000000")));
+
+    while(!cursor.atEnd())
+    {
+        QCoreApplication::processEvents();
+        cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor, 1);
+        QString word = cursor.selectedText();
+
+        while(!word.isEmpty() && !word.at(0).isLetter() && cursor.anchor() < cursor.position()) {
+            int cursorPos = cursor.position();
+            cursor.setPosition(cursor.anchor() + 1, QTextCursor::MoveAnchor);
+            cursor.setPosition(cursorPos, QTextCursor::KeepAnchor);
+            word = cursor.selectedText();
+        }
+        if(!word.isEmpty() && !spellChecker->spell(word.toStdString())) {
+            QTextCursor tmpCursor(cursor);
+            tmpCursor.setPosition(cursor.anchor());
+            setTextCursor(tmpCursor);
+            ensureCursorVisible();
+
+            qDebug() << spellChecker->suggest(word.toStdString());
+
+            QTextEdit::ExtraSelection es;
+            es.cursor = cursor;
+            es.format = highlightFormat;
+
+            QList<QTextEdit::ExtraSelection> esList;
+            esList << es;
+            setExtraSelections(esList);
+            QCoreApplication::processEvents();
+
+        }
+        cursor.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor, 1);
+    }
+    setTextCursor(oldCursor);
 }
 
 void TextEditor::resizeEvent(QResizeEvent *event)
