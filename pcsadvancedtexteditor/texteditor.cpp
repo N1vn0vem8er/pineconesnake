@@ -4,6 +4,10 @@
 #include "settings.h"
 #include <QPainter>
 #include <QTextBlock>
+#include "qabstractitemview.h"
+#include <QKeyEvent>
+#include <QScrollBar>
+#include <QStringListModel>
 
 TextEditor::TextEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -20,6 +24,11 @@ TextEditor::TextEditor(const QString &text, const QString &path, QWidget *parent
     setSaved(true);
 }
 
+TextEditor::~TextEditor()
+{
+    delete model;
+}
+
 void TextEditor::init()
 {
     lineNumberArea = new LineNumberArea(this);
@@ -32,6 +41,14 @@ void TextEditor::init()
     highlighter = new TextHighlighter(this->document());
     spellChecker = std::make_unique<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(Settings::defaultLanguage).toStdString().c_str(),
                                 QString("/usr/share/hunspell/%1.dic").arg(Settings::defaultLanguage).toStdString().c_str());
+
+    completer = std::make_unique<QCompleter>(QStringList(), this);
+    completer->setWidget(this);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+    completer->setCaseSensitivity(Qt::CaseSensitive);
+    completer->setWrapAround(false);
+    connect(completer.get(), QOverload<const QString&>::of(&QCompleter::activated), this, &TextEditor::insertCompletion);
 }
 
 QString TextEditor::getPath() const
@@ -124,7 +141,15 @@ void TextEditor::checkSpelling()
             setTextCursor(tmpCursor);
             ensureCursorVisible();
 
-            qDebug() << spellChecker->suggest(word.toStdString());
+            QStringList wordsList;
+            for(const auto& i : spellChecker->suggest(word.toStdString()))
+            {
+                wordsList.append(QString::fromStdString(i));
+            }
+
+            delete completer->model();
+            model = new QStringListModel(wordsList);
+            completer->setModel(model);
 
             QTextEdit::ExtraSelection es;
             es.cursor = cursor;
@@ -139,6 +164,62 @@ void TextEditor::checkSpelling()
         cursor.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor, 1);
     }
     setTextCursor(oldCursor);
+}
+
+void TextEditor::insertCompletion(const QString &completion)
+{
+    QTextCursor tc = textCursor();
+    int extra = completion.length() - completer->completionPrefix().length();
+    tc.movePosition(QTextCursor::Left);
+    tc.movePosition(QTextCursor::EndOfWord);
+    tc.insertText(completion.right(extra));
+    setTextCursor(tc);
+}
+
+void TextEditor::keyPressEvent(QKeyEvent *event)
+{
+    if(completer->popup()->isVisible())
+    {
+        switch (event->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+            event->ignore();
+            return;
+            break;
+        default:
+            break;
+        }
+    }
+    const bool isShortcut = (event->modifiers().testFlag(Qt::ControlModifier) && event->key() == Qt::Key_E);
+    if(!isShortcut)
+    {
+        QPlainTextEdit::keyPressEvent(event);
+    }
+    const bool ctrlOrShift = event->modifiers().testFlag(Qt::ControlModifier) || event->modifiers().testFlag(Qt::ShiftModifier);
+    if(ctrlOrShift && event->text().isEmpty())
+        return;
+    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=");
+    const bool hasModifier = (event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+    QString completionPrefix = tc.selectedText();
+
+    if (!isShortcut && (hasModifier || event->text().isEmpty()|| completionPrefix.length() < 1 || eow.contains(event->text().right(1))))
+    {
+        completer->popup()->hide();
+        return;
+    }
+    if(completionPrefix != completer->completionPrefix())
+    {
+        completer->setCompletionPrefix(completionPrefix);
+        completer->popup()->setCurrentIndex(completer->completionModel()->index(0, 0));
+    }
+    QRect cr = cursorRect();
+    cr.setWidth(completer->popup()->sizeHintForColumn(0) + completer->popup()->verticalScrollBar()->sizeHint().width());
+    completer->complete(cr);
 }
 
 void TextEditor::resizeEvent(QResizeEvent *event)

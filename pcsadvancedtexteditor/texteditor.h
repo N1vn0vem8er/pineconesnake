@@ -3,6 +3,8 @@
 #include "texthighlighter.h"
 #include <QPlainTextEdit>
 #include <hunspell/hunspell.hxx>
+#include <QCompleter>
+#include <qstringlistmodel.h>
 
 class TextEditor : public QPlainTextEdit
 {
@@ -10,6 +12,7 @@ class TextEditor : public QPlainTextEdit
 public:
     TextEditor(QWidget *parent = nullptr);
     TextEditor(const QString& text, const QString& path, QWidget* parent = nullptr);
+    ~TextEditor();
     QString getPath() const;
     void setPath(const QString &newPath);
     int lineNumberWidth();
@@ -37,9 +40,14 @@ private:
     QTextCharFormat defaultFormat;
     TextHighlighter* highlighter = nullptr;
     std::unique_ptr<Hunspell> spellChecker;
+    std::unique_ptr<QCompleter> completer;
+    QStringListModel* model = nullptr;
 
 private slots:
     void checkSpelling();
+    void insertCompletion(const QString &completion);
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // TEXTEDITOR_H
