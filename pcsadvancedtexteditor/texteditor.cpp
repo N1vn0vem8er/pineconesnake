@@ -120,9 +120,9 @@ void TextEditor::checkSpelling()
     QCoreApplication::processEvents();
 
     QTextCharFormat highlightFormat;
-    highlightFormat.setBackground(QBrush(QColor("#ff6060")));
-    highlightFormat.setForeground(QBrush(QColor("#000000")));
-
+    highlightFormat.setUnderlineColor(QColor::fromRgb(255, 0, 0));
+    highlightFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+    QList<QTextEdit::ExtraSelection> esList;
     while(!cursor.atEnd())
     {
         QCoreApplication::processEvents();
@@ -155,7 +155,7 @@ void TextEditor::checkSpelling()
             es.cursor = cursor;
             es.format = highlightFormat;
 
-            QList<QTextEdit::ExtraSelection> esList;
+
             esList << es;
             setExtraSelections(esList);
             QCoreApplication::processEvents();
