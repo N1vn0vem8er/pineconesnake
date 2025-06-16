@@ -28,6 +28,8 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+
 private:
     QString path;
     QWidget *lineNumberArea;
@@ -39,15 +41,20 @@ private:
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
     TextHighlighter* highlighter = nullptr;
-    std::unique_ptr<Hunspell> spellChecker;
+    std::shared_ptr<Hunspell> spellChecker;
     std::unique_ptr<QCompleter> completer;
     QStringListModel* model = nullptr;
+    QThread* spellcheckThread = nullptr;
+    QTimer* timer = nullptr;
 
 private slots:
     void checkSpelling();
     void insertCompletion(const QString &completion);
-protected:
-    void keyPressEvent(QKeyEvent *event) override;
+    void startSpellChecking();
+    void spellCheckResoultsReady(const QList<QTextEdit::ExtraSelection>& list);
+signals:
+    void startSpellcheck();
+
 };
 
 #endif // TEXTEDITOR_H

@@ -5,9 +5,12 @@
 #include <QPainter>
 #include <QTextBlock>
 #include "qabstractitemview.h"
+#include "spellcheckerworker.h"
 #include <QKeyEvent>
 #include <QScrollBar>
 #include <QStringListModel>
+#include <QThread>
+#include <QTimer>
 
 TextEditor::TextEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -39,7 +42,7 @@ void TextEditor::init()
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
     highlighter = new TextHighlighter(this->document());
-    spellChecker = std::make_unique<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(Settings::defaultLanguage).toStdString().c_str(),
+    spellChecker = std::make_shared<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(Settings::defaultLanguage).toStdString().c_str(),
                                 QString("/usr/share/hunspell/%1.dic").arg(Settings::defaultLanguage).toStdString().c_str());
 
     completer = std::make_unique<QCompleter>(QStringList(), this);
@@ -49,6 +52,11 @@ void TextEditor::init()
     completer->setCaseSensitivity(Qt::CaseSensitive);
     completer->setWrapAround(false);
     connect(completer.get(), QOverload<const QString&>::of(&QCompleter::activated), this, &TextEditor::insertCompletion);
+
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &TextEditor::startSpellChecking);
+    timer->setInterval(100);
+    timer->setSingleShot(true);
 }
 
 QString TextEditor::getPath() const
@@ -113,57 +121,8 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
 
 void TextEditor::checkSpelling()
 {
-    QTextCursor oldCursor = textCursor();
-    QTextCursor cursor(document());
-
-    setExtraSelections({});
-    QCoreApplication::processEvents();
-
-    QTextCharFormat highlightFormat;
-    highlightFormat.setUnderlineColor(QColor::fromRgb(255, 0, 0));
-    highlightFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
-    QList<QTextEdit::ExtraSelection> esList;
-    while(!cursor.atEnd())
-    {
-        QCoreApplication::processEvents();
-        cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor, 1);
-        QString word = cursor.selectedText();
-
-        while(!word.isEmpty() && !word.at(0).isLetter() && cursor.anchor() < cursor.position()) {
-            int cursorPos = cursor.position();
-            cursor.setPosition(cursor.anchor() + 1, QTextCursor::MoveAnchor);
-            cursor.setPosition(cursorPos, QTextCursor::KeepAnchor);
-            word = cursor.selectedText();
-        }
-        if(!word.isEmpty() && !spellChecker->spell(word.toStdString())) {
-            QTextCursor tmpCursor(cursor);
-            tmpCursor.setPosition(cursor.anchor());
-            setTextCursor(tmpCursor);
-            ensureCursorVisible();
-
-            QStringList wordsList;
-            for(const auto& i : spellChecker->suggest(word.toStdString()))
-            {
-                wordsList.append(QString::fromStdString(i));
-            }
-
-            delete completer->model();
-            model = new QStringListModel(wordsList);
-            completer->setModel(model);
-
-            QTextEdit::ExtraSelection es;
-            es.cursor = cursor;
-            es.format = highlightFormat;
-
-
-            esList << es;
-            setExtraSelections(esList);
-            QCoreApplication::processEvents();
-
-        }
-        cursor.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor, 1);
-    }
-    setTextCursor(oldCursor);
+    timer->stop();
+    timer->start();
 }
 
 void TextEditor::insertCompletion(const QString &completion)
@@ -174,6 +133,26 @@ void TextEditor::insertCompletion(const QString &completion)
     tc.movePosition(QTextCursor::EndOfWord);
     tc.insertText(completion.right(extra));
     setTextCursor(tc);
+}
+
+void TextEditor::startSpellChecking()
+{
+    spellcheckThread = new QThread(this);
+    SpellCheckerWorker* worker = new SpellCheckerWorker(document(), spellChecker);
+    worker->moveToThread(spellcheckThread);
+    connect(spellcheckThread, &QThread::finished, worker, &QObject::deleteLater);
+    connect(this, &TextEditor::startSpellcheck, worker, &SpellCheckerWorker::spellCheck);
+    connect(worker, &SpellCheckerWorker::resultReady, this, &TextEditor::spellCheckResoultsReady);
+    connect(worker, &SpellCheckerWorker::finished, spellcheckThread, &QThread::quit);
+    connect(spellcheckThread, &QThread::finished, spellcheckThread, &QThread::deleteLater);
+    spellcheckThread->start();
+    emit startSpellcheck();
+}
+
+void TextEditor::spellCheckResoultsReady(const QList<QTextEdit::ExtraSelection> &list)
+{
+    setExtraSelections(list);
+    QCoreApplication::processEvents();
 }
 
 void TextEditor::keyPressEvent(QKeyEvent *event)
