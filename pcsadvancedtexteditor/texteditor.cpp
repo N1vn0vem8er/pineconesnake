@@ -138,7 +138,7 @@ void TextEditor::insertCompletion(const QString &completion)
 void TextEditor::startSpellChecking()
 {
     spellcheckThread = new QThread(this);
-    SpellCheckerWorker* worker = new SpellCheckerWorker(toPlainText(), spellChecker);
+    SpellCheckerWorker* worker = new SpellCheckerWorker(toPlainText(), spellChecker, spellCheckMutex);
     worker->moveToThread(spellcheckThread);
     connect(spellcheckThread, &QThread::finished, worker, &QObject::deleteLater);
     connect(this, &TextEditor::startSpellcheck, worker, &SpellCheckerWorker::spellCheck);
@@ -200,9 +200,12 @@ void TextEditor::keyPressEvent(QKeyEvent *event)
     QString completionPrefix = tc.selectedText();
 
     QStringList list;
-    for(const auto& i : spellChecker->suggest(completionPrefix.toStdString()))
     {
-        list.append(QString::fromStdString(i));
+        std::lock_guard<std::mutex> lock(spellCheckMutex);
+        for(const auto& i : spellChecker->suggest(completionPrefix.toStdString()))
+        {
+            list.append(QString::fromStdString(i));
+        }
     }
 
     QStringListModel* model = new QStringListModel(list, this);

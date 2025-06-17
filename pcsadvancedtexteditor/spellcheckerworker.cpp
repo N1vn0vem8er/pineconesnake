@@ -3,8 +3,8 @@
 #include <QThread>
 #include <qregularexpression.h>
 
-SpellCheckerWorker::SpellCheckerWorker(const QString& text, std::shared_ptr<Hunspell> hunspell, QObject *parent)
-    : QObject{parent}
+SpellCheckerWorker::SpellCheckerWorker(const QString& text, std::shared_ptr<Hunspell> hunspell, std::mutex &mutex, QObject *parent) : mutex(mutex)
+    , QObject{parent}
 {
     this->text = text;
     spellChecker = hunspell;
@@ -38,6 +38,7 @@ void SpellCheckerWorker::spellCheck()
         }
         else
         {
+            std::lock_guard<std::mutex> lock(mutex);
             if(!spellChecker->spell(word.toStdString()))
             {
                 knownIncorrectWords.insert(word);

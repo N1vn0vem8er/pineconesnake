@@ -4,6 +4,7 @@
 #include <QPlainTextEdit>
 #include <hunspell/hunspell.hxx>
 #include <QCompleter>
+#include <mutex>
 #include <qstringlistmodel.h>
 
 class TextEditor : public QPlainTextEdit
@@ -46,6 +47,7 @@ private:
     QStringListModel* model = nullptr;
     QThread* spellcheckThread = nullptr;
     QTimer* timer = nullptr;
+    std::mutex spellCheckMutex;
 
 private slots:
     void checkSpelling();
