@@ -16,8 +16,9 @@ public slots:
     void spellCheck();
 
 private:
-    QTextDocument* document = nullptr;
+    QTextCursor cursor;
     std::shared_ptr<Hunspell> spellChecker = nullptr;
+    QString text;
 
 signals:
     void resultReady(const QList<QTextEdit::ExtraSelection>& list);

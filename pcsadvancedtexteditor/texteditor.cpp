@@ -137,6 +137,7 @@ void TextEditor::insertCompletion(const QString &completion)
 
 void TextEditor::startSpellChecking()
 {
+
     spellcheckThread = new QThread(this);
     SpellCheckerWorker* worker = new SpellCheckerWorker(document(), spellChecker);
     worker->moveToThread(spellcheckThread);
@@ -185,6 +186,16 @@ void TextEditor::keyPressEvent(QKeyEvent *event)
     QTextCursor tc = textCursor();
     tc.select(QTextCursor::WordUnderCursor);
     QString completionPrefix = tc.selectedText();
+
+    QStringList list;
+    for(const auto& i : spellChecker->suggest(completionPrefix.toStdString()))
+    {
+        list.append(QString::fromStdString(i));
+    }
+
+    QStringListModel* model = new QStringListModel(list, this);
+    delete completer->model();
+    completer->setModel(model);
 
     if (!isShortcut && (hasModifier || event->text().isEmpty()|| completionPrefix.length() < 1 || eow.contains(event->text().right(1))))
     {

@@ -6,7 +6,8 @@
 SpellCheckerWorker::SpellCheckerWorker(QTextDocument* document, std::shared_ptr<Hunspell> hunspell, QObject *parent)
     : QObject{parent}
 {
-    this->document = document->clone();
+    cursor = QTextCursor(document);
+    text = document->toPlainText();
     spellChecker = hunspell;
 }
 
@@ -16,7 +17,7 @@ void SpellCheckerWorker::spellCheck()
     highlightFormat.setUnderlineColor(QColor::fromRgb(255, 0, 0));
     highlightFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
     QList<QTextEdit::ExtraSelection> esList;
-    QRegularExpressionMatchIterator i = QRegularExpression(R"(\w+)").globalMatch(document->toPlainText());
+    QRegularExpressionMatchIterator i = QRegularExpression(R"([\p{L}\p{N}\p{M}_]+)").globalMatch(text);
     QSet<QString> knownCorrectWords;
     QSet<QString> knownIncorrectWords;
 
@@ -51,7 +52,7 @@ void SpellCheckerWorker::spellCheck()
         {
             QTextEdit::ExtraSelection es;
             es.format = highlightFormat;
-            es.cursor = QTextCursor(document);
+            es.cursor = cursor;
             es.cursor.setPosition(match.capturedStart());
             es.cursor.setPosition(match.capturedEnd(), QTextCursor::KeepAnchor);
 
