@@ -137,9 +137,8 @@ void TextEditor::insertCompletion(const QString &completion)
 
 void TextEditor::startSpellChecking()
 {
-
     spellcheckThread = new QThread(this);
-    SpellCheckerWorker* worker = new SpellCheckerWorker(document(), spellChecker);
+    SpellCheckerWorker* worker = new SpellCheckerWorker(toPlainText(), spellChecker);
     worker->moveToThread(spellcheckThread);
     connect(spellcheckThread, &QThread::finished, worker, &QObject::deleteLater);
     connect(this, &TextEditor::startSpellcheck, worker, &SpellCheckerWorker::spellCheck);
@@ -150,9 +149,22 @@ void TextEditor::startSpellChecking()
     emit startSpellcheck();
 }
 
-void TextEditor::spellCheckResoultsReady(const QList<QTextEdit::ExtraSelection> &list)
+void TextEditor::spellCheckResoultsReady(const QList<QPair<int, int> > &list)
 {
-    setExtraSelections(list);
+    QTextCharFormat highlightFormat;
+    highlightFormat.setUnderlineColor(QColor::fromRgb(255, 0, 0));
+    highlightFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+    QList<QTextEdit::ExtraSelection> esList;
+    for(const auto& i : list)
+    {
+        QTextEdit::ExtraSelection es;
+        es.format = highlightFormat;
+        es.cursor = textCursor();
+        es.cursor.setPosition(i.first);
+        es.cursor.setPosition(i.second, QTextCursor::KeepAnchor);
+        esList << es;
+    }
+    setExtraSelections(esList);
     QCoreApplication::processEvents();
 }
 

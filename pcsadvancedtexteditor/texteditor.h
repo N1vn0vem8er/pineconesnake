@@ -51,7 +51,7 @@ private slots:
     void checkSpelling();
     void insertCompletion(const QString &completion);
     void startSpellChecking();
-    void spellCheckResoultsReady(const QList<QTextEdit::ExtraSelection>& list);
+    void spellCheckResoultsReady(const QList<QPair<int,int>>& list);
 signals:
     void startSpellcheck();
 

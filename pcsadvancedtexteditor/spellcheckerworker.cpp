@@ -3,20 +3,21 @@
 #include <QThread>
 #include <qregularexpression.h>
 
-SpellCheckerWorker::SpellCheckerWorker(QTextDocument* document, std::shared_ptr<Hunspell> hunspell, QObject *parent)
+SpellCheckerWorker::SpellCheckerWorker(const QString& text, std::shared_ptr<Hunspell> hunspell, QObject *parent)
     : QObject{parent}
 {
-    cursor = QTextCursor(document);
-    text = document->toPlainText();
+    this->text = text;
     spellChecker = hunspell;
+}
+
+SpellCheckerWorker::~SpellCheckerWorker()
+{
+
 }
 
 void SpellCheckerWorker::spellCheck()
 {
-    QTextCharFormat highlightFormat;
-    highlightFormat.setUnderlineColor(QColor::fromRgb(255, 0, 0));
-    highlightFormat.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
-    QList<QTextEdit::ExtraSelection> esList;
+    QList<QPair<int,int>> ret;
     QRegularExpressionMatchIterator i = QRegularExpression(R"([\p{L}\p{N}\p{M}_]+)").globalMatch(text);
     QSet<QString> knownCorrectWords;
     QSet<QString> knownIncorrectWords;
@@ -50,16 +51,10 @@ void SpellCheckerWorker::spellCheck()
 
         if(isMisspelled)
         {
-            QTextEdit::ExtraSelection es;
-            es.format = highlightFormat;
-            es.cursor = cursor;
-            es.cursor.setPosition(match.capturedStart());
-            es.cursor.setPosition(match.capturedEnd(), QTextCursor::KeepAnchor);
-
-            esList << es;
+            ret << QPair(match.capturedStart(), match.capturedEnd());
         }
     }
 
-    emit resultReady(esList);
+    emit resultReady(ret);
     emit finished();
 }

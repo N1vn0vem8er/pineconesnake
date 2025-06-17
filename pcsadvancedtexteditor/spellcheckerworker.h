@@ -10,18 +10,18 @@ class SpellCheckerWorker : public QObject
 {
     Q_OBJECT
 public:
-    explicit SpellCheckerWorker(QTextDocument *document, std::shared_ptr<Hunspell> hunspell, QObject *parent = nullptr);
+    explicit SpellCheckerWorker(const QString& text, std::shared_ptr<Hunspell> hunspell, QObject *parent = nullptr);
+    ~SpellCheckerWorker();
 
 public slots:
     void spellCheck();
 
 private:
-    QTextCursor cursor;
     std::shared_ptr<Hunspell> spellChecker = nullptr;
     QString text;
 
 signals:
-    void resultReady(const QList<QTextEdit::ExtraSelection>& list);
+    void resultReady(const QList<QPair<int,int>>& list);
     void finished();
 };
 
