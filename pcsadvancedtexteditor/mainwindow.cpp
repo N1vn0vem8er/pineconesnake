@@ -282,10 +282,18 @@ void MainWindow::replace(const QString &find, const QString &replace)
 
 void MainWindow::deleteSelected()
 {
-
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->deleteSelected();
+    }
 }
 
 void MainWindow::deleteAll()
 {
-
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->clear();
+    }
 }

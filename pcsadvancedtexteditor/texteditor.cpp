@@ -274,6 +274,11 @@ void TextEditor::clearSearchFormatting()
     highlighter->rehighlight();
 }
 
+void TextEditor::deleteSelected()
+{
+    textCursor().removeSelectedText();
+}
+
 bool TextEditor::getSaved() const
 {
     return saved;

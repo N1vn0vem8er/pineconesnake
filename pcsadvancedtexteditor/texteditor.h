@@ -26,6 +26,7 @@ public:
     void find(const QString& text);
     void replace(const QString& find, const QString& replace);
     void clearSearchFormatting();
+    void deleteSelected();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
