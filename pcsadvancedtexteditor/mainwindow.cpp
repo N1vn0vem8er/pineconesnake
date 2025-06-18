@@ -23,6 +23,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count())closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
+    connect(ui->actionPaste, &QAction::triggered, this, &MainWindow::paste);
+    connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
+    connect(ui->actionSelect_All, &QAction::triggered, this, &MainWindow::selectAll);
+    connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->searchWidget, static_cast<void (SearchWidget::*)(const QString&)>(&SearchWidget::find), this, &MainWindow::find);
+    connect(ui->searchWidget, static_cast<void (SearchWidget::*)(const QString&, const QString&)>(&SearchWidget::replace), this, &MainWindow::replace);
+    connect(ui->actionUndo, &QAction::triggered, this, &MainWindow::undo);
+    connect(ui->actionRedo, &QAction::triggered, this, &MainWindow::redo);
+    connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteSelected);
+    connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAll);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -180,6 +191,101 @@ void MainWindow::openFilePressed()
 }
 
 void MainWindow::openDirPressed()
+{
+
+}
+
+void MainWindow::copy()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->copy();
+    }
+}
+
+void MainWindow::selectAll()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->selectAll();
+    }
+}
+
+void MainWindow::cut()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->cut();
+    }
+}
+
+void MainWindow::paste()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->paste();
+    }
+}
+
+void MainWindow::undo()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->undo();
+    }
+}
+
+void MainWindow::redo()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->redo();
+    }
+}
+
+void MainWindow::showSearch()
+{
+    ui->searchWidget->setVisible(!ui->searchWidget->isVisible());
+    for(int i = 0;i < ui->tabWidget->count(); i++)
+    {
+        TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->widget(i));
+        if(editor != nullptr)
+        {
+            editor->clearSearchFormatting();
+        }
+    }
+}
+
+void MainWindow::find(const QString &text)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->find(text);
+    }
+}
+
+void MainWindow::replace(const QString &find, const QString &replace)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->replace(find, replace);
+    }
+}
+
+void MainWindow::deleteSelected()
+{
+
+}
+
+void MainWindow::deleteAll()
 {
 
 }

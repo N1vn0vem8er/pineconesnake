@@ -37,5 +37,16 @@ private slots:
     void open();
     void closeTab(const int index);
     void tabChanged(const int index);
+    void copy();
+    void selectAll();
+    void cut();
+    void paste();
+    void undo();
+    void redo();
+    void showSearch();
+    void find(const QString& text);
+    void replace(const QString& find, const QString& replace);
+    void deleteSelected();
+    void deleteAll();
 };
 #endif // MAINWINDOW_H
