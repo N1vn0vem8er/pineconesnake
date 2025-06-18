@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionRedo, &QAction::triggered, this, &MainWindow::redo);
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteSelected);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAll);
+    connect(ui->actionEnabled, &QAction::triggered, this, &MainWindow::spellCheckSwitch);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -295,5 +296,14 @@ void MainWindow::deleteAll()
     if(editor != nullptr)
     {
         editor->deleteAll();
+    }
+}
+
+void MainWindow::spellCheckSwitch(bool val)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setSpellCheckEnabled(val);
     }
 }

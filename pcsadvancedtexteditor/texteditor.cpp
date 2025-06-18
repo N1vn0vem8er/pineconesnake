@@ -38,7 +38,7 @@ void TextEditor::init()
     connect(this, &TextEditor::blockCountChanged, this, &TextEditor::updateLineNumberWidth);
     connect(this, &TextEditor::updateRequest, this, &TextEditor::updateLineNumber);
     connect(this, &TextEditor::textChanged, this, [this]{setSaved(false);});
-    connect(this, &TextEditor::textChanged, this, &TextEditor::checkSpelling);
+    if(spellCheckEnabled) connect(this, &TextEditor::textChanged, this, &TextEditor::checkSpelling);
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
     highlighter = new TextHighlighter(this->document());
@@ -121,8 +121,11 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
 
 void TextEditor::checkSpelling()
 {
-    timer->stop();
-    timer->start();
+    if(spellCheckEnabled)
+    {
+        timer->stop();
+        timer->start();
+    }
 }
 
 void TextEditor::insertCompletion(const QString &completion)
@@ -137,16 +140,19 @@ void TextEditor::insertCompletion(const QString &completion)
 
 void TextEditor::startSpellChecking()
 {
-    spellcheckThread = new QThread(this);
-    SpellCheckerWorker* worker = new SpellCheckerWorker(toPlainText(), spellChecker, spellCheckMutex);
-    worker->moveToThread(spellcheckThread);
-    connect(spellcheckThread, &QThread::finished, worker, &QObject::deleteLater);
-    connect(this, &TextEditor::startSpellcheck, worker, &SpellCheckerWorker::spellCheck);
-    connect(worker, &SpellCheckerWorker::resultReady, this, &TextEditor::spellCheckResoultsReady);
-    connect(worker, &SpellCheckerWorker::finished, spellcheckThread, &QThread::quit);
-    connect(spellcheckThread, &QThread::finished, spellcheckThread, &QThread::deleteLater);
-    spellcheckThread->start();
-    emit startSpellcheck();
+    if(spellCheckEnabled)
+    {
+        spellcheckThread = new QThread(this);
+        SpellCheckerWorker* worker = new SpellCheckerWorker(toPlainText(), spellChecker, spellCheckMutex);
+        worker->moveToThread(spellcheckThread);
+        connect(spellcheckThread, &QThread::finished, worker, &QObject::deleteLater);
+        connect(this, &TextEditor::startSpellcheck, worker, &SpellCheckerWorker::spellCheck);
+        connect(worker, &SpellCheckerWorker::resultReady, this, &TextEditor::spellCheckResoultsReady);
+        connect(worker, &SpellCheckerWorker::finished, spellcheckThread, &QThread::quit);
+        connect(spellcheckThread, &QThread::finished, spellcheckThread, &QThread::deleteLater);
+        spellcheckThread->start();
+        emit startSpellcheck();
+    }
 }
 
 void TextEditor::spellCheckResoultsReady(const QList<QPair<int, int> > &list)
@@ -283,6 +289,19 @@ void TextEditor::deleteAll()
 {
     selectAll();
     textCursor().removeSelectedText();
+}
+
+void TextEditor::setSpellCheckEnabled(bool val)
+{
+    spellCheckEnabled = val;
+    if(val)
+    {
+        startSpellChecking();
+    }
+    else
+    {
+        setExtraSelections({});
+    }
 }
 
 bool TextEditor::getSaved() const

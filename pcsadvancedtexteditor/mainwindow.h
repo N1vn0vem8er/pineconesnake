@@ -48,5 +48,6 @@ private slots:
     void replace(const QString& find, const QString& replace);
     void deleteSelected();
     void deleteAll();
+    void spellCheckSwitch(bool val);
 };
 #endif // MAINWINDOW_H

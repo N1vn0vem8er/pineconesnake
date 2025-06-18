@@ -28,6 +28,7 @@ public:
     void clearSearchFormatting();
     void deleteSelected();
     void deleteAll();
+    void setSpellCheckEnabled(bool val);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -50,6 +51,7 @@ private:
     QThread* spellcheckThread = nullptr;
     QTimer* timer = nullptr;
     std::mutex spellCheckMutex;
+    bool spellCheckEnabled = true;
 
 private slots:
     void checkSpelling();
