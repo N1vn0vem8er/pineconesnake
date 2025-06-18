@@ -294,6 +294,6 @@ void MainWindow::deleteAll()
     TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor != nullptr)
     {
-        editor->clear();
+        editor->deleteAll();
     }
 }

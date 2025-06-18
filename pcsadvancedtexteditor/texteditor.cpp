@@ -279,6 +279,12 @@ void TextEditor::deleteSelected()
     textCursor().removeSelectedText();
 }
 
+void TextEditor::deleteAll()
+{
+    selectAll();
+    textCursor().removeSelectedText();
+}
+
 bool TextEditor::getSaved() const
 {
     return saved;
