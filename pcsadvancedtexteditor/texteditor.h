@@ -29,6 +29,8 @@ public:
     void deleteSelected();
     void deleteAll();
     void setSpellCheckEnabled(bool val);
+    void setLanguage(const QString& lang);
+    QString getLanguage() const;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -52,6 +54,7 @@ private:
     QTimer* timer = nullptr;
     std::mutex spellCheckMutex;
     bool spellCheckEnabled = true;
+    QString language;
 
 private slots:
     void checkSpelling();

@@ -42,8 +42,9 @@ void TextEditor::init()
     updateLineNumberWidth(0);
     defaultFormat = textCursor().charFormat();
     highlighter = new TextHighlighter(this->document());
-    spellChecker = std::make_shared<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(Settings::defaultLanguage).toStdString().c_str(),
-                                QString("/usr/share/hunspell/%1.dic").arg(Settings::defaultLanguage).toStdString().c_str());
+    language = Settings::defaultLanguage;
+    spellChecker = std::make_shared<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(language).toStdString().c_str(),
+                                QString("/usr/share/hunspell/%1.dic").arg(language).toStdString().c_str());
 
     completer = std::make_unique<QCompleter>(QStringList(), this);
     completer->setWidget(this);
@@ -55,7 +56,7 @@ void TextEditor::init()
 
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &TextEditor::startSpellChecking);
-    timer->setInterval(100);
+    timer->setInterval(150);
     timer->setSingleShot(true);
 }
 
@@ -208,7 +209,8 @@ void TextEditor::keyPressEvent(QKeyEvent *event)
     QStringList list;
     {
         std::lock_guard<std::mutex> lock(spellCheckMutex);
-        for(const auto& i : spellChecker->suggest(completionPrefix.toStdString()))
+        auto suggestions = spellChecker->suggest(completionPrefix.toStdString());
+        for(const auto& i : suggestions)
         {
             list.append(QString::fromStdString(i));
         }
@@ -302,6 +304,19 @@ void TextEditor::setSpellCheckEnabled(bool val)
     {
         setExtraSelections({});
     }
+}
+
+void TextEditor::setLanguage(const QString &lang)
+{
+    language = lang;
+    spellChecker = std::make_shared<Hunspell>(QString("/usr/share/hunspell/%1.aff").arg(language).toStdString().c_str(),
+                                              QString("/usr/share/hunspell/%1.dic").arg(language).toStdString().c_str());
+    startSpellChecking();
+}
+
+QString TextEditor::getLanguage() const
+{
+    return language;
 }
 
 bool TextEditor::getSaved() const

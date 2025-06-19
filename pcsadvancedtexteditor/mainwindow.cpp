@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "savewarningdialog.h"
+#include "settings.h"
 #include "texteditor.h"
 #include "globals.h"
 #include <qfileinfo.h>
@@ -40,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setVisible(false);
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(pathLabel);
+    languageLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(languageLabel);
     loadHunspell();
 }
 
@@ -126,8 +129,10 @@ void MainWindow::loadHunspell()
         for(int i=0; i<Globals::hunspellLanguages.size(); i+=2)
         {
             QAction* action = new QAction(Globals::hunspellLanguages[i].left(Globals::hunspellLanguages[i].indexOf(".")), ui->menuLanguages);
+            connect(action, &QAction::triggered, this, [this, action]{changeLanguageForEditor(action->text());});
             ui->menuLanguages->addAction(action);
         }
+        languageLabel->setText(Settings::defaultLanguage);
     }
 }
 
@@ -305,5 +310,15 @@ void MainWindow::spellCheckSwitch(bool val)
     if(editor != nullptr)
     {
         editor->setSpellCheckEnabled(val);
+    }
+}
+
+void MainWindow::changeLanguageForEditor(const QString &language)
+{
+    languageLabel->setText(language);
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setLanguage(language);
     }
 }
