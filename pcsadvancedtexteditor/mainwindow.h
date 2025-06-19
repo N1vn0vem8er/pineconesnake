@@ -20,8 +20,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QLabel* pathLabel = nullptr;
-    QLabel* languageLabel = nullptr;
+    QLabel* pathLabel {nullptr};
+    QLabel* languageLabel {nullptr};
     void openDir(const QString& path);
     void addTab(QWidget* widget, const QString& title);
     void saveFile(const QString &path, const QString &text);

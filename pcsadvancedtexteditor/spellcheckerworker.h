@@ -18,7 +18,7 @@ public slots:
     void spellCheck();
 
 private:
-    std::shared_ptr<Hunspell> spellChecker = nullptr;
+    std::shared_ptr<Hunspell> spellChecker {nullptr};
     QString text;
     std::mutex& mutex;
 

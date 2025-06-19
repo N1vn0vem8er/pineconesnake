@@ -6,11 +6,13 @@
 #include <QTextBlock>
 #include "qabstractitemview.h"
 #include "spellcheckerworker.h"
+#include <QFuture>
 #include <QKeyEvent>
 #include <QScrollBar>
 #include <QStringListModel>
 #include <QThread>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrent>
 
 TextEditor::TextEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -118,6 +120,13 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
         lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
     if (rect.contains(viewport()->rect()))
         updateLineNumberWidth(0);
+}
+
+void TextEditor::setSuggestions(const QStringList list)
+{
+    QStringListModel* model = new QStringListModel(list, this);
+    delete completer->model();
+    completer->setModel(model);
 }
 
 void TextEditor::checkSpelling()

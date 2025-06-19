@@ -39,22 +39,23 @@ protected:
 private:
     QString path;
     QWidget *lineNumberArea;
-    bool saved = true;
+    bool saved {true};
     QString name;
-    QString oldContent = "";
+    QString oldContent {""};
     void init();
     void updateLineNumberWidth(int count);
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
-    TextHighlighter* highlighter = nullptr;
+    TextHighlighter* highlighter {nullptr};
     std::shared_ptr<Hunspell> spellChecker;
     std::unique_ptr<QCompleter> completer;
-    QStringListModel* model = nullptr;
-    QThread* spellcheckThread = nullptr;
-    QTimer* timer = nullptr;
+    QStringListModel* model {nullptr};
+    QThread* spellcheckThread {nullptr};
+    QTimer* timer {nullptr};
     std::mutex spellCheckMutex;
-    bool spellCheckEnabled = true;
+    bool spellCheckEnabled {true};
     QString language;
+    void setSuggestions(const QStringList list);
 
 private slots:
     void checkSpelling();
