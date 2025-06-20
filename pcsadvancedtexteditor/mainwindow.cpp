@@ -36,14 +36,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteSelected);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAll);
     connect(ui->actionEnabled, &QAction::triggered, this, &MainWindow::spellCheckSwitch);
+    connect(ui->actionFiles, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(0);});
+    connect(ui->actionGit, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 1 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(1);});
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
+    ui->splitter->setStretchFactor(1, 1);
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(pathLabel);
     languageLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(languageLabel);
     loadHunspell();
+    ui->filesPage->open(QDir::homePath());
 }
 
 MainWindow::~MainWindow()

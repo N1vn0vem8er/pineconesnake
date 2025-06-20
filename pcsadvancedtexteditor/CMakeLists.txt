@@ -40,6 +40,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         globals.h globals.cpp
         settings.h settings.cpp
         spellcheckerworker.h spellcheckerworker.cpp
+        filesystemtree.h filesystemtree.cpp
+        textinputdialog.h textinputdialog.cpp textinputdialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pcsadvancedtexteditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

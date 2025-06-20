@@ -27,9 +27,9 @@
         </property>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
-         <widget class="QWidget" name="page"/>
+         <widget class="FileSystemTree" name="filesPage"/>
          <widget class="QWidget" name="page_2"/>
         </widget>
         <widget class="TabWidget" name="tabWidget" native="true"/>
@@ -329,6 +329,12 @@
    <class>SearchWidget</class>
    <extends>QWidget</extends>
    <header>../../../../searchwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FileSystemTree</class>
+   <extends>QWidget</extends>
+   <header>../../../../filesystemtree.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
