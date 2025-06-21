@@ -3,6 +3,8 @@
 #include <qdialog.h>
 #include <qmenu.h>
 #include <fstream>
+#include <qmimedata.h>
+#include <qmimedatabase.h>
 
 FileSystemTree::FileSystemTree(QWidget *parent) : QTreeView(parent)
 {
@@ -10,18 +12,8 @@ FileSystemTree::FileSystemTree(QWidget *parent) : QTreeView(parent)
     hideColumn(2);
     hideColumn(3);
     hideColumn(4);
-    contextMenu = new QMenu(this);
-    QAction* createFileAction = new QAction(tr("New File"), contextMenu);
-    connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
-    contextMenu->addAction(createFileAction);
-    QAction* createDirAction = new QAction(tr("New Folder"), contextMenu);
-    connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDir);
-    contextMenu->addAction(createDirAction);
-    QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
-    connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
-    contextMenu->addAction(gitAddAction);
-    setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, &QTreeView::customContextMenuRequested, this, &FileSystemTree::openContextMenu);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 FileSystemTree::~FileSystemTree()
@@ -49,8 +41,89 @@ QString FileSystemTree::getSelectedItem(const QModelIndex& index)
     return model->filePath(index);
 }
 
+void FileSystemTree::openOnFileContextMenu(const QString& path)
+{
+    delete contextMenu;
+    contextMenu = new QMenu(this);
+    QAction* openAction = new QAction(tr("Open"), contextMenu);
+    connect(openAction, &QAction::triggered, this, [&]{emit openFile(path);});
+    contextMenu->addAction(openAction);
+    QMenu* openInMenu = new QMenu(contextMenu);
+    openInMenu->setTitle(tr("Open In"));
+
+    // for(const auto& desktopFile : QDir(QDir::homePath() + "/.local/share/applications").entryList(QStringList() << "*.desktop", QDir::Files))
+    // {
+    //     QFile file(QDir::homePath() + "/.local/share/applications/" + desktopFile);
+    //     file.open(QIODevice::ReadOnly);
+    //     if(file.isOpen())
+    //     {
+    //         QRegularExpressionMatchIterator i = QRegularExpression(R"(MimeType=(.*))").globalMatch(file.readAll());
+    //         while(i.hasNext())
+    //         {
+    //             QRegularExpressionMatch match = i.next();
+    //             if(match.hasMatch())
+    //             {
+    //                 for(int i = 1; i<match.capturedLength(); i++)
+    //                 {
+    //                     qDebug() << match.captured(i);
+    //                 }
+    //             }
+    //         }
+    //         file.close();
+    //     }
+    // }
+
+    contextMenu->addMenu(openInMenu);
+    QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
+    connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
+    contextMenu->addAction(gitAddAction);
+}
+
+void FileSystemTree::openOnDirContextMenu(const QString& path)
+{
+    delete contextMenu;
+    contextMenu = new QMenu(this);
+    QAction* createFileAction = new QAction(tr("New File"), contextMenu);
+    connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
+    contextMenu->addAction(createFileAction);
+    QAction* createDirAction = new QAction(tr("New Folder"), contextMenu);
+    connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDir);
+    contextMenu->addAction(createDirAction);
+    QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
+    connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
+    contextMenu->addAction(gitAddAction);
+    QAction* openWithAction = new QAction(tr("Open In"), contextMenu);
+    connect(openWithAction, &QAction::triggered, this, &FileSystemTree::openIn);
+    contextMenu->addAction(openWithAction);
+}
+
+void FileSystemTree::openAnywhereContextMenu()
+{
+    delete contextMenu;
+    contextMenu = new QMenu(this);
+    QAction* createFileAction = new QAction(tr("New File"), contextMenu);
+    connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
+    contextMenu->addAction(createFileAction);
+    QAction* createDirAction = new QAction(tr("New Folder"), contextMenu);
+    connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDir);
+    contextMenu->addAction(createDirAction);
+}
+
 void FileSystemTree::openContextMenu(const QPoint& point)
 {
+    const auto index = indexAt(point);
+    if(!index.isValid())
+        openAnywhereContextMenu();
+    else
+    {
+        const auto path = getSelectedItem(index);
+        if(QFileInfo(path).isFile())
+            openOnFileContextMenu(path);
+        else if(QFileInfo(path).isDir())
+            openOnDirContextMenu(path);
+        else
+            return;
+    }
     contextMenu->popup(mapToGlobal(point));
 }
 
@@ -102,6 +175,20 @@ void FileSystemTree::createDir()
 void FileSystemTree::addToGitRepository()
 {
 
+}
+
+void FileSystemTree::openIn()
+{
+    if(selectionModel()->selectedIndexes().count() > 0)
+    {
+        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        if(QFileInfo(path).isFile())
+        {
+            QMimeDatabase db;
+            QMimeType type = db.mimeTypeForFile(path);
+            qDebug() << type;
+        }
+    }
 }
 
 

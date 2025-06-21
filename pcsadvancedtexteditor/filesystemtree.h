@@ -17,12 +17,19 @@ public:
 private:
     QFileSystemModel* model {nullptr};
     QMenu* contextMenu {nullptr};
+    void openOnFileContextMenu(const QString &path);
+    void openOnDirContextMenu(const QString &path);
+    void openAnywhereContextMenu();
 
 private slots:
     void openContextMenu(const QPoint &point);
     void createFile();
     void createDir();
     void addToGitRepository();
+    void openIn();
+
+signals:
+    void openFile(const QString& path);
 };
 
 #endif // FILESYSTEMTREE_H

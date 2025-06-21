@@ -6,7 +6,7 @@ SaveWarningDialog::SaveWarningDialog(QString name, QWidget *parent)
     , ui(new Ui::SaveWarningDialog)
 {
     ui->setupUi(this);
-    ui->fileNameLabel->setText(name);
+    ui->fileNameLabel->setText(tr("Save file %1 ?").arg(name));
 }
 
 SaveWarningDialog::~SaveWarningDialog()
