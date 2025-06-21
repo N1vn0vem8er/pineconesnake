@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "texteditor.h"
 #include "globals.h"
+#include "startwidget.h"
 #include <qfileinfo.h>
 #include <QFileInfo>
 #include <QDir>
@@ -49,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusbar->addPermanentWidget(languageLabel);
     loadHunspell();
     ui->filesPage->open(QDir::homePath());
+
+    showStart();
 }
 
 MainWindow::~MainWindow()
@@ -326,4 +329,13 @@ void MainWindow::changeLanguageForEditor(const QString &language)
     {
         editor->setLanguage(language);
     }
+}
+
+void MainWindow::showStart()
+{
+    StartWidget* widget = new StartWidget(ui->tabWidget);
+    connect(widget, &StartWidget::newFile, this, &MainWindow::newFilePressed);
+    connect(widget, &StartWidget::openFile, this, &MainWindow::open);
+    connect(widget, &StartWidget::openDir, this, &MainWindow::openDirPressed);
+    addTab(widget, tr("Welcome"));
 }

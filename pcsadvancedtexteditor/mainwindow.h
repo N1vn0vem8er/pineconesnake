@@ -51,5 +51,6 @@ private slots:
     void deleteAll();
     void spellCheckSwitch(bool val);
     void changeLanguageForEditor(const QString& language);
+    void showStart();
 };
 #endif // MAINWINDOW_H
