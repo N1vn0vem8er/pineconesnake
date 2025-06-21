@@ -276,8 +276,14 @@
    </property>
   </action>
   <action name="actionFindReplace">
+   <property name="icon">
+    <iconset theme="edit-find-replace"/>
+   </property>
    <property name="text">
     <string>Find/Replace</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="action7">

@@ -17,6 +17,8 @@ public:
 private:
     QFileSystemModel* model {nullptr};
     QMenu* contextMenu {nullptr};
+
+private slots:
     void openContextMenu(const QPoint &point);
     void createFile();
     void createDir();

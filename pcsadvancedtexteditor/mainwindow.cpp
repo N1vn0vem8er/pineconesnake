@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionEnabled, &QAction::triggered, this, &MainWindow::spellCheckSwitch);
     connect(ui->actionFiles, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(0);});
     connect(ui->actionGit, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 1 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(1);});
+    connect(ui->actionFindReplace, &QAction::triggered, this, &MainWindow::showSearch);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
