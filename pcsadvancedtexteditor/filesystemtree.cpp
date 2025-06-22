@@ -46,7 +46,7 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
     delete contextMenu;
     contextMenu = new QMenu(this);
     QAction* openAction = new QAction(tr("Open"), contextMenu);
-    connect(openAction, &QAction::triggered, this, [&]{emit openFile(path);});
+    connect(openAction, &QAction::triggered, this, &FileSystemTree::openFilePressed);
     contextMenu->addAction(openAction);
     QMenu* openInMenu = new QMenu(contextMenu);
     openInMenu->setTitle(tr("Open In"));
@@ -83,6 +83,9 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
 {
     delete contextMenu;
     contextMenu = new QMenu(this);
+    QAction* openAction = new QAction(tr("Open"), contextMenu);
+    connect(openAction, &QAction::triggered, this, &FileSystemTree::openDirPressed);
+    contextMenu->addAction(openAction);
     QAction* createFileAction = new QAction(tr("New File"), contextMenu);
     connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
     contextMenu->addAction(createFileAction);
@@ -187,6 +190,30 @@ void FileSystemTree::openIn()
             QMimeDatabase db;
             QMimeType type = db.mimeTypeForFile(path);
             qDebug() << type;
+        }
+    }
+}
+
+void FileSystemTree::openFilePressed()
+{
+    if(selectionModel()->selectedIndexes().count() > 0)
+    {
+        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        if(QFileInfo(path).isFile())
+        {
+            emit openFile(path);
+        }
+    }
+}
+
+void FileSystemTree::openDirPressed()
+{
+    if(selectionModel()->selectedIndexes().count() > 0)
+    {
+        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        if(QFileInfo(path).isDir())
+        {
+            open(path);
         }
     }
 }

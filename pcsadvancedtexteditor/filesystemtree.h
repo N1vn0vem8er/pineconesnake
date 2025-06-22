@@ -27,6 +27,8 @@ private slots:
     void createDir();
     void addToGitRepository();
     void openIn();
+    void openFilePressed();
+    void openDirPressed();
 
 signals:
     void openFile(const QString& path);

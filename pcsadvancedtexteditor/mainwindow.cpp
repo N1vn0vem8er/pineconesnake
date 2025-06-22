@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionGit, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 1 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(1);});
     connect(ui->actionFindReplace, &QAction::triggered, this, &MainWindow::showSearch);
     connect(ui->actionOpen_Directory, &QAction::triggered, this, &MainWindow::openDirPressed);
+    connect(ui->filesPage, &FileSystemTree::openFile, this, &MainWindow::openFile);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
