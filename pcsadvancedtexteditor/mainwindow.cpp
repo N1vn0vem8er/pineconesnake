@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFiles, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(0);});
     connect(ui->actionGit, &QAction::triggered, this, [&]{ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 1 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(1);});
     connect(ui->actionFindReplace, &QAction::triggered, this, &MainWindow::showSearch);
+    connect(ui->actionOpen_Directory, &QAction::triggered, this, &MainWindow::openDirPressed);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -146,7 +147,10 @@ void MainWindow::loadHunspell()
 
 void MainWindow::openDir(const QString &path)
 {
-
+    if(QFileInfo(path).isDir())
+    {
+        ui->filesPage->open(path);
+    }
 }
 
 void MainWindow::addTab(QWidget *widget, const QString &title)
@@ -206,7 +210,9 @@ void MainWindow::openFilePressed()
 
 void MainWindow::openDirPressed()
 {
-
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Open Directory"));
+    if(!path.isEmpty())
+        openDir(path);
 }
 
 void MainWindow::copy()
