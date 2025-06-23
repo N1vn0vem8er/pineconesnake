@@ -15,6 +15,7 @@ void MimeFinderWorker::start()
     const QString userPath = QDir::homePath() + "/.local/share/applications";
     Globals::apps.append(find(userPath));
     Globals::apps.append(find(generalPath));
+    emit finished();
 }
 
 QList<MimeApplication> MimeFinderWorker::find(const QString &path)

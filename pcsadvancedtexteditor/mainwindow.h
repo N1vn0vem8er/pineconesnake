@@ -22,12 +22,14 @@ private:
     Ui::MainWindow *ui;
     QLabel* pathLabel {nullptr};
     QLabel* languageLabel {nullptr};
+    QThread* mimeFinderThread {nullptr};
     void openDir(const QString& path);
     void addTab(QWidget* widget, const QString& title);
     void saveFile(const QString &path, const QString &text);
     void openSaveWarningDialog(const QString path);
     void openFile(const QString &path);
     void loadHunspell();
+    void startGettingMimeData();
 
 private slots:
     void newFilePressed();
@@ -52,5 +54,8 @@ private slots:
     void spellCheckSwitch(bool val);
     void changeLanguageForEditor(const QString& language);
     void showStart();
+
+signals:
+    void startMimeSearch();
 };
 #endif // MAINWINDOW_H

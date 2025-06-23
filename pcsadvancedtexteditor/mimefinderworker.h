@@ -17,6 +17,7 @@ private:
     QList<MimeApplication> find(const QString& path);
 
 signals:
+    void finished();
 };
 
 #endif // MIMEFINDERWORKER_H

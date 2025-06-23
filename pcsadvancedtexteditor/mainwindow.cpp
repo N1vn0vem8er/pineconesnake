@@ -10,12 +10,15 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFileDialog>
+#include <qthread.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    startGettingMimeData();
 
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
@@ -54,8 +57,6 @@ MainWindow::MainWindow(QWidget *parent)
     loadHunspell();
     ui->filesPage->open(QDir::homePath());
 
-    MimeFinderWorker* mfw = new MimeFinderWorker();
-    mfw->start();
 
     showStart();
 }
@@ -148,6 +149,19 @@ void MainWindow::loadHunspell()
         }
         languageLabel->setText(Settings::defaultLanguage);
     }
+}
+
+void MainWindow::startGettingMimeData()
+{
+    MimeFinderWorker* worker = new MimeFinderWorker(this);
+    mimeFinderThread = new QThread(this);
+    worker->moveToThread(mimeFinderThread);
+    connect(mimeFinderThread, &QThread::finished, worker, &QObject::deleteLater);
+    connect(this, &MainWindow::startMimeSearch, worker, &MimeFinderWorker::start);
+    connect(worker, &MimeFinderWorker::finished, mimeFinderThread, &QThread::quit);
+    connect(mimeFinderThread, &QThread::finished, mimeFinderThread, &QThread::deleteLater);
+    mimeFinderThread->start();
+    emit startMimeSearch();
 }
 
 void MainWindow::openDir(const QString &path)
