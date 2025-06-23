@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "mimefinderworker.h"
 #include "savewarningdialog.h"
 #include "settings.h"
 #include "texteditor.h"
@@ -52,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusbar->addPermanentWidget(languageLabel);
     loadHunspell();
     ui->filesPage->open(QDir::homePath());
+
+    MimeFinderWorker* mfw = new MimeFinderWorker();
+    mfw->start();
 
     showStart();
 }

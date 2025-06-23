@@ -51,28 +51,6 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
     QMenu* openInMenu = new QMenu(contextMenu);
     openInMenu->setTitle(tr("Open In"));
 
-    // for(const auto& desktopFile : QDir(QDir::homePath() + "/.local/share/applications").entryList(QStringList() << "*.desktop", QDir::Files))
-    // {
-    //     QFile file(QDir::homePath() + "/.local/share/applications/" + desktopFile);
-    //     file.open(QIODevice::ReadOnly);
-    //     if(file.isOpen())
-    //     {
-    //         QRegularExpressionMatchIterator i = QRegularExpression(R"(MimeType=(.*))").globalMatch(file.readAll());
-    //         while(i.hasNext())
-    //         {
-    //             QRegularExpressionMatch match = i.next();
-    //             if(match.hasMatch())
-    //             {
-    //                 for(int i = 1; i<match.capturedLength(); i++)
-    //                 {
-    //                     qDebug() << match.captured(i);
-    //                 }
-    //             }
-    //         }
-    //         file.close();
-    //     }
-    // }
-
     contextMenu->addMenu(openInMenu);
     QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
     connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
