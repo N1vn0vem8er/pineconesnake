@@ -5,8 +5,8 @@
 
 
 struct MimeApplication{
-    int id;
     QString name;
+    QString icon;
     QList<QString> mimeTypes;
 };
 

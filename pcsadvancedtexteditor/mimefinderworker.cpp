@@ -47,12 +47,16 @@ QList<MimeApplication> MimeFinderWorker::find(const QString &path)
                     }
                     if(!app.mimeTypes.isEmpty())
                     {
-                        QRegularExpression regex("\\bName=(\\w+)");
-                        auto match = regex.match(text);
+                        auto match = QRegularExpression("\\bName=(\\w+)").match(text);
                         if(match.hasMatch())
                             app.name = match.captured(1);
                         if(!app.name.isEmpty())
+                        {
+                            auto match = QRegularExpression("\\bIcon=(\\w+)").match(text);
+                            if(match.hasMatch())
+                                app.icon = match.captured(1);
                             ret.append(app);
+                        }
                     }
                 }
             }

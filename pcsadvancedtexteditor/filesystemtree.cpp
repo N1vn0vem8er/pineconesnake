@@ -1,4 +1,5 @@
 #include "filesystemtree.h"
+#include "globals.h"
 #include "textinputdialog.h"
 #include <qdialog.h>
 #include <qmenu.h>
@@ -50,6 +51,19 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
     contextMenu->addAction(openAction);
     QMenu* openInMenu = new QMenu(contextMenu);
     openInMenu->setTitle(tr("Open In"));
+
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForFile(path);
+    for(const auto& i : std::as_const(Globals::apps))
+    {
+        if(i.mimeTypes.contains(type.name()))
+        {
+            QAction* action = new QAction(openInMenu);
+            action->setText(i.name);
+            openInMenu->addAction(action);
+        }
+
+    }
 
     contextMenu->addMenu(openInMenu);
     QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
