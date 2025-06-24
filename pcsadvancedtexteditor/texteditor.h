@@ -1,5 +1,6 @@
 #ifndef TEXTEDITOR_H
 #define TEXTEDITOR_H
+#include "settings.h"
 #include "texthighlighter.h"
 #include <QPlainTextEdit>
 #include <hunspell/hunspell.hxx>
@@ -32,6 +33,8 @@ public:
     void setLanguage(const QString& lang);
     QString getLanguage() const;
 
+    bool getSpellCheckEnabled() const;
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -53,7 +56,7 @@ private:
     QThread* spellcheckThread {nullptr};
     QTimer* timer {nullptr};
     std::mutex spellCheckMutex;
-    bool spellCheckEnabled {true};
+    bool spellCheckEnabled {Settings::spellCheckEnabled};
     QString language;
     void setSuggestions(const QStringList list);
 

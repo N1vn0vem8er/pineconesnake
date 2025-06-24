@@ -122,6 +122,11 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
         updateLineNumberWidth(0);
 }
 
+bool TextEditor::getSpellCheckEnabled() const
+{
+    return spellCheckEnabled;
+}
+
 void TextEditor::setSuggestions(const QStringList list)
 {
     QStringListModel* model = new QStringListModel(list, this);

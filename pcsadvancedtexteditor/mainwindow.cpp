@@ -153,7 +153,7 @@ void MainWindow::loadHunspell()
 
 void MainWindow::startGettingMimeData()
 {
-    MimeFinderWorker* worker = new MimeFinderWorker(this);
+    MimeFinderWorker* worker = new MimeFinderWorker();
     mimeFinderThread = new QThread(this);
     worker->moveToThread(mimeFinderThread);
     connect(mimeFinderThread, &QThread::finished, worker, &QObject::deleteLater);
@@ -199,9 +199,11 @@ void MainWindow::tabChanged(const int index)
     if(editor != nullptr)
     {
         pathLabel->setText(editor->getPath());
+        ui->actionEnabled->setChecked(editor->getSpellCheckEnabled());
     }
     else
     {
+        ui->actionEnabled->setChecked(Settings::spellCheckEnabled);
         pathLabel->clear();
     }
 }
@@ -343,6 +345,10 @@ void MainWindow::spellCheckSwitch(bool val)
     if(editor != nullptr)
     {
         editor->setSpellCheckEnabled(val);
+    }
+    else
+    {
+        Settings::spellCheckEnabled = val;
     }
 }
 

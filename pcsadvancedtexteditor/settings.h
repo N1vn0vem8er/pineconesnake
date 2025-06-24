@@ -7,6 +7,7 @@ class Settings
 public:
     Settings();
     static QString defaultLanguage;
+    static bool spellCheckEnabled;
 };
 
 #endif // SETTINGS_H
