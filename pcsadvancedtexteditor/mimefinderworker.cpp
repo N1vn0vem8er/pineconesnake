@@ -55,6 +55,9 @@ QList<MimeApplication> MimeFinderWorker::find(const QString &path)
                             auto match = QRegularExpression("\\bIcon=(\\w+)").match(text);
                             if(match.hasMatch())
                                 app.icon = match.captured(1);
+                            auto matchExec = QRegularExpression("\\bExec=(\\w+)").match(text);
+                            if(matchExec.hasMatch())
+                                app.exec = matchExec.captured(1);
                             ret.append(app);
                         }
                     }

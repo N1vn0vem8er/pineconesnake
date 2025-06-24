@@ -60,6 +60,8 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
         {
             QAction* action = new QAction(openInMenu);
             action->setText(i.name);
+            action->setIcon(QIcon::fromTheme(i.icon));
+            connect(action, &QAction::triggered, this, [this, path, i]{openIn(i.exec, path);});
             openInMenu->addAction(action);
         }
 
@@ -88,7 +90,7 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
     connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
     contextMenu->addAction(gitAddAction);
     QAction* openWithAction = new QAction(tr("Open In"), contextMenu);
-    connect(openWithAction, &QAction::triggered, this, &FileSystemTree::openIn);
+    // connect(openWithAction, &QAction::triggered, this, &FileSystemTree::openIn);
     contextMenu->addAction(openWithAction);
 }
 
@@ -172,18 +174,9 @@ void FileSystemTree::addToGitRepository()
 
 }
 
-void FileSystemTree::openIn()
+void FileSystemTree::openIn(const QString& exec, const QString& path)
 {
-    if(selectionModel()->selectedIndexes().count() > 0)
-    {
-        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
-        if(QFileInfo(path).isFile())
-        {
-            QMimeDatabase db;
-            QMimeType type = db.mimeTypeForFile(path);
-            qDebug() << type;
-        }
-    }
+    std::system(QString("%1 %2").arg(exec, path).toStdString().c_str());
 }
 
 void FileSystemTree::openFilePressed()
