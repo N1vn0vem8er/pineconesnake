@@ -29,6 +29,7 @@ private slots:
     void openIn(const QString& exec, const QString& path);
     void openFilePressed();
     void openDirPressed();
+    void renamePressed();
 
 signals:
     void openFile(const QString& path);

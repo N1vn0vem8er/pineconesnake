@@ -68,6 +68,9 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
     }
 
     contextMenu->addMenu(openInMenu);
+    QAction* renameAction = new QAction(tr("Rename"), contextMenu);
+    connect(renameAction, &QAction::triggered, this, &FileSystemTree::renamePressed);
+    contextMenu->addAction(renameAction);
     QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
     connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
     contextMenu->addAction(gitAddAction);
@@ -215,6 +218,25 @@ void FileSystemTree::openDirPressed()
         if(QFileInfo(path).isDir())
         {
             open(path);
+        }
+    }
+}
+
+void FileSystemTree::renamePressed()
+{
+    if(selectionModel()->selectedIndexes().count() > 0)
+    {
+        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        QFileInfo fileInfo(path);
+        TextInputDialog* dialog = new TextInputDialog(this);
+        if(dialog->exec() == QDialog::Accepted)
+        {
+            const QString newName = dialog->getText();
+            if(!newName.isEmpty())
+            {
+                const QString newPath = fileInfo.absolutePath() + QDir::separator() + newName;
+                QFile::rename(path, newPath);
+            }
         }
     }
 }
