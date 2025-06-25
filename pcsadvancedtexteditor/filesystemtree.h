@@ -25,6 +25,8 @@ private slots:
     void openContextMenu(const QPoint &point);
     void createFile();
     void createDir();
+    void createDirInRoot();
+    void createFileInRoot();
     void addToGitRepository();
     void openIn(const QString& exec, const QString& path);
     void openFilePressed();

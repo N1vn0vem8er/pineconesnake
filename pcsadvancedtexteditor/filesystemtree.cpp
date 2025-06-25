@@ -98,7 +98,6 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
             connect(action, &QAction::triggered, this, [this, path, i]{openIn(i.exec, path);});
             openInMenu->addAction(action);
         }
-
     }
 
     contextMenu->addMenu(openInMenu);
@@ -118,10 +117,10 @@ void FileSystemTree::openAnywhereContextMenu()
     delete contextMenu;
     contextMenu = new QMenu(this);
     QAction* createFileAction = new QAction(tr("New File"), contextMenu);
-    connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
+    connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFileInRoot);
     contextMenu->addAction(createFileAction);
     QAction* createDirAction = new QAction(tr("New Folder"), contextMenu);
-    connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDir);
+    connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDirInRoot);
     contextMenu->addAction(createDirAction);
 }
 
@@ -147,13 +146,13 @@ void FileSystemTree::createFile()
 {
     if(selectionModel()->selectedIndexes().count() > 0)
     {
-        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        const QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
         if(QFileInfo(path).isDir())
         {
             TextInputDialog* dialog = new TextInputDialog();
             if(dialog->exec() == QDialog::Accepted)
             {
-                QString name = dialog->getText();
+                const QString name = dialog->getText();
                 if(!name.isEmpty())
                 {
                     std::ofstream file;
@@ -172,16 +171,55 @@ void FileSystemTree::createDir()
 {
     if(selectionModel()->selectedIndexes().count() > 0)
     {
-        QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
+        const QString path = getSelectedItem(selectionModel()->selectedIndexes()[0]);
         if(QFileInfo(path).isDir())
         {
             TextInputDialog* dialog = new TextInputDialog();
             if(dialog->exec() == QDialog::Accepted)
             {
-                QString name = dialog->getText();
+                const QString name = dialog->getText();
                 if(!name.isEmpty())
                 {
                     QDir().mkdir(path + '/' + name);
+                }
+            }
+        }
+    }
+}
+
+void FileSystemTree::createDirInRoot()
+{
+    const QString path = model->rootPath();
+    if(QFileInfo(path).isDir())
+    {
+        TextInputDialog* dialog = new TextInputDialog();
+        if(dialog->exec() == QDialog::Accepted)
+        {
+            const QString name = dialog->getText();
+            if(!name.isEmpty())
+            {
+                QDir().mkdir(path + '/' + name);
+            }
+        }
+    }
+}
+
+void FileSystemTree::createFileInRoot()
+{
+    const QString path = model->rootPath();
+    if(QFileInfo(path).isDir())
+    {
+        TextInputDialog* dialog = new TextInputDialog();
+        if(dialog->exec() == QDialog::Accepted)
+        {
+            const QString name = dialog->getText();
+            if(!name.isEmpty())
+            {
+                std::ofstream file;
+                file.open(path.toStdString() + '/' + name.toStdString());
+                if(file.is_open())
+                {
+                    file.close();
                 }
             }
         }
