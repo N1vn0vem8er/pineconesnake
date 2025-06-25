@@ -80,6 +80,25 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
     QAction* openAction = new QAction(tr("Open"), contextMenu);
     connect(openAction, &QAction::triggered, this, &FileSystemTree::openDirPressed);
     contextMenu->addAction(openAction);
+    QMenu* openInMenu = new QMenu(contextMenu);
+    openInMenu->setTitle(tr("Open In"));
+
+    QMimeDatabase db;
+    QMimeType type = db.mimeTypeForFile(path);
+    for(const auto& i : std::as_const(Globals::apps))
+    {
+        if(i.mimeTypes.contains(type.name()))
+        {
+            QAction* action = new QAction(openInMenu);
+            action->setText(i.name);
+            action->setIcon(QIcon::fromTheme(i.icon));
+            connect(action, &QAction::triggered, this, [this, path, i]{openIn(i.exec, path);});
+            openInMenu->addAction(action);
+        }
+
+    }
+
+    contextMenu->addMenu(openInMenu);
     QAction* createFileAction = new QAction(tr("New File"), contextMenu);
     connect(createFileAction, &QAction::triggered, this, &FileSystemTree::createFile);
     contextMenu->addAction(createFileAction);
@@ -89,9 +108,6 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
     QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
     connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
     contextMenu->addAction(gitAddAction);
-    QAction* openWithAction = new QAction(tr("Open In"), contextMenu);
-    // connect(openWithAction, &QAction::triggered, this, &FileSystemTree::openIn);
-    contextMenu->addAction(openWithAction);
 }
 
 void FileSystemTree::openAnywhereContextMenu()
