@@ -42,6 +42,16 @@ QString FileSystemTree::getSelectedItem(const QModelIndex& index)
     return model->filePath(index);
 }
 
+bool FileSystemTree::getHasGitRepository() const
+{
+    return hasGitRepository;
+}
+
+void FileSystemTree::setHasGitRepository(bool newHasGitRepository)
+{
+    hasGitRepository = newHasGitRepository;
+}
+
 void FileSystemTree::openOnFileContextMenu(const QString& path)
 {
     delete contextMenu;
@@ -71,9 +81,12 @@ void FileSystemTree::openOnFileContextMenu(const QString& path)
     QAction* renameAction = new QAction(tr("Rename"), contextMenu);
     connect(renameAction, &QAction::triggered, this, &FileSystemTree::renamePressed);
     contextMenu->addAction(renameAction);
-    QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
-    connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
-    contextMenu->addAction(gitAddAction);
+    if(hasGitRepository)
+    {
+        QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
+        connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
+        contextMenu->addAction(gitAddAction);
+    }
 }
 
 void FileSystemTree::openOnDirContextMenu(const QString& path)
@@ -107,9 +120,12 @@ void FileSystemTree::openOnDirContextMenu(const QString& path)
     QAction* createDirAction = new QAction(tr("New Folder"), contextMenu);
     connect(createDirAction, &QAction::triggered, this, &FileSystemTree::createDir);
     contextMenu->addAction(createDirAction);
-    QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
-    connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
-    contextMenu->addAction(gitAddAction);
+    if(hasGitRepository)
+    {
+        QAction* gitAddAction = new QAction(tr("Git Add"), contextMenu);
+        connect(gitAddAction, &QAction::triggered, this, &FileSystemTree::addToGitRepository);
+        contextMenu->addAction(gitAddAction);
+    }
 }
 
 void FileSystemTree::openAnywhereContextMenu()

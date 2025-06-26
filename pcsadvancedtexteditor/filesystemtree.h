@@ -13,10 +13,13 @@ public:
     void open(const QString &path);
     void setDirectory(const QString &path);
     QString getSelectedItem(const QModelIndex &index);
+    bool getHasGitRepository() const;
+    void setHasGitRepository(bool newHasGitRepository);
 
 private:
     QFileSystemModel* model {nullptr};
     QMenu* contextMenu {nullptr};
+    bool hasGitRepository {false};
     void openOnFileContextMenu(const QString &path);
     void openOnDirContextMenu(const QString &path);
     void openAnywhereContextMenu();

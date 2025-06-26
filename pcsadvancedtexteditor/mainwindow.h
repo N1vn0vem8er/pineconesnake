@@ -23,6 +23,7 @@ private:
     QLabel* pathLabel {nullptr};
     QLabel* languageLabel {nullptr};
     QThread* mimeFinderThread {nullptr};
+    bool hasGitRepository {false};
     void openDir(const QString& path);
     void addTab(QWidget* widget, const QString& title);
     void saveFile(const QString &path, const QString &text);

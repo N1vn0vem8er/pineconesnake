@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFileDialog>
+#include <qprocess.h>
 #include <qthread.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -168,7 +169,15 @@ void MainWindow::openDir(const QString &path)
 {
     if(QFileInfo(path).isDir())
     {
+        QProcess* process = new QProcess(this);
+        process->setWorkingDirectory(path);
+        process->startCommand("git status");
+        process->waitForStarted();
+        process->waitForFinished();
+        process->waitForReadyRead();
+        hasGitRepository = process->readAllStandardError().isEmpty();
         ui->filesPage->open(path);
+        ui->filesPage->setHasGitRepository(hasGitRepository);
     }
 }
 
