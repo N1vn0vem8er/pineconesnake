@@ -178,6 +178,8 @@ void MainWindow::openDir(const QString &path)
         hasGitRepository = process->readAllStandardError().isEmpty();
         ui->filesPage->open(path);
         ui->filesPage->setHasGitRepository(hasGitRepository);
+        if(hasGitRepository) ui->gitPage->setRepositoryPath(path);
+        else ui->gitPage->noRepo();
     }
 }
 
