@@ -23,11 +23,7 @@ void GitFileStatusItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 
 QSize GitFileStatusItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() == 0) {
-        return QStyledItemDelegate::sizeHint(option, index);
-    } else {
-        return QSize(100, 30);
-    }
+    return QStyledItemDelegate::sizeHint(option, index);
 }
 
 bool GitFileStatusItemDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)

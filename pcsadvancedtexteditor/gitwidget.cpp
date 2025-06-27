@@ -10,7 +10,9 @@ GitWidget::GitWidget(QWidget *parent)
 {
     ui->setupUi(this);
     setVisibility(false);
-    ui->addedListView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedListView));
+    ui->addedView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedView));
+    ui->changedView->setItemDelegate(new GitFileStatusItemDelegate(ui->changedView));
+    ui->untrackedView->setItemDelegate(new GitFileStatusItemDelegate(ui->untrackedView));
 }
 
 GitWidget::~GitWidget()
@@ -40,9 +42,9 @@ void GitWidget::setVisibility(bool val)
     ui->addedLabel->setVisible(val);
     ui->changedLabel->setVisible(val);
     ui->untreckedLabel->setVisible(val);
-    ui->addedListView->setVisible(val);
-    ui->changedListView->setVisible(val);
-    ui->untrackedListView->setVisible(val);
+    ui->addedView->setVisible(val);
+    ui->changedView->setVisible(val);
+    ui->untrackedView->setVisible(val);
     ui->addedTextLabel->setVisible(val);
     ui->changedTextLabel->setVisible(val);
     ui->untrackedTextLabel->setVisible(val);
@@ -64,6 +66,29 @@ void GitWidget::readStatus()
     modifiedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.M\s+(.*))"), results, " M");
     addedInIndex = getFilesStatus(QRegularExpression(R"(A.\s+(.*))"), results, "A ");
     deletedFromIndex = getFilesStatus(QRegularExpression(R"(D.\s+(.*))"), results, "D ");
+
+    addedModel = new GitFileStatusModel(ui->addedView);
+    addedModel->setItems(addedInIndex);
+    ui->addedView->setModel(addedModel);
+    changedModel = new GitFileStatusModel(ui->changedView);
+    changedModel->setItems(modifiedInBoth + modifiedInIndex + modifiedInWorkingDirectory);
+    ui->changedView->setModel(changedModel);
+    untrackedModel = new GitFileStatusModel(ui->untrackedView);
+    untrackedModel->setItems(untrackedFiles);
+    ui->untrackedView->setModel(untrackedModel);
+
+    ui->changedView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->changedView->setColumnWidth(1, 1);
+    ui->changedView->setColumnWidth(2, 1);
+    ui->changedView->setColumnWidth(3, 4);
+    ui->addedView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->addedView->setColumnWidth(1, 1);
+    ui->addedView->setColumnWidth(2, 1);
+    ui->addedView->setColumnWidth(3, 4);
+    ui->untrackedView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->untrackedView->setColumnWidth(1, 1);
+    ui->untrackedView->setColumnWidth(2, 1);
+    ui->untrackedView->setColumnWidth(3, 4);
 }
 
 QList<GitFileStatus> GitWidget::getFilesStatus(const QRegularExpression &regex, const QString &results, const QString &status)
@@ -78,7 +103,8 @@ QList<GitFileStatus> GitWidget::getFilesStatus(const QRegularExpression &regex, 
             auto tmp = match.captured(i);
             if(!tmp.isEmpty())
             {
-                ret.append(GitFileStatus(QFileInfo(tmp).fileName(), tmp, status, "0", "0"));
+                const QString name = QFileInfo(tmp).fileName();
+                ret.append(GitFileStatus(name.isEmpty() ? tmp : name, tmp, status, "0", "0"));
             }
         }
     }

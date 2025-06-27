@@ -28,6 +28,8 @@ private:
     QList<GitFileStatus> addedInIndex;
     QList<GitFileStatus> deletedFromIndex;
     GitFileStatusModel* addedModel {nullptr};
+    GitFileStatusModel* changedModel {nullptr};
+    GitFileStatusModel* untrackedModel {nullptr};
     void setVisibility(bool val);
     void readStatus();
     QList<GitFileStatus> getFilesStatus(const QRegularExpression& regex, const QString& results, const QString& status);
