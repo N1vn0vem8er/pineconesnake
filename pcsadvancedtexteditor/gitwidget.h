@@ -1,6 +1,7 @@
 #ifndef GITWIDGET_H
 #define GITWIDGET_H
 
+#include "gitfilestatusmodel.h"
 #include <QWidget>
 
 namespace Ui {
@@ -20,15 +21,16 @@ public:
 private:
     Ui::GitWidget *ui;
     QString repoPath;
-    QStringList untrackedFiles;
-    QStringList modifiedInWorkingDirectory;
-    QStringList modifiedInIndex;
-    QStringList modifiedInBoth;
-    QStringList addedInIndex;
-    QStringList deletedFromIndex;
+    QList<GitFileStatus> untrackedFiles;
+    QList<GitFileStatus> modifiedInWorkingDirectory;
+    QList<GitFileStatus> modifiedInIndex;
+    QList<GitFileStatus> modifiedInBoth;
+    QList<GitFileStatus> addedInIndex;
+    QList<GitFileStatus> deletedFromIndex;
+    GitFileStatusModel* addedModel {nullptr};
     void setVisibility(bool val);
     void readStatus();
-    QStringList getFilesStatus(const QRegularExpression& regex, const QString& results);
+    QList<GitFileStatus> getFilesStatus(const QRegularExpression& regex, const QString& results, const QString& status);
 };
 
 #endif // GITWIDGET_H
