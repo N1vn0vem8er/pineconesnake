@@ -67,9 +67,9 @@ void GitWidget::readStatus()
     modifiedInIndex = getFilesStatus(QRegularExpression(R"(M.\s+(.*))"), results, "M ");
     modifiedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.M\s+(.*))"), results, " M");
     addedInIndex = getFilesStatus(QRegularExpression(R"(A.\s+(.*))"), results, "A ");
-    addedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.A\s+(.*))"), results, "A ");
+    addedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.A\s+(.*))"), results, " A");
     deletedFromIndex = getFilesStatus(QRegularExpression(R"(D.\s+(.*))"), results, "D ");
-    deletedFromWorkingDirectory = getFilesStatus(QRegularExpression(R"(.D\s+(.*))"), results, "D ");
+    deletedFromWorkingDirectory = getFilesStatus(QRegularExpression(R"(.D\s+(.*))"), results, " D");
 
     auto diff = readDiff();
 
