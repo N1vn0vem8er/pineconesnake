@@ -99,6 +99,12 @@
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
      <property name="showGrid">
       <bool>false</bool>
      </property>
@@ -142,6 +148,12 @@
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
      <property name="showGrid">
       <bool>false</bool>
      </property>
@@ -184,6 +196,12 @@
     <widget class="QTableView" name="untrackedView">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
      </property>
      <property name="showGrid">
       <bool>false</bool>

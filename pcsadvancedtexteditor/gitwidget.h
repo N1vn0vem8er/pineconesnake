@@ -24,8 +24,9 @@ private:
     QList<GitFileStatus> untrackedFiles;
     QList<GitFileStatus> modifiedInWorkingDirectory;
     QList<GitFileStatus> modifiedInIndex;
-    QList<GitFileStatus> modifiedInBoth;
     QList<GitFileStatus> addedInIndex;
+    QList<GitFileStatus> addedInWorkingDirectory;
+    QList<GitFileStatus> deletedFromWorkingDirectory;
     QList<GitFileStatus> deletedFromIndex;
     GitFileStatusModel* addedModel {nullptr};
     GitFileStatusModel* changedModel {nullptr};
@@ -35,6 +36,9 @@ private:
     QList<GitFileStatus> getFilesStatus(const QRegularExpression& regex, const QString& results, const QString& status) const;
     QList<QPair<QString, QPair<QString, QString>>> readDiff();
     void applyDiff(QList<GitFileStatus> &files, QList<QPair<QString, QPair<QString, QString> > > &diffs);
+
+private slots:
+    void refresh();
 };
 
 #endif // GITWIDGET_H

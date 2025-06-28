@@ -9,6 +9,9 @@ GitWidget::GitWidget(QWidget *parent)
     , ui(new Ui::GitWidget)
 {
     ui->setupUi(this);
+
+    connect(ui->refreshButton, &QPushButton::clicked, this, &GitWidget::refresh);
+
     setVisibility(false);
     ui->addedView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedView));
     ui->changedView->setItemDelegate(new GitFileStatusItemDelegate(ui->changedView));
@@ -61,26 +64,28 @@ void GitWidget::readStatus()
     process->waitForReadyRead();
     const QString results = process->readAllStandardOutput();
     untrackedFiles = getFilesStatus(QRegularExpression(R"(\?\?\s+(.*))"), results, "??");
-    modifiedInBoth = getFilesStatus(QRegularExpression(R"(MM\s+(.*))"), results, "MM");
     modifiedInIndex = getFilesStatus(QRegularExpression(R"(M.\s+(.*))"), results, "M ");
     modifiedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.M\s+(.*))"), results, " M");
     addedInIndex = getFilesStatus(QRegularExpression(R"(A.\s+(.*))"), results, "A ");
+    addedInWorkingDirectory = getFilesStatus(QRegularExpression(R"(.A\s+(.*))"), results, "A ");
     deletedFromIndex = getFilesStatus(QRegularExpression(R"(D.\s+(.*))"), results, "D ");
+    deletedFromWorkingDirectory = getFilesStatus(QRegularExpression(R"(.D\s+(.*))"), results, "D ");
 
     auto diff = readDiff();
 
     applyDiff(untrackedFiles, diff);
-    applyDiff(modifiedInBoth, diff);
     applyDiff(modifiedInIndex, diff);
     applyDiff(modifiedInWorkingDirectory, diff);
     applyDiff(addedInIndex, diff);
+    applyDiff(addedInWorkingDirectory, diff);
     applyDiff(deletedFromIndex, diff);
+    applyDiff(deletedFromWorkingDirectory, diff);
 
     addedModel = new GitFileStatusModel(ui->addedView);
-    addedModel->setItems(addedInIndex);
+    addedModel->setItems(addedInIndex + modifiedInIndex + deletedFromIndex);
     ui->addedView->setModel(addedModel);
     changedModel = new GitFileStatusModel(ui->changedView);
-    changedModel->setItems(modifiedInBoth + modifiedInIndex + modifiedInWorkingDirectory);
+    changedModel->setItems(modifiedInWorkingDirectory + deletedFromWorkingDirectory + addedInWorkingDirectory);
     ui->changedView->setModel(changedModel);
     untrackedModel = new GitFileStatusModel(ui->untrackedView);
     untrackedModel->setItems(untrackedFiles);
@@ -158,4 +163,9 @@ void GitWidget::applyDiff(QList<GitFileStatus>& files, QList<QPair<QString, QPai
             i.removedLines = tmp->second.second;
         }
     }
+}
+
+void GitWidget::refresh()
+{
+    readStatus();
 }
