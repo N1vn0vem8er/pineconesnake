@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->gitPage, &GitWidget::openInEditor, this, &MainWindow::openWithText);
     connect(ui->gitPage, &GitWidget::openFile, this, &MainWindow::openFile);
     connect(ui->actionStart, &QAction::triggered, this, &MainWindow::showStart);
+    connect(ui->gitPage, &GitWidget::addTab, this, &MainWindow::addTab);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -122,10 +123,12 @@ void MainWindow::open()
         openFile(filePath);
 }
 
-void MainWindow::openWithText(const QString &text, const QString& title)
+void MainWindow::openWithText(const QString &text, const QString& title, bool readOnly, bool spellChecking)
 {
     TextEditor* editor = new TextEditor(ui->tabWidget);
     editor->setPlainText(text);
+    editor->setReadOnly(readOnly);
+    editor->setSpellCheckEnabled(spellChecking);
     addTab(editor, title);
 }
 

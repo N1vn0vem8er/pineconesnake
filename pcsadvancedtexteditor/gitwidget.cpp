@@ -1,8 +1,10 @@
 #include "gitwidget.h"
 #include "gitfilestatusitemdelegate.h"
+#include "texteditor.h"
 #include "ui_gitwidget.h"
 #include <qdir.h>
 #include <qfileinfo.h>
+#include <qlineedit.h>
 #include <qmenu.h>
 #include <qprocess.h>
 
@@ -13,6 +15,7 @@ GitWidget::GitWidget(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->refreshButton, &QPushButton::clicked, this, &GitWidget::refresh);
+    connect(ui->commitButton, &QPushButton::clicked, this, &GitWidget::openGitCommit);
 
     setVisibility(false);
     ui->addedView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedView));
@@ -272,4 +275,35 @@ void GitWidget::openChanged(const QModelIndex &index)
 void GitWidget::openUntracked(const QModelIndex &index)
 {
     emit openFile(repoPath + QDir::separator() + untrackedModel->getItems().at(index.row()).path);
+}
+
+void GitWidget::openGitCommit()
+{
+    QWidget* widget = new QWidget(this);
+    QVBoxLayout* mainLayout = new QVBoxLayout(widget);
+    QLineEdit* title = new QLineEdit(widget);
+    title->setPlaceholderText(tr("Enter Title"));
+    mainLayout->addWidget(title);
+    TextEditor* editor = new TextEditor(widget);
+    editor->setPlaceholderText(tr("Enter Description"));
+    mainLayout->addWidget(editor);
+    QPushButton* commitButton = new QPushButton(widget);
+    commitButton->setText(tr("Commit"));
+    commitButton->setIcon(QIcon::fromTheme("list-add"));
+    connect(commitButton, &QPushButton::clicked, this, [this, title, editor]{gitCommit(title->text(), editor->toPlainText());});
+    mainLayout->addWidget(commitButton);
+    widget->setLayout(mainLayout);
+    emit addTab(widget, tr("Git Commit"));
+}
+
+void GitWidget::gitCommit(const QString &title, const QString &description)
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"commit", "-m", title, "-m", description});
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+    refresh();
+    emit openInEditor(process->readAll(), tr("Commit resoults"));
 }

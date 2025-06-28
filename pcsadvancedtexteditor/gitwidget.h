@@ -46,10 +46,13 @@ private slots:
     void openAdded(const QModelIndex& index);
     void openChanged(const QModelIndex& index);
     void openUntracked(const QModelIndex& index);
+    void openGitCommit();
+    void gitCommit(const QString& title, const QString& description);
 
 signals:
-    void openInEditor(const QString& text, const QString& title);
+    void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false);
     void openFile(const QString& absolutePath);
+    void addTab(QWidget* widget, const QString& title);
 };
 
 #endif // GITWIDGET_H

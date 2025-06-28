@@ -41,7 +41,7 @@ private slots:
     void saveAs();
     void save();
     void open();
-    void openWithText(const QString& text, const QString &title);
+    void openWithText(const QString& text, const QString &title, bool readOnly, bool spellChecking);
     void closeTab(const int index);
     void tabChanged(const int index);
     void copy();
