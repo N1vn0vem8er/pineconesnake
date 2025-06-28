@@ -32,7 +32,9 @@ private:
     GitFileStatusModel* untrackedModel {nullptr};
     void setVisibility(bool val);
     void readStatus();
-    QList<GitFileStatus> getFilesStatus(const QRegularExpression& regex, const QString& results, const QString& status);
+    QList<GitFileStatus> getFilesStatus(const QRegularExpression& regex, const QString& results, const QString& status) const;
+    QList<QPair<QString, QPair<QString, QString>>> readDiff();
+    void applyDiff(QList<GitFileStatus> &files, QList<QPair<QString, QPair<QString, QString> > > &diffs);
 };
 
 #endif // GITWIDGET_H

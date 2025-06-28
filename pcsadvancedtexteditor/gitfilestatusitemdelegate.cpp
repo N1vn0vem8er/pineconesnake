@@ -1,5 +1,6 @@
 #include "gitfilestatusitemdelegate.h"
 #include <qapplication.h>
+#include <QPalette>
 
 GitFileStatusItemDelegate::GitFileStatusItemDelegate(QObject *parent) : QStyledItemDelegate(parent) {}
 
@@ -11,12 +12,20 @@ void GitFileStatusItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     switch(index.column())
     {
     case 0:
-    case 1:
-    case 2:
+    case 3:
         QStyledItemDelegate::paint(painter, opt, index);
         break;
-    case 3:
-        QApplication::style()->drawItemText(painter, opt.rect, Qt::AlignLeft, opt.palette, opt.state & QStyle::State_Enabled, opt.text);
+    case 1:
+    {
+        auto palette = QPalette(opt.palette);
+        palette.setColor(QPalette::Text, QColor::fromRgb(255, 0, 0));
+        QApplication::style()->drawItemText(painter, opt.rect, Qt::AlignLeft, palette, opt.state & QStyle::State_Enabled, "+ " + opt.text);
+    }
+        break;
+    case 2:
+        auto palette = QPalette(opt.palette);
+        palette.setColor(QPalette::Text, QColor::fromRgb(0, 255, 0));
+        QApplication::style()->drawItemText(painter, opt.rect, Qt::AlignLeft, palette, opt.state & QStyle::State_Enabled, "- " + opt.text);
         break;
     }
 }

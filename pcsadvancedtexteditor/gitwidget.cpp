@@ -67,6 +67,15 @@ void GitWidget::readStatus()
     addedInIndex = getFilesStatus(QRegularExpression(R"(A.\s+(.*))"), results, "A ");
     deletedFromIndex = getFilesStatus(QRegularExpression(R"(D.\s+(.*))"), results, "D ");
 
+    auto diff = readDiff();
+
+    applyDiff(untrackedFiles, diff);
+    applyDiff(modifiedInBoth, diff);
+    applyDiff(modifiedInIndex, diff);
+    applyDiff(modifiedInWorkingDirectory, diff);
+    applyDiff(addedInIndex, diff);
+    applyDiff(deletedFromIndex, diff);
+
     addedModel = new GitFileStatusModel(ui->addedView);
     addedModel->setItems(addedInIndex);
     ui->addedView->setModel(addedModel);
@@ -91,7 +100,7 @@ void GitWidget::readStatus()
     ui->untrackedView->setColumnWidth(3, 4);
 }
 
-QList<GitFileStatus> GitWidget::getFilesStatus(const QRegularExpression &regex, const QString &results, const QString &status)
+QList<GitFileStatus> GitWidget::getFilesStatus(const QRegularExpression &regex, const QString &results, const QString &status) const
 {
     QList<GitFileStatus> ret;
     QRegularExpressionMatchIterator iterator = regex.globalMatch(results);
@@ -109,4 +118,44 @@ QList<GitFileStatus> GitWidget::getFilesStatus(const QRegularExpression &regex, 
         }
     }
     return ret;
+}
+
+QList<QPair<QString, QPair<QString, QString>>> GitWidget::readDiff()
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->startCommand("git diff --numstat");
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+
+    QList<QPair<QString, QPair<QString, QString>>> changed;
+
+    const QString results = process->readAllStandardOutput();
+    QRegularExpressionMatchIterator iterator = QRegularExpression(R"((\d+)\t(\d+)\t(.+))").globalMatch(results);
+    while(iterator.hasNext())
+    {
+        auto match = iterator.next();
+        const QString added = match.captured(1);
+        const QString removed = match.captured(2);
+        const QString name = match.captured(3);
+        if(std::find_if(changed.begin(), changed.end(), [&name](const auto& item){return item.first == name;}) == changed.end())
+        {
+            changed.append(QPair(name, QPair(added, removed)));
+        }
+    }
+    return changed;
+}
+
+void GitWidget::applyDiff(QList<GitFileStatus>& files, QList<QPair<QString, QPair<QString, QString>>>& diffs)
+{
+    for(auto& i : files)
+    {
+        const auto tmp = std::find_if(diffs.begin(), diffs.end(), [&i](const auto& item){return i.path == item.first;});
+        if(tmp != diffs.end())
+        {
+            i.addedLines = tmp->second.first;
+            i.removedLines = tmp->second.second;
+        }
+    }
 }
