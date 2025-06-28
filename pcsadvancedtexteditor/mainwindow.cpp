@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->filesPage, &FileSystemTree::openFile, this, &MainWindow::openFile);
     connect(ui->gitPage, &GitWidget::openInEditor, this, &MainWindow::openWithText);
     connect(ui->gitPage, &GitWidget::openFile, this, &MainWindow::openFile);
+    connect(ui->actionStart, &QAction::triggered, this, &MainWindow::showStart);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -78,6 +79,7 @@ void MainWindow::saveAs()
         {
             saveFile(path, editor->toPlainText());
             editor->setSaved(true);
+            saveFileToRecent(path);
         }
     }
 }
