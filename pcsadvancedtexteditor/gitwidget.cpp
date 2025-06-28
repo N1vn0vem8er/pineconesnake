@@ -19,9 +19,20 @@ GitWidget::GitWidget(QWidget *parent)
     ui->untrackedView->setItemDelegate(new GitFileStatusItemDelegate(ui->untrackedView));
     QMenu* changedContextMenu = new QMenu(ui->changedView);
     QAction* gitAdd = new QAction(changedContextMenu);
-    gitAdd->setText("Add");
+    gitAdd->setText(tr("Add"));
     changedContextMenu->addAction(gitAdd);
     ui->changedView->setContextMenu(changedContextMenu);
+    connect(gitAdd, &QAction::triggered, ui->changedView, &GitFilesView::gitAddPressed);
+    connect(ui->changedView, &GitFilesView::gitAdd, this, &GitWidget::gitAdd);
+
+    QMenu* untrackedContextMenu = new QMenu(ui->untrackedView);
+    QAction* utGitAdd = new QAction(untrackedContextMenu);
+    utGitAdd->setText(tr("Add"));
+    untrackedContextMenu->addAction(utGitAdd);
+    ui->untrackedView->setContextMenu(untrackedContextMenu);
+
+    connect(utGitAdd, &QAction::triggered, ui->untrackedView, &GitFilesView::gitAddPressed);
+    connect(ui->untrackedView, &GitFilesView::gitAdd, this, &GitWidget::gitAddUntracked);
 }
 
 GitWidget::~GitWidget()
@@ -174,4 +185,22 @@ void GitWidget::applyDiff(QList<GitFileStatus>& files, QList<QPair<QString, QPai
 void GitWidget::refresh()
 {
     readStatus();
+}
+
+void GitWidget::gitAdd(const QModelIndex& index)
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"add", changedModel->getItems().at(index.row()).path});
+    process->waitForStarted();
+    process->waitForFinished();
+}
+
+void GitWidget::gitAddUntracked(const QModelIndex &index)
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"add", untrackedModel->getItems().at(index.row()).path});
+    process->waitForStarted();
+    process->waitForFinished();
 }

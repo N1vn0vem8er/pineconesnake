@@ -14,6 +14,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     void setItems(const QList<GitFileStatus> items);
 
+    QList<GitFileStatus> getItems() const;
+
 private:
     QList<GitFileStatus> items;
 };

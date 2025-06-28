@@ -44,3 +44,8 @@ void GitFileStatusModel::setItems(const QList<GitFileStatus> items)
 {
     this->items = items;
 }
+
+QList<GitFileStatus> GitFileStatusModel::getItems() const
+{
+    return items;
+}

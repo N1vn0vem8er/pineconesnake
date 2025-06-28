@@ -1,6 +1,7 @@
 #ifndef GITFILESVIEW_H
 #define GITFILESVIEW_H
 
+#include "structs.h"
 #include <QTableView>
 
 class GitFilesView : public QTableView
@@ -12,9 +13,16 @@ public:
 
 private:
     QMenu* contextMenu {nullptr};
+    QPoint currentPoint;
+
+public slots:
+    void gitAddPressed();
 
 private slots:
     void openContextMenu(const QPoint &point);
+
+signals:
+    void gitAdd(const QModelIndex& index);
 
 };
 
