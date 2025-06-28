@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
     loadHunspell();
     ui->filesPage->open(QDir::homePath());
 
-
     showStart();
 }
 
@@ -140,7 +139,9 @@ void MainWindow::openFile(const QString& path)
             addTab(new TextEditor(content, path), QFileInfo(file).fileName());
             ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
             pathLabel->setText(path);
+            saveFileToRecent(path);
             file.close();
+            emit refreshStartWidgets();
         }
     }
 }
@@ -174,6 +175,66 @@ void MainWindow::startGettingMimeData()
     emit startMimeSearch();
 }
 
+void MainWindow::saveFileToRecent(const QString &path)
+{
+    QFile file(Settings::recentFilesStoragePath);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    if(file.isOpen())
+    {
+        QStringList paths;
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            paths << stream.readLine();
+        }
+        if(!paths.contains(path))
+        {
+            file.seek(0);
+            if(file.isOpen())
+            {
+                QTextStream stream(&file);
+                if(paths.length() > 10) paths.removeAt(0);
+                paths.append(path);
+                for(const auto& i : std::as_const(paths))
+                {
+                    stream << i + "\n";
+                }
+            }
+        }
+        file.close();
+    }
+}
+
+void MainWindow::saveDirToRecent(const QString &path)
+{
+    QFile file(Settings::recentDirsStoragePath);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    if(file.isOpen())
+    {
+        QStringList paths;
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            paths << stream.readLine();
+        }
+        if(!paths.contains(path))
+        {
+            file.seek(0);
+            if(file.isOpen())
+            {
+                QTextStream stream(&file);
+                if(paths.length() > 10) paths.removeAt(0);
+                paths.append(path);
+                for(const auto& i : std::as_const(paths))
+                {
+                    stream << i + "\n";
+                }
+            }
+        }
+        file.close();
+    }
+}
+
 void MainWindow::openDir(const QString &path)
 {
     if(QFileInfo(path).isDir())
@@ -189,6 +250,8 @@ void MainWindow::openDir(const QString &path)
         ui->filesPage->setHasGitRepository(hasGitRepository);
         if(hasGitRepository) ui->gitPage->setRepositoryPath(path);
         else ui->gitPage->noRepo();
+        saveDirToRecent(path);
+        emit refreshStartWidgets();
     }
 }
 
@@ -388,5 +451,6 @@ void MainWindow::showStart()
     connect(widget, &StartWidget::newFile, this, &MainWindow::newFilePressed);
     connect(widget, &StartWidget::openFile, this, &MainWindow::open);
     connect(widget, &StartWidget::openDir, this, &MainWindow::openDirPressed);
+    connect(this, &MainWindow::refreshStartWidgets, widget, &StartWidget::refresh);
     addTab(widget, tr("Welcome"));
 }

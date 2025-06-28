@@ -31,6 +31,8 @@ private:
     void openFile(const QString &path);
     void loadHunspell();
     void startGettingMimeData();
+    void saveFileToRecent(const QString& path);
+    void saveDirToRecent(const QString& path);
 
 private slots:
     void newFilePressed();
@@ -59,5 +61,6 @@ private slots:
 
 signals:
     void startMimeSearch();
+    void refreshStartWidgets();
 };
 #endif // MAINWINDOW_H

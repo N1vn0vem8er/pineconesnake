@@ -42,6 +42,8 @@ GitWidget::GitWidget(QWidget *parent)
     QAction* utGitAdd = new QAction(untrackedContextMenu);
     utGitAdd->setText(tr("Add"));
     untrackedContextMenu->addAction(utGitAdd);
+    connect(utGitAdd, &QAction::triggered, ui->untrackedView, &GitFilesView::gitAddPressed);
+    connect(ui->untrackedView, &GitFilesView::gitAdd, this, &GitWidget::gitAddUntracked);
     QAction* utOpenFile = new QAction(untrackedContextMenu);
     utOpenFile->setText(tr("Open"));
     untrackedContextMenu->addAction(utOpenFile);
@@ -63,9 +65,6 @@ GitWidget::GitWidget(QWidget *parent)
     connect(ui->addedView, &GitFilesView::openFile, this, &GitWidget::openAdded);
 
     ui->addedView->setContextMenu(addedContextMenu);
-
-    connect(utGitAdd, &QAction::triggered, ui->untrackedView, &GitFilesView::gitAddPressed);
-    connect(ui->untrackedView, &GitFilesView::gitAdd, this, &GitWidget::gitAddUntracked);
 }
 
 GitWidget::~GitWidget()
