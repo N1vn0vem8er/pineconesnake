@@ -11,6 +11,8 @@ StartWidget::StartWidget(QWidget *parent)
     connect(ui->newFileButton, &QPushButton::clicked, this, [&]{emit newFile();});
     connect(ui->openFileButton, &QPushButton::clicked, this, [&]{emit openFile();});
     connect(ui->openDirButton, &QPushButton::clicked, this, [&]{emit openDir();});
+    connect(ui->recentFilesView, &QAbstractItemView::doubleClicked, this, &StartWidget::openFileFromRecentPressed);
+    connect(ui->recentDirsView, &QAbstractItemView::doubleClicked, this, &StartWidget::openDirFromRecentPressed);
     loadRecentFiles();
     loadRecentDirs();
 }
@@ -82,4 +84,14 @@ void StartWidget::loadRecentDirs()
     }
     recentDirsModel->setStringList(recent);
     ui->recentDirsView->setModel(recentDirsModel);
+}
+
+void StartWidget::openFileFromRecentPressed(const QModelIndex& index)
+{
+    emit openFileFromRecent(recentFilesModel->stringList().at(index.row()));
+}
+
+void StartWidget::openDirFromRecentPressed(const QModelIndex& index)
+{
+    emit openDirFromRecent(recentDirsModel->stringList().at(index.row()));
 }

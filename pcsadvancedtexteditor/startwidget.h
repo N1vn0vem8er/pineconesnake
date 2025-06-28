@@ -26,10 +26,16 @@ private:
     void loadRecentFiles();
     void loadRecentDirs();
 
+private slots:
+    void openFileFromRecentPressed(const QModelIndex &index);
+    void openDirFromRecentPressed(const QModelIndex &index);
+
 signals:
     void newFile();
     void openFile();
     void openDir();
+    void openFileFromRecent(const QString& path);
+    void openDirFromRecent(const QString& dir);
 };
 
 #endif // STARTWIDGET_H

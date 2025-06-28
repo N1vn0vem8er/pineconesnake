@@ -452,5 +452,7 @@ void MainWindow::showStart()
     connect(widget, &StartWidget::openFile, this, &MainWindow::open);
     connect(widget, &StartWidget::openDir, this, &MainWindow::openDirPressed);
     connect(this, &MainWindow::refreshStartWidgets, widget, &StartWidget::refresh);
+    connect(widget, &StartWidget::openFileFromRecent, this, &MainWindow::openFile);
+    connect(widget, &StartWidget::openDirFromRecent, this, &MainWindow::openDir);
     addTab(widget, tr("Welcome"));
 }
