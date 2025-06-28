@@ -95,7 +95,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="addedView">
+    <widget class="GitFilesView" name="addedView">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
@@ -144,7 +144,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="changedView">
+    <widget class="GitFilesView" name="changedView">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
@@ -193,7 +193,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="untrackedView">
+    <widget class="GitFilesView" name="untrackedView">
      <property name="editTriggers">
       <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
      </property>
@@ -232,6 +232,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GitFilesView</class>
+   <extends>QTableView</extends>
+   <header>../../../../gitfilesview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

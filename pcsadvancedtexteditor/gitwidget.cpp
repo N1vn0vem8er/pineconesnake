@@ -2,6 +2,7 @@
 #include "gitfilestatusitemdelegate.h"
 #include "ui_gitwidget.h"
 #include <qfileinfo.h>
+#include <qmenu.h>
 #include <qprocess.h>
 
 GitWidget::GitWidget(QWidget *parent)
@@ -16,6 +17,11 @@ GitWidget::GitWidget(QWidget *parent)
     ui->addedView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedView));
     ui->changedView->setItemDelegate(new GitFileStatusItemDelegate(ui->changedView));
     ui->untrackedView->setItemDelegate(new GitFileStatusItemDelegate(ui->untrackedView));
+    QMenu* changedContextMenu = new QMenu(ui->changedView);
+    QAction* gitAdd = new QAction(changedContextMenu);
+    gitAdd->setText("Add");
+    changedContextMenu->addAction(gitAdd);
+    ui->changedView->setContextMenu(changedContextMenu);
 }
 
 GitWidget::~GitWidget()
