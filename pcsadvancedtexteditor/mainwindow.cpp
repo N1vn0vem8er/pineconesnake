@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFindReplace, &QAction::triggered, this, &MainWindow::showSearch);
     connect(ui->actionOpen_Directory, &QAction::triggered, this, &MainWindow::openDirPressed);
     connect(ui->filesPage, &FileSystemTree::openFile, this, &MainWindow::openFile);
+    connect(ui->gitPage, &GitWidget::openInEditor, this, &MainWindow::openWithText);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -117,6 +118,13 @@ void MainWindow::open()
     const QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
     if(!filePath.isEmpty())
         openFile(filePath);
+}
+
+void MainWindow::openWithText(const QString &text, const QString& title)
+{
+    TextEditor* editor = new TextEditor(ui->tabWidget);
+    editor->setPlainText(text);
+    addTab(editor, title);
 }
 
 void MainWindow::openFile(const QString& path)

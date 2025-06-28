@@ -18,6 +18,11 @@ void GitFilesView::gitAddPressed()
     emit gitAdd(indexAt(currentPoint));
 }
 
+void GitFilesView::gitDiffPressed()
+{
+    emit gitDiff(indexAt(currentPoint));
+}
+
 void GitFilesView::openContextMenu(const QPoint& point)
 {
     assert((contextMenu != nullptr) && "Context menu cannot be nullptr");

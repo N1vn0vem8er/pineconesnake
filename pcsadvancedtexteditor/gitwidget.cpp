@@ -21,15 +21,29 @@ GitWidget::GitWidget(QWidget *parent)
     QAction* gitAdd = new QAction(changedContextMenu);
     gitAdd->setText(tr("Add"));
     changedContextMenu->addAction(gitAdd);
-    ui->changedView->setContextMenu(changedContextMenu);
     connect(gitAdd, &QAction::triggered, ui->changedView, &GitFilesView::gitAddPressed);
     connect(ui->changedView, &GitFilesView::gitAdd, this, &GitWidget::gitAdd);
+    QAction* gitDiff = new QAction(changedContextMenu);
+    gitDiff->setText(tr("Diff"));
+    changedContextMenu->addAction(gitDiff);
+    connect(gitDiff, &QAction::triggered, ui->changedView, &GitFilesView::gitDiffPressed);
+    connect(ui->changedView, &GitFilesView::gitDiff, this, &GitWidget::gitDiff);
+    ui->changedView->setContextMenu(changedContextMenu);
+
 
     QMenu* untrackedContextMenu = new QMenu(ui->untrackedView);
     QAction* utGitAdd = new QAction(untrackedContextMenu);
     utGitAdd->setText(tr("Add"));
     untrackedContextMenu->addAction(utGitAdd);
     ui->untrackedView->setContextMenu(untrackedContextMenu);
+
+    QMenu* addedContextMenu = new QMenu(ui->addedView);
+    QAction* addedGitDiff = new QAction(addedContextMenu);
+    addedGitDiff->setText(tr("Diff"));
+    addedContextMenu->addAction(addedGitDiff);
+    connect(addedGitDiff, &QAction::triggered, ui->addedView, &GitFilesView::gitDiffPressed);
+    connect(ui->addedView, &GitFilesView::gitDiff, this, &GitWidget::gitDiffAdded);
+    ui->addedView->setContextMenu(addedContextMenu);
 
     connect(utGitAdd, &QAction::triggered, ui->untrackedView, &GitFilesView::gitAddPressed);
     connect(ui->untrackedView, &GitFilesView::gitAdd, this, &GitWidget::gitAddUntracked);
@@ -203,4 +217,26 @@ void GitWidget::gitAddUntracked(const QModelIndex &index)
     process->start("git", {"add", untrackedModel->getItems().at(index.row()).path});
     process->waitForStarted();
     process->waitForFinished();
+}
+
+void GitWidget::gitDiff(const QModelIndex &index)
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"diff", changedModel->getItems().at(index.row()).path});
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+    emit openInEditor(process->readAllStandardOutput(), tr("git diff %1").arg(changedModel->getItems().at(index.row()).path));
+}
+
+void GitWidget::gitDiffAdded(const QModelIndex &index)
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"diff", addedModel->getItems().at(index.row()).path});
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+    emit openInEditor(process->readAllStandardOutput(), tr("git diff %1").arg(addedModel->getItems().at(index.row()).path));
 }

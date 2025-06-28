@@ -17,12 +17,14 @@ private:
 
 public slots:
     void gitAddPressed();
+    void gitDiffPressed();
 
 private slots:
     void openContextMenu(const QPoint &point);
 
 signals:
     void gitAdd(const QModelIndex& index);
+    void gitDiff(const QModelIndex& index);
 
 };
 
