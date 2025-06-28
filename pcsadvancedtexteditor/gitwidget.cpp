@@ -1,6 +1,7 @@
 #include "gitwidget.h"
 #include "gitfilestatusitemdelegate.h"
 #include "ui_gitwidget.h"
+#include <qdir.h>
 #include <qfileinfo.h>
 #include <qmenu.h>
 #include <qprocess.h>
@@ -28,6 +29,12 @@ GitWidget::GitWidget(QWidget *parent)
     changedContextMenu->addAction(gitDiff);
     connect(gitDiff, &QAction::triggered, ui->changedView, &GitFilesView::gitDiffPressed);
     connect(ui->changedView, &GitFilesView::gitDiff, this, &GitWidget::gitDiff);
+    QAction* openFile = new QAction(changedContextMenu);
+    openFile->setText(tr("Open"));
+    changedContextMenu->addAction(openFile);
+    connect(openFile, &QAction::triggered, ui->changedView, &GitFilesView::openFilePressed);
+    connect(ui->changedView, &GitFilesView::openFile, this, &GitWidget::openChanged);
+
     ui->changedView->setContextMenu(changedContextMenu);
 
 
@@ -35,6 +42,12 @@ GitWidget::GitWidget(QWidget *parent)
     QAction* utGitAdd = new QAction(untrackedContextMenu);
     utGitAdd->setText(tr("Add"));
     untrackedContextMenu->addAction(utGitAdd);
+    QAction* utOpenFile = new QAction(untrackedContextMenu);
+    utOpenFile->setText(tr("Open"));
+    untrackedContextMenu->addAction(utOpenFile);
+    connect(utOpenFile, &QAction::triggered, ui->untrackedView, &GitFilesView::openFilePressed);
+    connect(ui->untrackedView, &GitFilesView::openFile, this, &GitWidget::openUntracked);
+
     ui->untrackedView->setContextMenu(untrackedContextMenu);
 
     QMenu* addedContextMenu = new QMenu(ui->addedView);
@@ -43,6 +56,12 @@ GitWidget::GitWidget(QWidget *parent)
     addedContextMenu->addAction(addedGitDiff);
     connect(addedGitDiff, &QAction::triggered, ui->addedView, &GitFilesView::gitDiffPressed);
     connect(ui->addedView, &GitFilesView::gitDiff, this, &GitWidget::gitDiffAdded);
+    QAction* addedOpenFile = new QAction(addedContextMenu);
+    addedOpenFile->setText(tr("Open"));
+    addedContextMenu->addAction(addedOpenFile);
+    connect(addedOpenFile, &QAction::triggered, ui->addedView, &GitFilesView::openFilePressed);
+    connect(ui->addedView, &GitFilesView::openFile, this, &GitWidget::openAdded);
+
     ui->addedView->setContextMenu(addedContextMenu);
 
     connect(utGitAdd, &QAction::triggered, ui->untrackedView, &GitFilesView::gitAddPressed);
@@ -239,4 +258,19 @@ void GitWidget::gitDiffAdded(const QModelIndex &index)
     process->waitForFinished();
     process->waitForReadyRead();
     emit openInEditor(process->readAllStandardOutput(), tr("git diff %1").arg(addedModel->getItems().at(index.row()).path));
+}
+
+void GitWidget::openAdded(const QModelIndex &index)
+{
+    emit openFile(repoPath + QDir::separator() + addedModel->getItems().at(index.row()).path);
+}
+
+void GitWidget::openChanged(const QModelIndex &index)
+{
+    emit openFile(repoPath + QDir::separator() + changedModel->getItems().at(index.row()).path);
+}
+
+void GitWidget::openUntracked(const QModelIndex &index)
+{
+    emit openFile(repoPath + QDir::separator() + untrackedModel->getItems().at(index.row()).path);
 }

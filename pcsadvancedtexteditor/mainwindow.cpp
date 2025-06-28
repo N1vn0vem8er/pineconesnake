@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen_Directory, &QAction::triggered, this, &MainWindow::openDirPressed);
     connect(ui->filesPage, &FileSystemTree::openFile, this, &MainWindow::openFile);
     connect(ui->gitPage, &GitWidget::openInEditor, this, &MainWindow::openWithText);
+    connect(ui->gitPage, &GitWidget::openFile, this, &MainWindow::openFile);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);

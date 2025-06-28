@@ -43,9 +43,13 @@ private slots:
     void gitAddUntracked(const QModelIndex& index);
     void gitDiff(const QModelIndex& index);
     void gitDiffAdded(const QModelIndex& index);
+    void openAdded(const QModelIndex& index);
+    void openChanged(const QModelIndex& index);
+    void openUntracked(const QModelIndex& index);
 
 signals:
     void openInEditor(const QString& text, const QString& title);
+    void openFile(const QString& absolutePath);
 };
 
 #endif // GITWIDGET_H

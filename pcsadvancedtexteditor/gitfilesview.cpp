@@ -14,19 +14,28 @@ void GitFilesView::setContextMenu(QMenu *contextMenu)
 
 void GitFilesView::gitAddPressed()
 {
-
-    emit gitAdd(indexAt(currentPoint));
+    const auto index = indexAt(currentPoint);
+    if(index.isValid())
+        emit gitAdd(index);
 }
 
 void GitFilesView::gitDiffPressed()
 {
-    emit gitDiff(indexAt(currentPoint));
+    const auto index = indexAt(currentPoint);
+    if(index.isValid())
+        emit gitDiff(index);
+}
+
+void GitFilesView::openFilePressed()
+{
+    const auto index = indexAt(currentPoint);
+    if(index.isValid())
+        emit openFile(index);
 }
 
 void GitFilesView::openContextMenu(const QPoint& point)
 {
     assert((contextMenu != nullptr) && "Context menu cannot be nullptr");
-    const auto index = indexAt(point);
     currentPoint = point;
     contextMenu->popup(mapToGlobal(point));
 }

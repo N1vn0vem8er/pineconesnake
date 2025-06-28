@@ -18,6 +18,7 @@ private:
 public slots:
     void gitAddPressed();
     void gitDiffPressed();
+    void openFilePressed();
 
 private slots:
     void openContextMenu(const QPoint &point);
@@ -25,6 +26,7 @@ private slots:
 signals:
     void gitAdd(const QModelIndex& index);
     void gitDiff(const QModelIndex& index);
+    void openFile(const QModelIndex& index);
 
 };
 
