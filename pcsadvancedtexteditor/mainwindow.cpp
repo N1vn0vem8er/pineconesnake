@@ -51,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->gitPage, &GitWidget::openFile, this, &MainWindow::openFile);
     connect(ui->actionStart, &QAction::triggered, this, &MainWindow::showStart);
     connect(ui->gitPage, &GitWidget::addTab, this, &MainWindow::addTab);
+    connect(ui->actionClose_All_But_This, &QAction::triggered, this, &MainWindow::closeAllButThis);
+    connect(ui->actionReload, &QAction::triggered, this, &MainWindow::reloadCurrent);
+    connect(ui->actionReload_All, &QAction::triggered, this, &MainWindow::reloadAll);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -257,6 +260,7 @@ void MainWindow::openDir(const QString &path)
         else ui->gitPage->noRepo();
         saveDirToRecent(path);
         emit refreshStartWidgets();
+        ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(0);
     }
 }
 
@@ -460,4 +464,56 @@ void MainWindow::showStart()
     connect(widget, &StartWidget::openFileFromRecent, this, &MainWindow::openFile);
     connect(widget, &StartWidget::openDirFromRecent, this, &MainWindow::openDir);
     addTab(widget, tr("Welcome"));
+}
+
+void MainWindow::closeAllButThis()
+{
+    for(int i=ui->tabWidget->count()-1; i >= 0;--i)
+    {
+        if(i != ui->tabWidget->currentIndex())
+            closeTab(i);
+    }
+}
+
+void MainWindow::reloadCurrent()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr && !editor->getPath().isEmpty())
+    {
+        if(!editor->isSaved())
+        {
+            openSaveWarningDialog(editor->getName());
+        }
+        QFile file(editor->getPath());
+        file.open(QIODevice::ReadOnly);
+        if(file.isOpen())
+        {
+            editor->setPlainText(file.readAll());
+            file.close();
+            editor->setSaved(true);
+        }
+    }
+}
+
+void MainWindow::reloadAll()
+{
+    for(int i=0; i<ui->tabWidget->count(); i++)
+    {
+        TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->widget(i));
+        if(editor != nullptr && !editor->getPath().isEmpty())
+        {
+            if(!editor->isSaved())
+            {
+                openSaveWarningDialog(editor->getName());
+            }
+            QFile file(editor->getPath());
+            file.open(QIODevice::ReadOnly);
+            if(file.isOpen())
+            {
+                editor->setPlainText(file.readAll());
+                file.close();
+                editor->setSaved(true);
+            }
+        }
+    }
 }

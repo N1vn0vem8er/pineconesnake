@@ -60,8 +60,13 @@
     <addaction name="actionOpen_Directory"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionReload"/>
+    <addaction name="actionReload_All"/>
+    <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="actionClose_All"/>
+    <addaction name="actionClose_All_But_This"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -327,6 +332,27 @@
   <action name="actionStart">
    <property name="text">
     <string>Start</string>
+   </property>
+  </action>
+  <action name="actionClose_All_But_This">
+   <property name="text">
+    <string>Close All But This</string>
+   </property>
+  </action>
+  <action name="actionReload">
+   <property name="text">
+    <string>Reload</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionReload_All">
+   <property name="text">
+    <string>Reload All</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+F5</string>
    </property>
   </action>
  </widget>

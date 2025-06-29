@@ -58,6 +58,9 @@ private slots:
     void spellCheckSwitch(bool val);
     void changeLanguageForEditor(const QString& language);
     void showStart();
+    void closeAllButThis();
+    void reloadCurrent();
+    void reloadAll();
 
 signals:
     void startMimeSearch();
