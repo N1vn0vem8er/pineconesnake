@@ -55,9 +55,23 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuRecent_Files">
+     <property name="title">
+      <string>Recent Files</string>
+     </property>
+     <addaction name="actionno_recent"/>
+    </widget>
+    <widget class="QMenu" name="menuRecent_Directories">
+     <property name="title">
+      <string>Recent Directories</string>
+     </property>
+     <addaction name="actionno_recent_2"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionOpen_Directory"/>
+    <addaction name="menuRecent_Files"/>
+    <addaction name="menuRecent_Directories"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionPrint"/>
@@ -80,9 +94,12 @@
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="actionPaste_From_File"/>
     <addaction name="actionDelete"/>
     <addaction name="actionDelete_All"/>
     <addaction name="actionSelect_All"/>
+    <addaction name="actionOverwriteMode"/>
+    <addaction name="actionRead_Only"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -365,6 +382,46 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionno_recent">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>no recent</string>
+   </property>
+  </action>
+  <action name="actionno_recent_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>no recent</string>
+   </property>
+  </action>
+  <action name="actionPaste_From_File">
+   <property name="text">
+    <string>Paste From File</string>
+   </property>
+  </action>
+  <action name="actionOverwriteMode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Overwrite mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
+  </action>
+  <action name="actionRead_Only">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Read Only</string>
    </property>
   </action>
  </widget>

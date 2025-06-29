@@ -62,6 +62,8 @@ private slots:
     void reloadCurrent();
     void reloadAll();
     void openPrint();
+    void overwriteModeChanged(bool val);
+    void readOnlyChanget(bool val);
 
 signals:
     void startMimeSearch();

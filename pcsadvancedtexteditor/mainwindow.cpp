@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionReload, &QAction::triggered, this, &MainWindow::reloadCurrent);
     connect(ui->actionReload_All, &QAction::triggered, this, &MainWindow::reloadAll);
     connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::openPrint);
+    connect(ui->actionOverwriteMode, &QAction::triggered, this, &MainWindow::overwriteModeChanged);
+    connect(ui->actionRead_Only, &QAction::triggered, this, &MainWindow::readOnlyChanget);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -135,6 +137,7 @@ void MainWindow::openWithText(const QString &text, const QString& title, bool re
     editor->setPlainText(text);
     editor->setReadOnly(readOnly);
     editor->setSpellCheckEnabled(spellChecking);
+    ui->actionRead_Only->setChecked(readOnly);
     addTab(editor, title);
 }
 
@@ -295,6 +298,8 @@ void MainWindow::tabChanged(const int index)
     {
         pathLabel->setText(editor->getPath());
         ui->actionEnabled->setChecked(editor->getSpellCheckEnabled());
+        ui->actionRead_Only->setChecked(editor->isReadOnly());
+        ui->actionOverwriteMode->setChecked(editor->overwriteMode());
     }
     else
     {
@@ -532,5 +537,23 @@ void MainWindow::openPrint()
         {
             editor->print(&printer);
         }
+    }
+}
+
+void MainWindow::overwriteModeChanged(bool val)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setOverwriteMode(val);
+    }
+}
+
+void MainWindow::readOnlyChanget(bool val)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setReadOnly(val);
     }
 }
