@@ -12,6 +12,8 @@
 #include <QFileDialog>
 #include <qprocess.h>
 #include <qthread.h>
+#include <QPrinter>
+#include <QPrintDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -54,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, &MainWindow::closeAllButThis);
     connect(ui->actionReload, &QAction::triggered, this, &MainWindow::reloadCurrent);
     connect(ui->actionReload_All, &QAction::triggered, this, &MainWindow::reloadAll);
+    connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::openPrint);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -514,6 +517,20 @@ void MainWindow::reloadAll()
                 file.close();
                 editor->setSaved(true);
             }
+        }
+    }
+}
+
+void MainWindow::openPrint()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        QPrinter printer(QPrinter::HighResolution);
+        QPrintDialog dialog(&printer, this);
+        if(dialog.exec() == QDialog::Accepted)
+        {
+            editor->print(&printer);
         }
     }
 }

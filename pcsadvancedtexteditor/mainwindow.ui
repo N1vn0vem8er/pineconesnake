@@ -60,6 +60,7 @@
     <addaction name="actionOpen_Directory"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="actionPrint"/>
     <addaction name="separator"/>
     <addaction name="actionReload"/>
     <addaction name="actionReload_All"/>
@@ -353,6 +354,17 @@
    </property>
    <property name="shortcut">
     <string>Shift+F5</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="icon">
+    <iconset theme="document-print"/>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

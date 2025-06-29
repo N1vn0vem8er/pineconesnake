@@ -61,6 +61,7 @@ private slots:
     void closeAllButThis();
     void reloadCurrent();
     void reloadAll();
+    void openPrint();
 
 signals:
     void startMimeSearch();
