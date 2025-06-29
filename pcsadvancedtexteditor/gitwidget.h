@@ -48,6 +48,8 @@ private slots:
     void openUntracked(const QModelIndex& index);
     void openGitCommit();
     void gitCommit(const QString& title, const QString& description);
+    void gitPush();
+    void gitPull();
 
 signals:
     void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false);

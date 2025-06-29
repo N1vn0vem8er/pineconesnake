@@ -16,6 +16,8 @@ GitWidget::GitWidget(QWidget *parent)
 
     connect(ui->refreshButton, &QPushButton::clicked, this, &GitWidget::refresh);
     connect(ui->commitButton, &QPushButton::clicked, this, &GitWidget::openGitCommit);
+    connect(ui->gitPushButton, &QPushButton::clicked, this, &GitWidget::gitPush);
+    connect(ui->gitPullButton, &QPushButton::clicked, this, &GitWidget::gitPull);
 
     setVisibility(false);
     ui->addedView->setItemDelegate(new GitFileStatusItemDelegate(ui->addedView));
@@ -305,5 +307,29 @@ void GitWidget::gitCommit(const QString &title, const QString &description)
     process->waitForFinished();
     process->waitForReadyRead();
     refresh();
-    emit openInEditor(process->readAll(), tr("Commit resoults"));
+    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Commit resoults"));
+}
+
+void GitWidget::gitPush()
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"push"});
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+    refresh();
+    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Push resoults"));
+}
+
+void GitWidget::gitPull()
+{
+    QProcess* process = new QProcess(this);
+    process->setWorkingDirectory(repoPath);
+    process->start("git", {"pull"});
+    process->waitForStarted();
+    process->waitForFinished();
+    process->waitForReadyRead();
+    refresh();
+    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Push resoults"));
 }
