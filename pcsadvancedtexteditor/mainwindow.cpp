@@ -134,9 +134,10 @@ void MainWindow::saveFile(const QString &path, const QString &text)
 
 void MainWindow::open()
 {
-    const QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
-    if(!filePath.isEmpty())
-        openFile(filePath);
+    const QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open File"), QDir::homePath());
+    if(!filePaths.isEmpty())
+        for(const auto& filePath : filePaths)
+            openFile(filePath);
 }
 
 void MainWindow::openWithText(const QString &text, const QString& title, bool readOnly, bool spellChecking)
