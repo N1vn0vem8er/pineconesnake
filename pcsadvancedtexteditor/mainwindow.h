@@ -18,6 +18,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void dropEvent(QDropEvent* event) override;
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dragLeaveEvent(QDragLeaveEvent* event) override;
+
 private:
     Ui::MainWindow *ui;
     QLabel* pathLabel {nullptr};

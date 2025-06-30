@@ -36,6 +36,7 @@ TextEditor::~TextEditor()
 
 void TextEditor::init()
 {
+    setAcceptDrops(true);
     lineNumberArea = new LineNumberArea(this);
     connect(this, &TextEditor::blockCountChanged, this, &TextEditor::updateLineNumberWidth);
     connect(this, &TextEditor::updateRequest, this, &TextEditor::updateLineNumber);
@@ -337,6 +338,35 @@ void TextEditor::keyPressEvent(QKeyEvent *event)
     QRect cr = cursorRect();
     cr.setWidth(completer->popup()->sizeHintForColumn(0) + completer->popup()->verticalScrollBar()->sizeHint().width());
     completer->complete(cr);
+}
+
+void TextEditor::dropEvent(QDropEvent *event)
+{
+    const QMimeData* mimeData = event->mimeData();
+    if(mimeData->hasUrls())
+    {
+        QFile file(mimeData->urls().at(0).path());
+        file.open(QIODevice::ReadOnly);
+        if(file.isOpen())
+        {
+            appendPlainText(file.readAll());
+            file.close();
+        }
+    }
+    else if(mimeData->hasText())
+    {
+        appendPlainText(mimeData->text());
+    }
+}
+
+void TextEditor::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void TextEditor::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    event->accept();
 }
 
 void TextEditor::resizeEvent(QResizeEvent *event)

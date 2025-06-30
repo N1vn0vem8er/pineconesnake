@@ -42,6 +42,9 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void dropEvent(QDropEvent* event) override;
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dragLeaveEvent(QDragLeaveEvent* event) override;
 
 private:
     QString path;

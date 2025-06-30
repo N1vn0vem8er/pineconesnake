@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFileDialog>
+#include <qmimedata.h>
 #include <qprocess.h>
 #include <qthread.h>
 #include <QPrinter>
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     startGettingMimeData();
+    setAcceptDrops(true);
 
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
@@ -606,4 +608,27 @@ void MainWindow::makeCapitalEveryWord()
     {
         editor->makeEverySelectedCapital();
     }
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    const QMimeData* mimeData = event->mimeData();
+    if(mimeData->hasUrls())
+    {
+        QList<QUrl> urls = mimeData->urls();
+        for (int i = 0; i < urls.size() && i < 32; i++)
+        {
+            openFile(urls.at(i).toLocalFile());
+        }
+    }
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void MainWindow::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    event->accept();
 }
