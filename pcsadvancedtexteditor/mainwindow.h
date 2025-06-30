@@ -75,6 +75,7 @@ private slots:
     void makeCapitalSentences();
     void makeCapitalEveryWord();
     void fontSizeChanged(int size);
+    void openPasteFromFile();
 
 signals:
     void startMimeSearch();

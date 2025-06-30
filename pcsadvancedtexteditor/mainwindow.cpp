@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionLarge_Letters, &QAction::triggered, this, &MainWindow::makeCapitalLetters);
     connect(ui->actionCapital_Letter_every_word, &QAction::triggered, this, &MainWindow::makeCapitalEveryWord);
     connect(ui->actionCapital_Letter_at_Sentence, &QAction::triggered, this, &MainWindow::makeCapitalSentences);
+    connect(ui->actionPaste_From_File, &QAction::triggered, this, &MainWindow::openPasteFromFile);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -617,6 +618,28 @@ void MainWindow::makeCapitalEveryWord()
 void MainWindow::fontSizeChanged(int size)
 {
     ui->statusbar->showMessage(tr("Font size: %1").arg(size), 2000);
+}
+
+void MainWindow::openPasteFromFile()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        const QStringList paths = QFileDialog::getOpenFileNames(this, tr("Paste from file"), QDir::homePath());
+        if(!paths.isEmpty())
+        {
+            for(const auto& path : paths)
+            {
+                QFile file(path);
+                file.open(QIODevice::ReadOnly);
+                if(file.isOpen())
+                {
+                    editor->appendPlainText(file.readAll());
+                    file.close();
+                }
+            }
+        }
+    }
 }
 
 void MainWindow::dropEvent(QDropEvent *event)
