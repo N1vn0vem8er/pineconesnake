@@ -144,6 +144,7 @@ void MainWindow::openWithText(const QString &text, const QString& title, bool re
     editor->setPlainText(text);
     editor->setReadOnly(readOnly);
     editor->setSpellCheckEnabled(spellChecking);
+    connect(editor, &TextEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
     ui->actionRead_Only->setChecked(readOnly);
     addTab(editor, title);
 }
@@ -157,7 +158,9 @@ void MainWindow::openFile(const QString& path)
         if(file.isOpen())
         {
             QString content = file.readAll();
-            addTab(new TextEditor(content, path), QFileInfo(file).fileName());
+            TextEditor* editor = new TextEditor(content, path);
+            connect(editor, &TextEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
+            addTab(editor, QFileInfo(file).fileName());
             ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
             pathLabel->setText(path);
             saveFileToRecent(path);
@@ -328,6 +331,7 @@ void MainWindow::openSaveWarningDialog(const QString path)
 void MainWindow::newFilePressed()
 {
     TextEditor* editor = new TextEditor(ui->tabWidget);
+    connect(editor, &TextEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
     addTab(editor, tr("New File"));
 }
 
@@ -608,6 +612,11 @@ void MainWindow::makeCapitalEveryWord()
     {
         editor->makeEverySelectedCapital();
     }
+}
+
+void MainWindow::fontSizeChanged(int size)
+{
+    ui->statusbar->showMessage(tr("Font size: %1").arg(size), 2000);
 }
 
 void MainWindow::dropEvent(QDropEvent *event)

@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent/QtConcurrent>
+#include <QFont>
 
 TextEditor::TextEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -367,6 +368,27 @@ void TextEditor::dragEnterEvent(QDragEnterEvent *event)
 void TextEditor::dragLeaveEvent(QDragLeaveEvent *event)
 {
     event->accept();
+}
+
+void TextEditor::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        QFont font = this->font();
+        if(event->angleDelta().y() > 0)
+        {
+            font.setPointSize(font.pointSize() + 1);
+            setFont(font);
+        }
+        else
+        {
+            font.setPointSize(font.pointSize() - 1 <= 0 ? 1 : font.pointSize() - 1);
+            setFont(font);
+        }
+        emit fontSizeChanged(font.pointSize());
+        event->accept();
+    }
+    QPlainTextEdit::wheelEvent(event);
 }
 
 void TextEditor::resizeEvent(QResizeEvent *event)

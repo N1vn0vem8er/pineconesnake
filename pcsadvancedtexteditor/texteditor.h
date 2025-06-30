@@ -45,6 +45,7 @@ protected:
     void dropEvent(QDropEvent* event) override;
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dragLeaveEvent(QDragLeaveEvent* event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     QString path;
@@ -74,6 +75,7 @@ private slots:
     void spellCheckResoultsReady(const QList<QPair<int,int>>& list);
 signals:
     void startSpellcheck();
+    void fontSizeChanged(int size);
 
 };
 
