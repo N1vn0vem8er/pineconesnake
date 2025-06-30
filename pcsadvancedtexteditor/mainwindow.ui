@@ -88,6 +88,15 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <widget class="QMenu" name="menuChange_Letter_Size">
+     <property name="title">
+      <string>Change Letter Size</string>
+     </property>
+     <addaction name="actionSmall_Letters"/>
+     <addaction name="actionLarge_Letters"/>
+     <addaction name="actionCapital_Letter_at_Sentence"/>
+     <addaction name="actionCapital_Letter_every_word"/>
+    </widget>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
     <addaction name="separator"/>
@@ -100,6 +109,9 @@
     <addaction name="actionSelect_All"/>
     <addaction name="actionOverwriteMode"/>
     <addaction name="actionRead_Only"/>
+    <addaction name="separator"/>
+    <addaction name="actionMerge_Lines"/>
+    <addaction name="menuChange_Letter_Size"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -422,6 +434,31 @@
    </property>
    <property name="text">
     <string>Read Only</string>
+   </property>
+  </action>
+  <action name="actionMerge_Lines">
+   <property name="text">
+    <string>Merge Lines</string>
+   </property>
+  </action>
+  <action name="actionSmall_Letters">
+   <property name="text">
+    <string>small letters</string>
+   </property>
+  </action>
+  <action name="actionLarge_Letters">
+   <property name="text">
+    <string>CAPITAL LETTERS</string>
+   </property>
+  </action>
+  <action name="actionCapital_Letter_at_Sentence">
+   <property name="text">
+    <string>Capital letter at sentence</string>
+   </property>
+  </action>
+  <action name="actionCapital_Letter_every_word">
+   <property name="text">
+    <string>Capital Letter Every Word</string>
    </property>
   </action>
  </widget>

@@ -127,6 +127,16 @@ bool TextEditor::getSpellCheckEnabled() const
     return spellCheckEnabled;
 }
 
+void TextEditor::mergeSelectedLines()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().replace(QChar(8233), ' '));
+        setTextCursor(cursor);
+    }
+}
+
 void TextEditor::setSuggestions(const QStringList list)
 {
     QStringListModel* model = new QStringListModel(list, this);

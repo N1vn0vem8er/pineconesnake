@@ -64,6 +64,7 @@ private slots:
     void openPrint();
     void overwriteModeChanged(bool val);
     void readOnlyChanget(bool val);
+    void mergeLines();
 
 signals:
     void startMimeSearch();

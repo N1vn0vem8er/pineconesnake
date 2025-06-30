@@ -32,8 +32,8 @@ public:
     void setSpellCheckEnabled(bool val);
     void setLanguage(const QString& lang);
     QString getLanguage() const;
-
     bool getSpellCheckEnabled() const;
+    void mergeSelectedLines();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::openPrint);
     connect(ui->actionOverwriteMode, &QAction::triggered, this, &MainWindow::overwriteModeChanged);
     connect(ui->actionRead_Only, &QAction::triggered, this, &MainWindow::readOnlyChanget);
+    connect(ui->actionMerge_Lines, &QAction::triggered, this, &MainWindow::mergeLines);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -555,5 +556,14 @@ void MainWindow::readOnlyChanget(bool val)
     if(editor != nullptr)
     {
         editor->setReadOnly(val);
+    }
+}
+
+void MainWindow::mergeLines()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->mergeSelectedLines();
     }
 }
