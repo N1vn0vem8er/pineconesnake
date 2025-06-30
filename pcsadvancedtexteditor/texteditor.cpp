@@ -137,6 +137,86 @@ void TextEditor::mergeSelectedLines()
     }
 }
 
+void TextEditor::makeSelectedSmall()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().toLower());
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeSelectedCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().toUpper());
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeSelectedSentenceCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.beginEditBlock();
+        QString selectedText = cursor.selectedText();
+        if(selectedText.isEmpty())
+        {
+            cursor.endEditBlock();
+            return;
+        }
+        bool capitalNext = true;
+        for(auto& character : selectedText)
+        {
+            if(capitalNext && character.isLetter())
+            {
+                character = character.toUpper();
+                capitalNext = false;
+            }
+            else if(character == '.' || character == '?' || character == '!')
+                capitalNext = true;
+            else if(!character.isSpace())
+                capitalNext = false;
+        }
+        cursor.insertText(selectedText);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeEverySelectedCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.beginEditBlock();
+        QString selectedText = cursor.selectedText();
+        if(selectedText.isEmpty())
+        {
+            cursor.endEditBlock();
+            return;
+        }
+        bool capitalNext = true;
+        for(auto& character : selectedText)
+        {
+            if(capitalNext && character.isLetter())
+            {
+                character = character.toUpper();
+                capitalNext = false;
+            }
+            else if(character.isSpace() )
+                capitalNext = true;
+        }
+        cursor.insertText(selectedText);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+    }
+}
+
 void TextEditor::setSuggestions(const QStringList list)
 {
     QStringListModel* model = new QStringListModel(list, this);

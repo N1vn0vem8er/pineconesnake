@@ -34,6 +34,10 @@ public:
     QString getLanguage() const;
     bool getSpellCheckEnabled() const;
     void mergeSelectedLines();
+    void makeSelectedSmall();
+    void makeSelectedCapital();
+    void makeSelectedSentenceCapital();
+    void makeEverySelectedCapital();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

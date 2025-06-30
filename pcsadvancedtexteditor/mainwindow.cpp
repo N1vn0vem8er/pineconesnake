@@ -60,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOverwriteMode, &QAction::triggered, this, &MainWindow::overwriteModeChanged);
     connect(ui->actionRead_Only, &QAction::triggered, this, &MainWindow::readOnlyChanget);
     connect(ui->actionMerge_Lines, &QAction::triggered, this, &MainWindow::mergeLines);
+    connect(ui->actionSmall_Letters, &QAction::triggered, this, &MainWindow::makeSmallLetters);
+    connect(ui->actionLarge_Letters, &QAction::triggered, this, &MainWindow::makeCapitalLetters);
+    connect(ui->actionCapital_Letter_every_word, &QAction::triggered, this, &MainWindow::makeCapitalEveryWord);
+    connect(ui->actionCapital_Letter_at_Sentence, &QAction::triggered, this, &MainWindow::makeCapitalSentences);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -565,5 +569,41 @@ void MainWindow::mergeLines()
     if(editor != nullptr)
     {
         editor->mergeSelectedLines();
+    }
+}
+
+void MainWindow::makeSmallLetters()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->makeSelectedSmall();
+    }
+}
+
+void MainWindow::makeCapitalLetters()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->makeSelectedCapital();
+    }
+}
+
+void MainWindow::makeCapitalSentences()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->makeSelectedSentenceCapital();
+    }
+}
+
+void MainWindow::makeCapitalEveryWord()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->makeEverySelectedCapital();
     }
 }

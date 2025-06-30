@@ -65,6 +65,10 @@ private slots:
     void overwriteModeChanged(bool val);
     void readOnlyChanget(bool val);
     void mergeLines();
+    void makeSmallLetters();
+    void makeCapitalLetters();
+    void makeCapitalSentences();
+    void makeCapitalEveryWord();
 
 signals:
     void startMimeSearch();
