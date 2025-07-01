@@ -151,6 +151,8 @@
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout_Application"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -494,6 +496,22 @@
   <action name="actionSet_Font_Size">
    <property name="text">
     <string>Set Font Size</string>
+   </property>
+  </action>
+  <action name="actionAbout_Application">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
+   <property name="text">
+    <string>About Application</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

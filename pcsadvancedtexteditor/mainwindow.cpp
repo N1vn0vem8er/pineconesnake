@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QFileDialog>
+#include <qmessagebox.h>
 #include <qmimedata.h>
 #include <qprocess.h>
 #include <qpushbutton.h>
@@ -17,6 +18,10 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QLineEdit>
+
+#define VERSION "0.0.1"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -74,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
     connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::openAbout);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -785,6 +792,20 @@ void MainWindow::setFontSize()
         }
         delete buttonsLayout;
     }
+}
+
+void MainWindow::openAbout()
+{
+    QMessageBox::about(this, tr("About PCS Advanced Text Editor"), tr(R"(
+    <html>
+        <body>
+            <h3>PCS Advanced Text Editor</h3>
+            <p>PCS Advanced Text Editor is an application for editing text files. It is a feature rich version of <a href="%1">Txt Editor</a>. It is a part of <a href="%2">Pinecone Snake project.</a></p>
+            <p>Version: %3</p>
+            <p>License: <a href="%4">GPL 3</a></p>
+        </body>
+    </html>
+)").arg("https://github.com/N1vn0vem8er/pineconesnake/blob/main/pcstxteditor/README.md", PROJECTLINK, VERSION, LICENSELINK));
 }
 
 void MainWindow::dropEvent(QDropEvent *event)
