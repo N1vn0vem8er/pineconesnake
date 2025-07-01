@@ -12,9 +12,11 @@
 #include <QFileDialog>
 #include <qmimedata.h>
 #include <qprocess.h>
+#include <qpushbutton.h>
 #include <qthread.h>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -71,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
+    connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -753,6 +756,34 @@ void MainWindow::resetFontSize()
     if(editor != nullptr)
     {
         editor->setFontSize(Settings::defaultFontSize);
+    }
+}
+
+void MainWindow::setFontSize()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        QDialog* dialog = new QDialog(this);
+        QVBoxLayout* mainLayout = new QVBoxLayout(dialog);
+        QLineEdit* lineEdit = new QLineEdit(dialog);
+        lineEdit->setPlaceholderText(tr("Enter font size"));
+        mainLayout->addWidget(lineEdit);
+        QPushButton* okButton = new QPushButton(dialog);
+        QPushButton* cancelButton = new QPushButton(dialog);
+        QHBoxLayout* buttonsLayout = new QHBoxLayout();
+        okButton->setText(tr("Ok"));
+        cancelButton->setText(tr("Cancel"));
+        buttonsLayout->addWidget(okButton);
+        buttonsLayout->addWidget(cancelButton);
+        mainLayout->addLayout(buttonsLayout);
+        connect(okButton, &QPushButton::clicked, dialog, &QDialog::accept);
+        connect(cancelButton, &QPushButton::clicked, dialog, &QDialog::reject);
+        if(dialog->exec() == QDialog::Accepted)
+        {
+            editor->setFontSize(lineEdit->text().toInt());
+        }
+        delete buttonsLayout;
     }
 }
 

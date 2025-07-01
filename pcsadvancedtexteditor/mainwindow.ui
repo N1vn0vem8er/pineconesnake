@@ -126,6 +126,7 @@
     <addaction name="actionIncrease_Font_Size"/>
     <addaction name="actionDecrease_Font_Size"/>
     <addaction name="actionReset_Font_Size"/>
+    <addaction name="actionSet_Font_Size"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -488,6 +489,11 @@
   <action name="actionReset_Font_Size">
    <property name="text">
     <string>Reset Font Size</string>
+   </property>
+  </action>
+  <action name="actionSet_Font_Size">
+   <property name="text">
+    <string>Set Font Size</string>
    </property>
   </action>
  </widget>
