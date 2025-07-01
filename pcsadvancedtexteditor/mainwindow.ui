@@ -112,6 +112,7 @@
     <addaction name="separator"/>
     <addaction name="actionMerge_Lines"/>
     <addaction name="menuChange_Letter_Size"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -512,6 +513,11 @@
    </property>
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

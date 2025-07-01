@@ -3,6 +3,7 @@
 #include "mimefinderworker.h"
 #include "savewarningdialog.h"
 #include "settings.h"
+#include "settingswidget.h"
 #include "texteditor.h"
 #include "globals.h"
 #include "startwidget.h"
@@ -81,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::openAbout);
+    connect(ui->actionSettings, &QAction::triggered, this, [&]{addTab(new SettingsWidget(this), tr("Settings"));});
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);

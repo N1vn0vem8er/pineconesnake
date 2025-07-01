@@ -49,6 +49,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         gitfilestatusitemdelegate.h gitfilestatusitemdelegate.cpp
         gitfilestatusmodel.h gitfilestatusmodel.cpp
         gitfilesview.h gitfilesview.cpp
+        settingswidget.h settingswidget.cpp settingswidget.ui
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pcsadvancedtexteditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
