@@ -120,6 +120,8 @@
     <addaction name="actionFiles"/>
     <addaction name="actionGit"/>
     <addaction name="actionStart"/>
+    <addaction name="separator"/>
+    <addaction name="actionLine_Wrap"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -459,6 +461,14 @@
   <action name="actionCapital_Letter_every_word">
    <property name="text">
     <string>Capital Letter Every Word</string>
+   </property>
+  </action>
+  <action name="actionLine_Wrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Line Wrap</string>
    </property>
   </action>
  </widget>

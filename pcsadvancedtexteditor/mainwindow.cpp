@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionCapital_Letter_every_word, &QAction::triggered, this, &MainWindow::makeCapitalEveryWord);
     connect(ui->actionCapital_Letter_at_Sentence, &QAction::triggered, this, &MainWindow::makeCapitalSentences);
     connect(ui->actionPaste_From_File, &QAction::triggered, this, &MainWindow::openPasteFromFile);
+    connect(ui->actionLine_Wrap, &QAction::triggered, this, &MainWindow::setLineWrap);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -382,6 +383,7 @@ void MainWindow::tabChanged(const int index)
         ui->actionEnabled->setChecked(editor->getSpellCheckEnabled());
         ui->actionRead_Only->setChecked(editor->isReadOnly());
         ui->actionOverwriteMode->setChecked(editor->overwriteMode());
+        ui->actionLine_Wrap->setChecked(editor->lineWrapMode());
     }
     else
     {
@@ -712,6 +714,15 @@ void MainWindow::openPasteFromFile()
                 }
             }
         }
+    }
+}
+
+void MainWindow::setLineWrap(bool val)
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setLineWrapMode(val ? QPlainTextEdit::LineWrapMode::WidgetWidth : QPlainTextEdit::LineWrapMode::NoWrap);
     }
 }
 

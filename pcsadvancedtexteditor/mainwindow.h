@@ -78,6 +78,7 @@ private slots:
     void makeCapitalEveryWord();
     void fontSizeChanged(int size);
     void openPasteFromFile();
+    void setLineWrap(bool val);
 
 signals:
     void startMimeSearch();
