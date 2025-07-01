@@ -25,6 +25,8 @@ private:
     QStringListModel* recentDirsModel {nullptr};
     void loadRecentFiles();
     void loadRecentDirs();
+    void clearRecentFiles();
+    void clearRecentDirs();
 
 private slots:
     void openFileFromRecentPressed(const QModelIndex &index);
@@ -36,6 +38,8 @@ signals:
     void openDir();
     void openFileFromRecent(const QString& path);
     void openDirFromRecent(const QString& dir);
+    void recentFilesCleared();
+    void recentDirsCleared();
 };
 
 #endif // STARTWIDGET_H

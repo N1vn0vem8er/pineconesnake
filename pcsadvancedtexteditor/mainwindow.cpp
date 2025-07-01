@@ -289,7 +289,12 @@ void MainWindow::loadRecentFiles()
         }
         file.close();
     }
-
+    if(ui->menuRecent_Files->isEmpty())
+    {
+        QAction* action = new QAction(tr("no recent"), ui->menuRecent_Files);
+        action->setEnabled(false);
+        ui->menuRecent_Files->addAction(action);
+    }
 }
 
 void MainWindow::loadRecentDirs()
@@ -316,6 +321,12 @@ void MainWindow::loadRecentDirs()
             }
         }
         file.close();
+    }
+    if(ui->menuRecent_Directories->isEmpty())
+    {
+        QAction* action = new QAction(tr("no recent"), ui->menuRecent_Directories);
+        action->setEnabled(false);
+        ui->menuRecent_Directories->addAction(action);
     }
 }
 
@@ -543,6 +554,8 @@ void MainWindow::showStart()
     connect(this, &MainWindow::refreshStartWidgets, widget, &StartWidget::refresh);
     connect(widget, &StartWidget::openFileFromRecent, this, &MainWindow::openFile);
     connect(widget, &StartWidget::openDirFromRecent, this, &MainWindow::openDir);
+    connect(widget, &StartWidget::recentFilesCleared, this, &MainWindow::loadRecentFiles);
+    connect(widget, &StartWidget::recentDirsCleared, this, &MainWindow::loadRecentDirs);
     addTab(widget, tr("Welcome"));
 }
 

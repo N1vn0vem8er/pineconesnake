@@ -2,6 +2,7 @@
 #include "settings.h"
 #include "ui_startwidget.h"
 #include <qdir.h>
+#include <qmessagebox.h>
 
 StartWidget::StartWidget(QWidget *parent)
     : QWidget(parent)
@@ -13,6 +14,9 @@ StartWidget::StartWidget(QWidget *parent)
     connect(ui->openDirButton, &QPushButton::clicked, this, [&]{emit openDir();});
     connect(ui->recentFilesView, &QAbstractItemView::doubleClicked, this, &StartWidget::openFileFromRecentPressed);
     connect(ui->recentDirsView, &QAbstractItemView::doubleClicked, this, &StartWidget::openDirFromRecentPressed);
+    connect(ui->clearRecentButton, &QPushButton::clicked, this, &StartWidget::clearRecentFiles);
+    connect(ui->clearRecentDirsButton, &QPushButton::clicked, this, &StartWidget::clearRecentDirs);
+
     loadRecentFiles();
     loadRecentDirs();
 }
@@ -84,6 +88,40 @@ void StartWidget::loadRecentDirs()
     }
     recentDirsModel->setStringList(recent);
     ui->recentDirsView->setModel(recentDirsModel);
+}
+
+void StartWidget::clearRecentFiles()
+{
+    auto reply = QMessageBox::question(this, tr("Are you sure?"), tr("Clear recent files?"));
+    if(reply == QMessageBox::Yes)
+    {
+        QFile file(Settings::recentFilesStoragePath);
+        file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
+        if(file.isOpen())
+        {
+            file.write("");
+            file.close();
+        }
+        loadRecentFiles();
+        emit recentFilesCleared();
+    }
+}
+
+void StartWidget::clearRecentDirs()
+{
+    auto reply = QMessageBox::question(this, tr("Are you sure?"), tr("Clear recent directories?"));
+    if(reply == QMessageBox::Yes)
+    {
+        QFile file(Settings::recentDirsStoragePath);
+        file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate);
+        if(file.isOpen())
+        {
+            file.write("");
+            file.close();
+        }
+        loadRecentDirs();
+        emit recentDirsCleared();
+    }
 }
 
 void StartWidget::openFileFromRecentPressed(const QModelIndex& index)
