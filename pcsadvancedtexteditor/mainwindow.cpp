@@ -79,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->filesPage->open(QDir::homePath());
 
     showStart();
+    loadRecentFiles();
+    loadRecentDirs();
 }
 
 MainWindow::~MainWindow()
@@ -166,6 +168,7 @@ void MainWindow::openFile(const QString& path)
             ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
             pathLabel->setText(path);
             saveFileToRecent(path);
+            loadRecentFiles();
             file.close();
             emit refreshStartWidgets();
         }
@@ -261,6 +264,61 @@ void MainWindow::saveDirToRecent(const QString &path)
     }
 }
 
+void MainWindow::loadRecentFiles()
+{
+    ui->menuRecent_Files->clear();
+    if(!QDir(Settings::storagePath).exists())
+    {
+        QDir().mkpath(Settings::storagePath);
+    }
+    QFile file(Settings::recentFilesStoragePath);
+    file.open(QIODevice::ReadOnly);
+    if(file.isOpen())
+    {
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            const QString line = stream.readLine();
+            if(!line.isEmpty())
+            {
+                QAction* action = new QAction(ui->menuRecent_Files);
+                action->setText(line);
+                connect(action, &QAction::triggered, this, [this, line]{openFile(line);});
+                ui->menuRecent_Files->addAction(action);
+            }
+        }
+        file.close();
+    }
+
+}
+
+void MainWindow::loadRecentDirs()
+{
+    ui->menuRecent_Directories->clear();
+    if(!QDir(Settings::storagePath).exists())
+    {
+        QDir().mkpath(Settings::storagePath);
+    }
+    QFile file(Settings::recentDirsStoragePath);
+    file.open(QIODevice::ReadOnly);
+    if(file.isOpen())
+    {
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            const QString line = stream.readLine();
+            if(!line.isEmpty())
+            {
+                QAction* action = new QAction(ui->menuRecent_Directories);
+                action->setText(line);
+                connect(action, &QAction::triggered, this, [this, line]{openDir(line);});
+                ui->menuRecent_Directories->addAction(action);
+            }
+        }
+        file.close();
+    }
+}
+
 void MainWindow::openDir(const QString &path)
 {
     if(QFileInfo(path).isDir())
@@ -277,6 +335,7 @@ void MainWindow::openDir(const QString &path)
         if(hasGitRepository) ui->gitPage->setRepositoryPath(path);
         else ui->gitPage->noRepo();
         saveDirToRecent(path);
+        loadRecentDirs();
         emit refreshStartWidgets();
         ui->stackedWidget->setVisible(ui->stackedWidget->currentIndex() == 0 && ui->stackedWidget->isVisible() ? false : true); ui->stackedWidget->setCurrentIndex(0);
     }

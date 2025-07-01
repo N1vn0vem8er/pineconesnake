@@ -38,6 +38,8 @@ private:
     void startGettingMimeData();
     void saveFileToRecent(const QString& path);
     void saveDirToRecent(const QString& path);
+    void loadRecentFiles();
+    void loadRecentDirs();
 
 private slots:
     void newFilePressed();
