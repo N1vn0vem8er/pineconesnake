@@ -68,6 +68,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionCapital_Letter_at_Sentence, &QAction::triggered, this, &MainWindow::makeCapitalSentences);
     connect(ui->actionPaste_From_File, &QAction::triggered, this, &MainWindow::openPasteFromFile);
     connect(ui->actionLine_Wrap, &QAction::triggered, this, &MainWindow::setLineWrap);
+    connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
+    connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
+    connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -723,6 +726,33 @@ void MainWindow::setLineWrap(bool val)
     if(editor != nullptr)
     {
         editor->setLineWrapMode(val ? QPlainTextEdit::LineWrapMode::WidgetWidth : QPlainTextEdit::LineWrapMode::NoWrap);
+    }
+}
+
+void MainWindow::increaseFontSize()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->increaseFontSize();
+    }
+}
+
+void MainWindow::decreaseFontSize()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->decreaseFontSize();
+    }
+}
+
+void MainWindow::resetFontSize()
+{
+    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setFontSize(Settings::defaultFontSize);
     }
 }
 

@@ -11,6 +11,7 @@ public:
     static QString recentFilesStoragePath;
     static QString recentDirsStoragePath;
     static QString storagePath;
+    static int defaultFontSize;
 };
 
 #endif // SETTINGS_H

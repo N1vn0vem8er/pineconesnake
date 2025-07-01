@@ -38,6 +38,9 @@ public:
     void makeSelectedCapital();
     void makeSelectedSentenceCapital();
     void makeEverySelectedCapital();
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFontSize(int size);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

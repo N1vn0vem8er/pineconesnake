@@ -122,6 +122,10 @@
     <addaction name="actionStart"/>
     <addaction name="separator"/>
     <addaction name="actionLine_Wrap"/>
+    <addaction name="separator"/>
+    <addaction name="actionIncrease_Font_Size"/>
+    <addaction name="actionDecrease_Font_Size"/>
+    <addaction name="actionReset_Font_Size"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -469,6 +473,21 @@
    </property>
    <property name="text">
     <string>Line Wrap</string>
+   </property>
+  </action>
+  <action name="actionIncrease_Font_Size">
+   <property name="text">
+    <string>Increase Font Size</string>
+   </property>
+  </action>
+  <action name="actionDecrease_Font_Size">
+   <property name="text">
+    <string>Decrease Font Size</string>
+   </property>
+  </action>
+  <action name="actionReset_Font_Size">
+   <property name="text">
+    <string>Reset Font Size</string>
    </property>
   </action>
  </widget>

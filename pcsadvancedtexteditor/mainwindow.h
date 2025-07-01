@@ -79,6 +79,9 @@ private slots:
     void fontSizeChanged(int size);
     void openPasteFromFile();
     void setLineWrap(bool val);
+    void increaseFontSize();
+    void decreaseFontSize();
+    void resetFontSize();
 
 signals:
     void startMimeSearch();

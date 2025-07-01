@@ -219,6 +219,30 @@ void TextEditor::makeEverySelectedCapital()
     }
 }
 
+void TextEditor::increaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() + 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::decreaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() - 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::setFontSize(int size)
+{
+    QFont font = this->font();
+    font.setPointSize(size);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
 void TextEditor::setSuggestions(const QStringList list)
 {
     QStringListModel* model = new QStringListModel(list, this);
@@ -374,21 +398,18 @@ void TextEditor::wheelEvent(QWheelEvent *event)
 {
     if(event->modifiers() == Qt::ControlModifier)
     {
-        QFont font = this->font();
         if(event->angleDelta().y() > 0)
         {
-            font.setPointSize(font.pointSize() + 1);
-            setFont(font);
+            increaseFontSize();
         }
         else
         {
-            font.setPointSize(font.pointSize() - 1 <= 0 ? 1 : font.pointSize() - 1);
-            setFont(font);
+            decreaseFontSize();
         }
-        emit fontSizeChanged(font.pointSize());
         event->accept();
     }
-    QPlainTextEdit::wheelEvent(event);
+    else
+        QPlainTextEdit::wheelEvent(event);
 }
 
 void TextEditor::resizeEvent(QResizeEvent *event)
