@@ -24,10 +24,15 @@
        <property name="orientation">
         <enum>Qt::Orientation::Horizontal</enum>
        </property>
-       <widget class="QListView" name="listView"/>
+       <widget class="QListView" name="listView">
+        <property name="editTriggers">
+         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+        </property>
+       </widget>
        <widget class="QStackedWidget" name="stackedWidget">
-        <widget class="QWidget" name="page"/>
-        <widget class="QWidget" name="page_2"/>
+        <widget class="QWidget" name="generalPage"/>
+        <widget class="QWidget" name="appearancePage"/>
+        <widget class="QWidget" name="spellcheckingPage"/>
        </widget>
       </widget>
      </item>
