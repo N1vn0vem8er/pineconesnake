@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     languageLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(languageLabel);
     loadHunspell();
-    ui->filesPage->open(QDir::homePath());
+    ui->filesPage->open(Settings::defaultFileTreeDir);
 
     showStart();
     loadRecentFiles();
@@ -251,7 +251,7 @@ void MainWindow::saveFileToRecent(const QString &path)
             if(file.isOpen())
             {
                 QTextStream stream(&file);
-                if(paths.length() > 10) paths.removeAt(0);
+                if(paths.length() >= Settings::recentFilesLimit) paths.removeAt(0);
                 paths.append(path);
                 for(const auto& i : std::as_const(paths))
                 {
@@ -281,7 +281,7 @@ void MainWindow::saveDirToRecent(const QString &path)
             if(file.isOpen())
             {
                 QTextStream stream(&file);
-                if(paths.length() > 10) paths.removeAt(0);
+                if(paths.length() >= Settings::recentDirsLimit) paths.removeAt(0);
                 paths.append(path);
                 for(const auto& i : std::as_const(paths))
                 {
