@@ -9,3 +9,4 @@ QString Settings::storagePath = QDir::homePath() + "/.local/share/pineconesnake/
 QString Settings::recentFilesStoragePath = storagePath + "/recentFiles.txt";
 QString Settings::recentDirsStoragePath = storagePath + "/recentDirs.txt";
 int Settings::defaultFontSize = 10;
+QStringList Settings::hunspellDirs {"/usr/share/hunspell"};

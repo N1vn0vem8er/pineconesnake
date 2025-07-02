@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::openAbout);
-    connect(ui->actionSettings, &QAction::triggered, this, [&]{addTab(new SettingsWidget(this), tr("Settings"));});
+    connect(ui->actionSettings, &QAction::triggered, this, &MainWindow::openSettings);
 
     ui->searchWidget->setVisible(false);
     ui->stackedWidget->setVisible(false);
@@ -193,17 +193,21 @@ void MainWindow::openFile(const QString& path)
 
 void MainWindow::loadHunspell()
 {
-    QDir dir("/usr/share/hunspell");
-    if(dir.exists())
+    ui->menuLanguages->clear();
+    for(const auto& dictionaryDir : std::as_const(Settings::hunspellDirs))
     {
-        Globals::hunspellLanguages = dir.entryList(QStringList() << "*.dic" << "*.aff", QDir::Files);
-        for(int i=0; i<Globals::hunspellLanguages.size(); i+=2)
+        QDir dir(dictionaryDir);
+        if(dir.exists())
         {
-            QAction* action = new QAction(Globals::hunspellLanguages[i].left(Globals::hunspellLanguages[i].indexOf(".")), ui->menuLanguages);
-            connect(action, &QAction::triggered, this, [this, action]{changeLanguageForEditor(action->text());});
-            ui->menuLanguages->addAction(action);
+            Globals::hunspellLanguages = dir.entryList(QStringList() << "*.dic" << "*.aff", QDir::Files);
+            for(int i=0; i<Globals::hunspellLanguages.size(); i+=2)
+            {
+                QAction* action = new QAction(Globals::hunspellLanguages[i].left(Globals::hunspellLanguages[i].indexOf(".")), ui->menuLanguages);
+                connect(action, &QAction::triggered, this, [this, action]{changeLanguageForEditor(action->text());});
+                ui->menuLanguages->addAction(action);
+            }
+            languageLabel->setText(Settings::defaultLanguage);
         }
-        languageLabel->setText(Settings::defaultLanguage);
     }
 }
 
@@ -808,6 +812,13 @@ void MainWindow::openAbout()
         </body>
     </html>
 )").arg("https://github.com/N1vn0vem8er/pineconesnake/blob/main/pcstxteditor/README.md", PROJECTLINK, VERSION, LICENSELINK));
+}
+
+void MainWindow::openSettings()
+{
+    SettingsWidget* widget = new SettingsWidget(ui->tabWidget);
+    connect(widget, &SettingsWidget::reloadHunspell, this, &MainWindow::loadHunspell);
+    addTab(widget, tr("Settings"));
 }
 
 void MainWindow::dropEvent(QDropEvent *event)

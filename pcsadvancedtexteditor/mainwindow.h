@@ -84,6 +84,7 @@ private slots:
     void resetFontSize();
     void setFontSize();
     void openAbout();
+    void openSettings();
 
 signals:
     void startMimeSearch();

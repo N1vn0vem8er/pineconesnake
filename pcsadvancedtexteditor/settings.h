@@ -12,6 +12,7 @@ public:
     static QString recentDirsStoragePath;
     static QString storagePath;
     static int defaultFontSize;
+    static QStringList hunspellDirs;
 };
 
 #endif // SETTINGS_H
