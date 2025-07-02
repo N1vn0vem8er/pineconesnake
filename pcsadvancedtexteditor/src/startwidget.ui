@@ -134,7 +134,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QListView" name="recentFilesView"/>
+        <widget class="QListView" name="recentFilesView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -178,7 +182,11 @@
         </layout>
        </item>
        <item>
-        <widget class="QListView" name="recentDirsView"/>
+        <widget class="QListView" name="recentDirsView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

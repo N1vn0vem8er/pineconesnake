@@ -103,7 +103,9 @@ MainWindow::MainWindow(QWidget *parent)
     {
         for(int i=1;i<args.size(); i++)
         {
-            openFile(args[i]);
+            QFileInfo fileInfo(args[i]);
+            if(fileInfo.isFile())
+                openFile(fileInfo.absoluteFilePath());
         }
     }
 }
