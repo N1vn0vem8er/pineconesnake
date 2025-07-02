@@ -13,8 +13,16 @@ void MimeFinderWorker::start()
 {
     const QString generalPath = "/usr/share/applications";
     const QString userPath = QDir::homePath() + "/.local/share/applications";
-    Globals::apps.append(find(userPath));
     Globals::apps.append(find(generalPath));
+    const auto user = find(userPath);
+    for(const auto& i : user)
+    {
+        if(std::find_if(Globals::apps.begin(), Globals::apps.end(), [&i](const auto& val){return i.name == val.name;}) == Globals::apps.end())
+        {
+            Globals::apps.append(i);
+        }
+    }
+
     emit finished();
 }
 
