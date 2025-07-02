@@ -97,6 +97,15 @@ MainWindow::MainWindow(QWidget *parent)
     showStart();
     loadRecentFiles();
     loadRecentDirs();
+
+    QStringList args = qApp->arguments();
+    if(args.size() >= 2)
+    {
+        for(int i=1;i<args.size(); i++)
+        {
+            openFile(args[i]);
+        }
+    }
 }
 
 MainWindow::~MainWindow()
