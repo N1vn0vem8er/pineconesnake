@@ -10,7 +10,7 @@ A feature rich text editor
 
 ## General info
 
-Pinecone Snake Advanced Text Editor is a feature rich text editor. It is based on [PCS TxtEditor](../pcstxteditor/README.md). Some ui elements are inspired by [Kate](https://kate-editor.org).
+Pinecone Snake Advanced Text Editor is a feature rich text editor. It is based on [PCS TxtEditor](../pcstxteditor/README.md). Layout of some ui elements is inspired by [Kate](https://kate-editor.org).
 
 ## Features
 

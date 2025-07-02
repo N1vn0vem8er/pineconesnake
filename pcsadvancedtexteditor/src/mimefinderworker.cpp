@@ -1,7 +1,5 @@
 #include "mimefinderworker.h"
-
 #include "globals.h"
-
 #include <QDir>
 #include <QRegularExpressionMatchIterator>
 
@@ -22,7 +20,6 @@ void MimeFinderWorker::start()
             Globals::apps.append(i);
         }
     }
-
     emit finished();
 }
 
