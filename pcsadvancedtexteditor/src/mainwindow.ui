@@ -525,25 +525,25 @@
   <customwidget>
    <class>TabWidget</class>
    <extends>QWidget</extends>
-   <header>../../../../tabwidget.h</header>
+   <header>../../../../src/tabwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>SearchWidget</class>
    <extends>QWidget</extends>
-   <header>../../../../searchwidget.h</header>
+   <header>../../../../src/searchwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>FileSystemTree</class>
    <extends>QWidget</extends>
-   <header>../../../../filesystemtree.h</header>
+   <header>../../../../src/filesystemtree.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GitWidget</class>
    <extends>QWidget</extends>
-   <header>../../../../gitwidget.h</header>
+   <header>../../../../src/gitwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
