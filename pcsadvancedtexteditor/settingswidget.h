@@ -25,6 +25,9 @@ private:
     QComboBox* defaultLanguageComboBox {nullptr};
     QLineEdit* fontSize {nullptr};
     QLineEdit* hunspellDirs {nullptr};
+    QLineEdit* recentFilesLimit {nullptr};
+    QLineEdit* recentDirsLimit {nullptr};
+    QLineEdit* defaultFileTreeDir {nullptr};
     QCheckBox* spellCheckEnabled {nullptr};
     void initGeneralSettings();
     void initAppearanceSettings();

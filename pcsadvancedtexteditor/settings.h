@@ -13,6 +13,9 @@ public:
     static QString storagePath;
     static int defaultFontSize;
     static QStringList hunspellDirs;
+    static int recentFilesLimit;
+    static int recentDirsLimit;
+    static QString defaultFileTreeDir;
 };
 
 #endif // SETTINGS_H

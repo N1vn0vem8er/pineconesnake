@@ -3,6 +3,7 @@
 #include "ui_settingswidget.h"
 #include "settings.h"
 #include <QCheckBox>
+#include <qfileinfo.h>
 #include <qformlayout.h>
 #include <qlineedit.h>
 
@@ -29,6 +30,20 @@ SettingsWidget::~SettingsWidget()
 void SettingsWidget::initGeneralSettings()
 {
     QFormLayout* layout = new QFormLayout(ui->generalPage);
+
+    recentDirsLimit = new QLineEdit(ui->generalPage);
+    recentDirsLimit->setInputMask("99");
+    recentFilesLimit = new QLineEdit(ui->generalPage);
+    recentFilesLimit->setInputMask("99");
+    defaultFileTreeDir = new QLineEdit(ui->generalPage);
+    layout->addRow(tr("Recent Files Limit"), recentFilesLimit);
+    layout->addRow(tr("Recent Dirs Limit"), recentDirsLimit);
+    layout->addRow(tr("Default directory in file system tree"), defaultFileTreeDir);
+
+    defaultFileTreeDir->setText(Settings::defaultFileTreeDir);
+    recentFilesLimit->setText(QString::number(Settings::recentFilesLimit));
+    recentDirsLimit->setText(QString::number(Settings::recentDirsLimit));
+
     ui->generalPage->setLayout(layout);
 }
 
@@ -78,8 +93,17 @@ void SettingsWidget::apply()
     switch(ui->stackedWidget->currentIndex())
     {
     case 0:
+    {
+        Settings::recentFilesLimit = recentFilesLimit->text().toInt();
+        Settings::recentDirsLimit = recentDirsLimit->text().toInt();
+        if(QFileInfo(defaultFileTreeDir->text()).isDir())
+            Settings::defaultFileTreeDir = defaultFileTreeDir->text();
+    }
         break;
     case 1:
+    {
+        Settings::defaultFontSize = fontSize->text().toInt();
+    }
         break;
     case 2:
     {

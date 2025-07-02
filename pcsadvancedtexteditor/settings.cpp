@@ -10,3 +10,6 @@ QString Settings::recentFilesStoragePath = storagePath + "/recentFiles.txt";
 QString Settings::recentDirsStoragePath = storagePath + "/recentDirs.txt";
 int Settings::defaultFontSize = 10;
 QStringList Settings::hunspellDirs {"/usr/share/hunspell"};
+int Settings::recentFilesLimit = 10;
+int Settings::recentDirsLimit = 10;
+QString Settings::defaultFileTreeDir = QDir::homePath();
