@@ -12,12 +12,14 @@ SOURCES += \
     src/dialogs/propertiesdialog.cpp \
     src/imageview.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    src/tabwidget.cpp
 
 HEADERS += \
     src/dialogs/propertiesdialog.h \
     src/imageview.h \
-    src/mainwindow.h
+    src/mainwindow.h \
+    src/tabwidget.h
 
 FORMS += \
     src/dialogs/propertiesdialog.ui \

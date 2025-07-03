@@ -49,28 +49,14 @@
       <item>
        <widget class="QSlider" name="horizontalSlider">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="QScrollArea" name="scrollArea">
-      <property name="widgetResizable">
-       <bool>true</bool>
-      </property>
-      <widget class="ImageView" name="imageView">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>1208</width>
-         <height>662</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
+     <widget class="TabWidget" name="tabWidget"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
@@ -261,9 +247,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ImageView</class>
-   <extends>QWidget</extends>
-   <header>src/imageview.h</header>
+   <class>TabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>src/tabwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

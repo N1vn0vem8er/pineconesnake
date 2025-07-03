@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "qevent.h"
 #include "qlabel.h"
+#include "qscrollarea.h"
 #include "src/dialogs/propertiesdialog.h"
+#include "src/imageview.h"
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->rotateLeftButton, &QPushButton::clicked, this, &MainWindow::rotateImageLeft);
     connect(ui->actionProperties, &QAction::triggered, this, &MainWindow::displayFileProperties);
     connect(ui->horizontalSlider, &QSlider::actionTriggered, this, &MainWindow::zoom);
-    connect(ui->imageView, &ImageView::scaleChanged, this, &MainWindow::changeScaleSlider);
+    // connect(ui->imageView, &ImageView::scaleChanged, this, &MainWindow::changeScaleSlider);
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::openImageRight);
     connect(ui->actionClearRecent, &QAction::triggered, this, &MainWindow::clearRecent);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::openImegeLeft);
@@ -57,7 +59,7 @@ void MainWindow::openImage(){
 
 void MainWindow::closeImage(){
     if(!openedImage.isEmpty()){
-        ui->imageView->setImage(QImage());
+        // ui->imageView->setImage(QImage());
         openedImage.clear();
         setVisibility(false);
         imagePathLabel->setText("");
@@ -75,12 +77,12 @@ void MainWindow::displayAboutApplication(){
 }
 
 void MainWindow::rotateImageRight(){
-    ui->imageView->rotateRight();
+    // ui->imageView->rotateRight();
 }
 
 void MainWindow::rotateImageLeft()
 {
-    ui->imageView->rotateLeft();
+    // ui->imageView->rotateLeft();
 }
 
 void MainWindow::displayFileProperties(){
@@ -95,11 +97,11 @@ void MainWindow::zoom(){
         int newPos = ui->horizontalSlider->value();
         if(newPos > sliderPosition)
         {
-            ui->imageView->setScale(1.1);
+            // ui->imageView->setScale(1.1);
         }
         else
         {
-            ui->imageView->setScale(0.9);
+            // ui->imageView->setScale(0.9);
         }
         sliderPosition = newPos;
     }
@@ -126,7 +128,7 @@ void MainWindow::saveToRecent()
                 QTextStream stream(&file);
                 if(paths.length() > 10) paths.removeAt(0);
                 paths.append(openedImage);
-                for(const auto& i : paths)
+                for(const auto& i : std::as_const(paths))
                 {
                     stream << i + "\n";
                 }
@@ -163,11 +165,26 @@ void MainWindow::open(const QString &path)
 {
     QImage image;
     if(image.load(path)){
-        ui->imageView->setImage(image);
         openedImage = path;
         setVisibility(true);
         imagePathLabel->setText(path);
         saveToRecent();
+        QWidget* widget = new QWidget(ui->tabWidget);
+        QScrollArea* scrollArea = new QScrollArea(widget);
+        ImageView* imageView = new ImageView();
+        imageView->setImage(image);
+        scrollArea->setWidget(imageView);
+        imageView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        scrollArea->setMinimumSize(0, 0);
+        scrollArea->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+        scrollArea->setWidgetResizable(true);
+        QHBoxLayout* layout = new QHBoxLayout(widget);
+        layout->addWidget(scrollArea);
+        widget->setLayout(layout);
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->setStretch(0, 1);
+        ui->tabWidget->addTab(widget, path);
+        ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     }
 }
 
@@ -246,7 +263,7 @@ QString MainWindow::getRecentPath() const
     if(!QDir(path).exists())
         QDir(path).mkpath(path);
     path += "/recent.txt";
-    if(!QFileInfo(path).exists())
+    if(!QFileInfo::exists(path))
     {
         QFile file(path);
         file.open(QIODevice::WriteOnly);
