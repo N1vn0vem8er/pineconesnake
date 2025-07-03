@@ -24,20 +24,18 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    QString openedImage = "";
     QLabel* imagePathLabel;
     int sliderPosition = 0;
 
     void openImage();
     void openImageInCurrentTab(const QString &path);
-    void loadRecentFiles();
     void displayAboutApplication();
     void rotateImageRight();
     void rotateImageLeft();
     void extracted();
     void displayFileProperties();
     void zoom();
-    void saveToRecent();
+    void saveToRecent(const QString &path);
     void loadRecent();
     void open(const QString& path);
     void openImegeLeft();

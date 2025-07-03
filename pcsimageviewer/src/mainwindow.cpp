@@ -68,16 +68,12 @@ void MainWindow::openImageInCurrentTab(const QString& path){
             if(image.load(path)){
                 setVisibility(true);
                 imagePathLabel->setText(path);
-                saveToRecent();
+                saveToRecent(path);
                 imageView->setImage(image, path);
                 ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QFileInfo(path).fileName());
             }
         }
     }
-}
-
-void MainWindow::loadRecentFiles(){
-
 }
 
 void MainWindow::displayAboutApplication(){
@@ -117,9 +113,13 @@ void MainWindow::rotateImageLeft()
 }
 
 void MainWindow::displayFileProperties(){
-    if(!openedImage.isEmpty()){
-        PropertiesDialog dialog(openedImage, this);
-        dialog.exec();
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr){
+            PropertiesDialog dialog(imageView->getPath(), this);
+            dialog.exec();
+        }
     }
 }
 
@@ -139,12 +139,11 @@ void MainWindow::zoom(){
                 imageView->setScale(0.9);
             }
             sliderPosition = newPos;
-
         }
     }
 }
 
-void MainWindow::saveToRecent()
+void MainWindow::saveToRecent(const QString& path)
 {
     QFile file(getRecentPath());
     file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -157,14 +156,14 @@ void MainWindow::saveToRecent()
             paths << stream.readLine();
         }
         file.close();
-        if(!paths.contains(openedImage))
+        if(!paths.contains(path))
         {
             file.open(QIODevice::WriteOnly | QIODevice::Text);
             if(file.isOpen())
             {
                 QTextStream stream(&file);
                 if(paths.length() > 10) paths.removeAt(0);
-                paths.append(openedImage);
+                paths.append(path);
                 for(const auto& i : std::as_const(paths))
                 {
                     stream << i + "\n";
@@ -202,10 +201,9 @@ void MainWindow::open(const QString &path)
 {
     QImage image;
     if(image.load(path)){
-        openedImage = path;
         setVisibility(true);
         imagePathLabel->setText(path);
-        saveToRecent();
+        saveToRecent(path);
         QScrollArea* scrollArea = new QScrollArea();
         ImageView* imageView = new ImageView();
         imageView->setImage(image, path);
@@ -338,6 +336,7 @@ void MainWindow::tabChanged(int index)
             if(imageView != nullptr)
             {
                 imagePathLabel->setText(imageView->getPath());
+                ui->horizontalSlider->setValue(imageView->getScale());
             }
         }
     }
