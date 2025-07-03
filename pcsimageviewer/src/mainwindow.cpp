@@ -28,10 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->rotateLeftButton, &QPushButton::clicked, this, &MainWindow::rotateImageLeft);
     connect(ui->actionProperties, &QAction::triggered, this, &MainWindow::displayFileProperties);
     connect(ui->horizontalSlider, &QSlider::actionTriggered, this, &MainWindow::zoom);
-    // connect(ui->imageView, &ImageView::scaleChanged, this, &MainWindow::changeScaleSlider);
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::openImageRight);
     connect(ui->actionClearRecent, &QAction::triggered, this, &MainWindow::clearRecent);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::openImegeLeft);
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
 
     if(qApp->arguments().length() == 2)
     {
@@ -93,17 +93,23 @@ void MainWindow::displayFileProperties(){
 }
 
 void MainWindow::zoom(){
-    if(!openedImage.isEmpty()){
-        int newPos = ui->horizontalSlider->value();
-        if(newPos > sliderPosition)
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* itemView = dynamic_cast<ImageView*>(widget->widget());
+        if(itemView != nullptr)
         {
-            // ui->imageView->setScale(1.1);
+            int newPos = ui->horizontalSlider->value();
+            if(newPos > sliderPosition)
+            {
+                itemView->setScale(1.1);
+            }
+            else
+            {
+                itemView->setScale(0.9);
+            }
+            sliderPosition = newPos;
+
         }
-        else
-        {
-            // ui->imageView->setScale(0.9);
-        }
-        sliderPosition = newPos;
     }
 }
 
@@ -169,8 +175,7 @@ void MainWindow::open(const QString &path)
         setVisibility(true);
         imagePathLabel->setText(path);
         saveToRecent();
-        QWidget* widget = new QWidget(ui->tabWidget);
-        QScrollArea* scrollArea = new QScrollArea(widget);
+        QScrollArea* scrollArea = new QScrollArea();
         ImageView* imageView = new ImageView();
         imageView->setImage(image);
         scrollArea->setWidget(imageView);
@@ -178,12 +183,8 @@ void MainWindow::open(const QString &path)
         scrollArea->setMinimumSize(0, 0);
         scrollArea->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         scrollArea->setWidgetResizable(true);
-        QHBoxLayout* layout = new QHBoxLayout(widget);
-        layout->addWidget(scrollArea);
-        widget->setLayout(layout);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setStretch(0, 1);
-        ui->tabWidget->addTab(widget, path);
+        connect(imageView, &ImageView::scaleChanged, this, &MainWindow::changeScaleSlider);
+        ui->tabWidget->addTab(scrollArea, path);
         ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     }
 }
@@ -279,4 +280,9 @@ QString MainWindow::getRecentPath() const
 void MainWindow::changeScaleSlider(double factor)
 {
     ui->horizontalSlider->setValue(factor == 1.1 ? ui->horizontalSlider->value()+1 : ui->horizontalSlider->value()-1);
+}
+
+void MainWindow::closeTab(int index)
+{
+    ui->tabWidget->removeTab(index);
 }

@@ -45,5 +45,6 @@ private:
     QString getRecentPath() const;
 public slots:
     void changeScaleSlider(double factor);
+    void closeTab(int index);
 };
 #endif // MAINWINDOW_H
