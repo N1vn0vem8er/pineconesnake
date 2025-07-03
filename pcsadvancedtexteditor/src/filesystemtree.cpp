@@ -14,6 +14,7 @@ FileSystemTree::FileSystemTree(QWidget *parent) : QTreeView(parent)
     hideColumn(3);
     hideColumn(4);
     connect(this, &QTreeView::customContextMenuRequested, this, &FileSystemTree::openContextMenu);
+    connect(this, &QTreeView::doubleClicked, this, &FileSystemTree::openFilePressed);
     setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
