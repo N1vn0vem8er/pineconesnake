@@ -29,7 +29,7 @@ private:
     int sliderPosition = 0;
 
     void openImage();
-    void closeImage();
+    void openImageInCurrentTab(const QString &path);
     void loadRecentFiles();
     void displayAboutApplication();
     void rotateImageRight();
@@ -42,7 +42,7 @@ private:
     void open(const QString& path);
     void openImegeLeft();
     void openImageRight();
-    QFileInfoList getImagesInDirectory();
+    QFileInfoList getImagesInDirectory(const QString &path);
     void clearRecent();
     void setVisibility(bool val);
     QString getRecentPath() const;

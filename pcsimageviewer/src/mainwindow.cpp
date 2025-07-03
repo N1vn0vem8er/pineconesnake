@@ -58,12 +58,21 @@ void MainWindow::openImage(){
     }
 }
 
-void MainWindow::closeImage(){
-    if(!openedImage.isEmpty()){
-        // ui->imageView->setImage(QImage());
-        openedImage.clear();
-        setVisibility(false);
-        imagePathLabel->setText("");
+void MainWindow::openImageInCurrentTab(const QString& path){
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr)
+        {
+            QImage image;
+            if(image.load(path)){
+                setVisibility(true);
+                imagePathLabel->setText(path);
+                saveToRecent();
+                imageView->setImage(image, path);
+                ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), QFileInfo(path).fileName());
+            }
+        }
     }
 }
 
@@ -85,12 +94,26 @@ void MainWindow::displayAboutApplication(){
 }
 
 void MainWindow::rotateImageRight(){
-    // ui->imageView->rotateRight();
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr)
+        {
+            imageView->rotateRight();
+        }
+    }
 }
 
 void MainWindow::rotateImageLeft()
 {
-    // ui->imageView->rotateLeft();
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr)
+        {
+            imageView->rotateLeft();
+        }
+    }
 }
 
 void MainWindow::displayFileProperties(){
@@ -103,17 +126,17 @@ void MainWindow::displayFileProperties(){
 void MainWindow::zoom(){
     QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
     if(widget != nullptr){
-        ImageView* itemView = dynamic_cast<ImageView*>(widget->widget());
-        if(itemView != nullptr)
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr)
         {
             int newPos = ui->horizontalSlider->value();
             if(newPos > sliderPosition)
             {
-                itemView->setScale(1.1);
+                imageView->setScale(1.1);
             }
             else
             {
-                itemView->setScale(0.9);
+                imageView->setScale(0.9);
             }
             sliderPosition = newPos;
 
@@ -199,43 +222,47 @@ void MainWindow::open(const QString &path)
 
 void MainWindow::openImegeLeft()
 {
-    QFileInfoList images = getImagesInDirectory();
-    int index = images.indexOf(QFileInfo(openedImage));
-    if(index < 0)
-        return;
-    if(index == 0)
-    {
-        closeImage();
-        open(images[images.length()-1].absoluteFilePath());
-    }
-    else
-    {
-        closeImage();
-        open(images[index-1].absoluteFilePath());
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr){
+            QFileInfoList images = getImagesInDirectory(imageView->getPath());
+            int index = images.indexOf(QFileInfo(imageView->getPath()));
+            if(index < 0)
+                return;
+            if(index == 0){
+                openImageInCurrentTab(images[images.length()-1].absoluteFilePath());
+            }
+            else{
+                openImageInCurrentTab(images[index-1].absoluteFilePath());
+            }
+        }
     }
 }
 
 void MainWindow::openImageRight()
 {
-    QFileInfoList images = getImagesInDirectory();
-    int index = images.indexOf(QFileInfo(openedImage));
-    if(index < 0)
-        return;
-    if(index >= images.size() || index + 1 >= images.size())
-    {
-        closeImage();
-        open(images[0].absoluteFilePath());
-    }
-    else
-    {
-        closeImage();
-        open(images[index+1].absoluteFilePath());
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->currentWidget());
+    if(widget != nullptr){
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr){
+            QFileInfoList images = getImagesInDirectory(imageView->getPath());
+            int index = images.indexOf(QFileInfo(imageView->getPath()));
+            if(index < 0)
+                return;
+            if(index >= images.size() || index + 1 >= images.size()){
+                openImageInCurrentTab(images[0].absoluteFilePath());
+            }
+            else{
+                openImageInCurrentTab(images[index+1].absoluteFilePath());
+            }
+        }
     }
 }
 
-QFileInfoList MainWindow::getImagesInDirectory()
+QFileInfoList MainWindow::getImagesInDirectory(const QString& path)
 {
-    QString dirPath = QFileInfo(openedImage).absolutePath();
+    QString dirPath = QFileInfo(path).absolutePath();
     QDir directory(dirPath);
     QFileInfoList images = directory.entryInfoList(QStringList() << "*.jpg" << "*.JPG" << "*.png" << "*.PNG" << "*.jpeg" << "*.JPEG", QDir::Files);
     return images;
