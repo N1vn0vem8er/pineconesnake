@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow){
     ui->setupUi(this);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openImage);
-    connect(ui->actionClose, &QAction::triggered, this, &MainWindow::closeImage);
+    connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::displayAboutApplication);
@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClearRecent, &QAction::triggered, this, &MainWindow::clearRecent);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::openImegeLeft);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     if(qApp->arguments().length() == 2)
     {
@@ -71,9 +72,16 @@ void MainWindow::loadRecentFiles(){
 }
 
 void MainWindow::displayAboutApplication(){
-    QMessageBox::about(this, tr("About Application"), tr("<html><body><h2>Image Viewer</h2><p>PCS Image Viewer is a simple image viewer. It is a part of the Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
-                                                          .arg(VERSION)
-                                                          .arg(LICENSELINK));
+    QMessageBox::about(this, tr("About Application"), tr(R"(
+    <html>
+        <body>
+            <h2>Image Viewer</h2>
+            <p>PCS Image Viewer is a simple image viewer. It is a part of the Pinecone Snake project.</p>
+            <p>Version: %1</p>
+            <p>License: <a href=\"%2\">GPL 3</a></p>
+        </body>
+    </html>
+    )").arg(VERSION, LICENSELINK));
 }
 
 void MainWindow::rotateImageRight(){
@@ -177,14 +185,14 @@ void MainWindow::open(const QString &path)
         saveToRecent();
         QScrollArea* scrollArea = new QScrollArea();
         ImageView* imageView = new ImageView();
-        imageView->setImage(image);
+        imageView->setImage(image, path);
         scrollArea->setWidget(imageView);
         imageView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         scrollArea->setMinimumSize(0, 0);
         scrollArea->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         scrollArea->setWidgetResizable(true);
         connect(imageView, &ImageView::scaleChanged, this, &MainWindow::changeScaleSlider);
-        ui->tabWidget->addTab(scrollArea, path);
+        ui->tabWidget->addTab(scrollArea, QFileInfo(path).fileName());
         ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
     }
 }
@@ -285,4 +293,25 @@ void MainWindow::changeScaleSlider(double factor)
 void MainWindow::closeTab(int index)
 {
     ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::tabChanged(int index)
+{
+    if(ui->tabWidget->count() <= 0)
+    {
+        setVisibility(false);
+        imagePathLabel->setText("");
+    }
+    else
+    {
+        QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->widget(index));
+        if(widget != nullptr)
+        {
+            ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+            if(imageView != nullptr)
+            {
+                imagePathLabel->setText(imageView->getPath());
+            }
+        }
+    }
 }

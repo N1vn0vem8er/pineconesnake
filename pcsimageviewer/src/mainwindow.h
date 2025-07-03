@@ -19,6 +19,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void changeScaleSlider(double factor);
+
 private:
     Ui::MainWindow *ui;
     QString openedImage = "";
@@ -43,8 +46,10 @@ private:
     void clearRecent();
     void setVisibility(bool val);
     QString getRecentPath() const;
-public slots:
-    void changeScaleSlider(double factor);
+
+private slots:
     void closeTab(int index);
+    void tabChanged(int index);
+
 };
 #endif // MAINWINDOW_H

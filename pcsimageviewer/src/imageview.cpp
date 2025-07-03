@@ -20,7 +20,8 @@ QImage ImageView::getImage() const{
     return image;
 }
 
-void ImageView::setImage(const QImage &newImage){
+void ImageView::setImage(const QImage &newImage, const QString &path){
+    this->path = path;
     image = newImage;
     if(item != nullptr) delete item;
     if(group != nullptr) delete group;
@@ -73,6 +74,11 @@ void ImageView::rotateLeft()
         rotation-= 90;
         this->rotate(-90);
     }
+}
+
+QString ImageView::getPath() const
+{
+    return path;
 }
 
 void ImageView::paintEvent(QPaintEvent *event){

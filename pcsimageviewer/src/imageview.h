@@ -11,11 +11,12 @@ public:
     explicit ImageView(QGraphicsView *parent = nullptr);
     ~ImageView();
     QImage getImage() const;
-    void setImage(const QImage &newImage);
+    void setImage(const QImage &newImage, const QString& path);
     void rotateRight();
     void setScale(double scale);
     double getScale() const;
     void rotateLeft();
+    QString getPath() const;
 
 private:
     QImage image;
@@ -24,6 +25,7 @@ private:
     QGraphicsScene* scene = nullptr;
     QGraphicsItemGroup* group = nullptr;
     QGraphicsPixmapItem* item = nullptr;
+    QString path;
 
 signals:
     void scaleChanged(double factor);
