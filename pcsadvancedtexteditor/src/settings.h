@@ -1,11 +1,15 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <qdir.h>
 #include <qobject.h>
 class Settings
 {
 public:
     Settings();
+    void load();
+    void save();
+    const QString settingsPath {QDir::homePath() + "/.config/pcsadvancedtexteditor.conf"};
     static QString defaultLanguage;
     static bool spellCheckEnabled;
     static QString recentFilesStoragePath;

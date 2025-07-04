@@ -115,4 +115,7 @@ void SettingsWidget::apply()
     }
         break;
     }
+    Settings s;
+    s.save();
+    s.load();
 }

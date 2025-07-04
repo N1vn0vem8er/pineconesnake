@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    Settings().load();
+
     startGettingMimeData();
     setAcceptDrops(true);
 
