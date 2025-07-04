@@ -62,6 +62,7 @@ void TextEditor::init()
     connect(timer, &QTimer::timeout, this, &TextEditor::startSpellChecking);
     timer->setInterval(150);
     timer->setSingleShot(true);
+    setFontSize(Settings::defaultFontSize);
 }
 
 QString TextEditor::getPath() const

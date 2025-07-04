@@ -9,7 +9,7 @@ public:
     Settings();
     void load();
     void save();
-    const QString settingsPath {QDir::homePath() + "/.config/pcsadvancedtexteditor.conf"};
+    const QString settingsPath {"pcsadvancedtexteditor"};
     static QString defaultLanguage;
     static bool spellCheckEnabled;
     static QString recentFilesStoragePath;
