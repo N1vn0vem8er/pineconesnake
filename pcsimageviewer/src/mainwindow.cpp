@@ -318,6 +318,14 @@ void MainWindow::changeScaleSlider(double factor)
 
 void MainWindow::closeTab(int index)
 {
+    QScrollArea* widget = dynamic_cast<QScrollArea*>(ui->tabWidget->widget(index));
+    if(widget != nullptr)
+    {
+        ImageView* imageView = dynamic_cast<ImageView*>(widget->widget());
+        if(imageView != nullptr){
+            delete imageView;
+        }
+    }
     ui->tabWidget->removeTab(index);
 }
 
