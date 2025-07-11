@@ -300,36 +300,36 @@ void GitWidget::openGitCommit()
 
 void GitWidget::gitCommit(const QString &title, const QString &description)
 {
-    QProcess* process = new QProcess(this);
-    process->setWorkingDirectory(repoPath);
-    process->start("git", {"commit", "-m", title, "-m", description});
-    process->waitForStarted();
-    process->waitForFinished();
-    process->waitForReadyRead();
+    QProcess process;
+    process.setWorkingDirectory(repoPath);
+    process.start("git", {"commit", "-m", title, "-m", description});
+    process.waitForStarted();
+    process.waitForFinished();
+    process.waitForReadyRead();
     refresh();
-    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Commit resoults"));
+    emit openInEditor(process.readAllStandardOutput() + process.readAllStandardError(), tr("Commit results"));
 }
 
 void GitWidget::gitPush()
 {
-    QProcess* process = new QProcess(this);
-    process->setWorkingDirectory(repoPath);
-    process->start("git", {"push"});
-    process->waitForStarted();
-    process->waitForFinished();
-    process->waitForReadyRead();
+    QProcess process;
+    process.setWorkingDirectory(repoPath);
+    process.start("git", {"push"});
+    process.waitForStarted();
+    process.waitForFinished();
+    process.waitForReadyRead();
     refresh();
-    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Push resoults"));
+    emit openInEditor(process.readAllStandardOutput() + process.readAllStandardError(), tr("Push results"));
 }
 
 void GitWidget::gitPull()
 {
-    QProcess* process = new QProcess(this);
-    process->setWorkingDirectory(repoPath);
-    process->start("git", {"pull"});
-    process->waitForStarted();
-    process->waitForFinished();
-    process->waitForReadyRead();
+    QProcess process;
+    process.setWorkingDirectory(repoPath);
+    process.start("git", {"pull"});
+    process.waitForStarted();
+    process.waitForFinished();
+    process.waitForReadyRead();
     refresh();
-    emit openInEditor(process->readAllStandardOutput() + process->readAllStandardError(), tr("Push resoults"));
+    emit openInEditor(process.readAllStandardOutput() + process.readAllStandardError(), tr("Push results"));
 }
