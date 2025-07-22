@@ -1,7 +1,7 @@
 #include "resourcemanager.h"
-#include "qdebug.h"
-#include "qdir.h"
 #include "settings.h"
+#include <QDebug>
+#include <QDir>
 #include <QList>
 #include <QString>
 #include <cstdio>
@@ -60,7 +60,7 @@ void ResourceManager::close()
 QList<Item> ResourceManager::getAllItems()
 {
     QList<Item> items;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM items;", callback, &ret, &err) != SQLITE_OK)
     {
@@ -77,7 +77,7 @@ QList<Item> ResourceManager::getAllItems()
 QList<Status> ResourceManager::getAllStates()
 {
     QList<Status> states;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM status;", callback, &ret, &err) != SQLITE_OK)
     {
@@ -151,7 +151,7 @@ void ResourceManager::editItem(const Item &item)
 QList<Item> ResourceManager::getAllFinished()
 {
     QList<Item> items;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM items i JOIN status s ON i.status = s.id WHERE s.name = 'Finished';", callback, &ret, &err) != SQLITE_OK)
     {
@@ -168,7 +168,7 @@ QList<Item> ResourceManager::getAllFinished()
 QList<Item> ResourceManager::getAllCurrnet()
 {
     QList<Item> items;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM items i JOIN status s ON i.status = s.id WHERE s.name = 'Current';", callback, &ret, &err) != SQLITE_OK)
     {
@@ -185,7 +185,7 @@ QList<Item> ResourceManager::getAllCurrnet()
 QList<Item> ResourceManager::getAllPlanned()
 {
     QList<Item> items;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM items i JOIN status s ON i.status = s.id WHERE s.name = 'Planned';", callback, &ret, &err) != SQLITE_OK)
     {
@@ -235,7 +235,7 @@ void ResourceManager::setChapter(int id, int val)
 QList<Item> ResourceManager::get10ItemsByTitle(const QString &title)
 {
     QList<Item> items;
-    std::vector<std::vector<QString>> ret;
+    QList<QList<QString>> ret;
     char* err;
     char* query;
     asprintf(&query, "SELECT * FROM items WHERE title LIKE '%s%s%s' LIMIT 10;", "%", title.toStdString().c_str(), "%");
@@ -255,8 +255,8 @@ QList<Item> ResourceManager::get10ItemsByTitle(const QString &title)
 int ResourceManager::callback(void *data, int argc, char **argv, char **azColName)
 {
     Q_UNUSED(azColName);
-    std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);
-    std::vector<QString> row;
+    QList<QList<QString>> *results = reinterpret_cast<QList<QList<QString>>*>(data);
+    QList<QString> row;
     for (int i = 0; i < argc; i++) {
         row.push_back(argv[i] ? argv[i] : "NULL");
     }
