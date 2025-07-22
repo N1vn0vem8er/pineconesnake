@@ -93,46 +93,59 @@ QList<Status> ResourceManager::getAllStates()
 
 void ResourceManager::addItem(const Item &item)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO items (title, description, status, image, link, chapters, chapter) VALUES ('%s', '%s', %i, '%s', '%s', %i, 0);", item.title.toStdString().c_str(),
-             item.description.toStdString().c_str(), item.status, item.image.toStdString().c_str(), item.link.toStdString().c_str(), item.chapters);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "INSERT INTO items (title, description, status, image, link, chapters, chapter) VALUES (?, ?, ?, ?, ?, ?, 0);";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, item.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, item.description.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 3, item.status);
+        sqlite3_bind_text(stmt, 4, item.image.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 5, item.link.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 6, item.chapters);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourceManager::deleteItem(const Item &item)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "DELETE FROM items WHERE id = %i;", item.id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM items WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, item.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourceManager::editItem(const Item &item)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "UPDATE items SET title = '%s', description = '%s', status = %i, image = '%s', link = '%s', chapter = %i, chapters = %i WHERE id = %i;",
-             item.title.toStdString().c_str(), item.description.toStdString().c_str(), item.status, item.image.toStdString().c_str(), item.link.toStdString().c_str(), item.chapter, item.chapters, item.id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE items SET title = ?, description = ?, status = ?, image = ?, link = ?, chapter = ?, chapters = ? WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, item.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, item.description.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 3, item.status);
+        sqlite3_bind_text(stmt, 4, item.image.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 5, item.link.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 6, item.chapter);
+        sqlite3_bind_int(stmt, 7, item.chapters);
+        sqlite3_bind_int(stmt, 8, item.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 QList<Item> ResourceManager::getAllFinished()
@@ -188,30 +201,35 @@ QList<Item> ResourceManager::getAllPlanned()
 
 void ResourceManager::setStatus(int itemId, int statusId)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "UPDATE items SET status = %i WHERE id = %i;",  statusId, itemId);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE items SET status = ? WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, statusId);
+        sqlite3_bind_int(stmt, 2, itemId);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourceManager::setChapter(int id, int val)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "UPDATE items SET chapter = %i WHERE id = %i;",  val, id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE items SET chapter = ? WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, val);
+        sqlite3_bind_int(stmt, 2, id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
+
 }
 
 QList<Item> ResourceManager::get10ItemsByTitle(const QString &title)
@@ -236,6 +254,7 @@ QList<Item> ResourceManager::get10ItemsByTitle(const QString &title)
 
 int ResourceManager::callback(void *data, int argc, char **argv, char **azColName)
 {
+    Q_UNUSED(azColName);
     std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);
     std::vector<QString> row;
     for (int i = 0; i < argc; i++) {
