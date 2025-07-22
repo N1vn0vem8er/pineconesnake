@@ -32,9 +32,9 @@ Item EditDialog::getIten() const
 
     QString tmpImagePath = ui->imageLine->text();
     QString imageName = item.image;
-    if(tmpImagePath != item.image && !tmpImagePath.isEmpty() && QFileInfo(tmpImagePath).exists())
+    if(tmpImagePath != item.image && !tmpImagePath.isEmpty() && QFileInfo::exists(tmpImagePath))
     {
-        if(!item.image.isEmpty() && tmpImagePath != item.image && QFileInfo(Settings::imagesPath + "/" + item.image).exists())
+        if(!item.image.isEmpty() && tmpImagePath != item.image && QFileInfo::exists(Settings::imagesPath + "/" + item.image))
         {
             QFile file(Settings::imagesPath + "/" + item.image);
             file.remove();
@@ -48,7 +48,7 @@ Item EditDialog::getIten() const
             image.save(Settings::imagesPath + "/" + imageName, "JPG");
         }
     }
-    return Item(item.id, ui->titleLine->text(), ui->description->toPlainText(), 0, imageName, ui->linkLine->text(), 0, ui->chaptersLine->text().toInt());
+    return Item(item.id, ui->titleLine->text(), ui->description->toPlainText(), item.status, imageName, ui->linkLine->text(), ui->currentChapterLine->text().toInt(), ui->chaptersLine->text().toInt());
 }
 
 void EditDialog::openSelectImage()
