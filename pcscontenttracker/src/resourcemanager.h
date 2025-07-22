@@ -26,8 +26,6 @@ private:
     ResourceManager();
     ~ResourceManager();
     sqlite3* database = nullptr;
-    static std::mutex mutex;
-    static ResourceManager* instancePtr;
     static int callback(void* data, int argc, char** argv, char **azColName);
 };
 

@@ -13,7 +13,7 @@ ResourceManager::ResourceManager()
     {
         QDir().mkpath(Settings::databasePath);
     }
-    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath).arg(Settings::databaseName).toStdString().c_str(), &database);
+    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath, Settings::databaseName).toStdString().c_str(), &database);
     if(rc == SQLITE_OK)
     {
         char* err;
@@ -48,15 +48,8 @@ ResourceManager::~ResourceManager()
 
 ResourceManager *ResourceManager::getInstance()
 {
-    if(instancePtr == nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        if(instancePtr == nullptr)
-        {
-            instancePtr = new ResourceManager();
-        }
-    }
-    return instancePtr;
+    static ResourceManager instancePtr;
+    return &instancePtr;
 }
 
 void ResourceManager::close()
@@ -251,5 +244,3 @@ int ResourceManager::callback(void *data, int argc, char **argv, char **azColNam
     results->push_back(row);
     return 0;
 }
-ResourceManager* ResourceManager::instancePtr = nullptr;
-std::mutex ResourceManager::mutex;
