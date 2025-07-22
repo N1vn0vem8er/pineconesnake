@@ -52,12 +52,12 @@ ResourceManager *ResourceManager::getInstance()
     return &instancePtr;
 }
 
-void ResourceManager::close()
+void ResourceManager::close() const
 {
     sqlite3_close(database);
 }
 
-QList<Item> ResourceManager::getAllItems()
+QList<Item> ResourceManager::getAllItems() const
 {
     QList<Item> items;
     QList<QList<QString>> ret;
@@ -74,7 +74,7 @@ QList<Item> ResourceManager::getAllItems()
     return items;
 }
 
-QList<Status> ResourceManager::getAllStates()
+QList<Status> ResourceManager::getAllStates() const
 {
     QList<Status> states;
     QList<QList<QString>> ret;
@@ -91,7 +91,7 @@ QList<Status> ResourceManager::getAllStates()
     return states;
 }
 
-void ResourceManager::addItem(const Item &item)
+void ResourceManager::addItem(const Item &item) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "INSERT INTO items (title, description, status, image, link, chapters, chapter) VALUES (?, ?, ?, ?, ?, ?, 0);";
@@ -111,7 +111,7 @@ void ResourceManager::addItem(const Item &item)
     sqlite3_finalize(stmt);
 }
 
-void ResourceManager::deleteItem(const Item &item)
+void ResourceManager::deleteItem(const Item &item) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "DELETE FROM items WHERE id = ?;";
@@ -126,7 +126,7 @@ void ResourceManager::deleteItem(const Item &item)
     sqlite3_finalize(stmt);
 }
 
-void ResourceManager::editItem(const Item &item)
+void ResourceManager::editItem(const Item &item) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "UPDATE items SET title = ?, description = ?, status = ?, image = ?, link = ?, chapter = ?, chapters = ? WHERE id = ?;";
@@ -148,7 +148,7 @@ void ResourceManager::editItem(const Item &item)
     sqlite3_finalize(stmt);
 }
 
-QList<Item> ResourceManager::getAllFinished()
+QList<Item> ResourceManager::getAllFinished() const
 {
     QList<Item> items;
     QList<QList<QString>> ret;
@@ -165,7 +165,7 @@ QList<Item> ResourceManager::getAllFinished()
     return items;
 }
 
-QList<Item> ResourceManager::getAllCurrnet()
+QList<Item> ResourceManager::getAllCurrnet() const
 {
     QList<Item> items;
     QList<QList<QString>> ret;
@@ -182,7 +182,7 @@ QList<Item> ResourceManager::getAllCurrnet()
     return items;
 }
 
-QList<Item> ResourceManager::getAllPlanned()
+QList<Item> ResourceManager::getAllPlanned() const
 {
     QList<Item> items;
     QList<QList<QString>> ret;
@@ -199,7 +199,7 @@ QList<Item> ResourceManager::getAllPlanned()
     return items;
 }
 
-void ResourceManager::setStatus(int itemId, int statusId)
+void ResourceManager::setStatus(int itemId, int statusId) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "UPDATE items SET status = ? WHERE id = ?;";
@@ -215,7 +215,7 @@ void ResourceManager::setStatus(int itemId, int statusId)
     sqlite3_finalize(stmt);
 }
 
-void ResourceManager::setChapter(int id, int val)
+void ResourceManager::setChapter(int id, int val) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "UPDATE items SET chapter = ? WHERE id = ?;";
@@ -232,7 +232,7 @@ void ResourceManager::setChapter(int id, int val)
 
 }
 
-QList<Item> ResourceManager::get10ItemsByTitle(const QString &title)
+QList<Item> ResourceManager::get10ItemsByTitle(const QString &title) const
 {
     QList<Item> items;
     QList<QList<QString>> ret;

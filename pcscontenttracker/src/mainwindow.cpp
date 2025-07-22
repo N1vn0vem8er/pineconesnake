@@ -11,7 +11,6 @@
 #include <QFileInfo>
 #include <QMessageBox>
 
-
 #define VERSION "1.0.2"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 
@@ -118,7 +117,8 @@ void MainWindow::displayFinished()
         layout = nullptr;
     }
     layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->getAllFinished())
+    const QList<Item> items = ResourceManager::getInstance()->getAllFinished();
+    for(const auto& i : items)
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
@@ -144,7 +144,8 @@ void MainWindow::displayPlanned()
         layout = nullptr;
     }
     layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->getAllPlanned())
+    const QList<Item> items = ResourceManager::getInstance()->getAllPlanned();
+    for(const auto& i : items)
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
@@ -171,7 +172,8 @@ void MainWindow::displayCurrent()
         layout = nullptr;
     }
     layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->getAllCurrnet())
+    const QList<Item> items = ResourceManager::getInstance()->getAllCurrnet();
+    for(const auto& i : items)
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
@@ -198,7 +200,8 @@ void MainWindow::displayAll()
         layout = nullptr;
     }
     layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->getAllItems())
+    const QList<Item> items = ResourceManager::getInstance()->getAllItems();
+    for(const auto& i : items)
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
@@ -230,7 +233,8 @@ void MainWindow::search()
         layout = nullptr;
     }
     layout = new QVBoxLayout(ui->titlesView);
-    for(const auto& i : ResourceManager::getInstance()->get10ItemsByTitle(ui->searchBar->text()))
+    const QList<Item> items = ResourceManager::getInstance()->get10ItemsByTitle(ui->searchBar->text());
+    for(const auto& i : items)
     {
         ItemWidget* widget = new ItemWidget(i, ui->titlesView);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
@@ -254,6 +258,12 @@ void MainWindow::openImagesDir()
 void MainWindow::openAbout()
 {
     QMessageBox::about(this, tr("About Content Tracker"),
-                       tr("<html><body><h3>PCS Content Tracker</h3><p>PCS Content Tracker is an application for keeping track of shows and books you are consuming. Is is a prat of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
-                           .arg(VERSION).arg(LICENSELINK));
+                       tr(R"(
+    <html>
+        <body>
+            <h3>PCS Content Tracker</h3>
+            <p>PCS Content Tracker is an application for keeping track of shows and books you are consuming. Is is a prat of Pinecone Snake project.</p><p>Version: %1</p>
+            <p>License: <a href=\"%2\">GPL 3</a></p>
+        </body>
+    </html>)").arg(VERSION, LICENSELINK));
 }

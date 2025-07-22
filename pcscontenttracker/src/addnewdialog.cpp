@@ -22,7 +22,7 @@ Item AddNewDialog::getItem() const
 {
     QString imageName = "";
     QString tmpImagePath = ui->imageLine->text();
-    if(!tmpImagePath.isEmpty() && QFileInfo(tmpImagePath).exists())
+    if(!tmpImagePath.isEmpty() && QFileInfo::exists(tmpImagePath))
     {
         QImage image;
         image.load(tmpImagePath);

@@ -24,7 +24,7 @@ ItemWidget::ItemWidget(Item item, QWidget *parent)
     ui->startButton->setVisible(false);
     QString status = "";
     states = ResourceManager::getInstance()->getAllStates();
-    for(const auto& i : states)
+    for(const auto& i : std::as_const(states))
     {
         if(i.id == item.status)
         {
@@ -45,7 +45,7 @@ ItemWidget::ItemWidget(Item item, QWidget *parent)
         }
     }
     const QString imageAbsolutePath = Settings::imagesPath + "/" + item.image;
-    if(QFileInfo(imageAbsolutePath).exists())
+    if(QFileInfo::exists(imageAbsolutePath))
     {
         QImage image;
         image.load(imageAbsolutePath);
@@ -54,7 +54,7 @@ ItemWidget::ItemWidget(Item item, QWidget *parent)
             ui->imageLabel->setPixmap(QPixmap::fromImage(image.scaled(QSize(150, 200))));
         }
     }
-    ui->label->setText(tr("<html><body><h1>%1</h1><h3>Status: %2\tChapter: %3/%4</h3><p>%5</p></body></html>").arg(item.title).arg(status).arg(item.chapter).arg(item.chapters).arg(item.description));
+    ui->label->setText(tr("<html><body><h1>%1</h1><h3>Status: %2\tChapter: %3/%4</h3><p>%5</p></body></html>").arg(item.title, status).arg(item.chapter).arg(item.chapters).arg(item.description));
 }
 
 ItemWidget::~ItemWidget()
@@ -83,7 +83,7 @@ void ItemWidget::editPressed()
 
 void ItemWidget::start()
 {
-    for(const auto& i : states)
+    for(const auto& i : std::as_const(states))
     {
         if(i.name == "Current")
         {
@@ -96,7 +96,7 @@ void ItemWidget::start()
 
 void ItemWidget::finish()
 {
-    for(const auto& i : states)
+    for(const auto& i : std::as_const(states))
     {
         if(i.name == "Finished")
         {
@@ -110,7 +110,7 @@ void ItemWidget::finish()
 
 void ItemWidget::rewatch()
 {
-    for(const auto& i : states)
+    for(const auto& i : std::as_const(states))
     {
         if(i.name == "Planned")
         {
