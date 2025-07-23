@@ -39,6 +39,7 @@ ResourcesManager::~ResourcesManager()
 
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)
 {
+    Q_UNUSED(azColName);
     std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);
     std::vector<QString> row;
     for (int i = 0; i < argc; i++) {
@@ -61,7 +62,7 @@ ResourcesManager* ResourcesManager::getInstance()
     return instancePtr;
 }
 
-void ResourcesManager::saveMessage(Globals::Message message)
+int ResourcesManager::saveMessage(Globals::Message message)
 {
     char* err;
     char* query;
@@ -76,6 +77,7 @@ void ResourcesManager::saveMessage(Globals::Message message)
     delete[] query;
     saveContactInNotExists(message.from);
     saveContactInNotExists(message.to);
+    return sqlite3_last_insert_rowid(database);
 }
 
 QStringList ResourcesManager::loadMessagesTitles()

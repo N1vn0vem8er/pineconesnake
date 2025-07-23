@@ -13,7 +13,7 @@ public:
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager& operator=(const ResourcesManager&) = delete;
     void close();
-    void saveMessage(Globals::Message message);
+    int saveMessage(Globals::Message message);
     QStringList loadMessagesTitles();
     void closeConnection();
     Globals::Message getMessageForTitle(const QString& title);
