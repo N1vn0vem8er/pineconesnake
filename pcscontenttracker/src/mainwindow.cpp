@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionRefresh, &QAction::triggered, this, &MainWindow::refresh);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Content_Tracker, &QAction::triggered, this, &MainWindow::openAbout);
+    connect(ui->actionEdit, &QAction::triggered, this, &MainWindow::editSelected);
+    connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteSelected);
     refresh();
     QDir dir(Settings::imagesPath);
     if(!dir.exists())
@@ -218,4 +220,28 @@ void MainWindow::openAbout()
             <p>License: <a href=\"%2\">GPL 3</a></p>
         </body>
     </html>)").arg(VERSION, LICENSELINK));
+}
+
+void MainWindow::editSelected()
+{
+    if(!ui->listWidget->selectedItems().empty())
+    {
+        ItemWidget* widget = dynamic_cast<ItemWidget*>(ui->listWidget->itemWidget((ui->listWidget->selectedItems().first())));
+        if(widget)
+        {
+            widget->editPressed();
+        }
+    }
+}
+
+void MainWindow::deleteSelected()
+{
+    if(!ui->listWidget->selectedItems().empty())
+    {
+        ItemWidget* widget = dynamic_cast<ItemWidget*>(ui->listWidget->itemWidget((ui->listWidget->selectedItems().first())));
+        if(widget)
+        {
+            widget->deletePressed();
+        }
+    }
 }

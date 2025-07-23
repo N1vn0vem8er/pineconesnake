@@ -41,5 +41,7 @@ private slots:
     void search();
     void openImagesDir();
     void openAbout();
+    void editSelected();
+    void deleteSelected();
 };
 #endif // MAINWINDOW_H

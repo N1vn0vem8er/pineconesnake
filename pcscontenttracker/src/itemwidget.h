@@ -16,6 +16,9 @@ class ItemWidget : public QWidget
 public:
     explicit ItemWidget(Item item, QWidget *parent = nullptr);
     ~ItemWidget();
+public slots:
+    void deletePressed();
+    void editPressed();
 signals:
     void deleteItem(const Item& item);
     void editItem(Item& item);
@@ -26,8 +29,6 @@ private:
     QList<Status> states;
 private slots:
     void open();
-    void deletePressed();
-    void editPressed();
     void start();
     void finish();
     void rewatch();
