@@ -9,6 +9,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QListWidget>
 #include <QMessageBox>
 
 #define VERSION "1.0.2"
@@ -68,21 +69,6 @@ void MainWindow::refresh()
     }
 }
 
-void MainWindow::clearLayout()
-{
-    if(layout)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)))
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
-}
-
 void MainWindow::addNewItem()
 {
     AddNewDialog* dialog = new AddNewDialog(this);
@@ -120,72 +106,73 @@ void MainWindow::deleteItem(const Item &item)
 
 void MainWindow::displayFinished()
 {
-    clearLayout();
-    layout = new QVBoxLayout(ui->titlesView);
+    ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllFinished();
     for(const auto& i : items)
     {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        ItemWidget* widget = new ItemWidget(i, ui->listWidget);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
+        connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
     selected = SelectedModes::Finished;
 }
 
 void MainWindow::displayPlanned()
 {
-    clearLayout();
-    layout = new QVBoxLayout(ui->titlesView);
+    ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllPlanned();
     for(const auto& i : items)
     {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        ItemWidget* widget = new ItemWidget(i, ui->listWidget);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
         connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
     selected = SelectedModes::Planned;
 }
 
 void MainWindow::displayCurrent()
 {
-    clearLayout();
-    layout = new QVBoxLayout(ui->titlesView);
+    ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllCurrnet();
     for(const auto& i : items)
     {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        ItemWidget* widget = new ItemWidget(i, ui->listWidget);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
         connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
     selected = SelectedModes::Current;
 }
 
 void MainWindow::displayAll()
 {
-    clearLayout();
-    layout = new QVBoxLayout(ui->titlesView);
+    ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllItems();
     for(const auto& i : items)
     {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        ItemWidget* widget = new ItemWidget(i, ui->listWidget);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
         connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
     selected = SelectedModes::All;
 }
 
@@ -196,19 +183,19 @@ void MainWindow::search()
         refresh();
         return;
     }
-    clearLayout();
-    layout = new QVBoxLayout(ui->titlesView);
+    ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->get10ItemsByTitle(ui->searchBar->text());
     for(const auto& i : items)
     {
-        ItemWidget* widget = new ItemWidget(i, ui->titlesView);
+        ItemWidget* widget = new ItemWidget(i, ui->listWidget);
         connect(widget, &ItemWidget::deleteItem, this, &MainWindow::deleteItem);
         connect(widget, &ItemWidget::editItem, this, &MainWindow::editItem);
         connect(widget, &ItemWidget::requestRefresh, this, &MainWindow::refresh);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->titlesView->setLayout(layout);
 }
 
 void MainWindow::openImagesDir()

@@ -21,7 +21,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QVBoxLayout* layout = nullptr;
     void refresh();
     enum SelectedModes{
         All,
@@ -30,7 +29,6 @@ private:
         Current
     };
     int selected = SelectedModes::All;
-    void clearLayout();
 
 private slots:
     void addNewItem();
