@@ -1,9 +1,7 @@
 #include "savemessagewidget.h"
 #include "globals.h"
-#include "qdatetime.h"
 #include "resourcesmanager.h"
 #include "ui_savemessagewidget.h"
-
 #include <QMessageBox>
 
 SaveMessageWidget::SaveMessageWidget(QWidget *parent)
@@ -25,9 +23,15 @@ void SaveMessageWidget::saveMessage()
     auto message = ui->writer->getMessage();
     try
     {
-        rm->saveMessage(message);
+        if(messageId == -1)
+            messageId = rm->saveMessage(message);
+        else
+        {
+            message.id = messageId;
+            rm->updateMessage(message);
+        }
     }
-    catch(std::exception e)
+    catch(std::exception& e)
     {
         QMessageBox::critical(this, tr("Error"), tr("Couldn't save message"));
     }

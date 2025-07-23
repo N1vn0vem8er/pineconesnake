@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::SaveMessageWidget *ui;
+    int messageId = -1;
 };
 
 #endif // SAVEMESSAGEWIDGET_H

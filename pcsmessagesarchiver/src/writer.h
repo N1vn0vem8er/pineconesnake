@@ -27,6 +27,7 @@ public:
     QString getContent() const;
     Globals::Message getMessage();
     ~Writer();
+
 signals:
     void save();
 

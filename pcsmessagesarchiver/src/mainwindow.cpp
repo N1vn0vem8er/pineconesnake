@@ -28,8 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->aboutButton, &QPushButton::clicked, this, &MainWindow::openAboutWidget);
     connect(ui->aboutQtButton, &QPushButton::clicked, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->manageContactsButton, &QPushButton::clicked, this, [this]{addTab(new ManageContactsWidget(this), tr("Manage Contacts"));});
-    Settings settings;
-    settings.loadSettings();
     ui->splitter->setStretchFactor(1, Settings::mainSplitterStretchFactor);
     ResourcesManager* rm = ResourcesManager::getInstance();
     rm->loadMessagesTitles();
@@ -75,5 +73,12 @@ void MainWindow::openFromRecent(int id)
 void MainWindow::openAboutWidget()
 {
     QMessageBox::about(this, tr("About Messages Archiver"),
-                       tr("<html><body><h3>PCS Messages Archiver</h3><p>PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"&%2\">GPL 3</a></p></body></html>").arg(VERSION).arg(LICENSELINK));
+                       tr(R"(
+    <html>
+        <body>
+            <h3>PCS Messages Archiver</h3>
+            <p>PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.</p>
+            <p>Version: %1</p><p>License: <a href=\"&%2\">GPL 3</a></p>
+        </body>
+    </html>)").arg(VERSION, LICENSELINK));
 }

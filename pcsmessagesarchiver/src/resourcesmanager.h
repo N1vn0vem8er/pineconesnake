@@ -2,7 +2,6 @@
 #define RESOURCESMANAGER_H
 
 #include "qobject.h"
-#include <mutex>
 #include <sqlite3.h>
 #include <QDir>
 #include "globals.h"
@@ -12,25 +11,23 @@ public:
     static ResourcesManager *getInstance();
     ResourcesManager(const ResourcesManager&) = delete;
     ResourcesManager& operator=(const ResourcesManager&) = delete;
-    void close();
-    void saveMessage(Globals::Message message);
-    QStringList loadMessagesTitles();
-    void closeConnection();
-    Globals::Message getMessageForTitle(const QString& title);
-    Globals::Message getMessageById(int id);
-    QList<Globals::Message> getRecentMessages();
-    QList<Globals::Message> getAllMessages();
-    void updateMessage(Globals::Message msg);
-    QList<Globals::Contact> getAllContacts();
-    void saveContactInNotExists(const QString& name);
-    void deleteMessageById(int id);
-    void deleteContactById(int id);
+    void close() const;
+    int saveMessage(Globals::Message message) const;
+    QStringList loadMessagesTitles() const;
+    void closeConnection() const;
+    Globals::Message getMessageForTitle(const QString& title) const;
+    Globals::Message getMessageById(int id) const;
+    QList<Globals::Message> getRecentMessages() const;
+    QList<Globals::Message> getAllMessages() const;
+    void updateMessage(Globals::Message msg) const;
+    QList<Globals::Contact> getAllContacts() const;
+    void saveContactInNotExists(const QString& name) const;
+    void deleteMessageById(int id) const;
+    void deleteContactById(int id) const;
 private:
     ResourcesManager();
     ~ResourcesManager();
     sqlite3* database = nullptr;
-    static std::mutex mutex;
-    static ResourcesManager* instancePtr;
     std::vector<Globals::Message> messages;
     static int callback(void* data, int argc, char** argv, char **azColName);
 };

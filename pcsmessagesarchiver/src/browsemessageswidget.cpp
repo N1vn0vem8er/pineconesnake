@@ -28,9 +28,9 @@ void BrowseMessagesWidget::refresh()
     messagesList.clear();
     model = new QStringListModel(this);
     messages = rm->getAllMessages();
-    for(const auto& i : messages)
+    for(const auto& i : std::as_const(messages))
     {
-        messagesList.append(QString("%1\t%2\t%3\t%4\t%5").arg(i.title).arg(i.from).arg(i.to).arg(i.created).arg(i.modified));
+        messagesList.append(QString("%1\t%2\t%3\t%4\t%5").arg(i.title, i.from, i.to, i.created, i.modified));
     }
     model->setStringList(messagesList);
     ui->listView->setModel(model);
