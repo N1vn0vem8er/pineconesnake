@@ -253,11 +253,6 @@
         &lt;/body&gt;
     &lt;/html&gt;</translation>
     </message>
-    <message>
-        <source>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;&lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <oldsource>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Message Archiver&lt;/h3&gt;&lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
-        <translation type="vanished">&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;&lt;p&gt;PCS Messages Archiver jest aplikacją do zapisywania wiadomości takich jak emaile. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
 </context>
 <context>
     <name>ManageContactsWidget</name>
@@ -275,17 +270,6 @@
         <location filename="managecontactswidget.ui" line="38"/>
         <source>Delete selected</source>
         <translation>Usuń wybrane</translation>
-    </message>
-</context>
-<context>
-    <name>ManagePeopleWidget</name>
-    <message>
-        <source>Add new</source>
-        <translation type="vanished">Dodaj nową</translation>
-    </message>
-    <message>
-        <source>Delete selected</source>
-        <translation type="vanished">Usuń wybrane</translation>
     </message>
 </context>
 <context>

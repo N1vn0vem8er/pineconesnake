@@ -346,24 +346,6 @@
     &lt;/html&gt;</translation>
     </message>
     <message>
-        <source>
-    &lt;html&gt;
-        &lt;body&gt;
-            &lt;h3&gt;PCS Content Tracker&lt;/h3&gt;
-            &lt;p&gt;PCS Content Tracker is an application for keeping track of shows and books you are consuming. Is is a prat of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;
-            &lt;p&gt;License: &lt;a href=\&quot;%2\&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;</source>
-        <translation type="vanished">
-    &lt;html&gt;
-        &lt;body&gt;
-            &lt;h3&gt;PCS Content Tracker&lt;/h3&gt;
-            &lt;p&gt;PCS Content Tracker jest aplikacją pomagającą w śledzeniu programów i książek które konsumujesz. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;
-            &lt;p&gt;Licencja: &lt;a href=\&quot;%2\&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;</translation>
-    </message>
-    <message>
         <location filename="mainwindow.ui" line="238"/>
         <location filename="mainwindow.cpp" line="104"/>
         <source>Delete</source>
@@ -375,17 +357,9 @@
         <translation>Czy na pewno chcesz usunąć %1?</translation>
     </message>
     <message>
-        <source>Are you sure you want to delete %1</source>
-        <translation type="vanished">Czy na pewno chcesz usunąć %1?</translation>
-    </message>
-    <message>
         <location filename="mainwindow.cpp" line="228"/>
         <source>About Content Tracker</source>
         <translation>O Content Tracker</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Content Tracker&lt;/h3&gt;&lt;p&gt;PCS Content Tracker is an application for keeping track of shows and books you are consuming. Is is a prat of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Content Tracker&lt;/h3&gt;&lt;p&gt;PCS Content Tracker jest aplikacją pomagającą w śledzeniu programów i książek które konsumujesz. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 </TS>
