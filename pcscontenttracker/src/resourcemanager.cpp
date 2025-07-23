@@ -38,6 +38,7 @@ ResourceManager::ResourceManager()
             sqlite3_free(err);
             throw std::exception();
         }
+        sqlite3_free(err);
     }
 }
 

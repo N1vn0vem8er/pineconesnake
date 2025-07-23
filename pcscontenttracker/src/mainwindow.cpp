@@ -68,6 +68,21 @@ void MainWindow::refresh()
     }
 }
 
+void MainWindow::clearLayout()
+{
+    if(layout)
+    {
+        QLayoutItem* layoutItem;
+        while((layoutItem = layout->takeAt(0)))
+        {
+            delete layoutItem->widget();
+            delete layoutItem;
+        }
+        delete layout;
+        layout = nullptr;
+    }
+}
+
 void MainWindow::addNewItem()
 {
     AddNewDialog* dialog = new AddNewDialog(this);
@@ -105,17 +120,7 @@ void MainWindow::deleteItem(const Item &item)
 
 void MainWindow::displayFinished()
 {
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout();
     layout = new QVBoxLayout(ui->titlesView);
     const QList<Item> items = ResourceManager::getInstance()->getAllFinished();
     for(const auto& i : items)
@@ -132,17 +137,7 @@ void MainWindow::displayFinished()
 
 void MainWindow::displayPlanned()
 {
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout();
     layout = new QVBoxLayout(ui->titlesView);
     const QList<Item> items = ResourceManager::getInstance()->getAllPlanned();
     for(const auto& i : items)
@@ -160,17 +155,7 @@ void MainWindow::displayPlanned()
 
 void MainWindow::displayCurrent()
 {
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout();
     layout = new QVBoxLayout(ui->titlesView);
     const QList<Item> items = ResourceManager::getInstance()->getAllCurrnet();
     for(const auto& i : items)
@@ -188,17 +173,7 @@ void MainWindow::displayCurrent()
 
 void MainWindow::displayAll()
 {
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout();
     layout = new QVBoxLayout(ui->titlesView);
     const QList<Item> items = ResourceManager::getInstance()->getAllItems();
     for(const auto& i : items)
@@ -221,17 +196,7 @@ void MainWindow::search()
         refresh();
         return;
     }
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
+    clearLayout();
     layout = new QVBoxLayout(ui->titlesView);
     const QList<Item> items = ResourceManager::getInstance()->get10ItemsByTitle(ui->searchBar->text());
     for(const auto& i : items)

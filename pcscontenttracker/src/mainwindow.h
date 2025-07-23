@@ -30,6 +30,7 @@ private:
         Current
     };
     int selected = SelectedModes::All;
+    void clearLayout();
 
 private slots:
     void addNewItem();
