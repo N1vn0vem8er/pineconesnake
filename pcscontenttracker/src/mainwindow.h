@@ -25,7 +25,8 @@ private:
         All,
         Finished,
         Planned,
-        Current
+        Current,
+        Search
     };
     int selected = SelectedModes::All;
 

@@ -68,6 +68,9 @@ void MainWindow::refresh()
     case SelectedModes::Current:
         displayCurrent();
         break;
+    case SelectedModes::Search:
+        search();
+        break;
     }
 }
 
@@ -190,6 +193,7 @@ void MainWindow::search()
 {
     if(ui->searchBar->text().isEmpty())
     {
+        selected = SelectedModes::All;
         refresh();
         return;
     }
@@ -206,6 +210,7 @@ void MainWindow::search()
         ui->listWidget->addItem(listItem);
         ui->listWidget->setItemWidget(listItem, widget);
     }
+    selected = SelectedModes::Search;
 }
 
 void MainWindow::openImagesDir()
