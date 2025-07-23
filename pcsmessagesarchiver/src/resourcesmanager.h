@@ -2,7 +2,6 @@
 #define RESOURCESMANAGER_H
 
 #include "qobject.h"
-#include <mutex>
 #include <sqlite3.h>
 #include <QDir>
 #include "globals.h"
@@ -29,8 +28,6 @@ private:
     ResourcesManager();
     ~ResourcesManager();
     sqlite3* database = nullptr;
-    static std::mutex mutex;
-    static ResourcesManager* instancePtr;
     std::vector<Globals::Message> messages;
     static int callback(void* data, int argc, char** argv, char **azColName);
 };

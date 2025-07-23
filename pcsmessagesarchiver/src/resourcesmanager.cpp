@@ -24,6 +24,7 @@ ResourcesManager::ResourcesManager()
             sqlite3_free(err);
             throw std::exception();
         }
+        sqlite3_free(err);
     }
 }
 
@@ -51,30 +52,28 @@ int ResourcesManager::callback(void *data, int argc, char **argv, char **azColNa
 
 ResourcesManager* ResourcesManager::getInstance()
 {
-    if(instancePtr == nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        if(instancePtr == nullptr)
-        {
-            instancePtr = new ResourcesManager();
-        }
-    }
-    return instancePtr;
+    static ResourcesManager instancePtr;
+    return &instancePtr;
 }
 
 int ResourcesManager::saveMessage(Globals::Message message)
 {
-    char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO MESSAGES (title, contents, sender, reciver, created, modified) VALUES ('%s', '%s', '%s', '%s', '%s', '%s');", message.title.toStdString().c_str(), message.contents.toStdString().c_str(),
-             message.from.toStdString().c_str(), message.to.toStdString().c_str(), message.created.toStdString().c_str(), message.modified.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "INSERT INTO MESSAGES (title, contents, sender, reciver, created, modified) VALUES (?, ?, ?, ?, ?, ?);";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        sqlite3_bind_text(stmt, 1, message.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, message.contents.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, message.from.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, message.to.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 5, message.created.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 6, message.modified.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
     saveContactInNotExists(message.from);
     saveContactInNotExists(message.to);
     return sqlite3_last_insert_rowid(database);
@@ -107,42 +106,38 @@ void ResourcesManager::closeConnection()
 
 Globals::Message ResourcesManager::getMessageForTitle(const QString &title)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* query;
-    char* err;
-    asprintf(&query, "SELECT * FROM messages WHERE title = '%s';", title.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "SELECT * FROM messages WHERE title = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            return Globals::Message(sqlite3_column_int(stmt, 0), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))));
+        }
     }
-    if(msgs.size() == 0 && msgs[0].size()<6)
-    {
-        throw std::exception();
-    }
-    delete[] query;
-    Globals::Message msg(msgs[0][0].toInt(), msgs[0][1], msgs[0][2], msgs[0][3], msgs[0][4], msgs[0][5], msgs[0][6]);
-    return msg;
+    return Globals::Message();
 }
 
 Globals::Message ResourcesManager::getMessageById(int id)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* query;
-    char* err;
-    asprintf(&query, "SELECT * FROM messages WHERE id = %s;", std::to_string(id).c_str());
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "SELECT * FROM messages WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, id);
+        if(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            return Globals::Message(sqlite3_column_int(stmt, 0), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))),
+                                    QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 6))));
+        }
     }
-    if(msgs.size() == 0 && msgs[0].size()<6)
-    {
-        throw std::exception();
-    }
-    delete[] query;
-    Globals::Message msg(msgs[0][0].toInt(), msgs[0][1], msgs[0][2], msgs[0][3], msgs[0][4], msgs[0][5], msgs[0][6]);
-    return msg;
+    return Globals::Message();
 }
 
 QList<Globals::Message> ResourcesManager::getRecentMessages()
@@ -179,21 +174,27 @@ QList<Globals::Message> ResourcesManager::getAllMessages()
     return all;
 }
 
-void ResourcesManager::updateMessage(Globals::Message msg)
+void ResourcesManager::updateMessage(Globals::Message message)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* query;
-    asprintf(&query, "UPDATE messages SET title='%s', contents = '%s', sender = '%s', reciver = '%s', created = '%s', modified = '%s' WHERE id = %i;", msg.title.toStdString().c_str(),
-             msg.contents.toStdString().c_str(), msg.from.toStdString().c_str(), msg.to.toStdString().c_str(), msg.created.toStdString().c_str(), msg.modified.toStdString().c_str(), msg.id);
-    char* err;
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE messages SET title = ?, contents = ?, sender = ?, reciver = ?, created = ?, modified = ? WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, message.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, message.contents.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, message.from.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, message.to.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 5, message.created.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 6, message.modified.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 7, message.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
-    saveContactInNotExists(msg.from);
-    saveContactInNotExists(msg.to);
+    sqlite3_finalize(stmt);
+    saveContactInNotExists(message.from);
+    saveContactInNotExists(message.to);
 }
 
 QList<Globals::Contact> ResourcesManager::getAllContacts()
@@ -223,44 +224,45 @@ void ResourcesManager::saveContactInNotExists(const QString &name)
             return;
         }
     }
-    char* query;
-    asprintf(&query, "INSERT INTO contacts (name) VALUES ('%s');", name.toStdString().c_str());
-    char* err;
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "INSERT INTO contacts (name) VALUES (?);";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, name.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourcesManager::deleteMessageById(int id)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* query;
-    asprintf(&query, "DELETE FROM messages WHERE id = %i;", id);
-    char* err;
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM messages WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourcesManager::deleteContactById(int id)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* query;
-    char* err;
-    asprintf(&query, "DELETE FROM contacts WHERE id = %i;", id);
-    if(sqlite3_exec(database, query, callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM contacts WHERE id = ?;";
+    if(sqlite3_prepare(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
-
-ResourcesManager* ResourcesManager::instancePtr = nullptr;
-std::mutex ResourcesManager::mutex;
