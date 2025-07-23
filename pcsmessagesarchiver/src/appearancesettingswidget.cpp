@@ -30,6 +30,5 @@ void AppearanceSettingsWidget::apply()
     Settings::browserSplitterStretchFactor = ui->browserSF->text().toInt();
     Settings::theme = ui->themeComboBox->currentText();
     QApplication::setStyle(Settings::theme);
-    Settings s;
-    s.saveSettings();
+    Settings().saveSettings();
 }

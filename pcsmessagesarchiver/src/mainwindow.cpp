@@ -28,8 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->aboutButton, &QPushButton::clicked, this, &MainWindow::openAboutWidget);
     connect(ui->aboutQtButton, &QPushButton::clicked, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->manageContactsButton, &QPushButton::clicked, this, [this]{addTab(new ManageContactsWidget(this), tr("Manage Contacts"));});
-    Settings settings;
-    settings.loadSettings();
     ui->splitter->setStretchFactor(1, Settings::mainSplitterStretchFactor);
     ResourcesManager* rm = ResourcesManager::getInstance();
     rm->loadMessagesTitles();

@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "settings.h"
 
 #include <QApplication>
 #include <QTranslator>
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    Settings().loadSettings();
     MainWindow w;
     w.show();
     return a.exec();
