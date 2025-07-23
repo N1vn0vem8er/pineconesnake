@@ -28,7 +28,7 @@ ResourcesManager::ResourcesManager()
     }
 }
 
-void ResourcesManager::close()
+void ResourcesManager::close() const
 {
     sqlite3_close(database);
 }
@@ -56,7 +56,7 @@ ResourcesManager* ResourcesManager::getInstance()
     return &instancePtr;
 }
 
-int ResourcesManager::saveMessage(Globals::Message message)
+int ResourcesManager::saveMessage(Globals::Message message) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "INSERT INTO MESSAGES (title, contents, sender, reciver, created, modified) VALUES (?, ?, ?, ?, ?, ?);";
@@ -79,7 +79,7 @@ int ResourcesManager::saveMessage(Globals::Message message)
     return sqlite3_last_insert_rowid(database);
 }
 
-QStringList ResourcesManager::loadMessagesTitles()
+QStringList ResourcesManager::loadMessagesTitles() const
 {
     char* err;
     std::vector<std::vector<QString>> messagesTitles;
@@ -99,12 +99,12 @@ QStringList ResourcesManager::loadMessagesTitles()
     return ret;
 }
 
-void ResourcesManager::closeConnection()
+void ResourcesManager::closeConnection() const
 {
     close();
 }
 
-Globals::Message ResourcesManager::getMessageForTitle(const QString &title)
+Globals::Message ResourcesManager::getMessageForTitle(const QString &title) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "SELECT * FROM messages WHERE title = ?;";
@@ -122,7 +122,7 @@ Globals::Message ResourcesManager::getMessageForTitle(const QString &title)
     return Globals::Message();
 }
 
-Globals::Message ResourcesManager::getMessageById(int id)
+Globals::Message ResourcesManager::getMessageById(int id) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "SELECT * FROM messages WHERE id = ?;";
@@ -140,7 +140,7 @@ Globals::Message ResourcesManager::getMessageById(int id)
     return Globals::Message();
 }
 
-QList<Globals::Message> ResourcesManager::getRecentMessages()
+QList<Globals::Message> ResourcesManager::getRecentMessages() const
 {
     QList<Globals::Message> recent;
     std::vector<std::vector<QString>> msgs;
@@ -157,7 +157,7 @@ QList<Globals::Message> ResourcesManager::getRecentMessages()
     return recent;
 }
 
-QList<Globals::Message> ResourcesManager::getAllMessages()
+QList<Globals::Message> ResourcesManager::getAllMessages() const
 {
     QList<Globals::Message> all;
     std::vector<std::vector<QString>> msgs;
@@ -174,7 +174,7 @@ QList<Globals::Message> ResourcesManager::getAllMessages()
     return all;
 }
 
-void ResourcesManager::updateMessage(Globals::Message message)
+void ResourcesManager::updateMessage(Globals::Message message) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "UPDATE messages SET title = ?, contents = ?, sender = ?, reciver = ?, created = ?, modified = ? WHERE id = ?;";
@@ -197,7 +197,7 @@ void ResourcesManager::updateMessage(Globals::Message message)
     saveContactInNotExists(message.to);
 }
 
-QList<Globals::Contact> ResourcesManager::getAllContacts()
+QList<Globals::Contact> ResourcesManager::getAllContacts() const
 {
     QList<Globals::Contact> all;
     std::vector<std::vector<QString>> msgs;
@@ -214,7 +214,7 @@ QList<Globals::Contact> ResourcesManager::getAllContacts()
     return all;
 }
 
-void ResourcesManager::saveContactInNotExists(const QString &name)
+void ResourcesManager::saveContactInNotExists(const QString &name) const
 {
     const auto contacts = getAllContacts();
     for(const auto& i : contacts)
@@ -237,7 +237,7 @@ void ResourcesManager::saveContactInNotExists(const QString &name)
     sqlite3_finalize(stmt);
 }
 
-void ResourcesManager::deleteMessageById(int id)
+void ResourcesManager::deleteMessageById(int id) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "DELETE FROM messages WHERE id = ?;";
@@ -252,7 +252,7 @@ void ResourcesManager::deleteMessageById(int id)
     sqlite3_finalize(stmt);
 }
 
-void ResourcesManager::deleteContactById(int id)
+void ResourcesManager::deleteContactById(int id) const
 {
     sqlite3_stmt* stmt;
     const char* sql = "DELETE FROM contacts WHERE id = ?;";
