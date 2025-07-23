@@ -12,8 +12,9 @@
 #include <QMessageBox>
 #include <QScrollBar>
 
-#define VERSION "1.0.2"
+#define VERSION "1.0.3"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -229,10 +230,11 @@ void MainWindow::openAbout()
     <html>
         <body>
             <h3>PCS Content Tracker</h3>
-            <p>PCS Content Tracker is an application for keeping track of shows and books you are consuming. Is is a prat of Pinecone Snake project.</p><p>Version: %1</p>
-            <p>License: <a href=\"%2\">GPL 3</a></p>
+            <p>PCS Content Tracker is an application for keeping track of shows you are watching and books you are reading. Is is a prat of <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
         </body>
-    </html>)").arg(VERSION, LICENSELINK));
+    </html>)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
 
 void MainWindow::editSelected()

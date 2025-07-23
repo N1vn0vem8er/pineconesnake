@@ -173,7 +173,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="31"/>
-        <location filename="mainwindow.cpp" line="65"/>
+        <location filename="mainwindow.cpp" line="63"/>
         <source>Home</source>
         <translation>Dom</translation>
     </message>
@@ -214,21 +214,49 @@
     </message>
     <message>
         <location filename="mainwindow.cpp" line="24"/>
-        <location filename="mainwindow.cpp" line="72"/>
+        <location filename="mainwindow.cpp" line="70"/>
         <source>Messages</source>
         <translation>Wiadomości</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="77"/>
+        <location filename="mainwindow.cpp" line="75"/>
         <source>About Messages Archiver</source>
         <oldsource>About Message Archiver</oldsource>
         <translation>O Messages Archiver</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="78"/>
+        <location filename="mainwindow.cpp" line="76"/>
+        <source>
+    &lt;html&gt;
+        &lt;body&gt;
+            &lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;
+            &lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt; project.&lt;/p&gt;
+            &lt;p&gt;Version: %2&lt;/p&gt;
+            &lt;p&gt;License: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;</source>
+        <oldsource>
+    &lt;html&gt;
+        &lt;body&gt;
+            &lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;
+            &lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.&lt;/p&gt;
+            &lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=\&quot;&amp;%2\&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;</oldsource>
+        <translation>
+    &lt;html&gt;
+        &lt;body&gt;
+            &lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;
+            &lt;p&gt;PCS Messages Archiver jest aplikacją do zapisywania wiadomości takich jak emaile. Jest częścią projektu &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt;.&lt;/p&gt;
+            &lt;p&gt;Wersja: %2&lt;/p&gt;
+            &lt;p&gt;Licencja: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;</translation>
+    </message>
+    <message>
         <source>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;&lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <oldsource>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Message Archiver&lt;/h3&gt;&lt;p&gt;PSC Messages Archiver is an application for manual archiving of messages such as emails. It is a part of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</oldsource>
-        <translation>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;&lt;p&gt;PCS Messages Archiver jest aplikacją do zapisywania wiadomości takich jak emaile. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Messages Archiver&lt;/h3&gt;&lt;p&gt;PCS Messages Archiver jest aplikacją do zapisywania wiadomości takich jak emaile. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;&amp;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -268,12 +296,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="savemessagewidget.cpp" line="32"/>
+        <location filename="savemessagewidget.cpp" line="36"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="savemessagewidget.cpp" line="32"/>
+        <location filename="savemessagewidget.cpp" line="36"/>
         <source>Couldn&apos;t save message</source>
         <translation>Nie można zapisać wiadomości</translation>
     </message>
@@ -354,7 +382,7 @@
         <translation>Czcionka:</translation>
     </message>
     <message>
-        <location filename="writer.cpp" line="109"/>
+        <location filename="writer.cpp" line="108"/>
         <source>Save to file</source>
         <translation>Zapisz do pliku</translation>
     </message>
