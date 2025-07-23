@@ -25,7 +25,7 @@ void ManageContactsWidget::refresh()
     }
     QStringList names;
     people = ResourcesManager::getInstance()->getAllContacts();
-    for(const auto& i : people)
+    for(const auto& i : std::as_const(people))
     {
         names.append(i.name);
     }
@@ -37,7 +37,8 @@ void ManageContactsWidget::refresh()
 void ManageContactsWidget::deleteSelected()
 {
     QList<Globals::Contact> toDelete;
-    for(const auto& i : ui->listView->selectionModel()->selectedIndexes())
+    const auto selected = ui->listView->selectionModel()->selectedIndexes();
+    for(const auto& i : selected)
     {
         toDelete.append(people[i.row()]);
     }

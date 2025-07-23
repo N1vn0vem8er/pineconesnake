@@ -2,7 +2,6 @@
 #include "globals.h"
 #include "resourcesmanager.h"
 #include "ui_savemessagewidget.h"
-
 #include <QMessageBox>
 
 SaveMessageWidget::SaveMessageWidget(QWidget *parent)

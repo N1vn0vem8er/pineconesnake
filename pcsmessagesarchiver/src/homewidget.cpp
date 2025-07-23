@@ -8,11 +8,11 @@ HomeWidget::HomeWidget(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->listView, &QListView::doubleClicked, this, &HomeWidget::recentClicked);
-    ui->welcomeLabel->setText(ui->welcomeLabel->text() + " " + (qgetenv("USER").isEmpty() ? qgetenv("USERNAME") : qgetenv("USER")));
+    ui->welcomeLabel->setText(ui->welcomeLabel->text() + " " + (qEnvironmentVariableIsEmpty("USER") ? qgetenv("USERNAME") : qgetenv("USER")));
     ResourcesManager* rm = ResourcesManager::getInstance();
     recent = rm->getRecentMessages();
     QStringList recentMessages;
-    for(const auto& i : recent)
+    for(const auto& i : std::as_const(recent))
     {
         recentMessages.append(i.title);
     }

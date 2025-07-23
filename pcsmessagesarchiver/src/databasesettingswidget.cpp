@@ -52,10 +52,10 @@ void DatabaseSettingsWidget::exportDatabaseToFile()
         {
             QTextStream stream(&file);
             stream << "id,title,contents,sender,reciver,created,modified\n";
-            ResourcesManager* rm = ResourcesManager::getInstance();
-            for(const auto& i : rm->getAllMessages())
+            const auto messages = ResourcesManager::getInstance()->getAllMessages();
+            for(const auto& i : messages)
             {
-                stream << QString("%1,%2,%3,%4,%5,%6,%7\n").arg(i.id).arg(i.title).arg(i.contents).arg(i.from).arg(i.to).arg(i.created).arg(i.modified);
+                stream << QString("%1,%2,%3,%4,%5,%6,%7\n").arg(i.id).arg(i.title, i.contents, i.from, i.to, i.created, i.modified);
             }
             file.close();
         }
@@ -73,8 +73,8 @@ void DatabaseSettingsWidget::exportContactsToFile()
         {
             QTextStream stream(&file);
             stream << "id,name\n";
-            ResourcesManager* rm = ResourcesManager::getInstance();
-            for(const auto& i : rm->getAllContacts())
+            const auto contacts = ResourcesManager::getInstance()->getAllContacts();
+            for(const auto& i : contacts)
             {
                 stream << QString("%1,%2\n").arg(i.id).arg(i.name);
             }

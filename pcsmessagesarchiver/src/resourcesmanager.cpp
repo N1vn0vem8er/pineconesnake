@@ -6,7 +6,7 @@ ResourcesManager::ResourcesManager()
 {
     assert(!Settings::databasePath.isEmpty() && "databasePath must be loaded before used");
     assert(!Settings::databaseName.isEmpty() && "databaseName must be loaded before used");
-    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath).arg(Settings::databaseName).toStdString().c_str(), &database);
+    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath, Settings::databaseName).toStdString().c_str(), &database);
     if(rc == SQLITE_OK)
     {
         char* err;
@@ -215,7 +215,8 @@ QList<Globals::Contact> ResourcesManager::getAllContacts()
 
 void ResourcesManager::saveContactInNotExists(const QString &name)
 {
-    for(const auto& i : getAllContacts())
+    const auto contacts = getAllContacts();
+    for(const auto& i : contacts)
     {
         if(i.name == name)
         {

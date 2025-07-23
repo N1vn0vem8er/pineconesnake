@@ -1,8 +1,7 @@
 #include "writer.h"
-#include "qdatetime.h"
+#include <QDateTime>
 #include "ui_writer.h"
 #include "resourcesmanager.h"
-
 #include <QFileDialog>
 
 Writer::Writer(QWidget *parent)
@@ -26,8 +25,8 @@ Writer::Writer(QWidget *parent)
     connect(ui->redoButton, &QPushButton::clicked, this, &Writer::redo);
     connect(ui->copyAllButton, &QPushButton::clicked, this, &Writer::copyAll);
     QStringList people;
-    ResourcesManager* rm =  ResourcesManager::getInstance();
-    for(const auto& i : rm->getAllContacts())
+    const auto contacts =  ResourcesManager::getInstance()->getAllContacts();
+    for(const auto& i : contacts)
     {
         people << i.name;
     }
