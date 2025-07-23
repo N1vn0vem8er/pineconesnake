@@ -6,11 +6,11 @@
 #include "addnewdialog.h"
 #include "settings.h"
 #include "editdialog.h"
-
 #include <QDir>
 #include <QFileInfo>
 #include <QListWidget>
 #include <QMessageBox>
+#include <QScrollBar>
 
 #define VERSION "1.0.2"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -108,6 +108,7 @@ void MainWindow::deleteItem(const Item &item)
 
 void MainWindow::displayFinished()
 {
+    int scrollPosition = ui->listWidget->verticalScrollBar()->value();
     ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllFinished();
     for(const auto& i : items)
@@ -122,10 +123,12 @@ void MainWindow::displayFinished()
         ui->listWidget->setItemWidget(listItem, widget);
     }
     selected = SelectedModes::Finished;
+    ui->listWidget->verticalScrollBar()->setValue(scrollPosition);
 }
 
 void MainWindow::displayPlanned()
 {
+    int scrollPosition = ui->listWidget->verticalScrollBar()->value();
     ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllPlanned();
     for(const auto& i : items)
@@ -140,10 +143,12 @@ void MainWindow::displayPlanned()
         ui->listWidget->setItemWidget(listItem, widget);
     }
     selected = SelectedModes::Planned;
+    ui->listWidget->verticalScrollBar()->setValue(scrollPosition);
 }
 
 void MainWindow::displayCurrent()
 {
+    int scrollPosition = ui->listWidget->verticalScrollBar()->value();
     ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllCurrnet();
     for(const auto& i : items)
@@ -158,10 +163,12 @@ void MainWindow::displayCurrent()
         ui->listWidget->setItemWidget(listItem, widget);
     }
     selected = SelectedModes::Current;
+    ui->listWidget->verticalScrollBar()->setValue(scrollPosition);
 }
 
 void MainWindow::displayAll()
 {
+    int scrollPosition = ui->listWidget->verticalScrollBar()->value();
     ui->listWidget->clear();
     const QList<Item> items = ResourceManager::getInstance()->getAllItems();
     for(const auto& i : items)
@@ -176,6 +183,7 @@ void MainWindow::displayAll()
         ui->listWidget->setItemWidget(listItem, widget);
     }
     selected = SelectedModes::All;
+    ui->listWidget->verticalScrollBar()->setValue(scrollPosition);
 }
 
 void MainWindow::search()
