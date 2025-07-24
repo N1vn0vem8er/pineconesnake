@@ -76,6 +76,15 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <widget class="QMenu" name="menuChange_characters_size">
+     <property name="title">
+      <string>Change characters size</string>
+     </property>
+     <addaction name="actionmake_selected_small"/>
+     <addaction name="actionMAKE_SELECTED_CAPITAL"/>
+     <addaction name="actionMake_selected_sentence_capital"/>
+     <addaction name="actionMake_Every_Selected_Word_Capital"/>
+    </widget>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
     <addaction name="separator"/>
@@ -83,6 +92,9 @@
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
     <addaction name="actionSelectAll"/>
+    <addaction name="separator"/>
+    <addaction name="actionMerge_lines"/>
+    <addaction name="menuChange_characters_size"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -90,6 +102,10 @@
     </property>
     <addaction name="actionRefresh"/>
     <addaction name="actionClose_Tab"/>
+    <addaction name="actionincreaseFontSize"/>
+    <addaction name="actionDecrease_font_size"/>
+    <addaction name="actionSet_font_size"/>
+    <addaction name="actionReset_font_size"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -249,6 +265,51 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionincreaseFontSize">
+   <property name="text">
+    <string>Increase font Size</string>
+   </property>
+  </action>
+  <action name="actionDecrease_font_size">
+   <property name="text">
+    <string>Decrease font size</string>
+   </property>
+  </action>
+  <action name="actionSet_font_size">
+   <property name="text">
+    <string>Set font size</string>
+   </property>
+  </action>
+  <action name="actionReset_font_size">
+   <property name="text">
+    <string>Reset font size</string>
+   </property>
+  </action>
+  <action name="actionMerge_lines">
+   <property name="text">
+    <string>Merge lines</string>
+   </property>
+  </action>
+  <action name="actionmake_selected_small">
+   <property name="text">
+    <string>make selected small</string>
+   </property>
+  </action>
+  <action name="actionMAKE_SELECTED_CAPITAL">
+   <property name="text">
+    <string>MAKE SELECTED CAPITAL</string>
+   </property>
+  </action>
+  <action name="actionMake_selected_sentence_capital">
+   <property name="text">
+    <string>Make selected sentence capital</string>
+   </property>
+  </action>
+  <action name="actionMake_Every_Selected_Word_Capital">
+   <property name="text">
+    <string>Make Every Selected Word Capital</string>
    </property>
   </action>
  </widget>

@@ -37,5 +37,16 @@ private slots:
     void redo();
     void deleteRequested(const Note &note);
     void displayAbout();
+    void mergeLines();
+    void makeSmallLetters();
+    void makeCapitalLetters();
+    void makeCapitalSentences();
+    void makeCapitalEveryWord();
+    void openPasteFromFile();
+    void setLineWrap(bool val);
+    void increaseFontSize();
+    void decreaseFontSize();
+    void resetFontSize();
+    void setFontSize();
 };
 #endif // MAINWINDOW_H

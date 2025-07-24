@@ -23,7 +23,7 @@ Writer::Writer(const Note &note, QWidget *parent)
     connect(ui->undoButton, &QPushButton::clicked, this, &Writer::undo);
     connect(ui->redoButton, &QPushButton::clicked, this, &Writer::redo);
     connect(ui->saveButton, &QPushButton::clicked, this, &Writer::manualSave);
-    timer = new QTimer();
+    timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Writer::save);
     timer->setInterval(1000);
     timer->setSingleShot(true);
@@ -31,8 +31,12 @@ Writer::Writer(const Note &note, QWidget *parent)
 
 Writer::~Writer()
 {
-    delete timer;
     delete ui;
+}
+
+void Writer::appendText(const QString &text)
+{
+    ui->editor->appendPlainText(text);
 }
 
 void Writer::save()
@@ -105,4 +109,49 @@ void Writer::manualSave()
 {
     timer->stop();
     save();
+}
+
+void Writer::increaseFontSize()
+{
+    ui->editor->increaseFontSize();
+}
+
+void Writer::decreaseFontSize()
+{
+    ui->editor->decreaseFontSize();
+}
+
+void Writer::setFontSize(int size)
+{
+    ui->editor->setFontSize(size);
+}
+
+void Writer::mergeSelectedLines()
+{
+    ui->editor->mergeSelectedLines();
+}
+
+void Writer::makeSelectedSmall()
+{
+    ui->editor->makeSelectedSmall();
+}
+
+void Writer::makeSelectedCapital()
+{
+    ui->editor->makeSelectedCapital();
+}
+
+void Writer::makeSelectedSentenceCapital()
+{
+    ui->editor->makeSelectedSentenceCapital();
+}
+
+void Writer::makeEverySelectedCapital()
+{
+    ui->editor->makeEverySelectedCapital();
+}
+
+void Writer::setLineWrap(bool val)
+{
+    ui->editor->setLineWrapMode(val ? QPlainTextEdit::LineWrapMode::WidgetWidth : QPlainTextEdit::LineWrapMode::NoWrap);
 }

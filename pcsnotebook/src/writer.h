@@ -16,6 +16,7 @@ class Writer : public QWidget
 public:
     explicit Writer(const Note& note, QWidget *parent = nullptr);
     ~Writer();
+    void appendText(const QString& text);
 
 public slots:
     void save();
@@ -27,6 +28,15 @@ public slots:
     void undo();
     void redo();
     void manualSave();
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFontSize(int size);
+    void mergeSelectedLines();
+    void makeSelectedSmall();
+    void makeSelectedCapital();
+    void makeSelectedSentenceCapital();
+    void makeEverySelectedCapital();
+    void setLineWrap(bool val);
 
 private:
     Ui::Writer *ui;

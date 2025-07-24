@@ -98,11 +98,6 @@ void TextEditor::resizeEvent(QResizeEvent *event)
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberWidth(), cr.height()));
 }
 
-void TextEditor::keyPressEvent(QKeyEvent *event)
-{
-
-}
-
 void TextEditor::dropEvent(QDropEvent *event)
 {
     const QMimeData* mimeData = event->mimeData();
