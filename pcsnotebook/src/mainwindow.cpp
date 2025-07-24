@@ -80,7 +80,7 @@ void MainWindow::refreshNotes()
     for(int i = 0; i< ui->tabWidget->count(); i++)
     {
         AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->widget(i));
-        if(widget!= nullptr)
+        if(widget)
         {
             widget->all();
         }
@@ -90,7 +90,7 @@ void MainWindow::refreshNotes()
 void MainWindow::save()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->manualSave();
     }
@@ -99,7 +99,7 @@ void MainWindow::save()
 void MainWindow::copy()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->copy();
     }
@@ -108,7 +108,7 @@ void MainWindow::copy()
 void MainWindow::cut()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->cut();
     }
@@ -117,7 +117,7 @@ void MainWindow::cut()
 void MainWindow::paste()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->paste();
     }
@@ -126,7 +126,7 @@ void MainWindow::paste()
 void MainWindow::selectAll()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->selectAll();
     }
@@ -135,7 +135,7 @@ void MainWindow::selectAll()
 void MainWindow::saveAs()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->saveAs();
     }
@@ -144,7 +144,7 @@ void MainWindow::saveAs()
 void MainWindow::undo()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->undo();
     }
@@ -153,7 +153,7 @@ void MainWindow::undo()
 void MainWindow::redo()
 {
     Writer* widget = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    if(widget)
     {
         widget->redo();
     }
@@ -170,7 +170,7 @@ void MainWindow::deleteRequested(const Note& note)
     for(int i=0;i<ui->tabWidget->count(); i++)
     {
         AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->currentWidget());
-        if(widget!= nullptr)
+        if(widget)
         {
             widget->all();
         }

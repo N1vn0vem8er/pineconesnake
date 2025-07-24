@@ -20,9 +20,23 @@ public:
     void find(const QString& text);
     void replace(const QString& find, const QString& replace);
     void clearSearchFormatting();
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFontSize(int size);
+    void mergeSelectedLines();
+    void makeSelectedSmall();
+    void makeSelectedCapital();
+    void makeSelectedSentenceCapital();
+    void makeEverySelectedCapital();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void dropEvent(QDropEvent* event) override;
+    void dragEnterEvent(QDragEnterEvent* event) override;
+    void dragLeaveEvent(QDragLeaveEvent* event) override;
+    void wheelEvent(QWheelEvent *event) override;
+
 private:
     QString path;
     QWidget *lineNumberArea;
@@ -33,6 +47,9 @@ private:
     void updateLineNumberWidth(int count);
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
+
+signals:
+    void fontSizeChanged(int size);
 };
 
 #endif // TEXTEDITOR_H

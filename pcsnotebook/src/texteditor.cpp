@@ -1,6 +1,7 @@
 #include "texteditor.h"
 #include "linenumberarea.h"
 #include "qfileinfo.h"
+#include <QMimeData>
 #include <QPainter>
 #include <QTextBlock>
 
@@ -97,6 +98,58 @@ void TextEditor::resizeEvent(QResizeEvent *event)
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberWidth(), cr.height()));
 }
 
+void TextEditor::keyPressEvent(QKeyEvent *event)
+{
+
+}
+
+void TextEditor::dropEvent(QDropEvent *event)
+{
+    const QMimeData* mimeData = event->mimeData();
+    if(mimeData->hasUrls())
+    {
+        QFile file(mimeData->urls().at(0).path());
+        file.open(QIODevice::ReadOnly);
+        if(file.isOpen())
+        {
+            appendPlainText(file.readAll());
+            file.close();
+        }
+    }
+    else if(mimeData->hasText())
+    {
+        appendPlainText(mimeData->text());
+    }
+}
+
+void TextEditor::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void TextEditor::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    event->accept();
+}
+
+void TextEditor::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        if(event->angleDelta().y() > 0)
+        {
+            increaseFontSize();
+        }
+        else
+        {
+            decreaseFontSize();
+        }
+        event->accept();
+    }
+    else
+        QPlainTextEdit::wheelEvent(event);
+}
+
 QString TextEditor::getName() const
 {
     return name;
@@ -150,6 +203,120 @@ void TextEditor::clearSearchFormatting()
     cursor.setCharFormat(defaultFormat);
     cursor.clearSelection();
     setTextCursor(cursor);
+}
+
+void TextEditor::increaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() + 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::decreaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() - 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::setFontSize(int size)
+{
+    QFont font = this->font();
+    font.setPointSize(size);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::mergeSelectedLines()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().replace(QChar(8233), ' '));
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeSelectedSmall()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().toLower());
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeSelectedCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.insertText(cursor.selectedText().toUpper());
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeSelectedSentenceCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.beginEditBlock();
+        QString selectedText = cursor.selectedText();
+        if(selectedText.isEmpty())
+        {
+            cursor.endEditBlock();
+            return;
+        }
+        bool capitalNext = true;
+        for(auto& character : selectedText)
+        {
+            if(capitalNext && character.isLetter())
+            {
+                character = character.toUpper();
+                capitalNext = false;
+            }
+            else if(character == '.' || character == '?' || character == '!')
+                capitalNext = true;
+            else if(!character.isSpace())
+                capitalNext = false;
+        }
+        cursor.insertText(selectedText);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+    }
+}
+
+void TextEditor::makeEverySelectedCapital()
+{
+    QTextCursor cursor = textCursor();
+    if(cursor.hasSelection())
+    {
+        cursor.beginEditBlock();
+        QString selectedText = cursor.selectedText();
+        if(selectedText.isEmpty())
+        {
+            cursor.endEditBlock();
+            return;
+        }
+        bool capitalNext = true;
+        for(auto& character : selectedText)
+        {
+            if(capitalNext && character.isLetter())
+            {
+                character = character.toUpper();
+                capitalNext = false;
+            }
+            else if(character.isSpace() )
+                capitalNext = true;
+        }
+        cursor.insertText(selectedText);
+        cursor.endEditBlock();
+        setTextCursor(cursor);
+    }
 }
 
 bool TextEditor::getSaved() const
