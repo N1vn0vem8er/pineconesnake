@@ -41,6 +41,7 @@ void Writer::save()
     note.modified = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
     ResourcesManager::getInstance()->editNote(note);
     ui->savedLabel->setVisible(true);
+    emit changed();
 }
 
 void Writer::copy()

@@ -19,6 +19,7 @@ public:
 
 public slots:
     void all();
+
 private:
     Ui::AllNotesWidget *ui;
     QList<Note> notes;

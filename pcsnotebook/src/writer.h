@@ -39,6 +39,7 @@ private slots:
 
 signals:
     void requestDelete(const Note& note);
+    void changed();
 
 };
 

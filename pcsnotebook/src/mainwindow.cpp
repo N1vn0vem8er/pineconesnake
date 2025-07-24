@@ -56,7 +56,7 @@ void MainWindow::addNewNote()
         rm->addNote(note);
         refreshNotes();
         note.id = rm->getLastId();
-        addTab(title, new Writer(note, this));
+        openWriter(note);
     }
 }
 
@@ -71,15 +71,19 @@ void MainWindow::openWriter(const Note &note)
 {
     Writer* widget = new Writer(note, this);
     connect(widget, &Writer::requestDelete, this, &MainWindow::deleteRequested);
+    connect(widget, &Writer::changed, this, &MainWindow::refreshNotes);
     addTab(note.title, widget);
 }
 
 void MainWindow::refreshNotes()
 {
-    AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->currentWidget());
-    if(widget!= nullptr)
+    for(int i = 0; i< ui->tabWidget->count(); i++)
     {
-        widget->all();
+        AllNotesWidget* widget = dynamic_cast<AllNotesWidget*>(ui->tabWidget->widget(i));
+        if(widget!= nullptr)
+        {
+            widget->all();
+        }
     }
 }
 
