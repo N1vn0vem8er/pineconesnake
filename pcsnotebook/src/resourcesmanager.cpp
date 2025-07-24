@@ -11,7 +11,7 @@ ResourcesManager::ResourcesManager()
     {
         QDir().mkpath(Settings::databasePath);
     }
-    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath).arg(Settings::databaseName).toStdString().c_str(), &database);
+    int rc = sqlite3_open(QString("%1/%2").arg(Settings::databasePath, Settings::databaseName).toStdString().c_str(), &database);
     if(rc == SQLITE_OK)
     {
         char* err;
@@ -47,23 +47,27 @@ QList<Note> ResourcesManager::getAllNotes()
     return notes;
 }
 
-QList<Note> ResourcesManager::getNotesForTitle(const QString title)
+QList<Note> ResourcesManager::getNotesForTitle(const QString& title)
 {
     QList<Note> notes;
-    std::vector<std::vector<QString>> resoult;
-    char* err;
-    char* query;
-    asprintf(&query, "SELECT * FROM notes WHERE title LIKE '%s%s%s' LIMIT 10;", "%", title.toStdString().c_str(), "%");
-    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "SELECT * FROM notes WHERE title LIKE ? LIMIT 10;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        const QString searchPattern = QString("%%1%").arg(title);
+        sqlite3_bind_text(stmt, 1, searchPattern.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        while(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            int id = sqlite3_column_int(stmt, 0);
+            QString col1 = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+            QString col2 = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+            QString col3 = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+            QString col4 = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+
+            notes.append(Note(id, col1, col2, col3, col4));
+        }
     }
-    for(const auto& i : resoult)
-    {
-        notes.append(Note(i[0].toInt(), i[1], i[2], i[3], i[4]));
-    }
-    delete[] query;
+    sqlite3_finalize(stmt);
     return notes;
 }
 
@@ -74,46 +78,54 @@ int ResourcesManager::getLastId()
 
 void ResourcesManager::addNote(const Note &note)
 {
-    std::vector<std::vector<QString>> resoult;
-    char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO notes (title, contents, created, modified) VALUES ('%s', '%s', '%s', '%s');", note.title.toStdString().c_str(), note.content.toStdString().c_str(), note.created.toStdString().c_str(),
-             note.modified.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "INSERT INTO notes (title, contents, created, modified) VALUES (?, ?, ?, ?);";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, note.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, note.content.toStdString().c_str(), -1, SQLITE_TRANSIENT);;
+        sqlite3_bind_text(stmt, 3, note.created.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, note.modified.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourcesManager::editNote(const Note &note)
 {
-    std::vector<std::vector<QString>> resoult;
-    char* err;
-    char* query;
-    asprintf(&query, "UPDATE notes SET title='%s', contents = '%s', created = '%s', modified = '%s' WHERE id = %i;", note.title.toStdString().c_str(), note.content.toStdString().c_str(), note.created.toStdString().c_str(),
-             note.modified.toStdString().c_str(), note.id);
-    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "UPDATE notes SET title=?, contents = ?, created = ?, modified = ? WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, note.title.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, note.content.toStdString().c_str(), -1, SQLITE_TRANSIENT);;
+        sqlite3_bind_text(stmt, 3, note.created.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, note.modified.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 5, note.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 void ResourcesManager::deleteNote(const Note &note)
 {
-    std::vector<std::vector<QString>> resoult;
-    char* err;
-    char* query;
-    asprintf(&query, "DELETE FROM notes WHERE id = %i;", note.id);
-    if(sqlite3_exec(database, query, callback, &resoult, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt = nullptr;
+    const char* sql = "DELETE FROM notes WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, NULL) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, note.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << QString("Failed to execute statement: %1").arg(sqlite3_errmsg(database));
+        }
     }
-    delete[] query;
+    sqlite3_finalize(stmt);
 }
 
 ResourcesManager::~ResourcesManager()
@@ -123,6 +135,7 @@ ResourcesManager::~ResourcesManager()
 
 int ResourcesManager::callback(void *data, int argc, char **argv, char **azColName)
 {
+    Q_UNUSED(azColName);
     std::vector<std::vector<QString>> *results = reinterpret_cast<std::vector<std::vector<QString>>*>(data);
     std::vector<QString> row;
     for (int i = 0; i < argc; i++) {
@@ -134,16 +147,6 @@ int ResourcesManager::callback(void *data, int argc, char **argv, char **azColNa
 
 ResourcesManager* ResourcesManager::getInstance()
 {
-    if(instancePtr == nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        if(instancePtr == nullptr)
-        {
-            instancePtr = new ResourcesManager();
-        }
-    }
-    return instancePtr;
+    static ResourcesManager instancePtr;
+    return &instancePtr;
 }
-
-ResourcesManager* ResourcesManager::instancePtr = nullptr;
-std::mutex ResourcesManager::mutex;
