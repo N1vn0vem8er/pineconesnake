@@ -18,21 +18,7 @@
     <widget class="QLineEdit" name="searchLine"/>
    </item>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="contents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>996</width>
-        <height>615</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
+    <widget class="QListWidget" name="listWidget"/>
    </item>
   </layout>
  </widget>

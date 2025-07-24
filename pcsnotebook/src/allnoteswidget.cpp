@@ -2,6 +2,7 @@
 #include "notecardwidget.h"
 #include "resourcesmanager.h"
 #include "ui_allnoteswidget.h"
+#include <QScrollBar>
 
 AllNotesWidget::AllNotesWidget(QWidget *parent)
     : QWidget(parent)
@@ -19,27 +20,19 @@ AllNotesWidget::~AllNotesWidget()
 
 void AllNotesWidget::refresh()
 {
-    if(layout != nullptr)
-    {
-        QLayoutItem* layoutItem;
-        while((layoutItem = layout->takeAt(0)) != nullptr)
-        {
-            delete layoutItem->widget();
-            delete layoutItem;
-        }
-        delete layout;
-        layout = nullptr;
-    }
-    layout = new QVBoxLayout(ui->contents);
-    for(const auto& i : notes)
+    int scrollPosition = ui->listWidget->verticalScrollBar()->value();
+    ui->listWidget->clear();
+    for(const auto& i : std::as_const(notes))
     {
         NoteCardWidget* widget = new NoteCardWidget(i, this);
         connect(widget, &NoteCardWidget::openNote, this, &AllNotesWidget::openNote);
         connect(widget, &NoteCardWidget::requestRefresh, this, &AllNotesWidget::all);
-        layout->addWidget(widget);
+        QListWidgetItem* listItem = new QListWidgetItem(ui->listWidget);
+        listItem->setSizeHint(widget->sizeHint());
+        ui->listWidget->addItem(listItem);
+        ui->listWidget->setItemWidget(listItem, widget);
     }
-    layout->addItem(new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding));
-    ui->contents->setLayout(layout);
+    ui->listWidget->verticalScrollBar()->setValue(scrollPosition);
 }
 
 void AllNotesWidget::search(const QString& text)

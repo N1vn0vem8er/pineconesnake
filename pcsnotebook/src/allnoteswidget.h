@@ -21,7 +21,6 @@ public slots:
     void all();
 private:
     Ui::AllNotesWidget *ui;
-    QLayout* layout = nullptr;
     QList<Note> notes;
     void refresh();
 
