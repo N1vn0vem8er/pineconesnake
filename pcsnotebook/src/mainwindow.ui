@@ -70,6 +70,11 @@
     <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
+    <addaction name="actionPrint"/>
+    <addaction name="separator"/>
+    <addaction name="actionClose_Tab"/>
+    <addaction name="actionClose_All"/>
+    <addaction name="actionClose_All_but_this"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -91,21 +96,27 @@
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="actionPaste_from_file"/>
     <addaction name="actionSelectAll"/>
     <addaction name="separator"/>
     <addaction name="actionMerge_lines"/>
     <addaction name="menuChange_characters_size"/>
+    <addaction name="separator"/>
+    <addaction name="actionOverwrite_mode"/>
+    <addaction name="actionRead_only"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>&amp;View</string>
     </property>
     <addaction name="actionRefresh"/>
-    <addaction name="actionClose_Tab"/>
+    <addaction name="separator"/>
     <addaction name="actionincreaseFontSize"/>
     <addaction name="actionDecrease_font_size"/>
     <addaction name="actionSet_font_size"/>
     <addaction name="actionReset_font_size"/>
+    <addaction name="separator"/>
+    <addaction name="actionLines_wrap"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -310,6 +321,65 @@
   <action name="actionMake_Every_Selected_Word_Capital">
    <property name="text">
     <string>Make Every Selected Word Capital</string>
+   </property>
+  </action>
+  <action name="actionLines_wrap">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Lines wrap</string>
+   </property>
+  </action>
+  <action name="actionOverwrite_mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Overwrite mode</string>
+   </property>
+  </action>
+  <action name="actionRead_only">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Read only</string>
+   </property>
+  </action>
+  <action name="actionPrint">
+   <property name="icon">
+    <iconset theme="document-print"/>
+   </property>
+   <property name="text">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionClose_All">
+   <property name="icon">
+    <iconset theme="list-remove"/>
+   </property>
+   <property name="text">
+    <string>Close All</string>
+   </property>
+  </action>
+  <action name="actionClose_All_but_this">
+   <property name="icon">
+    <iconset theme="list-remove"/>
+   </property>
+   <property name="text">
+    <string>Close All but this</string>
+   </property>
+  </action>
+  <action name="actionPaste_from_file">
+   <property name="icon">
+    <iconset theme="edit-paste"/>
+   </property>
+   <property name="text">
+    <string>Paste from file</string>
    </property>
   </action>
  </widget>

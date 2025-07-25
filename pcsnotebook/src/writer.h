@@ -3,6 +3,7 @@
 
 #include "structs.h"
 
+#include <QPrinter>
 #include <QWidget>
 
 namespace Ui {
@@ -17,6 +18,9 @@ public:
     explicit Writer(const Note& note, QWidget *parent = nullptr);
     ~Writer();
     void appendText(const QString& text);
+    void print(QPrinter* printer);
+    void setOverwriteMode(bool val);
+    void setReadOnly(bool val);
 
 public slots:
     void save();

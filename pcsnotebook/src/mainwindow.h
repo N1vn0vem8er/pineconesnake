@@ -21,6 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     void addTab(const QString& title, QWidget* widget);
+    void closeTab(int index);
 
 private slots:
     void addNewNote();
@@ -48,5 +49,9 @@ private slots:
     void decreaseFontSize();
     void resetFontSize();
     void setFontSize();
+    void closeAllButThis();
+    void openPrint();
+    void overwriteModeChanged(bool val);
+    void readOnlyChanged(bool val);
 };
 #endif // MAINWINDOW_H

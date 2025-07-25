@@ -9,6 +9,8 @@
 #include "allnoteswidget.h"
 #include <QFileDialog>
 #include <QLineEdit>
+#include <QPrintDialog>
+#include <QPrinter>
 
 #define VERSION "1.0.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -20,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::addNewNote);
     connect(ui->allButton, &QPushButton::clicked, this, &MainWindow::showAllNotes);
-    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, [&](int index){delete ui->tabWidget->widget(index);});
-    connect(ui->actionClose_Tab, &QAction::triggered, this, [&]{delete ui->tabWidget->currentWidget();});
+    connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
+    connect(ui->actionClose_Tab, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionRefresh, &QAction::triggered, this, &MainWindow::refreshNotes);
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copy);
     connect(ui->actionCut, &QAction::triggered, this, &MainWindow::cut);
@@ -40,6 +42,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSet_font_size, &QAction::triggered, this, &MainWindow::setFontSize);
     connect(ui->actionMAKE_SELECTED_CAPITAL, &QAction::triggered, this, &MainWindow::makeCapitalEveryWord);
     connect(ui->actionmake_selected_small, &QAction::triggered, this, &MainWindow::makeSmallLetters);
+    connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All_but_this, &QAction::triggered, this, &MainWindow::closeAllButThis);
+    connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::openPrint);
+    connect(ui->actionLines_wrap, &QAction::triggered, this, &MainWindow::setLineWrap);
+    connect(ui->actionRead_only, &QAction::triggered, this, &MainWindow::readOnlyChanged);
+    connect(ui->actionOverwrite_mode, &QAction::triggered, this, &MainWindow::overwriteModeChanged);
+    connect(ui->actionPaste_from_file, &QAction::triggered, this, &MainWindow::openPasteFromFile);
 
     showAllNotes();
 }
@@ -53,6 +62,14 @@ void MainWindow::addTab(const QString &title, QWidget *widget)
 {
     ui->tabWidget->addTab(widget, title);
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+}
+
+void MainWindow::closeTab(int index)
+{
+    QWidget* widget = ui->tabWidget->widget(index);
+    ui->tabWidget->removeTab(index);
+    if(widget)
+        widget->deleteLater();
 }
 
 void MainWindow::addNewNote()
@@ -328,5 +345,46 @@ void MainWindow::setFontSize()
             editor->setFontSize(lineEdit->text().toInt());
         }
         delete buttonsLayout;
+    }
+}
+
+void MainWindow::closeAllButThis()
+{
+    for(int i=ui->tabWidget->count()-1; i >= 0;--i)
+    {
+        if(i != ui->tabWidget->currentIndex())
+            closeTab(i);
+    }
+}
+
+void MainWindow::openPrint()
+{
+    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        QPrinter printer(QPrinter::HighResolution);
+        QPrintDialog dialog(&printer, this);
+        if(dialog.exec() == QDialog::Accepted)
+        {
+            editor->print(&printer);
+        }
+    }
+}
+
+void MainWindow::overwriteModeChanged(bool val)
+{
+    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setOverwriteMode(val);
+    }
+}
+
+void MainWindow::readOnlyChanged(bool val)
+{
+    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(editor != nullptr)
+    {
+        editor->setReadOnly(val);
     }
 }

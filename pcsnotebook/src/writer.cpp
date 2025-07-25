@@ -39,6 +39,21 @@ void Writer::appendText(const QString &text)
     ui->editor->appendPlainText(text);
 }
 
+void Writer::print(QPrinter *printer)
+{
+    ui->editor->print(printer);
+}
+
+void Writer::setOverwriteMode(bool val)
+{
+    ui->editor->setOverwriteMode(val);
+}
+
+void Writer::setReadOnly(bool val)
+{
+    ui->editor->setReadOnly(val);
+}
+
 void Writer::save()
 {
     note.content = ui->editor->toPlainText();
