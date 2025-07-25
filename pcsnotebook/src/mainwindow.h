@@ -53,5 +53,6 @@ private slots:
     void openPrint();
     void overwriteModeChanged(bool val);
     void readOnlyChanged(bool val);
+    void tabChanged(int index);
 };
 #endif // MAINWINDOW_H

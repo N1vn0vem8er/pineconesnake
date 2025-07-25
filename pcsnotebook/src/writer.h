@@ -21,6 +21,9 @@ public:
     void print(QPrinter* printer);
     void setOverwriteMode(bool val);
     void setReadOnly(bool val);
+    bool isReadOnly() const;
+    bool isOverwriteMode() const;
+    bool isLineWrap() const;
 
 public slots:
     void save();

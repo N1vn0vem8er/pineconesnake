@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionRead_only, &QAction::triggered, this, &MainWindow::readOnlyChanged);
     connect(ui->actionOverwrite_mode, &QAction::triggered, this, &MainWindow::overwriteModeChanged);
     connect(ui->actionPaste_from_file, &QAction::triggered, this, &MainWindow::openPasteFromFile);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
 
     showAllNotes();
 }
@@ -219,53 +220,53 @@ void MainWindow::displayAbout()
 }
 void MainWindow::mergeLines()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->mergeSelectedLines();
+        writer->mergeSelectedLines();
     }
 }
 
 void MainWindow::makeSmallLetters()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->makeSelectedSmall();
+        writer->makeSelectedSmall();
     }
 }
 
 void MainWindow::makeCapitalLetters()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->makeSelectedCapital();
+        writer->makeSelectedCapital();
     }
 }
 
 void MainWindow::makeCapitalSentences()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->makeSelectedSentenceCapital();
+        writer->makeSelectedSentenceCapital();
     }
 }
 
 void MainWindow::makeCapitalEveryWord()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->makeEverySelectedCapital();
+        writer->makeEverySelectedCapital();
     }
 }
 
 void MainWindow::openPasteFromFile()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
         const QStringList paths = QFileDialog::getOpenFileNames(this, tr("Paste from file"), QDir::homePath());
         if(!paths.isEmpty())
@@ -276,7 +277,7 @@ void MainWindow::openPasteFromFile()
                 file.open(QIODevice::ReadOnly);
                 if(file.isOpen())
                 {
-                    editor->appendText(file.readAll());
+                    writer->appendText(file.readAll());
                     file.close();
                 }
             }
@@ -286,44 +287,44 @@ void MainWindow::openPasteFromFile()
 
 void MainWindow::setLineWrap(bool val)
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->setLineWrap(val);
+        writer->setLineWrap(val);
     }
 }
 
 void MainWindow::increaseFontSize()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->increaseFontSize();
+        writer->increaseFontSize();
     }
 }
 
 void MainWindow::decreaseFontSize()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->decreaseFontSize();
+        writer->decreaseFontSize();
     }
 }
 
 void MainWindow::resetFontSize()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->setFontSize(10);
+        writer->setFontSize(10);
     }
 }
 
 void MainWindow::setFontSize()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
         QDialog* dialog = new QDialog(this);
         QVBoxLayout* mainLayout = new QVBoxLayout(dialog);
@@ -342,7 +343,7 @@ void MainWindow::setFontSize()
         connect(cancelButton, &QPushButton::clicked, dialog, &QDialog::reject);
         if(dialog->exec() == QDialog::Accepted)
         {
-            editor->setFontSize(lineEdit->text().toInt());
+            writer->setFontSize(lineEdit->text().toInt());
         }
         delete buttonsLayout;
     }
@@ -359,32 +360,43 @@ void MainWindow::closeAllButThis()
 
 void MainWindow::openPrint()
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
         QPrinter printer(QPrinter::HighResolution);
         QPrintDialog dialog(&printer, this);
         if(dialog.exec() == QDialog::Accepted)
         {
-            editor->print(&printer);
+            writer->print(&printer);
         }
     }
 }
 
 void MainWindow::overwriteModeChanged(bool val)
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->setOverwriteMode(val);
+        writer->setOverwriteMode(val);
     }
 }
 
 void MainWindow::readOnlyChanged(bool val)
 {
-    Writer* editor = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->currentWidget());
+    if(writer)
     {
-        editor->setReadOnly(val);
+        writer->setReadOnly(val);
+    }
+}
+
+void MainWindow::tabChanged(int index)
+{
+    Writer* writer = dynamic_cast<Writer*>(ui->tabWidget->widget(index));
+    if(writer)
+    {
+        ui->actionRead_only->setChecked(writer->isReadOnly());
+        ui->actionOverwrite_mode->setChecked(writer->isOverwriteMode());
+        ui->actionLines_wrap->setChecked(writer->isLineWrap());
     }
 }

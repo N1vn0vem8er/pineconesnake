@@ -54,6 +54,21 @@ void Writer::setReadOnly(bool val)
     ui->editor->setReadOnly(val);
 }
 
+bool Writer::isReadOnly() const
+{
+    return ui->editor->isReadOnly();
+}
+
+bool Writer::isOverwriteMode() const
+{
+    return ui->editor->overwriteMode();
+}
+
+bool Writer::isLineWrap() const
+{
+    return ui->editor->lineWrapMode() == TextEditor::LineWrapMode::WidgetWidth ? true : false;
+}
+
 void Writer::save()
 {
     note.content = ui->editor->toPlainText();
