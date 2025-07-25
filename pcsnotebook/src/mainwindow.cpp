@@ -2,7 +2,7 @@
 #include "inputtitledialog.h"
 #include "qdatetime.h"
 #include "qimage.h"
-#include "qmessagebox.h"
+#include <qmessagebox.h>
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 #include "writer.h"
@@ -12,8 +12,9 @@
 #include <QPrintDialog>
 #include <QPrinter>
 
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -212,11 +213,11 @@ void MainWindow::displayAbout()
     <html>
         <body>
             <h3>PCS Notebook</h3>
-            <p>PCS Notebook is an application for taking notes. It is a part of Pinecone Snake project.</p>
-            <p>Version: %1</p>
-            <p>License: <a href=\"%2\">GPL 3</a></p>
+            <p>PCS Notebook is an application for taking notes. It is a part of <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
         </body>
-    </html>)").arg(VERSION, LICENSELINK));
+    </html>)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
 void MainWindow::mergeLines()
 {
