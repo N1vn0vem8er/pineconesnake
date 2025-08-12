@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->muteButton, &QPushButton::clicked, this, &MainWindow::mute);
     connect(ui->seekForwardButton, &QPushButton::clicked, this, &MainWindow::seekForward);
     connect(ui->seekBackwardButton, &QPushButton::clicked, this, &MainWindow::seekBackward);
+    connect(player, &QMediaPlayer::durationChanged, ui->playingSlider, &QSlider::setMaximum);
+    connect(ui->playingSlider, &QSlider::valueChanged, player, &QMediaPlayer::setPosition);
+    connect(player, &QMediaPlayer::positionChanged, ui->playingSlider, &QSlider::setValue);
 }
 
 MainWindow::~MainWindow()
