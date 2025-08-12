@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->playPauseButton, &QPushButton::clicked, this, [&]{if(player->isPlaying()) pause(); else play();});
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, [&](int position){audioOutput->setVolume(static_cast<float>(position) / 100);});
+    connect(ui->muteButton, &QPushButton::clicked, this, &MainWindow::mute);
 }
 
 MainWindow::~MainWindow()
@@ -52,12 +53,18 @@ void MainWindow::pause()
 
 void MainWindow::seekForward()
 {
-
+    if(player->isSeekable())
+    {
+        player->setPosition(player->position() + 500);
+    }
 }
 
 void MainWindow::seekBackward()
 {
-
+    if(player->isSeekable())
+    {
+        player->setPosition(player->position() - 500);
+    }
 }
 
 void MainWindow::next()
@@ -68,4 +75,20 @@ void MainWindow::next()
 void MainWindow::previous()
 {
 
+}
+
+void MainWindow::mute()
+{
+    if(audioOutput->isMuted())
+    {
+        audioOutput->setMuted(false);
+        ui->muteButton->setToolTip(tr("Mute"));
+        ui->muteButton->setIcon(QIcon::fromTheme("audio-volume-high"));
+    }
+    else
+    {
+        audioOutput->setMuted(true);
+        ui->muteButton->setToolTip(tr("Un mute"));
+        ui->muteButton->setIcon(QIcon::fromTheme("audio-volume-muted"));
+    }
 }

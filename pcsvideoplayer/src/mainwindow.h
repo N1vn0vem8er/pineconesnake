@@ -31,5 +31,6 @@ private slots:
     void seekBackward();
     void next();
     void previous();
+    void mute();
 };
 #endif // MAINWINDOW_H
