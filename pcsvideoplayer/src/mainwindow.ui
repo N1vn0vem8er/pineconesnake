@@ -50,7 +50,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="playPouseButton">
+       <widget class="QPushButton" name="playPauseButton">
         <property name="toolTip">
          <string>Play</string>
         </property>
@@ -110,6 +110,9 @@
       </item>
       <item>
        <widget class="QSlider" name="volumeSlider">
+        <property name="maximum">
+         <number>100</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
         </property>
