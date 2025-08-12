@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->playPauseButton, &QPushButton::clicked, this, [&]{if(player->isPlaying()) pause(); else play();});
     connect(ui->volumeSlider, &QSlider::sliderMoved, this, [&](int position){audioOutput->setVolume(static_cast<float>(position) / 100);});
     connect(ui->muteButton, &QPushButton::clicked, this, &MainWindow::mute);
+    connect(ui->seekForwardButton, &QPushButton::clicked, this, &MainWindow::seekForward);
+    connect(ui->seekBackwardButton, &QPushButton::clicked, this, &MainWindow::seekBackward);
 }
 
 MainWindow::~MainWindow()
@@ -55,7 +57,7 @@ void MainWindow::seekForward()
 {
     if(player->isSeekable())
     {
-        player->setPosition(player->position() + 500);
+        player->setPosition(player->position() + 5000);
     }
 }
 
@@ -63,7 +65,7 @@ void MainWindow::seekBackward()
 {
     if(player->isSeekable())
     {
-        player->setPosition(player->position() - 500);
+        player->setPosition(player->position() - 5000);
     }
 }
 
