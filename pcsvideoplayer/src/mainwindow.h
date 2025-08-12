@@ -22,6 +22,8 @@ private:
     Ui::MainWindow *ui;
     QMediaPlayer* player {nullptr};
     QAudioOutput* audioOutput {nullptr};
+    QIcon mediaPlayIcon {QIcon::fromTheme("media-playback-start")};
+    QIcon mediaPauseIcon {QIcon::fromTheme("media-playback-pause")};
 
 private slots:
     void openFile();

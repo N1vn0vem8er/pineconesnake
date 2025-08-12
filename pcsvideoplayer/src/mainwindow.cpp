@@ -25,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(player, &QMediaPlayer::durationChanged, ui->playingSlider, &QSlider::setMaximum);
     connect(ui->playingSlider, &QSlider::valueChanged, player, &QMediaPlayer::setPosition);
     connect(player, &QMediaPlayer::positionChanged, ui->playingSlider, &QSlider::setValue);
+    connect(ui->actionPlayPause, &QAction::triggered, this, [&]{if(player->isPlaying()) pause(); else play();});
+    connect(ui->actionSkip_forward, &QAction::triggered, this, &MainWindow::seekForward);
+    connect(ui->actionSkip_backward, &QAction::triggered, this, &MainWindow::seekBackward);
+    connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
+    connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
 }
 
 MainWindow::~MainWindow()
@@ -45,15 +50,19 @@ void MainWindow::openFile()
 void MainWindow::play()
 {
     player->play();
-    ui->playPauseButton->setIcon(QIcon::fromTheme("media-playback-pause"));
+    ui->playPauseButton->setIcon(mediaPauseIcon);
     ui->playPauseButton->setToolTip(tr("Pause"));
+    ui->actionPlayPause->setIcon(mediaPauseIcon);
+    ui->actionPlayPause->setText(tr("Pause"));
 }
 
 void MainWindow::pause()
 {
     player->pause();
-    ui->playPauseButton->setIcon(QIcon::fromTheme("media-playback-start"));
+    ui->playPauseButton->setIcon(mediaPlayIcon);
     ui->playPauseButton->setToolTip(tr("Play"));
+    ui->actionPlayPause->setIcon(mediaPlayIcon);
+    ui->actionPlayPause->setText(tr("Play"));
 }
 
 void MainWindow::seekForward()
