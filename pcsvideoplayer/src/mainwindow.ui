@@ -190,6 +190,9 @@
    <addaction name="menuAbout"/>
   </widget>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+   </property>
    <property name="text">
     <string>Open</string>
    </property>
@@ -288,11 +291,17 @@
    </property>
   </action>
   <action name="actionOpen_Url">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+   </property>
    <property name="text">
     <string>Open Url</string>
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>

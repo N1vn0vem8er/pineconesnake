@@ -3,6 +3,7 @@
 
 #include <QAudioOutput>
 #include <QFileDialog>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionMute, &QAction::triggered, this, &MainWindow::mute);
     connect(ui->actionHide_bottom_panel, &QAction::triggered, this, &MainWindow::hideShowBottomPanel);
     connect(ui->actionFull_screen, &QAction::triggered, this, &MainWindow::fullScreen);
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+    connect(ui->actionOpen_Url, &QAction::triggered, this, &MainWindow::openUrl);
 }
 
 MainWindow::~MainWindow()
@@ -50,6 +53,16 @@ void MainWindow::openFile()
     if(!path.isEmpty())
     {
         player->setSource(QUrl(path));
+        play();
+    }
+}
+
+void MainWindow::openUrl()
+{
+    const QString url = QInputDialog::getText(this, tr(""), tr("Input url"));
+    if(!url.isEmpty())
+    {
+        player->setSource(QUrl(url));
         play();
     }
 }

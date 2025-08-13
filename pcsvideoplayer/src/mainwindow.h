@@ -31,6 +31,7 @@ private:
 
 private slots:
     void openFile();
+    void openUrl();
     void play();
     void pause();
     void seekForward();
