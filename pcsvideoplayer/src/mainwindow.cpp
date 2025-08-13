@@ -30,6 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSkip_backward, &QAction::triggered, this, &MainWindow::seekBackward);
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
+    connect(ui->actionIncrease_volume, &QAction::triggered, this, &MainWindow::increaseVolume);
+    connect(ui->actionDecrease_volume, &QAction::triggered, this, &MainWindow::decreaseVolume);
+    connect(audioOutput, &QAudioOutput::volumeChanged, this, [&](float volume){ui->volumeSlider->setValue(volume * 100);});
+    connect(ui->actionMute, &QAction::triggered, this, &MainWindow::mute);
 }
 
 MainWindow::~MainWindow()
@@ -97,12 +101,26 @@ void MainWindow::mute()
     {
         audioOutput->setMuted(false);
         ui->muteButton->setToolTip(tr("Mute"));
-        ui->muteButton->setIcon(QIcon::fromTheme("audio-volume-high"));
+        ui->muteButton->setIcon(volumeHighIcon);
+        ui->actionMute->setText(tr("Mute"));
+        ui->actionMute->setIcon(volumeHighIcon);
     }
     else
     {
         audioOutput->setMuted(true);
         ui->muteButton->setToolTip(tr("Un mute"));
-        ui->muteButton->setIcon(QIcon::fromTheme("audio-volume-muted"));
+        ui->muteButton->setIcon(volumeMuteIcon);
+        ui->actionMute->setText(tr("Un mute"));
+        ui->actionMute->setIcon(volumeMuteIcon);
     }
+}
+
+void MainWindow::increaseVolume()
+{
+    audioOutput->setVolume(audioOutput->volume() + 0.1);
+}
+
+void MainWindow::decreaseVolume()
+{
+    audioOutput->setVolume(audioOutput->volume() - 0.1);
 }

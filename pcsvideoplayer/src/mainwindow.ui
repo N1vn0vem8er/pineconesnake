@@ -248,18 +248,36 @@
    </property>
   </action>
   <action name="actionMute">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::AudioVolumeHigh"/>
+   </property>
    <property name="text">
     <string>Mute</string>
    </property>
+   <property name="shortcut">
+    <string>M</string>
+   </property>
   </action>
   <action name="actionIncrease_volume">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::AudioVolumeMedium"/>
+   </property>
    <property name="text">
     <string>Increase volume</string>
    </property>
+   <property name="shortcut">
+    <string>0</string>
+   </property>
   </action>
   <action name="actionDecrease_volume">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::AudioVolumeLow"/>
+   </property>
    <property name="text">
     <string>Decrease volume</string>
+   </property>
+   <property name="shortcut">
+    <string>9</string>
    </property>
   </action>
   <action name="actionOpen_Url">

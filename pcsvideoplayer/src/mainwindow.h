@@ -24,6 +24,8 @@ private:
     QAudioOutput* audioOutput {nullptr};
     QIcon mediaPlayIcon {QIcon::fromTheme("media-playback-start")};
     QIcon mediaPauseIcon {QIcon::fromTheme("media-playback-pause")};
+    QIcon volumeHighIcon {QIcon::fromTheme("audio-volume-high")};
+    QIcon volumeMuteIcon {QIcon::fromTheme("audio-volume-muted")};
 
 private slots:
     void openFile();
@@ -34,5 +36,7 @@ private slots:
     void next();
     void previous();
     void mute();
+    void increaseVolume();
+    void decreaseVolume();
 };
 #endif // MAINWINDOW_H
