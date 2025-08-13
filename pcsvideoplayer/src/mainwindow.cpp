@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     player->setAudioOutput(audioOutput);
 
     ui->volumeSlider->setValue(audioOutput->volume());
+    oldWindowState = windowState();
 
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->playPauseButton, &QPushButton::clicked, this, [&]{if(player->isPlaying()) pause(); else play();});
@@ -35,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(audioOutput, &QAudioOutput::volumeChanged, this, [&](float volume){ui->volumeSlider->setValue(volume * 100);});
     connect(ui->actionMute, &QAction::triggered, this, &MainWindow::mute);
     connect(ui->actionHide_bottom_panel, &QAction::triggered, this, &MainWindow::hideShowBottomPanel);
+    connect(ui->actionFull_screen, &QAction::triggered, this, &MainWindow::fullScreen);
 }
 
 MainWindow::~MainWindow()
@@ -145,5 +147,18 @@ void MainWindow::hideShowBottomPanel()
         }
         ui->actionHide_bottom_panel->setText(tr("Hide bottom panel"));
         isBottomPanelVisible = true;
+    }
+}
+
+void MainWindow::fullScreen()
+{
+    if(windowState().testFlag(Qt::WindowFullScreen))
+    {
+        setWindowState(oldWindowState);
+    }
+    else
+    {
+        oldWindowState = windowState();
+        setWindowState(Qt::WindowFullScreen);
     }
 }

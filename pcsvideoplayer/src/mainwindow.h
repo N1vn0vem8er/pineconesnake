@@ -23,6 +23,7 @@ private:
     QMediaPlayer* player {nullptr};
     QAudioOutput* audioOutput {nullptr};
     bool isBottomPanelVisible {true};
+    QFlags<Qt::WindowState> oldWindowState;
     QIcon mediaPlayIcon {QIcon::fromTheme("media-playback-start")};
     QIcon mediaPauseIcon {QIcon::fromTheme("media-playback-pause")};
     QIcon volumeHighIcon {QIcon::fromTheme("audio-volume-high")};
@@ -40,5 +41,6 @@ private slots:
     void increaseVolume();
     void decreaseVolume();
     void hideShowBottomPanel();
+    void fullScreen();
 };
 #endif // MAINWINDOW_H
