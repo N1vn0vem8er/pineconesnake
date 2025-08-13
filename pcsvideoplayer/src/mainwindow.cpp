@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDecrease_volume, &QAction::triggered, this, &MainWindow::decreaseVolume);
     connect(audioOutput, &QAudioOutput::volumeChanged, this, [&](float volume){ui->volumeSlider->setValue(volume * 100);});
     connect(ui->actionMute, &QAction::triggered, this, &MainWindow::mute);
+    connect(ui->actionHide_bottom_panel, &QAction::triggered, this, &MainWindow::hideShowBottomPanel);
 }
 
 MainWindow::~MainWindow()
@@ -123,4 +124,26 @@ void MainWindow::increaseVolume()
 void MainWindow::decreaseVolume()
 {
     audioOutput->setVolume(audioOutput->volume() - 0.1);
+}
+
+void MainWindow::hideShowBottomPanel()
+{
+    if(isBottomPanelVisible)
+    {
+        for(int i = 0; i < ui->bottomLayout->count(); i++)
+        {
+            ui->bottomLayout->itemAt(i)->widget()->setVisible(false);
+        }
+        ui->actionHide_bottom_panel->setText(tr("Show bottom panel"));
+        isBottomPanelVisible = false;
+    }
+    else
+    {
+        for(int i = 0; i < ui->bottomLayout->count(); i++)
+        {
+            ui->bottomLayout->itemAt(i)->widget()->setVisible(true);
+        }
+        ui->actionHide_bottom_panel->setText(tr("Hide bottom panel"));
+        isBottomPanelVisible = true;
+    }
 }

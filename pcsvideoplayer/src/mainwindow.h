@@ -22,6 +22,7 @@ private:
     Ui::MainWindow *ui;
     QMediaPlayer* player {nullptr};
     QAudioOutput* audioOutput {nullptr};
+    bool isBottomPanelVisible {true};
     QIcon mediaPlayIcon {QIcon::fromTheme("media-playback-start")};
     QIcon mediaPauseIcon {QIcon::fromTheme("media-playback-pause")};
     QIcon volumeHighIcon {QIcon::fromTheme("audio-volume-high")};
@@ -38,5 +39,6 @@ private slots:
     void mute();
     void increaseVolume();
     void decreaseVolume();
+    void hideShowBottomPanel();
 };
 #endif // MAINWINDOW_H
