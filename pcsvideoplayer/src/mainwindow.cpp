@@ -1,10 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include <QAudioOutput>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTimer>
+#include <QMessageBox>
+
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -42,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_screen, &QAction::triggered, this, &MainWindow::fullScreen);
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->actionOpen_Url, &QAction::triggered, this, &MainWindow::openUrl);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_Video_Player, &QAction::triggered, this, &MainWindow::openAbout);
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&]{ui->playingSlider->setValue(player->position());});
     timer->setInterval(1000);
@@ -218,4 +224,18 @@ void MainWindow::fullScreen()
         oldWindowState = windowState();
         setWindowState(Qt::WindowFullScreen);
     }
+}
+
+void MainWindow::openAbout()
+{
+    QMessageBox::about(this, tr("About Application"), tr(R"(
+    <html>
+        <body>
+            <h2>Video Player</h2>
+            <p>PCS Video Player is a simple video player. It is a part of the <a href="%3">Pinecone Snake project</a>.</p>
+            <p>Version: %1</p>
+            <p>License: <a href="%2">GPL 3</a></p>
+        </body>
+    </html>
+    )").arg(VERSION, LICENSELINK, PROJECTLINK));
 }

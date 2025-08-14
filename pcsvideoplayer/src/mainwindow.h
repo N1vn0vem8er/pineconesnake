@@ -50,5 +50,6 @@ private slots:
     void decreaseVolume();
     void hideShowBottomPanel();
     void fullScreen();
+    void openAbout();
 };
 #endif // MAINWINDOW_H

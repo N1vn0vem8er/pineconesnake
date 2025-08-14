@@ -315,11 +315,17 @@
    </property>
   </action>
   <action name="actionAbout_PCS_Video_Player">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
    <property name="text">
     <string>About PCS Video Player</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
    <property name="text">
     <string>About Qt</string>
    </property>
