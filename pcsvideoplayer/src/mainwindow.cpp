@@ -68,6 +68,8 @@ void MainWindow::openUrl()
     if(!url.isEmpty())
     {
         player->setSource(QUrl(url));
+        timer->stop();
+        timer->start();
         play();
     }
 }
