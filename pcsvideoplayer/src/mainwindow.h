@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <qfileinfo.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,6 +30,11 @@ private:
     QIcon volumeHighIcon {QIcon::fromTheme("audio-volume-high")};
     QIcon volumeMuteIcon {QIcon::fromTheme("audio-volume-muted")};
     QTimer* timer {nullptr};
+    QString currentFile {""};
+
+private:
+    inline QFileInfoList getVideosInDir(const QString& path) const;
+    void playVideo(const QString &path);
 
 private slots:
     void openFile();

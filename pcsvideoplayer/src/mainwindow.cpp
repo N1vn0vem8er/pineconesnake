@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSkip_forward, &QAction::triggered, this, &MainWindow::seekForward);
     connect(ui->actionSkip_backward, &QAction::triggered, this, &MainWindow::seekBackward);
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
+    connect(ui->nextButton, &QPushButton::clicked, this, &MainWindow::next);
+    connect(ui->previousButton, &QPushButton::clicked, this, &MainWindow::previous);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
     connect(ui->actionIncrease_volume, &QAction::triggered, this, &MainWindow::increaseVolume);
     connect(ui->actionDecrease_volume, &QAction::triggered, this, &MainWindow::decreaseVolume);
@@ -50,15 +52,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+QFileInfoList MainWindow::getVideosInDir(const QString &path) const
+{
+    return QDir(path).entryInfoList({"*.mp4", "*.mkv"}, QDir::Files);
+}
+
+void MainWindow::playVideo(const QString& path)
+{
+    player->setSource(QUrl(path));
+    timer->stop();
+    timer->start();
+    currentFile = path;
+    play();
+}
+
 void MainWindow::openFile()
 {
     const QString path = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
     if(!path.isEmpty())
     {
-        player->setSource(QUrl(path));
-        timer->stop();
-        timer->start();
-        play();
+        playVideo(path);
     }
 }
 
@@ -67,10 +80,8 @@ void MainWindow::openUrl()
     const QString url = QInputDialog::getText(this, tr(""), tr("Input url"));
     if(!url.isEmpty())
     {
-        player->setSource(QUrl(url));
-        timer->stop();
-        timer->start();
-        play();
+        playVideo(url);
+        currentFile.clear();
     }
 }
 
@@ -110,12 +121,38 @@ void MainWindow::seekBackward()
 
 void MainWindow::next()
 {
-
+    if(currentFile.isEmpty())
+        return;
+    const auto files = getVideosInDir(QFileInfo(currentFile).absoluteDir().absolutePath());
+    int index = files.indexOf(QFileInfo(currentFile));
+    if(index < 0)
+        return;
+    if(index >= files.size() || index + 1 >= files.size())
+    {
+        playVideo(files[0].absoluteFilePath());
+    }
+    else
+    {
+        playVideo(files[index + 1].absoluteFilePath());
+    }
 }
 
 void MainWindow::previous()
 {
-
+    if(currentFile.isEmpty())
+        return;
+    const auto files = getVideosInDir(QFileInfo(currentFile).absoluteDir().absolutePath());
+    int index = files.indexOf(QFileInfo(currentFile));
+    if(index < 0)
+        return;
+    if(index == 0)
+    {
+        playVideo(files[files.length()-1].absoluteFilePath());
+    }
+    else
+    {
+        playVideo(files[index-1].absoluteFilePath());
+    }
 }
 
 void MainWindow::mute()
