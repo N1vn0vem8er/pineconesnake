@@ -28,6 +28,7 @@ private:
     QIcon mediaPauseIcon {QIcon::fromTheme("media-playback-pause")};
     QIcon volumeHighIcon {QIcon::fromTheme("audio-volume-high")};
     QIcon volumeMuteIcon {QIcon::fromTheme("audio-volume-muted")};
+    QTimer* timer {nullptr};
 
 private slots:
     void openFile();

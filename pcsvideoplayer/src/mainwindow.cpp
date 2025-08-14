@@ -4,6 +4,7 @@
 #include <QAudioOutput>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->seekBackwardButton, &QPushButton::clicked, this, &MainWindow::seekBackward);
     connect(player, &QMediaPlayer::durationChanged, ui->playingSlider, &QSlider::setMaximum);
     connect(ui->playingSlider, &QSlider::valueChanged, player, &QMediaPlayer::setPosition);
-    connect(player, &QMediaPlayer::positionChanged, ui->playingSlider, &QSlider::setValue);
     connect(ui->actionPlayPause, &QAction::triggered, this, [&]{if(player->isPlaying()) pause(); else play();});
     connect(ui->actionSkip_forward, &QAction::triggered, this, &MainWindow::seekForward);
     connect(ui->actionSkip_backward, &QAction::triggered, this, &MainWindow::seekBackward);
@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_screen, &QAction::triggered, this, &MainWindow::fullScreen);
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->actionOpen_Url, &QAction::triggered, this, &MainWindow::openUrl);
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, [&]{ui->playingSlider->setValue(player->position());});
+    timer->setInterval(1000);
 }
 
 MainWindow::~MainWindow()
@@ -53,6 +56,8 @@ void MainWindow::openFile()
     if(!path.isEmpty())
     {
         player->setSource(QUrl(path));
+        timer->stop();
+        timer->start();
         play();
     }
 }
