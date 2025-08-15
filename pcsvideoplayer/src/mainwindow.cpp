@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Video_Player, &QAction::triggered, this, &MainWindow::openAbout);
     connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::onMediaStatusChanged);
+    connect(ui->actionDisable, &QAction::triggered, this, [&]{if(player->activeSubtitleTrack() == -1){ui->actionDisable->setText(tr("Disable")); player->setActiveSubtitleTrack(1);;}
+                                                                else {ui->actionDisable->setText(tr("Enable")); player->setActiveSubtitleTrack(-1);}});
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&]{ui->playingSlider->setValue(player->position());});
     timer->setInterval(1000);
