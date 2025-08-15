@@ -35,6 +35,7 @@ private:
 private:
     inline QFileInfoList getVideosInDir(const QString& path) const;
     void playVideo(const QString &path);
+    void createSubtitlesMenu(const QList<QMediaMetaData>& subs);
 
 private slots:
     void openFile();
@@ -51,5 +52,6 @@ private slots:
     void hideShowBottomPanel();
     void fullScreen();
     void openAbout();
+    void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
 };
 #endif // MAINWINDOW_H

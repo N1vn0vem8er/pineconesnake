@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include <QTimer>
 #include <QMessageBox>
+#include <QMediaMetaData>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -48,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen_Url, &QAction::triggered, this, &MainWindow::openUrl);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Video_Player, &QAction::triggered, this, &MainWindow::openAbout);
+    connect(player, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::onMediaStatusChanged);
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [&]{ui->playingSlider->setValue(player->position());});
     timer->setInterval(1000);
@@ -70,6 +72,31 @@ void MainWindow::playVideo(const QString& path)
     timer->start();
     currentFile = path;
     play();
+}
+
+void MainWindow::createSubtitlesMenu(const QList<QMediaMetaData> &subs)
+{
+    ui->menuSub->clear();
+    int index = 0;
+    for(const auto& i : subs)
+    {
+        if (i.keys().contains(QMediaMetaData::Language))
+        {
+            QAction* action = new QAction(i.value(QMediaMetaData::Language).toLocale().nativeLanguageName(), ui->menuSub);
+            connect(action, &QAction::triggered, this, [this, index]{player->setActiveSubtitleTrack(index);});
+            index++;
+            ui->menuSub->addAction(action);
+        }
+    }
+    if(ui->menuSub->isEmpty())
+    {
+        ui->actionDisable->setEnabled(false);
+        ui->menuSub->addAction(new QAction(tr("No subtitles"), ui->menuSub));
+    }
+    else
+    {
+        ui->actionDisable->setEnabled(true);
+    }
 }
 
 void MainWindow::openFile()
@@ -238,4 +265,12 @@ void MainWindow::openAbout()
         </body>
     </html>
     )").arg(VERSION, LICENSELINK, PROJECTLINK));
+}
+
+void MainWindow::onMediaStatusChanged(QMediaPlayer::MediaStatus status)
+{
+    if(status == QMediaPlayer::LoadedMedia)
+    {
+        createSubtitlesMenu(player->subtitleTracks());
+    }
 }

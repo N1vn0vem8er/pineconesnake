@@ -156,23 +156,18 @@
     <addaction name="actionNext"/>
     <addaction name="actionPrevious"/>
    </widget>
-   <widget class="QMenu" name="menuVideo">
-    <property name="title">
-     <string>Video</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="menuSubtitles">
     <property name="title">
      <string>Subtitles</string>
     </property>
-    <widget class="QMenu" name="menuSubtitles_2">
+    <widget class="QMenu" name="menuSub">
      <property name="title">
       <string>Subtitles</string>
      </property>
      <addaction name="actionNo_subtitles"/>
     </widget>
     <addaction name="actionDisable"/>
-    <addaction name="menuSubtitles_2"/>
+    <addaction name="menuSub"/>
    </widget>
    <widget class="QMenu" name="menuSound">
     <property name="title">
@@ -192,7 +187,6 @@
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuPlayback"/>
-   <addaction name="menuVideo"/>
    <addaction name="menuSound"/>
    <addaction name="menuSubtitles"/>
    <addaction name="menuAbout"/>
@@ -336,6 +330,9 @@
    </property>
   </action>
   <action name="actionDisable">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Disable</string>
    </property>
