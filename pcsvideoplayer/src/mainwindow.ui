@@ -198,6 +198,9 @@
    <property name="text">
     <string>Open</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionFull_screen">
    <property name="icon">
@@ -299,6 +302,9 @@
    <property name="text">
     <string>Open Url</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
   </action>
   <action name="actionExit">
    <property name="icon">
@@ -306,6 +312,9 @@
    </property>
    <property name="text">
     <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="actionAbout_PCS_Video_Player">
