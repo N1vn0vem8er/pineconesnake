@@ -211,27 +211,38 @@ void ResourcesManager::savePlaylist(const Playlist &playlist)
 {
     if(getPlaylistByName(playlist.name).id != -1)
         throw std::invalid_argument("Playlist with that name already exists");
-    char* err;
-    char* query;
-    asprintf(&query, "INSERT INTO playlists (name) VALUES (\"%s\");", playlist.name.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+
+    sqlite3_stmt* stmt1;
+    const char* sql1 = "INSERT OR IGNORE INTO playlists (name) VALUES (?);";
+    if(sqlite3_prepare_v2(database, sql1, -1, &stmt1, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
-    }
-    delete[] query;
-    const int id = sqlite3_last_insert_rowid(database);
-    for(const auto& i : playlist.tracks)
-    {
-        asprintf(&query, "INSERT INTO playlists_tracks (playlist_id, track_id) VALUES (%i, %i);", id, i.id);
-        if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+        sqlite3_bind_text(stmt1, 1, playlist.name.toUtf8(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt1) != SQLITE_DONE)
         {
-            printf("%s", err);
-            sqlite3_free(err);
-            throw std::exception();
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt1);
+            return;
         }
-        delete[] query;
+        sqlite3_finalize(stmt1);
+    }
+    const int id = sqlite3_last_insert_rowid(database);
+    sqlite3_stmt* stmt2;
+    const char* sql2 = "INSERT OR IGNORE INTO playlists_tracks (playlist_id, track_id) VALUES (?, ?);";
+    if(sqlite3_prepare_v2(database, sql2, -1, &stmt2, nullptr) == SQLITE_OK)
+    {
+        for(const auto& i : std::as_const(playlist.tracks))
+        {
+            sqlite3_bind_int(stmt2, 1, id);
+            sqlite3_bind_int(stmt2, 2, i.id);
+            if(sqlite3_step(stmt2) != SQLITE_DONE)
+            {
+                qDebug() << sqlite3_errmsg(database);
+                sqlite3_finalize(stmt2);
+                return;
+            }
+            sqlite3_reset(stmt2);
+        }
+        sqlite3_finalize(stmt2);
     }
 }
 
@@ -278,6 +289,7 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
 Playlist ResourcesManager::getPlaylistById(const int id)
 {
     Playlist ret;
+    ret.id = -1;
     int pid = -1;
     QString name;
     sqlite3_stmt *stmt;
@@ -314,6 +326,7 @@ Playlist ResourcesManager::getPlaylistById(const int id)
 Playlist ResourcesManager::getPlaylistByName(const QString &name)
 {
     Playlist ret;
+    ret.id = -1;
     int id = -1;
     sqlite3_stmt *stmt;
     const char *sql = "SELECT * FROM playlists WHERE name = ?;";
