@@ -237,28 +237,41 @@ void ResourcesManager::savePlaylist(const Playlist &playlist)
 
 void ResourcesManager::modifyPlaylist(const Playlist &playlist)
 {
-    char* err;
-    char* query;
-    Playlist old = getPlaylistByName(playlist.name);
-    for(const auto& i : std::as_const(old.tracks))
+    sqlite3_stmt* delStmt;
+    sqlite3_stmt* insStmt;
+    const char* delQuery = "DELETE FROM playlists_tracks WHERE playlist_id = ? AND track_id = ?;";
+    if(sqlite3_prepare_v2(database, delQuery, -1, &delStmt, nullptr) == SQLITE_OK)
     {
-        if(std::find_if(playlist.tracks.begin(), playlist.tracks.end(), [&i](const Track& t){return t.id == i.id;}) == playlist.tracks.end())
+        Playlist old = getPlaylistByName(playlist.name);
+        for(const auto& i : std::as_const(old.tracks))
         {
-            asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i AND track_id = %i;", playlist.id, i.id);
-            if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+            if(std::find_if(playlist.tracks.begin(), playlist.tracks.end(), [&](const Track& t) { return t.id == i.id; }) == playlist.tracks.end())
             {
-                printf("%s", err);
-                sqlite3_free(err);
+                sqlite3_bind_int(delStmt, 1, playlist.id);
+                sqlite3_bind_int(delStmt, 2, i.id);
+                if(sqlite3_step(delStmt) != SQLITE_DONE)
+                {
+                    qDebug() << sqlite3_errmsg(database);
+                }
+                sqlite3_reset(delStmt);
             }
-            delete[] query;
         }
+        sqlite3_finalize(delStmt);
     }
-
-    for(const auto& i : playlist.tracks)
+    const char* insQuery = "INSERT OR IGNORE INTO playlists_tracks (playlist_id, track_id) VALUES (?, ?);";
+    if(sqlite3_prepare_v2(database, insQuery, -1, &insStmt, nullptr) == SQLITE_OK)
     {
-        asprintf(&query, "INSERT INTO playlists_tracks (playlist_id, track_id) VALUES (%i, %i);", playlist.id, i.id);
-        sqlite3_exec(database, query, callback, nullptr, nullptr);
-        delete[] query;
+        for(const auto& i : std::as_const(playlist.tracks))
+        {
+            sqlite3_bind_int(insStmt, 1, playlist.id);
+            sqlite3_bind_int(insStmt, 2, i.id);
+            if(sqlite3_step(insStmt) != SQLITE_DONE)
+            {
+                qDebug() << sqlite3_errmsg(database);
+            }
+            sqlite3_reset(insStmt);
+        }
+        sqlite3_finalize(insStmt);
     }
 }
 
