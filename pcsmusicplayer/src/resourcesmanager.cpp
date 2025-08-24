@@ -297,34 +297,36 @@ Playlist ResourcesManager::getPlaylistById(const int id)
 
 Playlist ResourcesManager::getPlaylistByName(const QString &name)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "SELECT * FROM playlists WHERE name = \'%s\';", name.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, &ret, nullptr) != SQLITE_OK)
+    Playlist ret;
+    int id = -1;
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM playlists WHERE name = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        delete[] query;
-        return Playlist(-1, "", {});
+        sqlite3_bind_text(stmt, 1, name.toUtf8(), -1, SQLITE_TRANSIENT);
+        if(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            id = sqlite3_column_int(stmt, 0);
+        }
+        sqlite3_finalize(stmt);
     }
-    delete[] query;
-    if(ret.empty()) return Playlist(-1, "", {});
-    const int pId = ret[0][0].toInt();
-    ret.clear();
-    asprintf(&query, "SELECT track_id FROM playlists_tracks WHERE playlist_id = %i;", pId);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    if(id != -1)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        const char *sql = "SELECT track_id FROM playlists_tracks WHERE playlist_id = ?;";
+        if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
+        {
+            sqlite3_bind_int(stmt, 1, id);
+            QList<Track> tracks;
+            while(sqlite3_step(stmt) == SQLITE_ROW)
+            {
+                tracks.append(getTrackById(sqlite3_column_int(stmt, 0)));
+            }
+            sqlite3_finalize(stmt);
+            ret = Playlist(id, name, tracks);
+        }
     }
-    delete[] query;
-    QList<Track> tracks;
-    std::vector<std::vector<QString>> retLoc;
-    for(const auto& i : ret)
-    {
-        tracks.append(getTrackById(i[0].toInt()));
-    }
-    return Playlist(pId, name, tracks);
+
+    return ret;
 }
 
 QList<Playlist> ResourcesManager::getPlaylists()
@@ -334,19 +336,23 @@ QList<Playlist> ResourcesManager::getPlaylists()
 
 Track ResourcesManager::getTrackById(int id)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "SELECT * FROM tracks WHERE id = %i;", id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    Track ret;
+    sqlite3_stmt* stmt;
+    const char* sql = "SELECT * FROM tracks WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        sqlite3_bind_int(stmt, 1, id);
+        if(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            ret = Track(sqlite3_column_int(stmt, 0), QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))),
+                         QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))),
+                         QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))),
+                         QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))),
+                        sqlite3_column_int(stmt, 5), sqlite3_column_int(stmt, 6),sqlite3_column_int(stmt, 7),sqlite3_column_int(stmt, 8));
+        }
+        sqlite3_finalize(stmt);
     }
-    delete[] query;
-    if(ret.empty()) return Track();
-    return Track(ret[0][0].toInt(), ret[0][2], ret[0][1], ret[0][3], ret[0][4], ret[0][5].toInt(), ret[0][6].toInt(), ret[0][7].toInt(), ret[0][8].toInt());
+    return ret;
 }
 
 QStringList ResourcesManager::getAllPlaylistNames()
@@ -441,16 +447,6 @@ int ResourcesManager::callback(void *data, int argc, char **argv, char **azColNa
 
 ResourcesManager* ResourcesManager::getInstance()
 {
-    if(instancePtr == nullptr)
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        if(instancePtr == nullptr)
-        {
-            instancePtr = new ResourcesManager();
-        }
-    }
-    return instancePtr;
+    static ResourcesManager instancePtr;
+    return &instancePtr;
 }
-
-ResourcesManager* ResourcesManager::instancePtr = nullptr;
-std::mutex ResourcesManager::mutex;
