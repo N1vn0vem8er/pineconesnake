@@ -264,35 +264,38 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
 
 Playlist ResourcesManager::getPlaylistById(const int id)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "SELECT * FROM playlists WHERE id = %i;", id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    Playlist ret;
+    int pid = -1;
+    QString name;
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM playlists WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        sqlite3_bind_int(stmt, 1, id);
+        if(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            pid = sqlite3_column_int(stmt, 0);
+            name = QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)));
+        }
+        sqlite3_finalize(stmt);
     }
-    delete[] query;
-    if(ret.empty()) return Playlist();
-    const int pId = ret[0][0].toInt();
-    const QString name = ret[0][1];
-    asprintf(&query, "SELECT track_id FROM playlists_tracks WHERE playlist_id = %i;", id);
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    if(pid != -1 && !name.isEmpty())
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        const char *sql = "SELECT track_id FROM playlists_tracks WHERE playlist_id = ?;";
+        if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
+        {
+            sqlite3_bind_int(stmt, 1, pid);
+            QList<Track> tracks;
+            while(sqlite3_step(stmt) == SQLITE_ROW)
+            {
+                tracks.append(getTrackById(sqlite3_column_int(stmt, 0)));
+            }
+            sqlite3_finalize(stmt);
+            ret = Playlist(pid, name, tracks);
+        }
     }
-    delete[] query;
-    QList<Track> tracks;
-    std::vector<std::vector<QString>> retLoc;
-    for(const auto& i : ret)
-    {
-        tracks.append(getTrackById(i[0].toInt()));
-    }
-    return Playlist(pId, name, tracks);
+
+    return ret;
 }
 
 Playlist ResourcesManager::getPlaylistByName(const QString &name)
