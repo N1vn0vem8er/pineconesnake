@@ -188,21 +188,22 @@ QList<Track> ResourcesManager::getAllTrackInAlbum(const QString &album)
 
 QList<Track> ResourcesManager::getAllTracksForArtist(const QString &artist)
 {
-    std::vector<std::vector<QString>> ret;
-    char* err;
-    char* query;
-    asprintf(&query, "SELECT * FROM tracks WHERE artist = \'%s\';", artist.toStdString().c_str());
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
-    {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
-    }
-    delete[] query;
     QList<Track> tracks;
-    for(const auto& i : ret)
+    sqlite3_stmt* stmt;
+    const char* sql = "SELECT * FROM tracks WHERE artist = ?";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        tracks.append(Track(i[0].toInt(), i[2], i[1], i[3], i[4], i[5].toInt(), i[6].toInt(), i[7].toInt(), i[8].toInt()));
+        sqlite3_bind_text(stmt, 1, artist.toUtf8(), -1, SQLITE_TRANSIENT);
+        while(sqlite3_step(stmt) == SQLITE_ROW)
+        {
+            tracks.append(Track(sqlite3_column_int(stmt, 0),
+                                QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))),
+                                QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1))),
+                                QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3))),
+                                QString::fromUtf8(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4))),
+                                sqlite3_column_int(stmt, 5), sqlite3_column_int(stmt, 6),sqlite3_column_int(stmt, 7),sqlite3_column_int(stmt, 8)));
+        }
+        sqlite3_finalize(stmt);
     }
     return tracks;
 }
