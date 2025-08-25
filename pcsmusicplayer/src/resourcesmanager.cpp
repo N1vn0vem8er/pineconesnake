@@ -470,15 +470,25 @@ void ResourcesManager::deletePlaylist(int id)
 
 void ResourcesManager::removeFromPlaylist(int playlistId, int trackId)
 {
-    char* err;
-    char* query;
-    asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i AND track_id = %i;", playlistId, trackId);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM playlists_tracks WHERE playlist_id = ? AND track_id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, playlistId);
+        sqlite3_bind_int(stmt, 2, trackId);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
     }
-    delete[] query;
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
+        return;
+    }
 }
 
 void ResourcesManager::clearDatabase()
