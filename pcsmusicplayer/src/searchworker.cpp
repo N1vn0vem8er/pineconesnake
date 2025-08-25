@@ -13,12 +13,12 @@ void SearchWorker::doWork(const QStringList &searchPaths, const QStringList &pat
     QList<Track> tracks;
     for(const auto& path : searchPaths)
     {
-        QProcess* process = new QProcess();
-        process->start("find", QStringList() << path << "-type" << "f" << "-name" << "*.mp3");
-        process->waitForStarted(-1);
-        process->waitForFinished(-1);
-        process->waitForReadyRead(-1);
-        QTextStream resoult(process->readAllStandardOutput());
+        QProcess process;
+        process.start("find", {path, "-type", "f", "-name", "*.mp3"});
+        process.waitForStarted(-1);
+        process.waitForFinished(-1);
+        process.waitForReadyRead(-1);
+        QTextStream resoult(process.readAllStandardOutput());
         while(!resoult.atEnd())
         {
             QString path = resoult.readLine();
@@ -32,7 +32,6 @@ void SearchWorker::doWork(const QStringList &searchPaths, const QStringList &pat
                 }
             }
         }
-        delete process;
     }
     emit resultReady(tracks);
     emit finished();

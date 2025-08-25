@@ -1,7 +1,5 @@
 #include "resourcesmanager.h"
-
 #include "settings.h"
-
 #include <QDir>
 #include <QString>
 
