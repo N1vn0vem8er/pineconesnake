@@ -282,6 +282,8 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
                 if(sqlite3_step(delStmt) != SQLITE_DONE)
                 {
                     qDebug() << sqlite3_errmsg(database);
+                    sqlite3_finalize(delStmt);
+                    return;
                 }
                 sqlite3_reset(delStmt);
             }
@@ -298,6 +300,8 @@ void ResourcesManager::modifyPlaylist(const Playlist &playlist)
             if(sqlite3_step(insStmt) != SQLITE_DONE)
             {
                 qDebug() << sqlite3_errmsg(database);
+                sqlite3_finalize(insStmt);
+                return;
             }
             sqlite3_reset(insStmt);
         }
@@ -426,22 +430,42 @@ QStringList ResourcesManager::getAllPlaylistNames()
 
 void ResourcesManager::deletePlaylist(int id)
 {
-    char* err;
-    char* query;
-    asprintf(&query, "DELETE FROM playlists_tracks WHERE playlist_id = %i;", id);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt1;
+    const char* sql1 = "DELETE FROM playlists_tracks WHERE playlist_id = ?;";
+    if(sqlite3_prepare_v2(database, sql1, -1, &stmt1, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt1, 1, id);
+        if(sqlite3_step(stmt1) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt1);
+            return;
+        }
+        sqlite3_finalize(stmt1);
     }
-    delete[] query;
-    asprintf(&query, "DELETE FROM playlists WHERE id = %i;", id);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    else
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        qDebug() << sqlite3_errmsg(database);
+        return;
     }
-    delete[] query;
+    sqlite3_stmt* stmt2;
+    const char* sql2 = "DELETE FROM playlists WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql2, -1, &stmt2, nullptr) == SQLITE_OK)
+    {
+        sqlite3_bind_int(stmt2, 1, id);
+        if(sqlite3_step(stmt2) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt2);
+            return;
+        }
+        sqlite3_finalize(stmt2);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
+        return;
+    }
 }
 
 void ResourcesManager::removeFromPlaylist(int playlistId, int trackId)
