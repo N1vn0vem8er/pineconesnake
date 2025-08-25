@@ -112,18 +112,27 @@ QList<Track> ResourcesManager::getAllTracks()
 
 void ResourcesManager::modifyTrack(Track track)
 {
-    char* err;
-    char* query;
-    asprintf(&query, "UPDATE tracks SET path = \"%s\", title = \"%s\", artist = \"%s\", album = \"%s\", number = %i, length = %i, played = %i, favorite = %b WHERE id = %i;", track.path.toStdString().c_str(),
-             track.title.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), track.artist.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(),
-             track.album.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), track.number, track.length, track.played, track.favorite, track.id);
-    if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE tracks SET path = ?, title = ?, artist = ?, album = ?, number = ?, length = ?, played = ?, favorite = ? WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        sqlite3_bind_text(stmt, 1, track.path.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, track.title.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, track.artist.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, track.album.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 5, track.number);
+        sqlite3_bind_int(stmt, 6, track.length);
+        sqlite3_bind_int(stmt, 7, track.played);
+        sqlite3_bind_int(stmt, 8, track.favorite);
+        sqlite3_bind_int(stmt, 9, track.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
     }
-    delete[] query;
 }
 
 QList<Track> ResourcesManager::getAllFavoriteTracks()
