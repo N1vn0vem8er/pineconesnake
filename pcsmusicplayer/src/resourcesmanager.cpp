@@ -48,20 +48,29 @@ void ResourcesManager::close()
 
 void ResourcesManager::saveTracks(QList<Track> tracks)
 {
-    for(auto& i : tracks)
+    sqlite3_stmt* stmt;
+    const char* sql = "INSERT OR IGNORE INTO tracks (path, title, artist, album, number, length, played, favorite) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        char* err;
-        char* query;
-        asprintf(&query, "INSERT INTO tracks (path, title, artist, album, number, length, played, favorite) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", %i, %i, %i, %b);", i.path.toStdString().c_str(),
-                 i.title.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), i.artist.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(),
-                 i.album.replace("\"", "\\\"").replace("\'", "\\\'").toStdString().c_str(), i.number, i.length, i.played, i.favorite);
-        if(sqlite3_exec(database, query, callback, nullptr, &err) != SQLITE_OK)
+        for(const auto& i : tracks)
         {
-            printf("%s", err);
-            sqlite3_free(err);
-            throw std::exception();
+            sqlite3_bind_text(stmt, 1, i.path.toUtf8(), -1, SQLITE_TRANSIENT);
+            sqlite3_bind_text(stmt, 2, i.title.toUtf8(), -1, SQLITE_TRANSIENT);
+            sqlite3_bind_text(stmt, 3, i.artist.toUtf8(), -1, SQLITE_TRANSIENT);
+            sqlite3_bind_text(stmt, 4, i.album.toUtf8(), -1, SQLITE_TRANSIENT);
+            sqlite3_bind_int(stmt, 5, i.number);
+            sqlite3_bind_int(stmt, 6, i.length);
+            sqlite3_bind_int(stmt, 7, i.played);
+            sqlite3_bind_int(stmt, 8, i.favorite);
+            if(sqlite3_step(stmt) != SQLITE_DONE)
+            {
+                qDebug() << sqlite3_errmsg(database);
+                sqlite3_finalize(stmt);
+                return;
+            }
+            sqlite3_reset(stmt);
         }
-        delete[] query;
+        sqlite3_finalize(stmt);
     }
 }
 
