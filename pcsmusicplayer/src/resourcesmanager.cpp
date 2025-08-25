@@ -80,9 +80,8 @@ QStringList ResourcesManager::getAllPaths()
     char* err;
     if(sqlite3_exec(database, "SELECT path FROM tracks", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
     QStringList paths;
     for(const auto& i : ret)
@@ -98,9 +97,8 @@ QList<Track> ResourcesManager::getAllTracks()
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM tracks", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
     QList<Track> tracks;
     for(const auto& i : ret)
@@ -141,9 +139,8 @@ QList<Track> ResourcesManager::getAllFavoriteTracks()
     char* err;
     if(sqlite3_exec(database, "SELECT * FROM tracks WHERE favorite = true;", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
     QList<Track> tracks;
     for(const auto& i : ret)
@@ -159,9 +156,8 @@ QList<QString> ResourcesManager::getAllAlbums()
     char* err;
     if(sqlite3_exec(database, "SELECT DISTINCT album FROM tracks;", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
     QStringList names;
     std::for_each(ret.begin(), ret.end(), [&names](std::vector<QString> i){names.append(i[0]);});
@@ -174,9 +170,8 @@ QList<QString> ResourcesManager::getAllArtists()
     char* err;
     if(sqlite3_exec(database, "SELECT DISTINCT artist FROM tracks;", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
     QStringList names;
     std::for_each(ret.begin(), ret.end(), [&names](std::vector<QString> i){names.append(i[0]);});
@@ -411,15 +406,11 @@ QStringList ResourcesManager::getAllPlaylistNames()
 {
     std::vector<std::vector<QString>> ret;
     char* err;
-    char* query;
-    asprintf(&query, "SELECT DISTINCT name FROM playlists;");
-    if(sqlite3_exec(database, query, callback, &ret, &err) != SQLITE_OK)
+    if(sqlite3_exec(database, "SELECT DISTINCT name FROM playlists;", callback, &ret, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
-        throw std::exception();
     }
-    delete[] query;
     QStringList names;
     for(const auto& i : ret)
     {
@@ -496,17 +487,17 @@ void ResourcesManager::clearDatabase()
     char* err;
     if(sqlite3_exec(database, "DELETE FROM playlists_tracks;", callback, nullptr, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
     }
     if(sqlite3_exec(database, "DELETE FROM playlists;", callback, nullptr, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
     }
     if(sqlite3_exec(database, "DELETE FROM tracks;", callback, nullptr, &err) != SQLITE_OK)
     {
-        printf("%s", err);
+        qDebug() << err;
         sqlite3_free(err);
     }
 }
