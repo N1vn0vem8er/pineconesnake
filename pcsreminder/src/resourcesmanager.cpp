@@ -124,23 +124,43 @@ QList<EventManager::Event> ResourcesManager::getAllEvents()
 
 void ResourcesManager::deleteRepeating(const EventManager::RepeatedEvent &event)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* err;
-    if(sqlite3_exec(database, QString("DELETE FROM repeated WHERE id = %1;").arg(QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM repeated WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, event.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
     }
 }
 
 void ResourcesManager::deleteEvent(const EventManager::Event &event)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* err;
-    if(sqlite3_exec(database, QString("DELETE FROM events WHERE id = %1;").arg(QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "DELETE FROM events WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_int(stmt, 1, event.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
     }
 }
 
