@@ -166,25 +166,53 @@ void ResourcesManager::deleteEvent(const EventManager::Event &event)
 
 void ResourcesManager::modifyEvent(const EventManager::Event &event)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* err;
-    if(sqlite3_exec(database, QString("UPDATE events SET title = \'%1\', content = \'%2\', date = \'%3\', enabled = %4, type = %5 WHERE id = %6;")
-                                   .arg(event.title, event.content, event.date, QString::number(event.enabled), QString::number(event.type), QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE events SET title = ?, content = ?, date = ?, enabled = ?, type = ? WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, event.title.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, event.content.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, event.date.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 4, event.enabled);
+        sqlite3_bind_int(stmt, 5, event.type);
+        sqlite3_bind_int(stmt, 6, event.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
     }
 }
 
 void ResourcesManager::modifyRepeating(const EventManager::RepeatedEvent &event)
 {
-    std::vector<std::vector<QString>> msgs;
-    char* err;
-    if(sqlite3_exec(database, QString("UPDATE repeated SET title = \'%1\', content = \'%2\', everySeconds = %3, enabled = %4, type = %5 WHERE id = %6;")
-                                   .arg(event.title, event.content, QString::number(event.everySeconds), QString::number(event.enabled), QString::number(event.type), QString::number(event.id)).toStdString().c_str(), callback, &msgs, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "UPDATE repeated SET title = ?, content = ?, everySeconds = ?, enabled = ?, type = ? WHERE id = ?;";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
+        sqlite3_bind_text(stmt, 1, event.title.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, event.content.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 3, event.everySeconds);
+        sqlite3_bind_int(stmt, 4, event.enabled);
+        sqlite3_bind_int(stmt, 5, event.type);
+        sqlite3_bind_int(stmt, 6, event.id);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
     }
 }
 
