@@ -40,13 +40,26 @@ void ResourcesManager::close()
 
 void ResourcesManager::saveEvent(const EventManager::Event &event)
 {
-    char* err;
-    if(sqlite3_exec(database, QString("INSERT INTO events (title, content, date, enabled, type) VALUES ('%1', '%2', '%3', %4, %5);").
-                               arg(event.title, event.content, event.date, QString::number(event.enabled), QString::number(event.type)).toStdString().c_str(), callback, nullptr, &err) != SQLITE_OK)
+    sqlite3_stmt* stmt;
+    const char* sql = "INSERT INTO events (title, content, date, enabled, type) VALUES (?, ?, ?, ?, ?);";
+    if(sqlite3_prepare_v2(database, sql, -1, &stmt, nullptr) == SQLITE_OK)
     {
-        printf("%s", err);
-        sqlite3_free(err);
-        throw std::exception();
+        sqlite3_bind_text(stmt, 1, event.title.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, event.content.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 3, event.date.toUtf8(), -1, SQLITE_TRANSIENT);
+        sqlite3_bind_int(stmt, 4, event.enabled);
+        sqlite3_bind_int(stmt, 5, event.type);
+        if(sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            qDebug() << sqlite3_errmsg(database);
+            sqlite3_finalize(stmt);
+            return;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        qDebug() << sqlite3_errmsg(database);
     }
 }
 
