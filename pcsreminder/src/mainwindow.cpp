@@ -6,8 +6,9 @@
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 
-#define VERSION "0.0.1"
+#define VERSION "0.0.2"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -87,6 +88,13 @@ void MainWindow::addRepeating(const EventManager::RepeatedEvent &event)
 
 void MainWindow::openAbout()
 {
-    QMessageBox::about(this, tr("About PCS Reminder"), tr("<html><body><h3>PCS Reminder</h3><p>PCS Reminder is a simple reminder application. It is a part of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>")
-                                                           .arg(VERSION, LICENSELINK));
+    QMessageBox::about(this, tr("About PCS Reminder"), tr(R"(
+<html>
+    <body>
+        <h3>PCS Reminder</h3>
+        <p>PCS Reminder is a simple reminder application. It is a part of the <a href="%1">Pinecone Snake</a> project.</p>
+        <p>Version: %2</p>
+        <p>License: <a href="%3">GPL 3</a></p>
+    </body>
+</html>)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }

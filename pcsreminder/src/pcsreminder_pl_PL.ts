@@ -288,7 +288,7 @@
         <translation>Wyłącz</translation>
     </message>
     <message>
-        <location filename="fullscreendialog.cpp" line="37"/>
+        <location filename="fullscreendialog.cpp" line="39"/>
         <source>Every %1 seconds</source>
         <translation>Co %1 sekund</translation>
     </message>
@@ -327,13 +327,13 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="104"/>
-        <location filename="mainwindow.cpp" line="90"/>
+        <location filename="mainwindow.cpp" line="91"/>
         <source>About PCS Reminder</source>
         <translation>O PCS Reminder</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="112"/>
-        <location filename="mainwindow.cpp" line="18"/>
+        <location filename="mainwindow.cpp" line="19"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
@@ -368,9 +368,29 @@
         <translation>Zamknij okno</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="90"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Reminder&lt;/h3&gt;&lt;p&gt;PCS Reminder is a simple reminder application. It is a part of Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Reminder&lt;/h3&gt;&lt;p&gt;PCS Reminder jest prostą aplikacją do wyświetlania przypomnień. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Reminder&lt;/h3&gt;&lt;p&gt;PCS Reminder jest prostą aplikacją do wyświetlania przypomnień. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="91"/>
+        <source>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h3&gt;PCS Reminder&lt;/h3&gt;
+        &lt;p&gt;PCS Reminder is a simple reminder application. It is a part of the &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt; project.&lt;/p&gt;
+        &lt;p&gt;Version: %2&lt;/p&gt;
+        &lt;p&gt;License: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</source>
+        <translation>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h3&gt;PCS Reminder&lt;/h3&gt;
+        &lt;p&gt;PCS Reminder jest prostą aplikacją do wyświetlania przypomnień. Jest częścią projektu &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Wersja: %2&lt;/p&gt;
+        &lt;p&gt;Licencja: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
