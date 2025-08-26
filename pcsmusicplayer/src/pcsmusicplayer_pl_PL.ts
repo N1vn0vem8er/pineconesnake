@@ -175,23 +175,43 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="131"/>
-        <location filename="mainwindow.cpp" line="92"/>
+        <location filename="mainwindow.cpp" line="98"/>
         <source>About PCS Music Player</source>
         <translation>A PCS Music Player</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="139"/>
-        <location filename="mainwindow.cpp" line="43"/>
+        <location filename="mainwindow.cpp" line="45"/>
         <source>About Qt</source>
         <translation>O Qt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="92"/>
         <source>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Music Player&lt;/h3&gt;&lt;p&gt;PCS Music Player is a simple music player. It is a part of the Pinecone Snake project.&lt;/p&gt;&lt;p&gt;Version: %1&lt;/p&gt;&lt;p&gt;License: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Music Player&lt;/h3&gt;&lt;p&gt;PCS Music Player jest prostym odtwarzaczem muzyki. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="vanished">&lt;html&gt;&lt;body&gt;&lt;h3&gt;PCS Music Player&lt;/h3&gt;&lt;p&gt;PCS Music Player jest prostym odtwarzaczem muzyki. Jest częścią projektu Pinecone Snake.&lt;/p&gt;&lt;p&gt;Wersja: %1&lt;/p&gt;&lt;p&gt;Licencja: &lt;a href=&quot;%2&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="98"/>
+        <source>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h3&gt;PCS Music Player&lt;/h3&gt;
+        &lt;p&gt;PCS Music Player is a simple music player. It is a part of the &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt; project.&lt;/p&gt;
+        &lt;p&gt;Version: %2&lt;/p&gt;
+        &lt;p&gt;License: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</source>
+        <translation>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h3&gt;PCS Music Player&lt;/h3&gt;
+        &lt;p&gt;PCS Music Player jest prostym odtwarzaczem muzyki. Jest częścią projektu &lt;a href=&quot;%1&quot;&gt;Pinecone Snake&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;Wersja: %2&lt;/p&gt;
+        &lt;p&gt;Licencja: &lt;a href=&quot;%3&quot;&gt;GPL 3&lt;/a&gt;&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="111"/>
         <source>Open track</source>
         <translation>Otwórz Utwór</translation>
     </message>
@@ -332,12 +352,12 @@
         <translation>Powrót</translation>
     </message>
     <message>
-        <location filename="playlistswidget.cpp" line="92"/>
+        <location filename="playlistswidget.cpp" line="97"/>
         <source>Are you sure?</source>
         <translation>Czy na pewno?</translation>
     </message>
     <message>
-        <location filename="playlistswidget.cpp" line="92"/>
+        <location filename="playlistswidget.cpp" line="97"/>
         <source>Delete playlist?</source>
         <translation>Usunąć playlistę?</translation>
     </message>
