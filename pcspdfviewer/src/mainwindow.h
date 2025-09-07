@@ -27,5 +27,7 @@ private slots:
     void tabChanged();
     void open();
     void bookmarkSelected(const QModelIndex& index);
+    void zoomIn();
+    void zoomOut();
 };
 #endif // MAINWINDOW_H

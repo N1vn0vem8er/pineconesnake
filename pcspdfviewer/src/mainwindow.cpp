@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
     connect(ui->treeView, &QAbstractItemView::activated, this, &MainWindow::bookmarkSelected);
     connect(ui->actionShow_bookmarks, &QAction::triggered, this, [&](bool checked){ui->treeView->setVisible(checked);});
+    connect(ui->actionZoom_in, &QAction::triggered, this, &MainWindow::zoomIn);
+    connect(ui->actionZoom_out, &QAction::triggered, this, &MainWindow::zoomOut);
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShow_bookmarks->setChecked(true);
 }
@@ -84,5 +86,23 @@ void MainWindow::bookmarkSelected(const QModelIndex &index)
     if(pdfView)
     {
         pdfView->pageNavigator()->jump(index.data(int(QPdfBookmarkModel::Role::Page)).toInt(), {}, index.data(int(QPdfBookmarkModel::Role::Level)).toInt());
+    }
+}
+
+void MainWindow::zoomIn()
+{
+    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+        pdfView->setZoomFactor(pdfView->zoomFactor() + 0.1);
+    }
+}
+
+void MainWindow::zoomOut()
+{
+    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+        pdfView->setZoomFactor(pdfView->zoomFactor() - 0.1);
     }
 }
