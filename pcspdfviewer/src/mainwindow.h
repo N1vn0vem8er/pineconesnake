@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <qboxlayout.h>
+#include <qpdfview.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +24,8 @@ private:
 
 private slots:
     void closeTab(int index);
+    void tabChanged();
     void open();
+    void bookmarkSelected(const QModelIndex& index);
 };
 #endif // MAINWINDOW_H

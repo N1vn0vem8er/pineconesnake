@@ -2,8 +2,10 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
+#include <QPdfBookmarkModel>
 #include <QPdfDocument>
 #include <QPdfView>
+#include <qpdfpagenavigator.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,11 +18,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0)closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, [&]{for(int i=ui->tabWidget->count()-1; i >= 0;--i)if(i != ui->tabWidget->currentIndex())closeTab(i);});
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
+    connect(ui->treeView, &QAbstractItemView::activated, this, &MainWindow::bookmarkSelected);
     ui->splitter->setStretchFactor(1, 1);
 }
 
 MainWindow::~MainWindow()
 {
+    while(ui->tabWidget->count() > 0)closeTab(ui->tabWidget->currentIndex());
     delete ui;
 }
 
@@ -39,6 +44,19 @@ void MainWindow::closeTab(int index)
     }
 }
 
+void MainWindow::tabChanged()
+{
+    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+        if(ui->treeView->model())
+            ui->treeView->model()->deleteLater();
+        QPdfBookmarkModel* bookmarkModel = new QPdfBookmarkModel(ui->treeView);
+        bookmarkModel->setDocument(pdfView->document());
+        ui->treeView->setModel(bookmarkModel);
+    }
+}
+
 void MainWindow::open()
 {
     const QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open"), QDir::homePath(), "*.pdf");
@@ -50,7 +68,19 @@ void MainWindow::open()
             QPdfDocument* document = new QPdfDocument(pdfView);
             document->load(path);
             pdfView->setDocument(document);
+            pdfView->setPageMode(QPdfView::PageMode::MultiPage);
             ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
         }
+    }
+}
+
+void MainWindow::bookmarkSelected(const QModelIndex &index)
+{
+    if(!index.isValid())
+        return;
+    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+        pdfView->pageNavigator()->jump(index.data(int(QPdfBookmarkModel::Role::Page)).toInt(), {}, index.data(int(QPdfBookmarkModel::Role::Level)).toInt());
     }
 }
