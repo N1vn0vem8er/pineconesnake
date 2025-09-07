@@ -20,7 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
     connect(ui->treeView, &QAbstractItemView::activated, this, &MainWindow::bookmarkSelected);
+    connect(ui->actionShow_bookmarks, &QAction::triggered, this, [&](bool checked){ui->treeView->setVisible(checked);});
     ui->splitter->setStretchFactor(1, 1);
+    ui->actionShow_bookmarks->setChecked(true);
 }
 
 MainWindow::~MainWindow()
