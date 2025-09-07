@@ -19,5 +19,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void closeTab(int index);
+    void open();
 };
 #endif // MAINWINDOW_H
