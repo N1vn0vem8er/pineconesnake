@@ -11,6 +11,7 @@ qt_add_executable(pcspdfviewer
     src/mainwindow.cpp
     src/mainwindow.h
     src/mainwindow.ui
+    src/pdfview.h src/pdfview.cpp
 )
 
 include_directories(

@@ -1,10 +1,11 @@
 #include "mainwindow.h"
+#include "pdfview.h"
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
 #include <QPdfBookmarkModel>
 #include <QPdfDocument>
-#include <QPdfView>
+#include "pdfview.h"
 #include <qpdfpagenavigator.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -39,7 +40,7 @@ void MainWindow::closeTab(int index)
     if(widget)
     {
         ui->tabWidget->removeTab(index);
-        QPdfView* pdfView = qobject_cast<QPdfView*>(widget);
+        PdfView* pdfView = qobject_cast<PdfView*>(widget);
         if(pdfView)
         {
             pdfView->document()->close();
@@ -50,7 +51,7 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::tabChanged()
 {
-    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
     if(pdfView)
     {
         if(ui->treeView->model())
@@ -68,11 +69,12 @@ void MainWindow::open()
     {
         for(const QString& path : paths)
         {
-            QPdfView* pdfView = new QPdfView(ui->tabWidget);
+            PdfView* pdfView = new PdfView(ui->tabWidget);
+            connect(pdfView, &PdfView::zoomFactorChanged, this, &MainWindow::zoomChanged);
             QPdfDocument* document = new QPdfDocument(pdfView);
             document->load(path);
             pdfView->setDocument(document);
-            pdfView->setPageMode(QPdfView::PageMode::MultiPage);
+            pdfView->setPageMode(PdfView::PageMode::MultiPage);
             ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
         }
     }
@@ -82,7 +84,7 @@ void MainWindow::bookmarkSelected(const QModelIndex &index)
 {
     if(!index.isValid())
         return;
-    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
     if(pdfView)
     {
         pdfView->pageNavigator()->jump(index.data(int(QPdfBookmarkModel::Role::Page)).toInt(), {}, index.data(int(QPdfBookmarkModel::Role::Level)).toInt());
@@ -91,7 +93,7 @@ void MainWindow::bookmarkSelected(const QModelIndex &index)
 
 void MainWindow::zoomIn()
 {
-    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
     if(pdfView)
     {
         pdfView->setZoomFactor(pdfView->zoomFactor() + 0.1);
@@ -100,9 +102,14 @@ void MainWindow::zoomIn()
 
 void MainWindow::zoomOut()
 {
-    QPdfView* pdfView = qobject_cast<QPdfView*>(ui->tabWidget->currentWidget());
-    if(pdfView)
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView && pdfView->zoomFactor() - 0.1 > 0)
     {
         pdfView->setZoomFactor(pdfView->zoomFactor() - 0.1);
     }
+}
+
+void MainWindow::zoomChanged(qreal zoom)
+{
+    ui->statusbar->showMessage(tr("Zoom Factor: %1").arg(zoom), 500);
 }

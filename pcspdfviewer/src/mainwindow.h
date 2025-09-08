@@ -29,5 +29,6 @@ private slots:
     void bookmarkSelected(const QModelIndex& index);
     void zoomIn();
     void zoomOut();
+    void zoomChanged(qreal zoom);
 };
 #endif // MAINWINDOW_H
