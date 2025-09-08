@@ -34,8 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionZoom_in, &QAction::triggered, this, &MainWindow::zoomIn);
     connect(ui->actionZoom_out, &QAction::triggered, this, &MainWindow::zoomOut);
     connect(pageSelector, &QPdfPageSelector::currentPageChanged, this, &MainWindow::pageSelected);
+    connect(ui->thumbnailsView, &QListView::clicked, this, [&](const QModelIndex& index){pageSelected(index.row());});
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShowSidePanel->setChecked(true);
+    ui->thumbnailsView->setStyleSheet("background-color: white; color: black;");
 }
 
 MainWindow::~MainWindow()
@@ -76,6 +78,7 @@ void MainWindow::tabChanged()
         bookmarkModel->setDocument(pdfView->document());
         ui->navigationTreeView->setModel(bookmarkModel);
         pageSelector->setDocument(pdfView->document());
+        ui->thumbnailsView->setModel(pdfView->document()->pageModel());
     }
 }
 
