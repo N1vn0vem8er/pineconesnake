@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QLabel>
 #include <QMainWindow>
 #include <QPdfPageSelector>
 #include <QSpinBox>
@@ -25,7 +26,8 @@ public:
 private:
     Ui::MainWindow *ui;
     QPdfPageSelector* pageSelector {nullptr};
-    QPushButton* openButton = {nullptr};
+    QPushButton* openButton {nullptr};
+    QLabel* openedFileLabel {nullptr};
 
 private slots:
     void closeTab(int index);

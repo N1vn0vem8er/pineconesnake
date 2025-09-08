@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     pageSelector = new QPdfPageSelector(ui->toolBar);
     ui->toolBar->addWidget(pageSelector);
 
+    openedFileLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(openedFileLabel);
+
     connect(openButton, &QPushButton::clicked, this, &MainWindow::open);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
@@ -26,13 +29,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, [&]{for(int i=ui->tabWidget->count()-1; i >= 0;--i)if(i != ui->tabWidget->currentIndex())closeTab(i);});
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
-    connect(ui->treeView, &QAbstractItemView::activated, this, &MainWindow::bookmarkSelected);
-    connect(ui->actionShow_bookmarks, &QAction::triggered, this, [&](bool checked){ui->treeView->setVisible(checked);});
+    connect(ui->navigationTreeView, &QAbstractItemView::activated, this, &MainWindow::bookmarkSelected);
+    connect(ui->actionShowSidePanel, &QAction::triggered, this, [&](bool checked){ui->sideTabWidget->setVisible(checked);});
     connect(ui->actionZoom_in, &QAction::triggered, this, &MainWindow::zoomIn);
     connect(ui->actionZoom_out, &QAction::triggered, this, &MainWindow::zoomOut);
     connect(pageSelector, &QPdfPageSelector::currentPageChanged, this, &MainWindow::pageSelected);
     ui->splitter->setStretchFactor(1, 1);
-    ui->actionShow_bookmarks->setChecked(true);
+    ui->actionShowSidePanel->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -60,17 +63,18 @@ void MainWindow::tabChanged()
 {
     if(ui->tabWidget->count() == 0)
     {
-        if(ui->treeView->model())
-            ui->treeView->model()->deleteLater();
+        if(ui->navigationTreeView->model())
+            ui->navigationTreeView->model()->deleteLater();
+        openedFileLabel->clear();
     }
     PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
     if(pdfView)
     {
-        if(ui->treeView->model())
-            ui->treeView->model()->deleteLater();
-        QPdfBookmarkModel* bookmarkModel = new QPdfBookmarkModel(ui->treeView);
+        if(ui->navigationTreeView->model())
+            ui->navigationTreeView->model()->deleteLater();
+        QPdfBookmarkModel* bookmarkModel = new QPdfBookmarkModel(ui->navigationTreeView);
         bookmarkModel->setDocument(pdfView->document());
-        ui->treeView->setModel(bookmarkModel);
+        ui->navigationTreeView->setModel(bookmarkModel);
         pageSelector->setDocument(pdfView->document());
     }
 }

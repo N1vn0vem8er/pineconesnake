@@ -23,7 +23,26 @@
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
-      <widget class="QTreeView" name="treeView"/>
+      <widget class="QTabWidget" name="sideTabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab1">
+        <attribute name="title">
+         <string>Bookmarks</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QTreeView" name="navigationTreeView"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab2">
+        <attribute name="title">
+         <string>Pages</string>
+        </attribute>
+       </widget>
+      </widget>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
         <number>-1</number>
@@ -59,7 +78,7 @@
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionShow_bookmarks"/>
+    <addaction name="actionShowSidePanel"/>
     <addaction name="separator"/>
     <addaction name="actionZoom_in"/>
     <addaction name="actionZoom_out"/>
@@ -137,12 +156,12 @@
     <string>About Qt</string>
    </property>
   </action>
-  <action name="actionShow_bookmarks">
+  <action name="actionShowSidePanel">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show bookmarks</string>
+    <string>Show side panel</string>
    </property>
   </action>
   <action name="actionZoom_in">
