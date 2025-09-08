@@ -5,6 +5,7 @@
 #include <QPdfPageSelector>
 #include <QSpinBox>
 #include <qboxlayout.h>
+#include <qdialog.h>
 #include <qpdfview.h>
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +25,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QPdfPageSelector* pageSelector {nullptr};
+    QPushButton* openButton = {nullptr};
 
 private slots:
     void closeTab(int index);

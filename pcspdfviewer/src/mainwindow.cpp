@@ -5,15 +5,20 @@
 #include <QPdfBookmarkModel>
 #include <QPdfDocument>
 #include <qpdfpagenavigator.h>
+#include <QSpacerItem>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    openButton = new QPushButton(tr("Open"), ui->toolBar);
+    ui->toolBar->addWidget(openButton);
     pageSelector = new QPdfPageSelector(ui->toolBar);
     ui->toolBar->addWidget(pageSelector);
 
+    connect(openButton, &QPushButton::clicked, this, &MainWindow::open);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
@@ -53,6 +58,11 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::tabChanged()
 {
+    if(ui->tabWidget->count() == 0)
+    {
+        if(ui->treeView->model())
+            ui->treeView->model()->deleteLater();
+    }
     PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
     if(pdfView)
     {
