@@ -28,6 +28,8 @@ private:
     QPdfPageSelector* pageSelector {nullptr};
     QPushButton* openButton {nullptr};
     QLabel* openedFileLabel {nullptr};
+    QPushButton* nextPageButton {nullptr};
+    QPushButton* previousPageButton {nullptr};
 
 private slots:
     void closeTab(int index);

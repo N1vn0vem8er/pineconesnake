@@ -14,13 +14,23 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     openButton = new QPushButton(tr("Open"), ui->toolBar);
+    nextPageButton = new QPushButton(ui->toolBar);
+    nextPageButton->setIcon(QIcon::fromTheme("go-next"));
+    nextPageButton->setToolTip(tr("Next"));
+    previousPageButton = new QPushButton(ui->toolBar);
+    previousPageButton->setIcon(QIcon::fromTheme("go-previous"));
+    previousPageButton->setToolTip(tr("Previous"));
     ui->toolBar->addWidget(openButton);
+    ui->toolBar->addWidget(previousPageButton);
+    ui->toolBar->addWidget(nextPageButton);
     pageSelector = new QPdfPageSelector(ui->toolBar);
     ui->toolBar->addWidget(pageSelector);
 
     openedFileLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(openedFileLabel);
 
+    connect(nextPageButton, &QPushButton::clicked, this, [&]{pageSelector->setCurrentPage(pageSelector->currentPage() + 1);});
+    connect(previousPageButton, &QPushButton::clicked, this, [&]{pageSelector->setCurrentPage(pageSelector->currentPage() - 1);});
     connect(openButton, &QPushButton::clicked, this, &MainWindow::open);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
