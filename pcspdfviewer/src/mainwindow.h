@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPdfPageSelector>
+#include <QSpinBox>
 #include <qboxlayout.h>
 #include <qpdfview.h>
 
@@ -21,6 +23,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QPdfPageSelector* pageSelector {nullptr};
 
 private slots:
     void closeTab(int index);
@@ -30,5 +33,6 @@ private slots:
     void zoomIn();
     void zoomOut();
     void zoomChanged(qreal zoom);
+    void pageSelected(int index);
 };
 #endif // MAINWINDOW_H

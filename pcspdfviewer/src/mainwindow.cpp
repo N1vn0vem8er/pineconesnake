@@ -1,11 +1,9 @@
 #include "mainwindow.h"
 #include "pdfview.h"
 #include "ui_mainwindow.h"
-
 #include <QFileDialog>
 #include <QPdfBookmarkModel>
 #include <QPdfDocument>
-#include "pdfview.h"
 #include <qpdfpagenavigator.h>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -13,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    pageSelector = new QPdfPageSelector(ui->toolBar);
+    ui->toolBar->addWidget(pageSelector);
+
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
@@ -24,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShow_bookmarks, &QAction::triggered, this, [&](bool checked){ui->treeView->setVisible(checked);});
     connect(ui->actionZoom_in, &QAction::triggered, this, &MainWindow::zoomIn);
     connect(ui->actionZoom_out, &QAction::triggered, this, &MainWindow::zoomOut);
+    connect(pageSelector, &QPdfPageSelector::currentPageChanged, this, &MainWindow::pageSelected);
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShow_bookmarks->setChecked(true);
 }
@@ -59,6 +61,7 @@ void MainWindow::tabChanged()
         QPdfBookmarkModel* bookmarkModel = new QPdfBookmarkModel(ui->treeView);
         bookmarkModel->setDocument(pdfView->document());
         ui->treeView->setModel(bookmarkModel);
+        pageSelector->setDocument(pdfView->document());
     }
 }
 
@@ -73,9 +76,11 @@ void MainWindow::open()
             connect(pdfView, &PdfView::zoomFactorChanged, this, &MainWindow::zoomChanged);
             QPdfDocument* document = new QPdfDocument(pdfView);
             document->load(path);
+            pageSelector->setDocument(document);
             pdfView->setDocument(document);
             pdfView->setPageMode(PdfView::PageMode::MultiPage);
             ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
+            connect(pdfView->pageNavigator(), &QPdfPageNavigator::currentPageChanged, pageSelector, &QPdfPageSelector::setCurrentPage);
         }
     }
 }
@@ -112,4 +117,14 @@ void MainWindow::zoomOut()
 void MainWindow::zoomChanged(qreal zoom)
 {
     ui->statusbar->showMessage(tr("Zoom Factor: %1").arg(zoom), 500);
+}
+
+void MainWindow::pageSelected(int index)
+{
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+        auto nav = pdfView->pageNavigator();
+        nav->jump(index, {}, nav->currentZoom());
+    }
 }
