@@ -9,6 +9,11 @@
 #include <QSpacerItem>
 #include <QPushButton>
 #include <QPdfSearchModel>
+#include <QMessageBox>
+
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -53,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->thumbnailsView, &QListView::clicked, this, [&](const QModelIndex& index){pageSelected(index.row());});
     connect(ui->searchLineEdit, &QLineEdit::textChanged, this, [&](const QString& text){searchModel->setSearchString(text);});
     connect(ui->actionFind, &QAction::triggered, this, [&]{ui->searchLineEdit->setVisible(!ui->searchLineEdit->isVisible());});
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_PdfViewer, &QAction::triggered, this, &MainWindow::openAbout);
     ui->searchLineEdit->setVisible(false);
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShowSidePanel->setChecked(true);
@@ -192,4 +199,18 @@ void MainWindow::rotateUpsideDown()
     {
 
     }
+}
+
+void MainWindow::openAbout()
+{
+    QMessageBox::about(this, tr("About PCS Pdf Viewer"),
+                       tr(R"(
+    <html>
+        <body>
+            <h3>Pdf Viewer</h3>
+            <p>PCS Pdf Viewer is a pdf viewer. Is is a part of <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
+        </body>
+    </html>)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }

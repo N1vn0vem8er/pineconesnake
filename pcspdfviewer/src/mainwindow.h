@@ -44,5 +44,6 @@ private slots:
     void rotateLeft();
     void rotateRight();
     void rotateUpsideDown();
+    void openAbout();
 };
 #endif // MAINWINDOW_H
