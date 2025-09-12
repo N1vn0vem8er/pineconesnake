@@ -10,6 +10,7 @@
 #include <QPushButton>
 #include <QPdfSearchModel>
 #include <QMessageBox>
+#include <QSettings>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -20,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcspdfviewer");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     openButton = new QPushButton(tr("Open"), ui->toolBar);
     nextPageButton = new QPushButton(ui->toolBar);
     nextPageButton->setIcon(QIcon::fromTheme("go-next"));
@@ -68,6 +72,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcspdfviewer");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     while(ui->tabWidget->count() > 0)closeTab(ui->tabWidget->currentIndex());
     delete ui;
 }
