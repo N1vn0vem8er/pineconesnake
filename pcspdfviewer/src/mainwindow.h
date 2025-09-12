@@ -26,6 +26,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QPdfPageSelector* pageSelector {nullptr};
+    QPdfSearchModel* searchModel {nullptr};
     QPushButton* openButton {nullptr};
     QLabel* openedFileLabel {nullptr};
     QPushButton* nextPageButton {nullptr};
@@ -40,5 +41,8 @@ private slots:
     void zoomOut();
     void zoomChanged(qreal zoom);
     void pageSelected(int index);
+    void rotateLeft();
+    void rotateRight();
+    void rotateUpsideDown();
 };
 #endif // MAINWINDOW_H

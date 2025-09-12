@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "pdfview.h"
+#include "searchresultdelegate.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QPdfBookmarkModel>
@@ -7,6 +8,7 @@
 #include <qpdfpagenavigator.h>
 #include <QSpacerItem>
 #include <QPushButton>
+#include <QPdfSearchModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->toolBar->addWidget(nextPageButton);
     pageSelector = new QPdfPageSelector(ui->toolBar);
     ui->toolBar->addWidget(pageSelector);
+
+    searchModel = new QPdfSearchModel(this);
+    ui->searchResultsView->setModel(searchModel);
+    ui->searchResultsView->setItemDelegate(new SearchResultDelegate(ui->searchResultsView));
 
     openedFileLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(openedFileLabel);
@@ -45,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionZoom_out, &QAction::triggered, this, &MainWindow::zoomOut);
     connect(pageSelector, &QPdfPageSelector::currentPageChanged, this, &MainWindow::pageSelected);
     connect(ui->thumbnailsView, &QListView::clicked, this, [&](const QModelIndex& index){pageSelected(index.row());});
+    connect(ui->searchLineEdit, &QLineEdit::textChanged, this, [&](const QString& text){searchModel->setSearchString(text);});
+    connect(ui->actionFind, &QAction::triggered, this, [&]{ui->searchLineEdit->setVisible(!ui->searchLineEdit->isVisible());});
+    ui->searchLineEdit->setVisible(false);
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShowSidePanel->setChecked(true);
     ui->thumbnailsView->setStyleSheet("background-color: white; color: black;");
@@ -89,6 +98,7 @@ void MainWindow::tabChanged()
         ui->navigationTreeView->setModel(bookmarkModel);
         pageSelector->setDocument(pdfView->document());
         ui->thumbnailsView->setModel(pdfView->document()->pageModel());
+        searchModel->setDocument(pdfView->document());
     }
 }
 
@@ -108,6 +118,7 @@ void MainWindow::open()
             pdfView->setPageMode(PdfView::PageMode::MultiPage);
             ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
             connect(pdfView->pageNavigator(), &QPdfPageNavigator::currentPageChanged, pageSelector, &QPdfPageSelector::setCurrentPage);
+            pdfView->setSearchModel(searchModel);
         }
     }
 }
@@ -153,5 +164,32 @@ void MainWindow::pageSelected(int index)
     {
         auto nav = pdfView->pageNavigator();
         nav->jump(index, {}, nav->currentZoom());
+    }
+}
+
+void MainWindow::rotateLeft()
+{
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+
+    }
+}
+
+void MainWindow::rotateRight()
+{
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+
+    }
+}
+
+void MainWindow::rotateUpsideDown()
+{
+    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
+    if(pdfView)
+    {
+
     }
 }
