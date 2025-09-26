@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <QScrollBar>
+#include <QSettings>
 
 #define VERSION "1.0.3"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcscontenttracker");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::addNewItem);
     connect(ui->currentButton, &QPushButton::clicked, this, &MainWindow::displayCurrent);
     connect(ui->finishedButton, &QPushButton::clicked, this, &MainWindow::displayFinished);
@@ -50,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcscontenttracker");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
