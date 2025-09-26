@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 #include <QThread>
 #include <taglib/fileref.h>
 
@@ -19,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    Settings s;
+    QSettings settings(s.settingsFileName);
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     ui->splitter->setStretchFactor(1, 1);
     startMusicSearch();
     connect(qApp, &QApplication::aboutToQuit, this, []{ResourcesManager::getInstance()->close();});
@@ -49,12 +54,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->albumsTab, &AlbumsWidget::makeFavorite, this, &MainWindow::makeFavorite);
     connect(ui->filesTab, &FilesWidget::addToPlaylist, ui->playlistWidget, &PlaylistWidget::addTrack);
     connect(ui->filesTab, &FilesWidget::play, ui->playingWidget, &PlayingWidget::play);
-    Settings s;
     s.loadSettings();
 }
 
 MainWindow::~MainWindow()
 {
+    QSettings settings(Settings().settingsFileName);
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
