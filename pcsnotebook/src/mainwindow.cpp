@@ -11,6 +11,7 @@
 #include <QLineEdit>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QSettings>
 
 #define VERSION "1.0.1"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcsnotebook");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::addNewNote);
     connect(ui->allButton, &QPushButton::clicked, this, &MainWindow::showAllNotes);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
@@ -57,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcsnotebook");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
