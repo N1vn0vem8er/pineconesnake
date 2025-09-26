@@ -8,6 +8,7 @@
 #include "settingswidget.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
+#include <QSettings>
 #include <QStyleFactory>
 
 #define VERSION "1.0.3"
@@ -19,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings(Settings().settingsFileName);
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->homeButton, &QPushButton::pressed, this, &MainWindow::addNewHomeWidget);
     connect(ui->saveMessageButton, &QPushButton::pressed, this, [this]{addTab(new SaveMessageWidget(this), tr("Save Message"));});
     connect(ui->browseMessagesButton, &QPushButton::pressed, this, [this]{addTab(new BrowseMessagesWidget(this), tr("Messages"));});
@@ -40,6 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings(Settings().settingsFileName);
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
