@@ -15,6 +15,7 @@
 #include <qmimedata.h>
 #include <qprocess.h>
 #include <qpushbutton.h>
+#include <qsettings.h>
 #include <qthread.h>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -30,7 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    Settings().load();
+    Settings s;
+    QSettings settings(s.settingsPath);
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    s.load();
 
     startGettingMimeData();
     setAcceptDrops(true);
@@ -114,6 +119,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings(Settings().settingsPath);
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
