@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QMediaMetaData>
+#include <QSettings>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -16,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcsvideoplayer");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     player = new QMediaPlayer(this);
     audioOutput = new QAudioOutput(this);
     player->setVideoOutput(ui->videoWidget);
@@ -59,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcsvideoplayer");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
