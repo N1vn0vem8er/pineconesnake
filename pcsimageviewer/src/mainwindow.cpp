@@ -5,10 +5,9 @@
 #include "src/dialogs/propertiesdialog.h"
 #include "src/imageview.h"
 #include "ui_mainwindow.h"
-
 #include <QFileDialog>
 #include <QMessageBox>
-
+#include <QSettings>
 
 #define VERSION "1.0.2"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -18,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow){
     ui->setupUi(this);
+    QSettings settings("pcsimageviewer");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openImage);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
@@ -49,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow(){
+    QSettings settings("pcsimageviewer");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
