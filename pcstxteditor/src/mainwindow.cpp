@@ -11,6 +11,7 @@
 
 #define VERSION "1.0.3"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -110,6 +111,7 @@ void MainWindow::tabChanged(const int index)
     if(editor)
     {
         pathLabel->setText(editor->getPath());
+        fontSizeChanged(editor->font().pointSize());
     }
     else
     {
@@ -150,7 +152,15 @@ void MainWindow::save()
 
 void MainWindow::displayAboutDialog()
 {
-    QMessageBox::about(this, tr("About TxtEditor"), QString(tr("<html><body><h3>About TxtEditor</h3><p>PCS TxtEditor is a basic text files editor. It is a part of Pinecone Snake project.</p><p>Version: %1</p><p>License: <a href=\"%2\">GPL 3</a></p></body></html>").arg(VERSION).arg(LICENSELINK).toStdString().c_str()));
+    QMessageBox::about(this, tr("About TxtEditor"), tr(R"(
+    <html>
+        <body>
+            <h3>About TxtEditor</h3>
+            <p>PCS TxtEditor is a basic text files editor. It is a part of <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
+        </body>
+    </html>)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
 
 void MainWindow::copy()
