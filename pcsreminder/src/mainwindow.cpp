@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "eventwidget.h"
 #include <QMessageBox>
+#include <QSettings>
 #include "repeatedeventwidget.h"
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
@@ -15,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcsreminder");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->addReminderButton, &QPushButton::clicked, this, &MainWindow::addReminderPressed);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [this]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Reminder, &QAction::triggered, this, &MainWindow::openAbout);
@@ -25,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcsreminder");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
