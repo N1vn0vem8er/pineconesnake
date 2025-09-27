@@ -90,6 +90,24 @@ void TextEditor::updateLineNumber(const QRect &rect, int dy)
         updateLineNumberWidth(0);
 }
 
+void TextEditor::wheelEvent(QWheelEvent *event)
+{
+    if(event->modifiers() == Qt::ControlModifier)
+    {
+        if(event->angleDelta().y() > 0)
+        {
+            increaseFontSize();
+        }
+        else
+        {
+            decreaseFontSize();
+        }
+        event->accept();
+    }
+    else
+        QPlainTextEdit::wheelEvent(event);
+}
+
 void TextEditor::resizeEvent(QResizeEvent *event)
 {
     QPlainTextEdit::resizeEvent(event);
@@ -135,6 +153,30 @@ void TextEditor::clearSearchFormatting()
 {
     highlighter->setPattern("");
     highlighter->rehighlight();
+}
+
+void TextEditor::increaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() + 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::decreaseFontSize()
+{
+    QFont font = this->font();
+    font.setPointSize(font.pointSize() - 1);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
+}
+
+void TextEditor::setFontSize(int size)
+{
+    QFont font = this->font();
+    font.setPointSize(size);
+    setFont(font);
+    emit fontSizeChanged(font.pointSize());
 }
 
 bool TextEditor::getSaved() const

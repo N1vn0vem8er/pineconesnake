@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 private slots:
     void addTab(QWidget* widget, const QString& name);
     void openFileDialog();
@@ -30,15 +31,22 @@ private slots:
     void selectAll();
     void cut();
     void paste();
-    void setFontSize(int size);
     void undo();
     void redo();
     void showSearch();
     void find(const QString& text);
     void replace(const QString& find, const QString& replace);
+    void fontSizeChanged(int size);
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFontSize();
+    void setFont();
+    void resetFontSize();
+
 private:
     Ui::MainWindow *ui;
-    QLabel* pathLabel = nullptr;
+    QLabel* pathLabel {nullptr};
+    int defaultFontSize {10};
     void openFile(const QString &path);
     void saveFile(const QString& path, const QString& text);
     void openSaveWarningDialog(const QString path);

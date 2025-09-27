@@ -62,37 +62,13 @@
     <property name="title">
      <string>&amp;View</string>
     </property>
-    <widget class="QMenu" name="menu_Font_Size">
-     <property name="title">
-      <string>&amp;Font Size</string>
-     </property>
-     <addaction name="action2"/>
-     <addaction name="action4"/>
-     <addaction name="action6"/>
-     <addaction name="action8"/>
-     <addaction name="action10"/>
-     <addaction name="action11"/>
-     <addaction name="action12"/>
-     <addaction name="action13"/>
-     <addaction name="action14"/>
-     <addaction name="action16"/>
-     <addaction name="action18"/>
-     <addaction name="action20"/>
-     <addaction name="action22"/>
-     <addaction name="action24"/>
-     <addaction name="action26"/>
-     <addaction name="action28"/>
-     <addaction name="action30"/>
-     <addaction name="action34"/>
-     <addaction name="action38"/>
-     <addaction name="action42"/>
-     <addaction name="action48"/>
-     <addaction name="action50"/>
-     <addaction name="action60"/>
-     <addaction name="action70"/>
-     <addaction name="action72"/>
-    </widget>
-    <addaction name="menu_Font_Size"/>
+    <addaction name="actionIncrease_Font_Size"/>
+    <addaction name="actionDecrease_Font_Size"/>
+    <addaction name="actionSet_Font_Size"/>
+    <addaction name="actionSet_Font"/>
+    <addaction name="actionReset_Font_Size"/>
+    <addaction name="separator"/>
+    <addaction name="actionFull_Screen"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -396,6 +372,36 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionIncrease_Font_Size">
+   <property name="text">
+    <string>Increase Font Size</string>
+   </property>
+  </action>
+  <action name="actionDecrease_Font_Size">
+   <property name="text">
+    <string>Decrease Font Size</string>
+   </property>
+  </action>
+  <action name="actionSet_Font_Size">
+   <property name="text">
+    <string>Set Font Size</string>
+   </property>
+  </action>
+  <action name="actionSet_Font">
+   <property name="text">
+    <string>Set Font</string>
+   </property>
+  </action>
+  <action name="actionReset_Font_Size">
+   <property name="text">
+    <string>Reset Font Size</string>
+   </property>
+  </action>
+  <action name="actionFull_Screen">
+   <property name="text">
+    <string>Full Screen</string>
    </property>
   </action>
  </widget>

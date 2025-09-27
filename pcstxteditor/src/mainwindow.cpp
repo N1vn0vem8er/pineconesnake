@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QMessageBox>
 #include <QSettings>
+#include <QInputDialog>
+#include <QFontDialog>
 
 #define VERSION "1.0.3"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -18,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings settings("pcstxteditor");
     restoreState(settings.value("state").toByteArray());
     restoreGeometry(settings.value("geometry").toByteArray());
+    defaultFontSize = settings.value("defaultFontSize", 10).toInt();
     connect(ui->actionOpen_File, &QAction::triggered, this, &MainWindow::openFileDialog);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
@@ -35,32 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFind_Replace, &QAction::triggered, this, &MainWindow::showSearch);
     connect(ui->searchWidget, static_cast<void (SearchWidget::*)(const QString&)>(&SearchWidget::find), this, &MainWindow::find);
     connect(ui->searchWidget, static_cast<void (SearchWidget::*)(const QString&, const QString&)>(&SearchWidget::replace), this, &MainWindow::replace);
-    connect(ui->action2, &QAction::triggered, this, [this]{setFontSize(2);});
-    connect(ui->action4, &QAction::triggered, this, [this]{setFontSize(4);});
-    connect(ui->action6, &QAction::triggered, this, [this]{setFontSize(6);});
-    connect(ui->action8, &QAction::triggered, this, [this]{setFontSize(8);});
-    connect(ui->action10, &QAction::triggered, this, [this]{setFontSize(10);});
-    connect(ui->action11, &QAction::triggered, this, [this]{setFontSize(11);});
-    connect(ui->action12, &QAction::triggered, this, [this]{setFontSize(12);});
-    connect(ui->action13, &QAction::triggered, this, [this]{setFontSize(13);});
-    connect(ui->action14, &QAction::triggered, this, [this]{setFontSize(14);});
-    connect(ui->action16, &QAction::triggered, this, [this]{setFontSize(16);});
-    connect(ui->action18, &QAction::triggered, this, [this]{setFontSize(18);});
-    connect(ui->action20, &QAction::triggered, this, [this]{setFontSize(20);});
-    connect(ui->action22, &QAction::triggered, this, [this]{setFontSize(22);});
-    connect(ui->action24, &QAction::triggered, this, [this]{setFontSize(24);});
-    connect(ui->action26, &QAction::triggered, this, [this]{setFontSize(26);});
-    connect(ui->action28, &QAction::triggered, this, [this]{setFontSize(28);});
-    connect(ui->action30, &QAction::triggered, this, [this]{setFontSize(30);});
-    connect(ui->action34, &QAction::triggered, this, [this]{setFontSize(34);});
-    connect(ui->action38, &QAction::triggered, this, [this]{setFontSize(38);});
-    connect(ui->action42, &QAction::triggered, this, [this]{setFontSize(42);});
-    connect(ui->action48, &QAction::triggered, this, [this]{setFontSize(48);});
-    connect(ui->action50, &QAction::triggered, this, [this]{setFontSize(50);});
-    connect(ui->action60, &QAction::triggered, this, [this]{setFontSize(60);});
-    connect(ui->action70, &QAction::triggered, this, [this]{setFontSize(70);});
-    connect(ui->action72, &QAction::triggered, this, [this]{setFontSize(72);});
-
+    connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
+    connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
+    connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
+    connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
+    connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::setFont);
 
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addWidget(pathLabel);
@@ -82,6 +64,7 @@ MainWindow::~MainWindow()
     QSettings settings("pcstxteditor");
     settings.setValue("state", saveState());
     settings.setValue("geometry", saveGeometry());
+    settings.setValue("defaultFontSize", defaultFontSize);
     delete ui;
 }
 
@@ -99,7 +82,9 @@ void MainWindow::openFileDialog()
 
 void MainWindow::openNewFile()
 {
-    TextEditor* editor = new TextEditor(this);
+    TextEditor* editor = new TextEditor(ui->tabWidget);
+    editor->setFontSize(defaultFontSize);
+    connect(editor, &TextEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
     editor->setName(tr("New File"));
     addTab(editor, tr("New File"));
 }
@@ -107,9 +92,9 @@ void MainWindow::openNewFile()
 void MainWindow::closeTab(const int index)
 {
     QWidget* widget = ui->tabWidget->widget(index);
-    if(widget != nullptr)
+    if(widget)
     {
-        TextEditor* editor = dynamic_cast<TextEditor*>(widget);
+        TextEditor* editor = qobject_cast<TextEditor*>(widget);
         if(editor!=nullptr && !editor->isSaved())
         {
             openSaveWarningDialog(editor->getName());
@@ -121,8 +106,8 @@ void MainWindow::closeTab(const int index)
 
 void MainWindow::tabChanged(const int index)
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->widget(index));
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->widget(index));
+    if(editor)
     {
         pathLabel->setText(editor->getPath());
     }
@@ -134,8 +119,8 @@ void MainWindow::tabChanged(const int index)
 
 void MainWindow::saveAs()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         const QString path = QFileDialog::getSaveFileName(this, tr("Save File As"), QDir::homePath());
         if(!path.isEmpty())
@@ -148,8 +133,8 @@ void MainWindow::saveAs()
 
 void MainWindow::save()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         if(editor->getPath().isEmpty())
         {
@@ -170,8 +155,8 @@ void MainWindow::displayAboutDialog()
 
 void MainWindow::copy()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->copy();
     }
@@ -179,8 +164,8 @@ void MainWindow::copy()
 
 void MainWindow::selectAll()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->selectAll();
     }
@@ -188,8 +173,8 @@ void MainWindow::selectAll()
 
 void MainWindow::cut()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->cut();
     }
@@ -197,26 +182,17 @@ void MainWindow::cut()
 
 void MainWindow::paste()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->paste();
     }
 }
 
-void MainWindow::setFontSize(int size)
-{
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
-    {
-        editor->setFont(QFont(editor->font().family(), size));
-    }
-}
-
 void MainWindow::undo()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->undo();
     }
@@ -224,8 +200,8 @@ void MainWindow::undo()
 
 void MainWindow::redo()
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->redo();
     }
@@ -236,8 +212,8 @@ void MainWindow::showSearch()
     ui->searchWidget->setVisible(!ui->searchWidget->isVisible());
     for(int i = 0;i < ui->tabWidget->count(); i++)
     {
-        TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->widget(i));
-        if(editor != nullptr)
+        TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->widget(i));
+        if(editor)
         {
             editor->clearSearchFormatting();
         }
@@ -246,8 +222,8 @@ void MainWindow::showSearch()
 
 void MainWindow::find(const QString &text)
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->find(text);
     }
@@ -255,35 +231,88 @@ void MainWindow::find(const QString &text)
 
 void MainWindow::replace(const QString &find, const QString &replace)
 {
-    TextEditor* editor = dynamic_cast<TextEditor*>(ui->tabWidget->currentWidget());
-    if(editor != nullptr)
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
     {
         editor->replace(find, replace);
     }
 }
 
+void MainWindow::fontSizeChanged(int size)
+{
+    defaultFontSize = size;
+    ui->statusbar->showMessage(tr("Font size: %1").arg(size), 3000);
+}
+
+void MainWindow::increaseFontSize()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->increaseFontSize();
+}
+
+void MainWindow::decreaseFontSize()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->decreaseFontSize();
+}
+
+void MainWindow::setFontSize()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        bool ok;
+        int size = QInputDialog::getInt(this, tr("Set font size"), tr("Font size"), editor->font().pointSize(), 1, 255, 1, &ok);
+        if(ok)
+            editor->setFontSize(size);
+    }
+}
+
+void MainWindow::setFont()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        bool ok;
+        const QFont font = QFontDialog::getFont(&ok, editor->font(), this);
+        if(ok)
+        {
+            defaultFontSize = font.pointSize();
+            editor->setFont(font);
+        }
+    }
+}
+
+void MainWindow::resetFontSize()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->setFontSize(10);
+}
+
 void MainWindow::openFile(const QString& path)
 {
-    if(QFileInfo(path).exists())
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QFile file(path);
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        if(file.isOpen())
-        {
-            QString content = file.readAll();
-            addTab(new TextEditor(content, path), QFileInfo(file).fileName());
-            ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
-            pathLabel->setText(path);
-            file.close();
-        }
+        TextEditor* editor = new TextEditor(ui->tabWidget);
+        connect(editor, &TextEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
+        editor->setFontSize(defaultFontSize);
+        editor->setPlainText(file.readAll());
+        file.close();
+        editor->setPath(path);
+        addTab(editor, QFileInfo(file).fileName());
+        ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
+        pathLabel->setText(path);
     }
 }
 
 void MainWindow::saveFile(const QString &path, const QString &text)
 {
     QFile file(path);
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    if(file.isOpen())
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         file.write(text.toLatin1());
         file.close();

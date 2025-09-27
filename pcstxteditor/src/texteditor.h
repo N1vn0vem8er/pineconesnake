@@ -21,9 +21,14 @@ public:
     void find(const QString& text);
     void replace(const QString& find, const QString& replace);
     void clearSearchFormatting();
+    void increaseFontSize();
+    void decreaseFontSize();
+    void setFontSize(int size);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
+
 private:
     QString path;
     QWidget *lineNumberArea;
@@ -35,6 +40,9 @@ private:
     void updateLineNumber(const QRect &rect, int dy);
     QTextCharFormat defaultFormat;
     TextHighlighter* highlighter = nullptr;
+
+signals:
+    void fontSizeChanged(int size);
 };
 
 #endif // TEXTEDITOR_H
