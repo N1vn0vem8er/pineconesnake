@@ -3,9 +3,9 @@
 #include "texteditor.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
-
 #include <QDir>
 #include <QMessageBox>
+#include <QSettings>
 
 #define VERSION "1.0.3"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcstxteditor");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     connect(ui->actionOpen_File, &QAction::triggered, this, &MainWindow::openFileDialog);
     connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this, &MainWindow::closeTab);
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
@@ -76,6 +79,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcstxteditor");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     delete ui;
 }
 
