@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSet_Font_Size, &QAction::triggered, this, &MainWindow::setFontSize);
     connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
     connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::setFont);
+    connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{if(isFullScreen()) showNormal(); else showFullScreen();});
 
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addWidget(pathLabel);
@@ -93,16 +94,13 @@ void MainWindow::openNewFile()
 void MainWindow::closeTab(const int index)
 {
     QWidget* widget = ui->tabWidget->widget(index);
-    if(widget)
+    TextEditor* editor = qobject_cast<TextEditor*>(widget);
+    if(editor!=nullptr && !editor->isSaved())
     {
-        TextEditor* editor = qobject_cast<TextEditor*>(widget);
-        if(editor!=nullptr && !editor->isSaved())
-        {
-            openSaveWarningDialog(editor->getName());
-        }
-        ui->tabWidget->removeTab(index);
-        delete widget;
+        openSaveWarningDialog(editor->getName());
     }
+    ui->tabWidget->removeTab(index);
+    widget->deleteLater();
 }
 
 void MainWindow::tabChanged(const int index)

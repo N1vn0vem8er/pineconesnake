@@ -400,8 +400,14 @@
    </property>
   </action>
   <action name="actionFull_Screen">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ViewFullscreen"/>
+   </property>
    <property name="text">
     <string>Full Screen</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
  </widget>
