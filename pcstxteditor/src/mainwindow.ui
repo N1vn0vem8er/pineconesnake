@@ -383,10 +383,16 @@
    <property name="text">
     <string>Increase Font Size</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
   </action>
   <action name="actionDecrease_Font_Size">
    <property name="text">
     <string>Decrease Font Size</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
    </property>
   </action>
   <action name="actionSet_Font_Size">
@@ -395,6 +401,9 @@
    </property>
   </action>
   <action name="actionSet_Font">
+   <property name="icon">
+    <iconset theme="font-x-generic"/>
+   </property>
    <property name="text">
     <string>Set Font</string>
    </property>
