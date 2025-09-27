@@ -52,10 +52,15 @@
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
+    <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
+    <addaction name="actionDelete"/>
+    <addaction name="actionDelete_All"/>
+    <addaction name="separator"/>
     <addaction name="actionSelect_All"/>
+    <addaction name="separator"/>
     <addaction name="actionFind_Replace"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -408,6 +413,28 @@
    </property>
    <property name="shortcut">
     <string>F11</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionDelete_All">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+   </property>
+   <property name="text">
+    <string>Delete All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
  </widget>

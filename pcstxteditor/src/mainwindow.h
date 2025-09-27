@@ -42,6 +42,8 @@ private slots:
     void setFontSize();
     void setFont();
     void resetFontSize();
+    void deleteText();
+    void deleteAllText();
 
 private:
     Ui::MainWindow *ui;

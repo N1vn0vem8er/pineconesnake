@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionReset_Font_Size, &QAction::triggered, this, &MainWindow::resetFontSize);
     connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::setFont);
     connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{if(isFullScreen()) showNormal(); else showFullScreen();});
+    connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
+    connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAllText);
 
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(pathLabel);
@@ -271,6 +273,23 @@ void MainWindow::resetFontSize()
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
         editor->setFontSize(10);
+}
+
+void MainWindow::deleteText()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->textCursor().removeSelectedText();
+}
+
+void MainWindow::deleteAllText()
+{
+    TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        editor->selectAll();
+        editor->textCursor().removeSelectedText();
+    }
 }
 
 void MainWindow::openFile(const QString& path)
