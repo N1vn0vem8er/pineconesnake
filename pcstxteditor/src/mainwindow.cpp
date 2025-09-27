@@ -47,18 +47,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{if(isFullScreen()) showNormal(); else showFullScreen();});
 
     pathLabel = new QLabel(ui->statusbar);
-    ui->statusbar->addWidget(pathLabel);
+    ui->statusbar->addPermanentWidget(pathLabel);
     ui->searchWidget->setVisible(false);
 
     QStringList args = qApp->arguments();
     if(args.size() >= 2)
-    {
         for(int i=1;i<args.size(); i++)
-        {
             openFile(args[i]);
-        }
-    }
-
 }
 
 MainWindow::~MainWindow()
@@ -96,9 +91,7 @@ void MainWindow::closeTab(const int index)
     QWidget* widget = ui->tabWidget->widget(index);
     TextEditor* editor = qobject_cast<TextEditor*>(widget);
     if(editor!=nullptr && !editor->isSaved())
-    {
         openSaveWarningDialog(editor->getName());
-    }
     ui->tabWidget->removeTab(index);
     widget->deleteLater();
 }
@@ -112,9 +105,7 @@ void MainWindow::tabChanged(const int index)
         fontSizeChanged(editor->font().pointSize());
     }
     else
-    {
         pathLabel->clear();
-    }
 }
 
 void MainWindow::saveAs()
@@ -165,54 +156,42 @@ void MainWindow::copy()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->copy();
-    }
 }
 
 void MainWindow::selectAll()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->selectAll();
-    }
 }
 
 void MainWindow::cut()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->cut();
-    }
 }
 
 void MainWindow::paste()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->paste();
-    }
 }
 
 void MainWindow::undo()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->undo();
-    }
 }
 
 void MainWindow::redo()
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->redo();
-    }
 }
 
 void MainWindow::showSearch()
@@ -222,9 +201,7 @@ void MainWindow::showSearch()
     {
         TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->widget(i));
         if(editor)
-        {
             editor->clearSearchFormatting();
-        }
     }
 }
 
@@ -232,18 +209,14 @@ void MainWindow::find(const QString &text)
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->find(text);
-    }
 }
 
 void MainWindow::replace(const QString &find, const QString &replace)
 {
     TextEditor* editor = qobject_cast<TextEditor*>(ui->tabWidget->currentWidget());
     if(editor)
-    {
         editor->replace(find, replace);
-    }
 }
 
 void MainWindow::fontSizeChanged(int size)
@@ -332,7 +305,5 @@ void MainWindow::openSaveWarningDialog(const QString path)
     SaveWarningDialog* dialog = new SaveWarningDialog(path, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     if(dialog->exec() == QDialog::Accepted)
-    {
         save();
-    }
 }
