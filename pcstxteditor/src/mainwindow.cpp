@@ -47,6 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{if(isFullScreen()) showNormal(); else showFullScreen();});
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAllText);
+    connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All_But_This, &QAction::triggered, this, [&]{
+        for(int i=ui->tabWidget->count()-1; i >= 0;--i)
+            if(i != ui->tabWidget->currentIndex())
+                closeTab(i);
+    });
 
     pathLabel = new QLabel(ui->statusbar);
     ui->statusbar->addPermanentWidget(pathLabel);
@@ -316,6 +322,7 @@ void MainWindow::saveFile(const QString &path, const QString &text)
     {
         file.write(text.toLatin1());
         file.close();
+        ui->statusbar->showMessage(tr("Saved"), 3000);
     }
 }
 
