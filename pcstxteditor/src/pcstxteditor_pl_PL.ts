@@ -10,16 +10,16 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="40"/>
-        <source>File</source>
-        <translation>Plik</translation>
+        <source>&amp;File</source>
+        <oldsource>File</oldsource>
+        <translation>&amp;Plik</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="53"/>
         <source>Edit</source>
-        <translation>Edycja</translation>
+        <translation type="vanished">Edycja</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="70"/>
+        <location filename="mainwindow.ui" line="73"/>
         <source>&amp;View</source>
         <translation>&amp;Widok</translation>
     </message>
@@ -28,27 +28,26 @@
         <translation type="vanished">&amp;Wielkość czcionki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="82"/>
         <source>About</source>
-        <translation>Pomoc</translation>
+        <translation type="vanished">Pomoc</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="98"/>
+        <location filename="mainwindow.ui" line="104"/>
         <source>&amp;New File</source>
         <translation>&amp;Nowy Plik</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="101"/>
+        <location filename="mainwindow.ui" line="107"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="109"/>
+        <location filename="mainwindow.ui" line="115"/>
         <source>&amp;Open File</source>
         <translation>&amp;Otwórz Plik</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="112"/>
+        <location filename="mainwindow.ui" line="118"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
@@ -57,337 +56,387 @@
         <translation type="vanished">&amp;Zamknij Plik</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="120"/>
+        <location filename="mainwindow.ui" line="56"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Edycja</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="88"/>
+        <source>&amp;About</source>
+        <translation>&amp;Pomoc</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="126"/>
         <source>&amp;Close</source>
         <translation>Za&amp;mknij</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="129"/>
         <source>Ctrl+W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="131"/>
+        <location filename="mainwindow.ui" line="137"/>
         <source>&amp;Exit</source>
         <translation>Z&amp;akończ</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="139"/>
+        <location filename="mainwindow.ui" line="145"/>
         <source>&amp;Undo</source>
         <translation>&amp;Cofnij</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="142"/>
+        <location filename="mainwindow.ui" line="148"/>
         <source>Ctrl+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="150"/>
+        <location filename="mainwindow.ui" line="156"/>
         <source>&amp;Redo</source>
         <translation>&amp;Przywróć</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="153"/>
+        <location filename="mainwindow.ui" line="159"/>
         <source>Ctrl+Shift+Z</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="158"/>
+        <location filename="mainwindow.ui" line="164"/>
         <source>&amp;Settings</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="166"/>
+        <location filename="mainwindow.ui" line="172"/>
         <source>&amp;About TxtEditor</source>
         <translation>O &amp;TxtEditor</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="174"/>
+        <location filename="mainwindow.ui" line="180"/>
         <source>About &amp;Qt</source>
         <translation>O &amp;Qt</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="182"/>
+        <location filename="mainwindow.ui" line="188"/>
         <source>&amp;Save</source>
         <translation>&amp;Zapisz</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="185"/>
+        <location filename="mainwindow.ui" line="191"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="193"/>
+        <location filename="mainwindow.ui" line="199"/>
         <source>Save &amp;As</source>
         <translation>Zapisz &amp;Jako</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="196"/>
+        <location filename="mainwindow.ui" line="202"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="204"/>
+        <location filename="mainwindow.ui" line="210"/>
         <source>&amp;Cut</source>
         <translation>&amp;Wytnij</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="207"/>
+        <location filename="mainwindow.ui" line="213"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="215"/>
+        <location filename="mainwindow.ui" line="221"/>
         <source>C&amp;opy</source>
         <translation>&amp;Kopiuj</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="218"/>
+        <location filename="mainwindow.ui" line="224"/>
         <source>Ctrl+C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="226"/>
+        <location filename="mainwindow.ui" line="232"/>
         <source>&amp;Paste</source>
         <translation>&amp;Wklej</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="229"/>
+        <location filename="mainwindow.ui" line="235"/>
         <source>Ctrl+V</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="234"/>
+        <location filename="mainwindow.ui" line="240"/>
         <source>&amp;2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="239"/>
+        <location filename="mainwindow.ui" line="245"/>
         <source>&amp;4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="244"/>
+        <location filename="mainwindow.ui" line="250"/>
         <source>&amp;6</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="249"/>
+        <location filename="mainwindow.ui" line="255"/>
         <source>&amp;8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="254"/>
+        <location filename="mainwindow.ui" line="260"/>
         <source>&amp;10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="259"/>
+        <location filename="mainwindow.ui" line="265"/>
         <source>11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="264"/>
+        <location filename="mainwindow.ui" line="270"/>
         <source>12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="269"/>
+        <location filename="mainwindow.ui" line="275"/>
         <source>13</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="274"/>
+        <location filename="mainwindow.ui" line="280"/>
         <source>14</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="279"/>
+        <location filename="mainwindow.ui" line="285"/>
         <source>16</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="284"/>
+        <location filename="mainwindow.ui" line="290"/>
         <source>18</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="289"/>
+        <location filename="mainwindow.ui" line="295"/>
         <source>2&amp;0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="294"/>
+        <location filename="mainwindow.ui" line="300"/>
         <source>22</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="299"/>
+        <location filename="mainwindow.ui" line="305"/>
         <source>24</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="304"/>
+        <location filename="mainwindow.ui" line="310"/>
         <source>26</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="309"/>
+        <location filename="mainwindow.ui" line="315"/>
         <source>28</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="314"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>&amp;30</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="319"/>
+        <location filename="mainwindow.ui" line="325"/>
         <source>34</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="324"/>
+        <location filename="mainwindow.ui" line="330"/>
         <source>38</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="329"/>
+        <location filename="mainwindow.ui" line="335"/>
         <source>42</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="334"/>
+        <location filename="mainwindow.ui" line="340"/>
         <source>48</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="339"/>
+        <location filename="mainwindow.ui" line="345"/>
         <source>&amp;50</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="344"/>
+        <location filename="mainwindow.ui" line="350"/>
         <source>60</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="349"/>
+        <location filename="mainwindow.ui" line="355"/>
         <source>&amp;70</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="354"/>
+        <location filename="mainwindow.ui" line="360"/>
         <source>72</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="362"/>
+        <location filename="mainwindow.ui" line="368"/>
         <source>Select &amp;All</source>
         <translation>Zaznacz W&amp;szystko</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="365"/>
+        <location filename="mainwindow.ui" line="371"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="370"/>
+        <location filename="mainwindow.ui" line="376"/>
         <source>Find/Replace</source>
         <translation>Szukaj/Zamień</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="378"/>
+        <location filename="mainwindow.ui" line="384"/>
         <source>&amp;Find/Replace</source>
         <translation>&amp;Znajdź/Zamień</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="381"/>
+        <location filename="mainwindow.ui" line="387"/>
         <source>Ctrl+F</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="386"/>
-        <source>Increase Font Size</source>
-        <translation>Zwiększ Rozmiar Czcionki</translation>
+        <location filename="mainwindow.ui" line="392"/>
+        <source>&amp;Increase Font Size</source>
+        <translation>&amp;Zwiększ Rozmiar Czcionki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="389"/>
+        <location filename="mainwindow.ui" line="400"/>
+        <source>&amp;Decrease Font Size</source>
+        <translation>Z&amp;mniejsz Rozmiar Czcionki</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="408"/>
+        <source>Set Font &amp;Size</source>
+        <translation>Ustaw &amp;rozmiar czcionki</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="416"/>
+        <source>Set &amp;Font</source>
+        <translation>Ustaw &amp;czcionkę</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="421"/>
+        <source>&amp;Reset Font Size</source>
+        <translation>Zr&amp;esetuj Rozmiar Czcionki</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="429"/>
+        <source>F&amp;ull Screen</source>
+        <translation>&amp;Pełen Ekran</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="440"/>
+        <source>&amp;Delete</source>
+        <translation>&amp;Usuń</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="451"/>
+        <source>D&amp;elete All</source>
+        <translation>Usuń Wsz&amp;ystko</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="462"/>
+        <source>C&amp;lose All</source>
+        <translation>Zam&amp;knij Wszystko</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="473"/>
+        <source>Clos&amp;e All But This</source>
+        <translation>Zamknij Wszystko Oprócz &amp;Tego</translation>
+    </message>
+    <message>
+        <source>Increase Font Size</source>
+        <translation type="vanished">Zwiększ Rozmiar Czcionki</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="395"/>
         <source>Ctrl++</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="394"/>
         <source>Decrease Font Size</source>
-        <translation>Zmniejsz Rozmiar Czcionki</translation>
+        <translation type="vanished">Zmniejsz Rozmiar Czcionki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="397"/>
+        <location filename="mainwindow.ui" line="403"/>
         <source>Ctrl+-</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="402"/>
         <source>Set Font Size</source>
-        <translation>Ustaw rozmiar czcionki</translation>
+        <translation type="vanished">Ustaw rozmiar czcionki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="410"/>
         <source>Set Font</source>
-        <translation>Ustaw czcionkę</translation>
+        <translation type="vanished">Ustaw czcionkę</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="415"/>
         <source>Reset Font Size</source>
-        <translation>Zresetuj Rozmiar Czcionki</translation>
+        <translation type="vanished">Zresetuj Rozmiar Czcionki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="423"/>
         <source>Full Screen</source>
-        <translation>Pełen Ekran</translation>
+        <translation type="vanished">Pełen Ekran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="432"/>
         <source>F11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="434"/>
         <source>Delete</source>
-        <translation>Usuń</translation>
+        <translation type="vanished">Usuń</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="437"/>
+        <location filename="mainwindow.ui" line="443"/>
         <source>Ctrl+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="445"/>
         <source>Delete All</source>
-        <translation>Usuń wszystko</translation>
+        <translation type="vanished">Usuń wszystko</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="448"/>
+        <location filename="mainwindow.ui" line="454"/>
         <source>Ctrl+Shift+D</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="456"/>
         <source>Close All</source>
-        <translation>Zamknij wszystko</translation>
+        <translation type="vanished">Zamknij wszystko</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="459"/>
+        <location filename="mainwindow.ui" line="465"/>
         <source>Ctrl+Shift+W</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="467"/>
         <source>Close All But This</source>
-        <translation>Zamknij Wszystko Oprócz Tego</translation>
+        <translation type="vanished">Zamknij Wszystko Oprócz Tego</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="470"/>
+        <location filename="mainwindow.ui" line="476"/>
         <source>Ctrl+Alt+Shift+W</source>
         <translation></translation>
     </message>

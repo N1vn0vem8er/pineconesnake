@@ -37,7 +37,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
     <addaction name="actionNew_File"/>
     <addaction name="actionOpen_File"/>
@@ -49,8 +49,11 @@
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
+    <property name="locale">
+     <locale language="English" country="UnitedStates"/>
+    </property>
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
@@ -78,8 +81,11 @@
     <addaction name="actionFull_Screen"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
+    <property name="locale">
+     <locale language="English" country="UnitedStates"/>
+    </property>
     <property name="title">
-     <string>About</string>
+     <string>&amp;About</string>
     </property>
     <addaction name="actionAbout_PCS_TxtEditor"/>
     <addaction name="actionAbout_Qt"/>
@@ -383,7 +389,7 @@
   </action>
   <action name="actionIncrease_Font_Size">
    <property name="text">
-    <string>Increase Font Size</string>
+    <string>&amp;Increase Font Size</string>
    </property>
    <property name="shortcut">
     <string>Ctrl++</string>
@@ -391,7 +397,7 @@
   </action>
   <action name="actionDecrease_Font_Size">
    <property name="text">
-    <string>Decrease Font Size</string>
+    <string>&amp;Decrease Font Size</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+-</string>
@@ -399,7 +405,7 @@
   </action>
   <action name="actionSet_Font_Size">
    <property name="text">
-    <string>Set Font Size</string>
+    <string>Set Font &amp;Size</string>
    </property>
   </action>
   <action name="actionSet_Font">
@@ -407,12 +413,12 @@
     <iconset theme="font-x-generic"/>
    </property>
    <property name="text">
-    <string>Set Font</string>
+    <string>Set &amp;Font</string>
    </property>
   </action>
   <action name="actionReset_Font_Size">
    <property name="text">
-    <string>Reset Font Size</string>
+    <string>&amp;Reset Font Size</string>
    </property>
   </action>
   <action name="actionFull_Screen">
@@ -420,7 +426,7 @@
     <iconset theme="QIcon::ThemeIcon::ViewFullscreen"/>
    </property>
    <property name="text">
-    <string>Full Screen</string>
+    <string>F&amp;ull Screen</string>
    </property>
    <property name="shortcut">
     <string>F11</string>
@@ -431,7 +437,7 @@
     <iconset theme="QIcon::ThemeIcon::EditDelete"/>
    </property>
    <property name="text">
-    <string>Delete</string>
+    <string>&amp;Delete</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
@@ -442,7 +448,7 @@
     <iconset theme="QIcon::ThemeIcon::EditDelete"/>
    </property>
    <property name="text">
-    <string>Delete All</string>
+    <string>D&amp;elete All</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
@@ -453,7 +459,7 @@
     <iconset theme="document-close"/>
    </property>
    <property name="text">
-    <string>Close All</string>
+    <string>C&amp;lose All</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+W</string>
@@ -464,7 +470,7 @@
     <iconset theme="document-close"/>
    </property>
    <property name="text">
-    <string>Close All But This</string>
+    <string>Clos&amp;e All But This</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Alt+Shift+W</string>
