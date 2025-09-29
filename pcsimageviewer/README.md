@@ -33,5 +33,5 @@ $ mkdir -p build
 $ cd build
 $ qmake ../pcsimageviewer.pro
 $ make
-$ make
+$ make install
 ```
