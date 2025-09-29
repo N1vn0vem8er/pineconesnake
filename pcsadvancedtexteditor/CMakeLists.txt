@@ -13,44 +13,59 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent PrintSupport)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        linenumberarea.cpp
-        linenumberarea.h
-        savewarningdialog.cpp
-        savewarningdialog.h
-        savewarningdialog.ui
-        searchwidget.cpp
-        searchwidget.h
-        searchwidget.ui
-        tabwidget.cpp
-        tabwidget.h
-        texteditor.cpp
-        texteditor.h
-        texthighlighter.cpp
-        texthighlighter.h
+        src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/mainwindow.ui
+        src/linenumberarea.cpp
+        src/linenumberarea.h
+        src/savewarningdialog.cpp
+        src/savewarningdialog.h
+        src/savewarningdialog.ui
+        src/searchwidget.cpp
+        src/searchwidget.h
+        src/searchwidget.ui
+        src/tabwidget.cpp
+        src/tabwidget.h
+        src/texteditor.cpp
+        src/texteditor.h
+        src/texthighlighter.cpp
+        src/texthighlighter.h
+        src/globals.h
+        src/globals.cpp
+        src/settings.h
+        src/settings.cpp
+        src/spellcheckerworker.h
+        src/spellcheckerworker.cpp
+        src/filesystemtree.h
+        src/filesystemtree.cpp
+        src/textinputdialog.h
+        src/textinputdialog.cpp
+        src/textinputdialog.ui
+        src/startwidget.h
+        src/startwidget.cpp
+        src/startwidget.ui
+        src/mimefinderworker.h
+        src/mimefinderworker.cpp
+        src/structs.h
+        src/gitwidget.h
+        src/gitwidget.cpp
+        src/gitwidget.ui
+        src/gitfilestatusitemdelegate.h
+        src/gitfilestatusitemdelegate.cpp
+        src/gitfilestatusmodel.h
+        src/gitfilestatusmodel.cpp
+        src/gitfilesview.h
+        src/gitfilesview.cpp
+        src/settingswidget.h
+        src/settingswidget.cpp
+        src/settingswidget.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(pcsadvancedtexteditor
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        globals.h globals.cpp
-        settings.h settings.cpp
-        spellcheckerworker.h spellcheckerworker.cpp
-        filesystemtree.h filesystemtree.cpp
-        textinputdialog.h textinputdialog.cpp textinputdialog.ui
-        startwidget.h startwidget.cpp startwidget.ui
-        mimefinderworker.h mimefinderworker.cpp
-        structs.h
-        gitwidget.h gitwidget.cpp gitwidget.ui
-        gitfilestatusitemdelegate.h gitfilestatusitemdelegate.cpp
-        gitfilestatusmodel.h gitfilestatusmodel.cpp
-        gitfilesview.h gitfilesview.cpp
-        settingswidget.h settingswidget.cpp settingswidget.ui
-
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET pcsadvancedtexteditor APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
