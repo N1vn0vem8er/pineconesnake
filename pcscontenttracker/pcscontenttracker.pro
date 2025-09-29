@@ -9,28 +9,28 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addnewdialog.cpp \
-    editdialog.cpp \
-    itemwidget.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    resourcemanager.cpp \
-    settings.cpp
+    src/addnewdialog.cpp \
+    src/editdialog.cpp \
+    src/itemwidget.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/resourcemanager.cpp \
+    src/settings.cpp
 
 HEADERS += \
-    addnewdialog.h \
-    editdialog.h \
-    itemwidget.h \
-    mainwindow.h \
-    resourcemanager.h \
-    settings.h \
-    structs.h
+    src/addnewdialog.h \
+    src/editdialog.h \
+    src/itemwidget.h \
+    src/mainwindow.h \
+    src/resourcemanager.h \
+    src/settings.h \
+    src/structs.h
 
 FORMS += \
-    addnewdialog.ui \
-    editdialog.ui \
-    itemwidget.ui \
-    mainwindow.ui
+    src/addnewdialog.ui \
+    src/editdialog.ui \
+    src/itemwidget.ui \
+    src/mainwindow.ui
 
 LIBS += -lsqlite3
 
@@ -39,7 +39,7 @@ target.path = /usr/bin
 !isEmpty(target.path): INSTALLS += target
 
 TRANSLATIONS += \
-    pcscontenttracker_pl_PL.ts
+    src/pcscontenttracker_pl_PL.ts
 
 CONFIG += lrelease
 CONFIG += embed_translations
