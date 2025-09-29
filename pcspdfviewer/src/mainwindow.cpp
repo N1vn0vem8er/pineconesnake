@@ -11,6 +11,7 @@
 #include <QPdfSearchModel>
 #include <QMessageBox>
 #include <QSettings>
+#include <QStandardPaths>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -68,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->splitter->setStretchFactor(1, 1);
     ui->actionShowSidePanel->setChecked(true);
     ui->thumbnailsView->setStyleSheet("background-color: white; color: black;");
+    loadRecent();
 }
 
 MainWindow::~MainWindow()
@@ -77,6 +79,86 @@ MainWindow::~MainWindow()
     settings.setValue("geometry", saveGeometry());
     while(ui->tabWidget->count() > 0)closeTab(ui->tabWidget->currentIndex());
     delete ui;
+}
+
+void MainWindow::loadRecent()
+{
+    const QString storagePath = QDir::homePath() + "/.local/share/pineconesnake/pcspdfviewer";
+    ui->menuRecent_Files->clear();
+    if(!QDir(storagePath).exists())
+    {
+        QDir().mkpath(storagePath);
+    }
+    QFile file(storagePath + "/recent.txt");
+    file.open(QIODevice::ReadOnly);
+    if(file.isOpen())
+    {
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            const QString line = stream.readLine();
+            if(!line.isEmpty())
+            {
+                QAction* action = new QAction(ui->menuRecent_Files);
+                action->setText(line);
+                connect(action, &QAction::triggered, this, [this, line]{openFile(line);});
+                ui->menuRecent_Files->addAction(action);
+            }
+        }
+        file.close();
+    }
+    if(ui->menuRecent_Files->isEmpty())
+    {
+        QAction* action = new QAction(tr("no recent"), ui->menuRecent_Files);
+        action->setEnabled(false);
+        ui->menuRecent_Files->addAction(action);
+    }
+}
+
+void MainWindow::saveRecent(const QString& path)
+{
+    const QString storagePath = QDir::homePath() + "/.local/share/pineconesnake/pcspdfviewer/recent.txt";
+    QFile file(storagePath);
+    file.open(QIODevice::ReadWrite | QIODevice::Text);
+    if(file.isOpen())
+    {
+        QStringList paths;
+        QTextStream stream(&file);
+        while(!stream.atEnd())
+        {
+            paths << stream.readLine();
+        }
+        if(!paths.contains(path))
+        {
+            file.seek(0);
+            if(file.isOpen())
+            {
+                QTextStream stream(&file);
+                if(paths.length() >= 10) paths.removeAt(0);
+                paths.append(path);
+                for(const auto& i : std::as_const(paths))
+                {
+                    stream << i + "\n";
+                }
+            }
+        }
+        file.close();
+    }
+}
+
+void MainWindow::openFile(const QString& path)
+{
+    PdfView* pdfView = new PdfView(ui->tabWidget);
+    connect(pdfView, &PdfView::zoomFactorChanged, this, &MainWindow::zoomChanged);
+    QPdfDocument* document = new QPdfDocument(pdfView);
+    document->load(path);
+    pageSelector->setDocument(document);
+    pdfView->setDocument(document);
+    pdfView->setPageMode(PdfView::PageMode::MultiPage);
+    ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
+    connect(pdfView->pageNavigator(), &QPdfPageNavigator::currentPageChanged, pageSelector, &QPdfPageSelector::setCurrentPage);
+    pdfView->setSearchModel(searchModel);
+    saveRecent(path);
 }
 
 void MainWindow::closeTab(int index)
@@ -123,16 +205,7 @@ void MainWindow::open()
     {
         for(const QString& path : paths)
         {
-            PdfView* pdfView = new PdfView(ui->tabWidget);
-            connect(pdfView, &PdfView::zoomFactorChanged, this, &MainWindow::zoomChanged);
-            QPdfDocument* document = new QPdfDocument(pdfView);
-            document->load(path);
-            pageSelector->setDocument(document);
-            pdfView->setDocument(document);
-            pdfView->setPageMode(PdfView::PageMode::MultiPage);
-            ui->tabWidget->addTab(pdfView, document->metaData(QPdfDocument::MetaDataField::Title).toString());
-            connect(pdfView->pageNavigator(), &QPdfPageNavigator::currentPageChanged, pageSelector, &QPdfPageSelector::setCurrentPage);
-            pdfView->setSearchModel(searchModel);
+            openFile(path);
         }
     }
 }
@@ -181,37 +254,9 @@ void MainWindow::pageSelected(int index)
     }
 }
 
-void MainWindow::rotateLeft()
-{
-    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
-    if(pdfView)
-    {
-
-    }
-}
-
-void MainWindow::rotateRight()
-{
-    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
-    if(pdfView)
-    {
-
-    }
-}
-
-void MainWindow::rotateUpsideDown()
-{
-    PdfView* pdfView = qobject_cast<PdfView*>(ui->tabWidget->currentWidget());
-    if(pdfView)
-    {
-
-    }
-}
-
 void MainWindow::openAbout()
 {
-    QMessageBox::about(this, tr("About PCS Pdf Viewer"),
-                       tr(R"(
+    QMessageBox::about(this, tr("About PCS Pdf Viewer"), tr(R"(
     <html>
         <body>
             <h3>Pdf Viewer</h3>

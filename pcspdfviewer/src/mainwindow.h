@@ -32,6 +32,11 @@ private:
     QPushButton* nextPageButton {nullptr};
     QPushButton* previousPageButton {nullptr};
 
+private:
+    void loadRecent();
+    void saveRecent(const QString &path);
+    void openFile(const QString &path);
+
 private slots:
     void closeTab(int index);
     void tabChanged();
@@ -41,9 +46,6 @@ private slots:
     void zoomOut();
     void zoomChanged(qreal zoom);
     void pageSelected(int index);
-    void rotateLeft();
-    void rotateRight();
-    void rotateUpsideDown();
     void openAbout();
 };
 #endif // MAINWINDOW_H
