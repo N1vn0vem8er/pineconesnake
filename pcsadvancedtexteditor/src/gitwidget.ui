@@ -236,7 +236,7 @@
   <customwidget>
    <class>GitFilesView</class>
    <extends>QTableView</extends>
-   <header>../../../../src/gitfilesview.h</header>
+   <header>gitfilesview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

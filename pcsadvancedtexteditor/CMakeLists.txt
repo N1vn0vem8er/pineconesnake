@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets PrintSupport)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Concurrent PrintSupport)
 
+include_directories(src)
+
 set(PROJECT_SOURCES
         src/main.cpp
         src/mainwindow.cpp
