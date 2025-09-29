@@ -7,7 +7,7 @@
 #include "resourcesmanager.h"
 #include "ui_mainwindow.h"
 
-#define VERSION "0.0.2"
+#define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
 #define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
