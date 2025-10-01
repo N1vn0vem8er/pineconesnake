@@ -172,6 +172,8 @@
      <string>Counter</string>
     </property>
     <addaction name="actionNew"/>
+    <addaction name="actionNext"/>
+    <addaction name="actionPrevious"/>
     <addaction name="actionRemove"/>
     <addaction name="separator"/>
     <addaction name="actionIncrease"/>
@@ -304,6 +306,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Up</string>
+   </property>
+  </action>
+  <action name="actionPrevious">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Down</string>
    </property>
   </action>
  </widget>

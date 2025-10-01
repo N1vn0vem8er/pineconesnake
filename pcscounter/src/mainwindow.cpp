@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSide_Panel, &QAction::triggered, ui->sidePanel, &QWidget::setVisible);
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Counter, &QAction::triggered, this, &MainWindow::showAbout);
+    connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
+    connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
     counters.append(Counter(tr("Default")));
     updateModel();
     updateCounter();
@@ -133,4 +135,22 @@ void MainWindow::setStep()
 void MainWindow::showAbout()
 {
 
+}
+
+void MainWindow::next()
+{
+    if(currentCounter < counters.length() - 1)
+        currentCounter++;
+    else
+        currentCounter = 0;
+    updateCounter();
+}
+
+void MainWindow::previous()
+{
+    if(currentCounter > 0)
+        currentCounter--;
+    else
+        currentCounter = counters.length() - 1;
+    updateCounter();
 }
