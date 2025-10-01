@@ -82,6 +82,9 @@
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
           <item>
            <widget class="QLabel" name="counterLabel">
+            <property name="styleSheet">
+             <string notr="true">font-size: 40px;</string>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -174,6 +177,7 @@
     <addaction name="actionIncrease"/>
     <addaction name="actionDecrease"/>
     <addaction name="actionReset"/>
+    <addaction name="actionSet_Step"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -274,6 +278,11 @@
    </property>
    <property name="text">
     <string>Reset</string>
+   </property>
+  </action>
+  <action name="actionSet_Step">
+   <property name="text">
+    <string>Set Step</string>
    </property>
   </action>
  </widget>

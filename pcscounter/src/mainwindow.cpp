@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "src/ui_mainwindow.h"
-
 #include <QInputDialog>
 #include <QMessageBox>
+#include <limits>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,8 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::addCounter);
     connect(ui->removeButton, &QPushButton::clicked, this, &MainWindow::removeCounter);
     connect(ui->listView, &QListView::clicked, this, &MainWindow::openCounter);
+    connect(ui->actionSet_Step, &QAction::triggered, this, &MainWindow::setStep);
     counters.append(Counter(tr("Default")));
     updateModel();
+    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
 }
 
 MainWindow::~MainWindow()
@@ -89,4 +91,12 @@ void MainWindow::openCounter(const QModelIndex &index)
 {
     currentCounter = index.row();
     ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+}
+
+void MainWindow::setStep()
+{
+    bool ok;
+    const int step = QInputDialog::getInt(this, tr("Set Step"), tr("Step"), counters[currentCounter].step, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), 1, &ok);
+    if(ok)
+        counters[currentCounter].step = step;
 }
