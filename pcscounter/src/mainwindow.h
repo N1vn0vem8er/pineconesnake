@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
+#include <qlabel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,9 +31,11 @@ private:
     int currentCounter {0};
     QList<Counter> counters;
     QStringListModel* model {nullptr};
+    QLabel* counterNameLabel {nullptr};
 
 private:
     void updateModel();
+    void updateCounter();
 
 private slots:
     void increase();

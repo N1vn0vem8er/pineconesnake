@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     model = new QStringListModel(ui->listView);
     ui->listView->setModel(model);
     ui->splitter->setStretchFactor(1, 1);
+    counterNameLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(counterNameLabel);
     connect(ui->increaseButton, &QPushButton::clicked, this, &MainWindow::increase);
     connect(ui->decreaseButton, &QPushButton::clicked, this, &MainWindow::decrease);
     connect(ui->resetButton, &QPushButton::clicked, this, &MainWindow::reset);
@@ -36,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_PCS_Counter, &QAction::triggered, this, &MainWindow::showAbout);
     counters.append(Counter(tr("Default")));
     updateModel();
-    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+    updateCounter();
 }
 
 MainWindow::~MainWindow()
@@ -58,22 +60,28 @@ void MainWindow::updateModel()
     model->setStringList(list);
 }
 
+void MainWindow::updateCounter()
+{
+    counterNameLabel->setText(tr("Counter: %1").arg(counters[currentCounter].name));
+    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+}
+
 void MainWindow::increase()
 {
     counters[currentCounter].currentValue += counters[currentCounter].step;
-    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+    updateCounter();
 }
 
 void MainWindow::decrease()
 {
     counters[currentCounter].currentValue -= counters[currentCounter].step;
-    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+    updateCounter();
 }
 
 void MainWindow::reset()
 {
     counters[currentCounter].currentValue = 0;
-    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+    updateCounter();
 }
 
 void MainWindow::addCounter()
@@ -86,7 +94,7 @@ void MainWindow::addCounter()
         counters.append(counter);
         updateModel();
         currentCounter = counters.length() - 1;
-        ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+        updateCounter();
     }
 }
 
@@ -102,7 +110,7 @@ void MainWindow::removeCounter()
                 counters.removeAt(index.row());
                 currentCounter = index.row() - 1;
                 updateModel();
-                ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+                updateCounter();
             }
         }
     }
@@ -111,7 +119,7 @@ void MainWindow::removeCounter()
 void MainWindow::openCounter(const QModelIndex &index)
 {
     currentCounter = index.row();
-    ui->counterLabel->setText(QString::number(counters[currentCounter].currentValue));
+    updateCounter();
 }
 
 void MainWindow::setStep()

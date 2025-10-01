@@ -205,6 +205,9 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionSide_Panel">
    <property name="checkable">
@@ -247,6 +250,9 @@
    <property name="text">
     <string>New</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionRemove">
    <property name="icon">
@@ -254,6 +260,9 @@
    </property>
    <property name="text">
     <string>Remove</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionIncrease">
@@ -263,6 +272,9 @@
    <property name="text">
     <string>Increase</string>
    </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
   </action>
   <action name="actionDecrease">
    <property name="icon">
@@ -270,6 +282,9 @@
    </property>
    <property name="text">
     <string>Decrease</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Space</string>
    </property>
   </action>
   <action name="actionReset">
@@ -279,10 +294,16 @@
    <property name="text">
     <string>Reset</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionSet_Step">
    <property name="text">
     <string>Set Step</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>
