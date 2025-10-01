@@ -42,5 +42,6 @@ private slots:
     void removeCounter();
     void openCounter(const QModelIndex& index);
     void setStep();
+    void showAbout();
 };
 #endif // MAINWINDOW_H
