@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QSettings settings("pcscounter");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
     ui->actionSide_Panel->setChecked(settings.value("showSidePanel", true).toBool());
     ui->sidePanel->setVisible(ui->actionSide_Panel->isChecked());
     model = new QStringListModel(ui->listView);
@@ -40,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     QSettings settings("pcscounter");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
     settings.setValue("showSidePanel", ui->actionSide_Panel->isChecked());
     delete ui;
 }
