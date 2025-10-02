@@ -70,6 +70,9 @@ MainWindow::MainWindow(QWidget *parent)
             }
         }
     }
+    int cCounter = settings.value("currentCounter", 0).toInt();
+    if(cCounter >= 0 && cCounter < counters.length())
+        currentCounter = cCounter;
     updateModel();
     updateCounter();
 }
@@ -82,6 +85,7 @@ MainWindow::~MainWindow()
     settings.setValue("showSidePanel", ui->actionSide_Panel->isChecked());
     settings.setValue("defaultStep", counters[0].step);
     settings.setValue("defaultValue", counters[0].currentValue);
+    settings.setValue("currentCounter", currentCounter);
     const QString path = QDir::homePath() + QDir::separator() + ".local/share/pineconesnake/pcscounter";
     if(!QDir(path).exists())
         QDir().mkpath(path);
