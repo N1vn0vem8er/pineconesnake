@@ -5,6 +5,10 @@
 #include <limits>
 #include <QSettings>
 
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -134,7 +138,16 @@ void MainWindow::setStep()
 
 void MainWindow::showAbout()
 {
-
+    QMessageBox::about(this, tr("About"), tr(R"(
+    <html>
+        <body>
+            <h3>PCS Counter</h3>
+            <p>PCS Counter is just a counter. It is a part of the <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
+        </body
+    </html>
+    )").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
 
 void MainWindow::next()
