@@ -4,6 +4,10 @@
 #include <QMessageBox>
 #include <limits>
 #include <QSettings>
+#include <QDir>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 #define VERSION "0.1.0"
 #define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
@@ -43,6 +47,26 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
     counters.append(Counter(tr("Default")));
+    QFile file(QDir::homePath() + QDir::separator() + ".local/share/pineconesnake/pcscounter/counters.json");
+    if(file.open(QIODevice::ReadOnly))
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+        file.close();
+        QJsonObject root = doc.object();
+        if(root.value("counters").isArray())
+        {
+            QJsonArray array = root.value("counters").toArray();
+            for(const auto& i : array)
+            {
+                QJsonObject object = i.toObject();
+                Counter counter;
+                counter.currentValue = object.value("currentValue").toInt();
+                counter.step = object.value("step").toInt();
+                counter.name = object.value("name").toString();
+                counters.append(counter);
+            }
+        }
+    }
     updateModel();
     updateCounter();
 }
@@ -53,6 +77,27 @@ MainWindow::~MainWindow()
     settings.setValue("state", saveState());
     settings.setValue("geometry", saveGeometry());
     settings.setValue("showSidePanel", ui->actionSide_Panel->isChecked());
+    const QString path = QDir::homePath() + QDir::separator() + ".local/share/pineconesnake/pcscounter";
+    if(!QDir(path).exists())
+        QDir().mkpath(path);
+    QFile file(path + "/counters.json");
+    QJsonObject root;
+    QJsonArray array;
+    counters.removeFirst();
+    for(const Counter& i : std::as_const(counters))
+    {
+        QJsonObject counter;
+        counter["currentValue"] = i.currentValue;
+        counter["step"] = i.step;
+        counter["name"] = i.name;
+        array.append(counter);
+    }
+    root["counters"] = array;
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(QJsonDocument(root).toJson());
+        file.close();
+    }
     delete ui;
 }
 
