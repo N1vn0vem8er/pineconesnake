@@ -2,6 +2,8 @@
 
 Just a counter
 
+## Table of Contents
+
 * [General info](#general-information)
 * [Features](#features)
 * [Technologies](#technologies)
