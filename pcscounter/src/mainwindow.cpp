@@ -46,7 +46,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_PCS_Counter, &QAction::triggered, this, &MainWindow::showAbout);
     connect(ui->actionNext, &QAction::triggered, this, &MainWindow::next);
     connect(ui->actionPrevious, &QAction::triggered, this, &MainWindow::previous);
-    counters.append(Counter(tr("Default")));
+    Counter defaultCounter(tr("Default"));
+    defaultCounter.step = settings.value("defaultStep", 1).toInt();
+    defaultCounter.currentValue = settings.value("defaultValue", 0).toInt();
+    counters.append(defaultCounter);
     QFile file(QDir::homePath() + QDir::separator() + ".local/share/pineconesnake/pcscounter/counters.json");
     if(file.open(QIODevice::ReadOnly))
     {
@@ -55,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
         QJsonObject root = doc.object();
         if(root.value("counters").isArray())
         {
-            QJsonArray array = root.value("counters").toArray();
+            const QJsonArray array = root.value("counters").toArray();
             for(const auto& i : array)
             {
                 QJsonObject object = i.toObject();
@@ -77,6 +80,8 @@ MainWindow::~MainWindow()
     settings.setValue("state", saveState());
     settings.setValue("geometry", saveGeometry());
     settings.setValue("showSidePanel", ui->actionSide_Panel->isChecked());
+    settings.setValue("defaultStep", counters[0].step);
+    settings.setValue("defaultValue", counters[0].currentValue);
     const QString path = QDir::homePath() + QDir::separator() + ".local/share/pineconesnake/pcscounter";
     if(!QDir(path).exists())
         QDir().mkpath(path);
