@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(pcsmarkdowneditor LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineCore WebEngineWidgets)
 
 qt_standard_project_setup()
 
@@ -21,6 +21,8 @@ target_link_libraries(pcsmarkdowneditor
     PRIVATE
         Qt::Core
         Qt::Widgets
+        Qt::WebEngineCore
+        Qt::WebEngineWidgets
 )
 
 include(GNUInstallDirs)
