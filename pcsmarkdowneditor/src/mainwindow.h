@@ -19,5 +19,21 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void newFile();
+    void openFile();
+    void openDir();
+    void save();
+    void saveAs();
+    void closeTab(int index);
+    void undo();
+    void redo();
+    void cut();
+    void copy();
+    void paste();
+    void deleteText();
+    void deleteAllText();
+    void selectAll();
 };
 #endif // MAINWINDOW_H
