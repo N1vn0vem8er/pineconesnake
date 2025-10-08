@@ -115,6 +115,16 @@ bool CodeEditor::getReplaceTabWithSpaces() const
     return replaceTabWithSpaces;
 }
 
+void CodeEditor::setSaved(bool val)
+{
+    saved = val;
+}
+
+bool CodeEditor::isSaved() const
+{
+    return saved;
+}
+
 bool CodeEditor::getAutoClosing() const
 {
     return autoClosing;

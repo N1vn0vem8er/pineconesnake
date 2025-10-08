@@ -33,6 +33,8 @@ public:
     void setAutoClosingEnabled(bool val);
     bool getAutoClosing() const;
     bool getReplaceTabWithSpaces() const;
+    void setSaved(bool val);
+    bool isSaved() const;
 
 public slots:
     void copyAll();
@@ -58,6 +60,7 @@ private:
     QStringListModel* completerModel {nullptr};
     bool autoClosing {true};
     bool replaceTabWithSpaces {true};
+    bool saved {true};
 
 private slots:
     void insertCompletion(const QModelIndex& index);

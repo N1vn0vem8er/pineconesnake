@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -113,7 +114,18 @@ void MainWindow::saveAs()
 
 void MainWindow::closeTab(int index)
 {
-
+    QWidget* widget = ui->tabWidget->currentWidget();
+    CodeEditor* editor = qobject_cast<CodeEditor*>(widget);
+    if(editor)
+    {
+        if(!editor->isSaved())
+        {
+            if(QMessageBox::question(this, tr("Save"), tr("Save file %1?").arg(editor->getName())))
+                save();
+        }
+    }
+    ui->tabWidget->removeTab(index);
+    widget->deleteLater();
 }
 
 void MainWindow::undo()
