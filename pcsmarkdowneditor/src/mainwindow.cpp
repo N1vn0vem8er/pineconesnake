@@ -130,40 +130,56 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::undo()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->undo();
 }
 
 void MainWindow::redo()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->redo();
 }
 
 void MainWindow::cut()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->cut();
 }
 
 void MainWindow::copy()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->copy();
 }
 
 void MainWindow::paste()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->paste();
 }
 
 void MainWindow::deleteText()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->deleteSelected();
 }
 
 void MainWindow::deleteAllText()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->deleteAll();
 }
 
 void MainWindow::selectAll()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->selectAll();
 }
