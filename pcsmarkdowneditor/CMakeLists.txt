@@ -15,6 +15,8 @@ qt_add_executable(pcsmarkdowneditor
     src/mainwindow.cpp
     src/mainwindow.h
     src/mainwindow.ui
+    src/codeeditor.h src/codeeditor.cpp
+    src/linenumberarea.h src/linenumberarea.cpp
 )
 
 target_link_libraries(pcsmarkdowneditor
