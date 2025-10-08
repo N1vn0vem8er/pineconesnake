@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "codeeditor.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private:
+    CodeEditor* createEditor(const QString& path, const QString& content);
 
 private slots:
     void newFile();

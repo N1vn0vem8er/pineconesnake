@@ -24,7 +24,11 @@
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <widget class="QTreeView" name="treeView"/>
-      <widget class="QTabWidget" name="tabWidget"/>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="tabsClosable">
+        <bool>true</bool>
+       </property>
+      </widget>
       <widget class="QWebEngineView" name="webEngineView">
        <property name="url">
         <url>

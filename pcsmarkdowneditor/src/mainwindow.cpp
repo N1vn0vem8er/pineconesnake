@@ -1,6 +1,8 @@
 #include "mainwindow.h"
+#include "codeeditor.h"
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
 #include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -38,14 +40,31 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+CodeEditor *MainWindow::createEditor(const QString &path, const QString &content)
+{
+    CodeEditor* editor = new CodeEditor(ui->tabWidget);
+    editor->setPath(path);
+    editor->setPlainText(content);
+    return editor;
+}
+
 void MainWindow::newFile()
 {
-
+    ui->tabWidget->addTab(createEditor("", ""), tr("New File"));
 }
 
 void MainWindow::openFile()
 {
-
+    const QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open"), QDir::homePath(), tr("*.md"));
+    for(const QString& path : paths)
+    {
+        QFile file(path);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            ui->tabWidget->addTab(createEditor(path, file.readAll()), file.fileName());
+            file.close();
+        }
+    }
 }
 
 void MainWindow::openDir()
@@ -55,12 +74,41 @@ void MainWindow::openDir()
 
 void MainWindow::save()
 {
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        if(!editor->getPath().isEmpty())
+        {
+            QFile file(editor->getPath());
+            if(file.open(QIODevice::WriteOnly))
+            {
+                file.write(editor->toPlainText().toUtf8());
+                file.close();
+            }
+        }
+        else
+            saveAs();
+    }
 
 }
 
 void MainWindow::saveAs()
 {
-
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), editor->isEnabled() ? QDir::homePath() : QFileInfo(editor->getPath()).absoluteDir().absolutePath());
+        if(!path.isEmpty())
+        {
+            QFile file(path);
+            if(file.open(QIODevice::WriteOnly))
+            {
+                file.write(editor->toPlainText().toUtf8());
+                file.close();
+                editor->setPath(path);
+            }
+        }
+    }
 }
 
 void MainWindow::closeTab(int index)
@@ -89,6 +137,16 @@ void MainWindow::copy()
 }
 
 void MainWindow::paste()
+{
+
+}
+
+void MainWindow::deleteText()
+{
+
+}
+
+void MainWindow::deleteAllText()
 {
 
 }
