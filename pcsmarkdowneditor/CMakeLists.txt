@@ -19,6 +19,7 @@ qt_add_executable(pcsmarkdowneditor
     src/linenumberarea.h src/linenumberarea.cpp
     src/filesystemtree.h src/filesystemtree.cpp
     src/textinputdialog.h src/textinputdialog.cpp src/textinputdialog.ui
+    resources/resources.qrc
 )
 
 target_link_libraries(pcsmarkdowneditor
