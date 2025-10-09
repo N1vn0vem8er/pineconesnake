@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings settings("pcsmarkdowneditor");
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
+    ui->actionFiles->setChecked(settings.value("filesVisible", false).toBool());
+    ui->treeView->setVisible(ui->actionFiles->isChecked());
+    ui->actionMarkdown_Preview->setChecked(settings.value("markdownPreviewVisible", true).toBool());
+    ui->webEngineView->setVisible(ui->actionMarkdown_Preview->isChecked());
 
     ui->splitter->setStretchFactor(1, 2);
 
@@ -33,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAllText);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionFiles, &QAction::triggered, ui->treeView, &FileSystemTree::setVisible);
+    connect(ui->actionMarkdown_Preview, &QAction::triggered, ui->webEngineView, &QWidget::setVisible);
 }
 
 MainWindow::~MainWindow()
@@ -40,6 +46,8 @@ MainWindow::~MainWindow()
     QSettings settings("pcsmarkdowneditor");
     settings.setValue("geometry", saveGeometry());
     settings.setValue("state", saveState());
+    settings.setValue("filesVisible", ui->actionFiles->isChecked());
+    settings.setValue("markdownPreviewVisible", ui->actionMarkdown_Preview->isChecked());
     delete ui;
 }
 

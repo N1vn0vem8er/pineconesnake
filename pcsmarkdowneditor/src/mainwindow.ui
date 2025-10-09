@@ -306,11 +306,23 @@
    </property>
   </action>
   <action name="actionMarkdown_Preview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Markdown Preview</string>
    </property>
   </action>
   <action name="actionFiles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Files</string>
    </property>
