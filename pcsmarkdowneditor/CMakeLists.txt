@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(pcsmarkdowneditor LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineCore WebEngineWidgets)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineCore WebEngineWidgets Concurrent)
 
 qt_standard_project_setup()
 
@@ -17,6 +17,8 @@ qt_add_executable(pcsmarkdowneditor
     src/mainwindow.ui
     src/codeeditor.h src/codeeditor.cpp
     src/linenumberarea.h src/linenumberarea.cpp
+    src/filesystemtree.h src/filesystemtree.cpp
+    src/textinputdialog.h src/textinputdialog.cpp src/textinputdialog.ui
 )
 
 target_link_libraries(pcsmarkdowneditor
@@ -25,6 +27,7 @@ target_link_libraries(pcsmarkdowneditor
         Qt::Widgets
         Qt::WebEngineCore
         Qt::WebEngineWidgets
+        Qt::Concurrent
 )
 
 include(GNUInstallDirs)

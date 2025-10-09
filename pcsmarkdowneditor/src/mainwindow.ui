@@ -23,7 +23,7 @@
       <property name="orientation">
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
-      <widget class="QTreeView" name="treeView"/>
+      <widget class="FileSystemTree" name="treeView"/>
       <widget class="QTabWidget" name="tabWidget">
        <property name="tabsClosable">
         <bool>true</bool>
@@ -348,6 +348,11 @@
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
    <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+  <customwidget>
+   <class>FileSystemTree</class>
+   <extends>QTreeView</extends>
+   <header>filesystemtree.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

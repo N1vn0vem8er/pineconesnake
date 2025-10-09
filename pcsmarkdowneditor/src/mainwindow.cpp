@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     restoreGeometry(settings.value("geometry").toByteArray());
     restoreState(settings.value("state").toByteArray());
 
+    ui->splitter->setStretchFactor(1, 2);
+
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->actionOpen_Folder, &QAction::triggered, this, &MainWindow::openDir);
