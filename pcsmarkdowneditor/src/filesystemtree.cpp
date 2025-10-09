@@ -289,16 +289,19 @@ void FileSystemTree::createDir() const
 
 void FileSystemTree::createDirInRoot() const
 {
-    const QString path = model->rootPath();
-    if(QFileInfo(path).isDir())
+    if(model)
     {
-        TextInputDialog* dialog = new TextInputDialog();
-        if(dialog->exec() == QDialog::Accepted)
+        const QString path = model->rootPath();
+        if(QFileInfo(path).isDir())
         {
-            const QString name = dialog->getText();
-            if(!name.isEmpty())
+            TextInputDialog* dialog = new TextInputDialog();
+            if(dialog->exec() == QDialog::Accepted)
             {
-                QDir().mkdir(path + '/' + name);
+                const QString name = dialog->getText();
+                if(!name.isEmpty())
+                {
+                    QDir().mkdir(path + '/' + name);
+                }
             }
         }
     }
@@ -306,20 +309,23 @@ void FileSystemTree::createDirInRoot() const
 
 void FileSystemTree::createFileInRoot() const
 {
-    const QString path = model->rootPath();
-    if(QFileInfo(path).isDir())
+    if(model)
     {
-        TextInputDialog* dialog = new TextInputDialog();
-        if(dialog->exec() == QDialog::Accepted)
+        const QString path = model->rootPath();
+        if(QFileInfo(path).isDir())
         {
-            const QString name = dialog->getText();
-            if(!name.isEmpty())
+            TextInputDialog* dialog = new TextInputDialog();
+            if(dialog->exec() == QDialog::Accepted)
             {
-                std::ofstream file;
-                file.open(path.toStdString() + '/' + name.toStdString());
-                if(file.is_open())
+                const QString name = dialog->getText();
+                if(!name.isEmpty())
                 {
-                    file.close();
+                    std::ofstream file;
+                    file.open(path.toStdString() + '/' + name.toStdString());
+                    if(file.is_open())
+                    {
+                        file.close();
+                    }
                 }
             }
         }
