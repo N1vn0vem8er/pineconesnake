@@ -72,7 +72,11 @@ void MainWindow::openFile()
 
 void MainWindow::openDir()
 {
-
+    const QString path = QFileDialog::getExistingDirectory(this, tr("Open Dir"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        ui->treeView->open(path);
+    }
 }
 
 void MainWindow::save()

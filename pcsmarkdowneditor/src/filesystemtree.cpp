@@ -1,6 +1,7 @@
 #include "filesystemtree.h"
 #include "textinputdialog.h"
 #include <qdialog.h>
+#include <qfuturewatcher.h>
 #include <qmenu.h>
 #include <fstream>
 #include <qmimedata.h>
@@ -16,6 +17,7 @@ FileSystemTree::FileSystemTree(QWidget *parent) : QTreeView(parent)
     hideColumn(4);
     connect(this, &QTreeView::customContextMenuRequested, this, &FileSystemTree::openContextMenu);
     connect(this, &QTreeView::doubleClicked, this, &FileSystemTree::openFilePressed);
+    connect(&watcher, &QFutureWatcher<QString>::finished, this, [&]{apps = watcher.result();});
     setContextMenuPolicy(Qt::CustomContextMenu);
     startSearch();
 }
