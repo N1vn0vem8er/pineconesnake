@@ -22,3 +22,9 @@ Pinecone Snake (PCS) is a collection of various open source desktop applications
 * [Reminder](pcsreminder/README.md)
 * [Pdf Viewer](pcspdfviewer/README.md)
 * [Counter](pcscounter/README.md)
+
+
+## License
+
+This software is licensed under GNU GENERAL PUBLIC LICENSE version 3. See [LICENSE](LICENSE) for more information.
+Repository contains libraries licensed under other licenses. See [pcsmarkdowneditor/README.md](pcsmarkdowneditor/README.md).
