@@ -4,6 +4,7 @@ project(pcsmarkdowneditor LANGUAGES CXX)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets WebEngineCore WebEngineWidgets Concurrent)
 
 qt_standard_project_setup()
+set(CMAKE_AUTORCC ON)
 
 include_directories(
     src
@@ -20,6 +21,8 @@ qt_add_executable(pcsmarkdowneditor
     src/filesystemtree.h src/filesystemtree.cpp
     src/textinputdialog.h src/textinputdialog.cpp src/textinputdialog.ui
     resources/resources.qrc
+    src/document.h src/document.cpp
+    src/previewpage.h src/previewpage.cpp
 )
 
 target_link_libraries(pcsmarkdowneditor

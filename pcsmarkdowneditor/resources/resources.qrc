@@ -3,4 +3,7 @@
         <file>3rdparty/marked.js</file>
         <file>3rdparty/markdown.css</file>
     </qresource>
+    <qresource prefix="/pages">
+        <file>index.html</file>
+    </qresource>
 </RCC>

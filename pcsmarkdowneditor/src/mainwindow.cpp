@@ -1,10 +1,11 @@
 #include "mainwindow.h"
 #include "codeeditor.h"
+#include "previewpage.h"
 #include "ui_mainwindow.h"
-
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSettings>
+#include <QWebChannel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,6 +47,12 @@ MainWindow::MainWindow(QWidget *parent)
         }});
     connect(ui->actionFiles, &QAction::triggered, ui->treeView, &FileSystemTree::setVisible);
     connect(ui->actionMarkdown_Preview, &QAction::triggered, ui->webEngineView, &QWidget::setVisible);
+    PreviewPage* page = new PreviewPage(this);
+    ui->webEngineView->setPage(page);
+    QWebChannel* channel = new QWebChannel(this);
+    channel->registerObject(QStringLiteral("content"), &document);
+    page->setWebChannel(channel);
+    ui->webEngineView->setUrl(QUrl("qrc:pages/index.html"));
 }
 
 MainWindow::~MainWindow()
@@ -61,6 +68,7 @@ MainWindow::~MainWindow()
 CodeEditor *MainWindow::createEditor(const QString &path, const QString &content)
 {
     CodeEditor* editor = new CodeEditor(ui->tabWidget);
+    connect(editor, &CodeEditor::textChanged, this, [this, editor]{document.setText(editor->toPlainText());});
     editor->setPath(path);
     editor->setPlainText(content);
     return editor;
