@@ -4,6 +4,7 @@
 #include <QCompleter>
 #include <QPlainTextEdit>
 #include <QStringListModel>
+#include <qfuturewatcher.h>
 
 class CodeEditor : public QPlainTextEdit
 {
@@ -62,9 +63,12 @@ private:
     bool autoClosing {true};
     bool replaceTabWithSpaces {true};
     bool saved {true};
+    bool gettingWords {false};
+    QFutureWatcher<QStringList> wordsWatcher;
 
 private slots:
-    void insertCompletion(const QModelIndex& index);
+    void insertCompletion(const QString &completion);
+    void startGettingWords();
 
 signals:
     void fontSizeChanged(int size);

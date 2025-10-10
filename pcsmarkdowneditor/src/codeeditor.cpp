@@ -11,6 +11,7 @@
 #include <QMimeData>
 #include <QRegularExpressionMatchIterator>
 #include <QFileInfo>
+#include <qtconcurrentrun.h>
 
 CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
@@ -45,9 +46,11 @@ void CodeEditor::init()
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseSensitive);
     completer->setWrapAround(false);
-    connect(completer, QOverload<const QModelIndex&>::of(&QCompleter::activated), this, &CodeEditor::insertCompletion);
+    connect(completer, QOverload<const QString&>::of(&QCompleter::activated), this, &CodeEditor::insertCompletion);
     completerModel = new QStringListModel(this);
     completer->setModel(completerModel);
+    connect(&wordsWatcher, &QFutureWatcher<QStringList>::finished, this, [&]{completerModel->setStringList(wordsWatcher.result()); gettingWords = false;});
+    connect(this, &CodeEditor::textChanged, this, &CodeEditor::startGettingWords);
 }
 
 QString CodeEditor::getPath() const
@@ -140,9 +143,34 @@ bool CodeEditor::getAutoClosing() const
     return autoClosing;
 }
 
-void CodeEditor::insertCompletion(const QModelIndex &index)
+void CodeEditor::insertCompletion(const QString &completion)
 {
+    QTextCursor tc = textCursor();
+    int extra = completion.length() - completer->completionPrefix().length();
+    tc.movePosition(QTextCursor::Left);
+    tc.movePosition(QTextCursor::EndOfWord);
+    tc.insertText(completion.right(extra));
+    setTextCursor(tc);
+}
 
+void CodeEditor::startGettingWords()
+{
+    if(!gettingWords)
+    {
+        gettingWords = true;
+        QString content = toPlainText();
+        QFuture<QStringList> future = QtConcurrent::run([content]{
+            QStringList words;
+            QRegularExpressionMatchIterator iterator = QRegularExpression(R"(\b([A-Za-z]*)\b)").globalMatch(content);
+            while(iterator.hasNext())
+            {
+                QRegularExpressionMatch match = iterator.next();
+                words.append(match.captured(1));
+            }
+            return words;
+        });
+        wordsWatcher.setFuture(future);
+    }
 }
 
 void CodeEditor::mergeSelectedLines()
