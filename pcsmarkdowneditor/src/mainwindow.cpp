@@ -37,6 +37,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAllText);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) closeTab(ui->tabWidget->currentIndex());});
+    connect(ui->actionClose_All_But_This, &QAction::triggered, this, [&]{
+        for(int i=ui->tabWidget->count()-1; i >= 0;--i)
+        {
+            if(i != ui->tabWidget->currentIndex())
+                closeTab(i);
+        }});
     connect(ui->actionFiles, &QAction::triggered, ui->treeView, &FileSystemTree::setVisible);
     connect(ui->actionMarkdown_Preview, &QAction::triggered, ui->webEngineView, &QWidget::setVisible);
 }
@@ -128,7 +135,7 @@ void MainWindow::saveAs()
 
 void MainWindow::closeTab(int index)
 {
-    QWidget* widget = ui->tabWidget->currentWidget();
+    QWidget* widget = ui->tabWidget->widget(index);
     CodeEditor* editor = qobject_cast<CodeEditor*>(widget);
     if(editor)
     {
