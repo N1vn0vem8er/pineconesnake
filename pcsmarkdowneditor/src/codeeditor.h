@@ -34,7 +34,7 @@ public:
     bool getAutoClosing() const;
     bool getReplaceTabWithSpaces() const;
     void setSaved(bool val);
-    bool isSaved() const;
+    bool isSaved();
 
 public slots:
     void copyAll();
@@ -49,6 +49,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
 
 private:
+    QString orginalText;
     QString path;
     QWidget *lineNumberArea;
     QString name;

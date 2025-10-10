@@ -58,6 +58,15 @@ QString CodeEditor::getPath() const
 void CodeEditor::setPath(const QString &newPath)
 {
     path = newPath;
+    if(!path.isEmpty())
+    {
+        QFile file(path);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            orginalText = file.readAll();
+            file.close();
+        }
+    }
 }
 
 int CodeEditor::lineNumberWidth()
@@ -120,8 +129,9 @@ void CodeEditor::setSaved(bool val)
     saved = val;
 }
 
-bool CodeEditor::isSaved() const
+bool CodeEditor::isSaved()
 {
+    setSaved(orginalText == toPlainText());
     return saved;
 }
 

@@ -151,7 +151,7 @@ void MainWindow::closeTab(int index)
     {
         if(!editor->isSaved())
         {
-            if(QMessageBox::question(this, tr("Save"), tr("Save file %1?").arg(editor->getName())))
+            if(QMessageBox::question(this, tr("Save"), tr("Save file %1?").arg(editor->getName())) == QMessageBox::StandardButton::Yes)
                 save();
         }
     }
