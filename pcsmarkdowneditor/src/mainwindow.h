@@ -33,6 +33,7 @@ private slots:
     void save();
     void saveAs();
     void closeTab(int index);
+    void tabChanged();
     void undo();
     void redo();
     void cut();

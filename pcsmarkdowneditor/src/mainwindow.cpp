@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSelect_All, &QAction::triggered, this, &MainWindow::selectAll);
     connect(ui->actionDelete, &QAction::triggered, this, &MainWindow::deleteText);
     connect(ui->actionDelete_All, &QAction::triggered, this, &MainWindow::deleteAllText);
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &MainWindow::tabChanged);
     connect(ui->actionClose, &QAction::triggered, this, [&]{closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All, &QAction::triggered, this, [&]{while(ui->tabWidget->count() > 0) closeTab(ui->tabWidget->currentIndex());});
     connect(ui->actionClose_All_But_This, &QAction::triggered, this, [&]{
@@ -77,6 +78,7 @@ CodeEditor *MainWindow::createEditor(const QString &path, const QString &content
 void MainWindow::newFile()
 {
     ui->tabWidget->addTab(createEditor("", ""), tr("New File"));
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 1);
 }
 
 void MainWindow::openFile()
@@ -155,6 +157,15 @@ void MainWindow::closeTab(int index)
     }
     ui->tabWidget->removeTab(index);
     widget->deleteLater();
+}
+
+void MainWindow::tabChanged()
+{
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        document.setText(editor->toPlainText());
+    }
 }
 
 void MainWindow::undo()
