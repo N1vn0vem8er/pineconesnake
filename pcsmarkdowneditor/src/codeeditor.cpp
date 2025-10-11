@@ -40,6 +40,8 @@ void CodeEditor::init()
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumber);
     updateLineNumberWidth(0);
 
+    syntaxHighlighter = new MarkdownSyntaxHighlighter(document());
+
     completer = new QCompleter(QStringList(), this);
     completer->setWidget(this);
     completer->setCompletionMode(QCompleter::PopupCompletion);

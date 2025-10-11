@@ -23,6 +23,7 @@ qt_add_executable(pcsmarkdowneditor
     resources/resources.qrc
     src/document.h src/document.cpp
     src/previewpage.h src/previewpage.cpp
+    src/markdownsyntaxhighlighter.h src/markdownsyntaxhighlighter.cpp
 )
 
 target_link_libraries(pcsmarkdowneditor

@@ -1,6 +1,7 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
 
+#include "markdownsyntaxhighlighter.h"
 #include <QCompleter>
 #include <QPlainTextEdit>
 #include <QStringListModel>
@@ -65,6 +66,7 @@ private:
     bool saved {true};
     bool gettingWords {false};
     QFutureWatcher<QStringList> wordsWatcher;
+    MarkdownSyntaxHighlighter* syntaxHighlighter {nullptr};
 
 private slots:
     void insertCompletion(const QString &completion);
