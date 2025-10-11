@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         }});
     connect(ui->actionFiles, &QAction::triggered, ui->treeView, &FileSystemTree::setVisible);
     connect(ui->actionMarkdown_Preview, &QAction::triggered, ui->webEngineView, &QWidget::setVisible);
+    connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{isFullScreen() ? showNormal() : showFullScreen();});
     PreviewPage* page = new PreviewPage(this);
     ui->webEngineView->setPage(page);
     QWebChannel* channel = new QWebChannel(this);
