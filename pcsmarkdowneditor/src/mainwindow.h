@@ -42,5 +42,6 @@ private slots:
     void deleteText();
     void deleteAllText();
     void selectAll();
+    void showAbout();
 };
 #endif // MAINWINDOW_H
