@@ -29,6 +29,7 @@ private:
 private slots:
     void newFile();
     void openFile();
+    void open(const QString& path);
     void openDir();
     void save();
     void saveAs();

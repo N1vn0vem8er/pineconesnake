@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{isFullScreen() ? showNormal() : showFullScreen();});
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::showAbout);
+    connect(ui->treeView, &FileSystemTree::openFile, this, &MainWindow::open);
     PreviewPage* page = new PreviewPage(this);
     ui->webEngineView->setPage(page);
     QWebChannel* channel = new QWebChannel(this);
@@ -93,12 +94,17 @@ void MainWindow::openFile()
     const QStringList paths = QFileDialog::getOpenFileNames(this, tr("Open"), QDir::homePath(), tr("*.md"));
     for(const QString& path : paths)
     {
-        QFile file(path);
-        if(file.open(QIODevice::ReadOnly))
-        {
-            ui->tabWidget->addTab(createEditor(path, file.readAll()), file.fileName());
-            file.close();
-        }
+        open(path);
+    }
+}
+
+void MainWindow::open(const QString &path)
+{
+    QFile file(path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        ui->tabWidget->addTab(createEditor(path, file.readAll()), file.fileName());
+        file.close();
     }
 }
 
