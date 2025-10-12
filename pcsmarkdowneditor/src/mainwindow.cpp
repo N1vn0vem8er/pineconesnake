@@ -3,6 +3,7 @@
 #include "previewpage.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QFontDialog>
 #include <QMessageBox>
 #include <QSettings>
 #include <QWebChannel>
@@ -56,6 +57,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::showAbout);
     connect(ui->treeView, &FileSystemTree::openFile, this, &MainWindow::open);
+    connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
+    connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
+    connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::onSetFont);
     PreviewPage* page = new PreviewPage(this);
     ui->webEngineView->setPage(page);
     QWebChannel* channel = new QWebChannel(this);
@@ -78,6 +82,7 @@ CodeEditor *MainWindow::createEditor(const QString &path, const QString &content
 {
     CodeEditor* editor = new CodeEditor(ui->tabWidget);
     connect(editor, &CodeEditor::textChanged, this, [this, editor]{document.setText(editor->toPlainText());});
+    connect(editor, &CodeEditor::fontSizeChanged, this, &MainWindow::fontSizeChanged);
     editor->setPath(path);
     editor->setPlainText(content);
     return editor;
@@ -178,6 +183,7 @@ void MainWindow::tabChanged()
     if(editor)
     {
         document.setText(editor->toPlainText());
+        fontSizeChanged(editor->font().pointSize());
     }
 }
 
@@ -249,4 +255,35 @@ void MainWindow::showAbout()
         </body>
     </html>
 )").arg(PROJECTLINK, VERSION, LICENSELINK));
+}
+
+void MainWindow::increaseFontSize()
+{
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->increaseFontSize();
+}
+
+void MainWindow::decreaseFontSize()
+{
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+        editor->decreaseFontSize();
+}
+
+void MainWindow::onSetFont()
+{
+    CodeEditor* editor = qobject_cast<CodeEditor*>(ui->tabWidget->currentWidget());
+    if(editor)
+    {
+        bool ok;
+        const QFont font = QFontDialog::getFont(&ok, editor->font(), this);
+        if(ok)
+            editor->setFont(font);
+    }
+}
+
+void MainWindow::fontSizeChanged(int size)
+{
+    ui->statusbar->showMessage(tr("Font Size: %1").arg(size), 3000);
 }

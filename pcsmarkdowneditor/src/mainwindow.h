@@ -44,5 +44,9 @@ private slots:
     void deleteAllText();
     void selectAll();
     void showAbout();
+    void increaseFontSize();
+    void decreaseFontSize();
+    void onSetFont();
+    void fontSizeChanged(int size);
 };
 #endif // MAINWINDOW_H
