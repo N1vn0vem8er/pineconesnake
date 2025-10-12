@@ -60,7 +60,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::onSetFont);
-    PreviewPage* page = new PreviewPage(this);
+    page = new PreviewPage(this);
+    connect(page, &PreviewPage::openedFile, this, &MainWindow::openFileInPreview);
     ui->webEngineView->setPage(page);
     QWebChannel* channel = new QWebChannel(this);
     channel->registerObject(QStringLiteral("content"), &document);
@@ -108,6 +109,7 @@ void MainWindow::open(const QString &path)
     QFile file(path);
     if(file.open(QIODevice::ReadOnly))
     {
+        page->setAbsolutePath(path);
         ui->tabWidget->addTab(createEditor(path, file.readAll()), file.fileName());
         file.close();
     }
@@ -184,6 +186,7 @@ void MainWindow::tabChanged()
     {
         document.setText(editor->toPlainText());
         fontSizeChanged(editor->font().pointSize());
+        page->setAbsolutePath(editor->getPath());
     }
 }
 
@@ -286,4 +289,14 @@ void MainWindow::onSetFont()
 void MainWindow::fontSizeChanged(int size)
 {
     ui->statusbar->showMessage(tr("Font Size: %1").arg(size), 3000);
+}
+
+void MainWindow::openFileInPreview(const QString &path)
+{
+    QFile file (path);
+    if(file.open(QIODevice::ReadOnly))
+    {
+        document.setText(file.readAll());
+        file.close();
+    }
 }

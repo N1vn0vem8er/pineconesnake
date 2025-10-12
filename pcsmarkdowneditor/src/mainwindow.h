@@ -3,6 +3,7 @@
 
 #include "codeeditor.h"
 #include "document.h"
+#include "previewpage.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +23,7 @@ public:
 private:
     Ui::MainWindow *ui;
     Document document;
+    PreviewPage* page {nullptr};
 
 private:
     CodeEditor* createEditor(const QString& path, const QString& content);
@@ -48,5 +50,6 @@ private slots:
     void decreaseFontSize();
     void onSetFont();
     void fontSizeChanged(int size);
+    void openFileInPreview(const QString& path);
 };
 #endif // MAINWINDOW_H
