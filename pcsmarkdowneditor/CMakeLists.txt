@@ -24,6 +24,10 @@ qt_add_executable(pcsmarkdowneditor
     src/document.h src/document.cpp
     src/previewpage.h src/previewpage.cpp
     src/markdownsyntaxhighlighter.h src/markdownsyntaxhighlighter.cpp
+    src/gitwidget.h src/gitwidget.cpp src/gitwidget.ui
+    src/gitfilestatusitemdelegate.h src/gitfilestatusitemdelegate.cpp
+    src/gitfilestatusmodel.h src/gitfilestatusmodel.cpp
+    src/gitfilesview.h src/gitfilesview.cpp
 )
 
 target_link_libraries(pcsmarkdowneditor
