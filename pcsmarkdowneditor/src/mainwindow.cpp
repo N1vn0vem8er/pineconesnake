@@ -24,8 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeView->setVisible(ui->actionFiles->isChecked());
     ui->actionMarkdown_Preview->setChecked(settings.value("markdownPreviewVisible", true).toBool());
     ui->webEngineView->setVisible(ui->actionMarkdown_Preview->isChecked());
+    ui->actionGit->setChecked(settings.value("gitVisible", false).toBool());
+    ui->gitWidget->setVisible(ui->actionGit->isChecked());
 
-    ui->splitter->setStretchFactor(1, 2);
+    ui->splitter->setStretchFactor(2, 3);
 
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
@@ -56,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionFull_Screen, &QAction::triggered, this, [&]{isFullScreen() ? showNormal() : showFullScreen();});
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_Application, &QAction::triggered, this, &MainWindow::showAbout);
+    connect(ui->actionGit, &QAction::triggered, ui->gitWidget, &QWidget::setVisible);
     connect(ui->treeView, &FileSystemTree::openFile, this, &MainWindow::open);
     connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
@@ -76,6 +79,7 @@ MainWindow::~MainWindow()
     settings.setValue("state", saveState());
     settings.setValue("filesVisible", ui->actionFiles->isChecked());
     settings.setValue("markdownPreviewVisible", ui->actionMarkdown_Preview->isChecked());
+    settings.setValue("gitVisible", ui->actionGit->isChecked());
     delete ui;
 }
 
@@ -121,6 +125,7 @@ void MainWindow::openDir()
     if(!path.isEmpty())
     {
         ui->treeView->open(path);
+        ui->gitWidget->setRepositoryPath(path);
     }
 }
 

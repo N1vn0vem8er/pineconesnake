@@ -24,6 +24,7 @@
        <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <widget class="FileSystemTree" name="treeView"/>
+      <widget class="GitWidget" name="gitWidget" native="true"/>
       <widget class="QTabWidget" name="tabWidget">
        <property name="tabsClosable">
         <bool>true</bool>
@@ -86,6 +87,7 @@
     </property>
     <addaction name="actionMarkdown_Preview"/>
     <addaction name="actionFiles"/>
+    <addaction name="actionGit"/>
     <addaction name="separator"/>
     <addaction name="actionIncrease_Font_Size"/>
     <addaction name="actionDecrease_Font_Size"/>
@@ -354,6 +356,14 @@
     <string>Ctrl+N</string>
    </property>
   </action>
+  <action name="actionGit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Git</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -363,8 +373,15 @@
   </customwidget>
   <customwidget>
    <class>FileSystemTree</class>
-   <extends>QTreeView</extends>
+   <extends>QWidget</extends>
    <header>filesystemtree.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GitWidget</class>
+   <extends>QWidget</extends>
+   <header>gitwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
