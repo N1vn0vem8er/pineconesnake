@@ -124,6 +124,16 @@ void CodeEditor::updateLineNumber(const QRect &rect, int dy)
         updateLineNumberWidth(0);
 }
 
+bool CodeEditor::getSaveWarningEnabled() const
+{
+    return saveWarningEnabled;
+}
+
+void CodeEditor::setSaveWarningEnabled(bool newSaveWarningEnabled)
+{
+    saveWarningEnabled = newSaveWarningEnabled;
+}
+
 bool CodeEditor::getReplaceTabWithSpaces() const
 {
     return replaceTabWithSpaces;

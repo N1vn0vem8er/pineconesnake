@@ -177,7 +177,7 @@ void MainWindow::closeTab(int index)
     CodeEditor* editor = qobject_cast<CodeEditor*>(widget);
     if(editor)
     {
-        if(!editor->isSaved())
+        if(editor->getSaveWarningEnabled() && !editor->isSaved())
         {
             if(QMessageBox::question(this, tr("Save"), tr("Save file %1?").arg(editor->getName())) == QMessageBox::StandardButton::Yes)
                 save();
@@ -185,6 +185,8 @@ void MainWindow::closeTab(int index)
     }
     ui->tabWidget->removeTab(index);
     widget->deleteLater();
+    if(ui->tabWidget->count() == 0)
+        document.setText("");
 }
 
 void MainWindow::tabChanged()
@@ -313,5 +315,6 @@ void MainWindow::openInEditor(const QString &text, const QString &title, bool re
 {
     CodeEditor* editor = createEditor("", text);
     editor->setReadOnly(readOnly);
+    editor->setSaveWarningEnabled(!disableSaveWarning);
     ui->tabWidget->addTab(editor, title);
 }

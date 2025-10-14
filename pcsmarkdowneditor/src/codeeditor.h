@@ -37,6 +37,8 @@ public:
     bool getReplaceTabWithSpaces() const;
     void setSaved(bool val);
     bool isSaved();
+    bool getSaveWarningEnabled() const;
+    void setSaveWarningEnabled(bool newSaveWarningEnabled);
 
 public slots:
     void copyAll();
@@ -67,6 +69,7 @@ private:
     bool gettingWords {false};
     QFutureWatcher<QStringList> wordsWatcher;
     MarkdownSyntaxHighlighter* syntaxHighlighter {nullptr};
+    bool saveWarningEnabled {true};
 
 private slots:
     void insertCompletion(const QString &completion);
