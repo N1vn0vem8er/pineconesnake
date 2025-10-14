@@ -51,5 +51,6 @@ private slots:
     void onSetFont();
     void fontSizeChanged(int size);
     void openFileInPreview(const QString& path);
+    void openInEditor(const QString& text, const QString& title, bool readOnly = true, bool spellChecking = false, bool disableSaveWarning = true);
 };
 #endif // MAINWINDOW_H

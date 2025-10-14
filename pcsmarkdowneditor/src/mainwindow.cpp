@@ -63,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionIncrease_Font_Size, &QAction::triggered, this, &MainWindow::increaseFontSize);
     connect(ui->actionDecrease_Font_Size, &QAction::triggered, this, &MainWindow::decreaseFontSize);
     connect(ui->actionSet_Font, &QAction::triggered, this, &MainWindow::onSetFont);
+    connect(ui->gitWidget, &GitWidget::openInEditor, this, &MainWindow::openInEditor);
+    connect(ui->gitWidget, &GitWidget::addTab, this, [&](QWidget* widget, const QString& title){ui->tabWidget->addTab(widget, title);});
+    connect(ui->gitWidget, &GitWidget::openFile, this, &MainWindow::open);
     page = new PreviewPage(this);
     connect(page, &PreviewPage::openedFile, this, &MainWindow::openFileInPreview);
     ui->webEngineView->setPage(page);
@@ -304,4 +307,11 @@ void MainWindow::openFileInPreview(const QString &path)
         document.setText(file.readAll());
         file.close();
     }
+}
+
+void MainWindow::openInEditor(const QString &text, const QString &title, bool readOnly, bool spellChecking, bool disableSaveWarning)
+{
+    CodeEditor* editor = createEditor("", text);
+    editor->setReadOnly(readOnly);
+    ui->tabWidget->addTab(editor, title);
 }
