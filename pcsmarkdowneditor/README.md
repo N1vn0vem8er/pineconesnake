@@ -1,4 +1,29 @@
+# PCS Markdown Editor
 
+Simple markdown editor
+
+## Table of contents
+
+* [General info](#general-info)
+* [Features](#features)
+* [Technologies](#technologies)
+
+## General Info
+
+PCS Markdown Editor is a simple markdown editor with preview and syntax highlighting.
+
+## Features
+
+* Preview markdown
+* Open multiple files in tabs
+* Git integration
+
+## Technologies
+
+This project was created with:
+
+* Qt version: 6
+* Marked
 
 ## License
 
