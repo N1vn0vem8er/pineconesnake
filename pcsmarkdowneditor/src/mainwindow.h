@@ -5,6 +5,7 @@
 #include "document.h"
 #include "previewpage.h"
 #include <QMainWindow>
+#include <qlabel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +25,7 @@ private:
     Ui::MainWindow *ui;
     Document document;
     PreviewPage* page {nullptr};
+    QLabel* openedFileLabel {nullptr};
 
 private:
     CodeEditor* createEditor(const QString& path, const QString& content);

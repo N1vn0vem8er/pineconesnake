@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->splitter->setStretchFactor(2, 3);
 
+    openedFileLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(openedFileLabel);
+
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
     connect(ui->actionOpen_Folder, &QAction::triggered, this, &MainWindow::openDir);
@@ -186,7 +189,10 @@ void MainWindow::closeTab(int index)
     ui->tabWidget->removeTab(index);
     widget->deleteLater();
     if(ui->tabWidget->count() == 0)
+    {
         document.setText("");
+        openedFileLabel->clear();
+    }
 }
 
 void MainWindow::tabChanged()
@@ -197,6 +203,7 @@ void MainWindow::tabChanged()
         document.setText(editor->toPlainText());
         fontSizeChanged(editor->font().pointSize());
         page->setAbsolutePath(editor->getPath());
+        openedFileLabel->setText(editor->getPath());
     }
 }
 
