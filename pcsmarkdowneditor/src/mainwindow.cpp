@@ -272,6 +272,10 @@ void MainWindow::showAbout()
             <p>PCS Markdown Editor is a simple markdown editor with preview. It is a part of the <a href="%1">Pinecone Snake</a> project.</p>
             <p>Version: %2</p>
             <p>License: <a href="%3">GPL 3</a></p>
+            <p>Libraries used in this program:</p>
+            <p>Qt</p>
+            <p>Marked Copyright (c) 2011-2018, Christopher Jeffrey MIT License</p>
+            <p>markdown.css Copyright 2011 Kevin Burke Apache License, Version 2.0</p>
         </body>
     </html>
 )").arg(PROJECTLINK, VERSION, LICENSELINK));
