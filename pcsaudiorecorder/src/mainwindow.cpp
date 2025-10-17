@@ -1,14 +1,99 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMediaDevices>
+#include <QAudioDevice>
+#include <QMediaFormat>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    for(const QAudioDevice& i : QMediaDevices::audioInputs())
+    {
+        ui->inputsComboBox->addItem(i.description());
+    }
+    for(const QMediaFormat::FileFormat& i : QMediaFormat().supportedFileFormats(QMediaFormat::ConversionMode()))
+    {
+        ui->fileFormatComboBox->addItem(getFileFormatName(i));
+    }
+    for(const QMediaFormat::AudioCodec& i : QMediaFormat().supportedAudioCodecs(QMediaFormat::ConversionMode()))
+    {
+        ui->codecsComboBox->addItem(getCodecName(i));
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+QString MainWindow::getFileFormatName(QMediaFormat::FileFormat format) const
+{
+    switch(format)
+    {
+    case QMediaFormat::UnspecifiedFormat:
+        return "UnspecifiedFormat";
+    case QMediaFormat::WMV:
+        return "WMV";
+    case QMediaFormat::AVI:
+        return "AVI";
+    case QMediaFormat::Matroska:
+        return "Matroska";
+    case QMediaFormat::MPEG4:
+        return "MPEG4";
+    case QMediaFormat::Ogg:
+        return "Ogg";
+    case QMediaFormat::QuickTime:
+        return "QuickTime";
+    case QMediaFormat::WebM:
+        return "WebM";
+    case QMediaFormat::Mpeg4Audio:
+        return "Mpeg4Audio";
+    case QMediaFormat::AAC:
+        return "AAC";
+    case QMediaFormat::WMA:
+        return "WMA";
+    case QMediaFormat::MP3:
+        return "MP3";
+    case QMediaFormat::FLAC:
+        return "FLAC";
+    case QMediaFormat::Wave:
+        return "Wave";
+    }
+    return "";
+}
+
+QString MainWindow::getCodecName(QMediaFormat::AudioCodec codec) const
+{
+    switch(codec)
+    {
+
+    case QMediaFormat::AudioCodec::Unspecified:
+        return "Unspecified";
+    case QMediaFormat::AudioCodec::MP3:
+        return "MP3";
+    case QMediaFormat::AudioCodec::AAC:
+        return "AAC";
+    case QMediaFormat::AudioCodec::AC3:
+        return "AC3";
+    case QMediaFormat::AudioCodec::EAC3:
+        return "EAC3";
+    case QMediaFormat::AudioCodec::FLAC:
+        return "FLAC";
+    case QMediaFormat::AudioCodec::DolbyTrueHD:
+        return "DolbyTrueHD";
+    case QMediaFormat::AudioCodec::Opus:
+        return "Opus";
+    case QMediaFormat::AudioCodec::Vorbis:
+        return "Vorbis";
+    case QMediaFormat::AudioCodec::Wave:
+        return "Wave";
+    case QMediaFormat::AudioCodec::WMA:
+        return "WMA";
+    case QMediaFormat::AudioCodec::ALAC:
+        return "ALAC";
+        break;
+    }
+    return "";
 }

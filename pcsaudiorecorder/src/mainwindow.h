@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMediaFormat>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,5 +20,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private:
+    QString getFileFormatName(QMediaFormat::FileFormat format) const;
+    QString getCodecName(QMediaFormat::AudioCodec codec) const;
 };
 #endif // MAINWINDOW_H
