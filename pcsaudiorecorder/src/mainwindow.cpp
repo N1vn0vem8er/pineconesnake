@@ -3,6 +3,7 @@
 #include <QMediaDevices>
 #include <QAudioDevice>
 #include <QMediaFormat>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         ui->codecsComboBox->addItem(getCodecName(i));
     }
+    connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +70,6 @@ QString MainWindow::getCodecName(QMediaFormat::AudioCodec codec) const
 {
     switch(codec)
     {
-
     case QMediaFormat::AudioCodec::Unspecified:
         return "Unspecified";
     case QMediaFormat::AudioCodec::MP3:
@@ -96,4 +97,13 @@ QString MainWindow::getCodecName(QMediaFormat::AudioCodec codec) const
         break;
     }
     return "";
+}
+
+void MainWindow::selectFile()
+{
+    const QString path = QFileDialog::getSaveFileName(this, tr("Select File"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        selectedFile = path;
+    }
 }

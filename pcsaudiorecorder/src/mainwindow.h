@@ -20,9 +20,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QString selectedFile;
 
 private:
     QString getFileFormatName(QMediaFormat::FileFormat format) const;
     QString getCodecName(QMediaFormat::AudioCodec codec) const;
+
+private slots:
+    void selectFile();
 };
 #endif // MAINWINDOW_H
