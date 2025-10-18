@@ -20,6 +20,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QStringList texts;
+    QString openedFile;
 
 private:
     void refresh();

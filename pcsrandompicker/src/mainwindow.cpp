@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "tilewidget.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
 #include <QInputDialog>
 #include <random>
 
@@ -11,6 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::add);
     connect(ui->randomButton, &QPushButton::clicked, this, &MainWindow::selectRandom);
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
 }
 
 MainWindow::~MainWindow()
@@ -34,17 +39,49 @@ void MainWindow::refresh()
 
 void MainWindow::open()
 {
-
+    const QString path = QFileDialog::getOpenFileName(this, tr("Open"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        QFile file(path);
+        if(file.open(QIODevice::ReadOnly))
+        {
+            const QString buffer = file.readAll();
+            file.close();
+            texts = buffer.split(",");
+            openedFile = path;
+            refresh();
+        }
+    }
 }
 
 void MainWindow::save()
 {
-
+    if(!openedFile.isEmpty())
+    {
+        QFile file(openedFile);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            file.write(texts.join(",").toUtf8());
+            file.close();
+        }
+    }
+    else
+        saveAs();
 }
 
 void MainWindow::saveAs()
 {
-
+    const QString path = QFileDialog::getSaveFileName(this, tr("Save As"), QDir::homePath());
+    if(!path.isEmpty())
+    {
+        QFile file(path);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            file.write(texts.join(",").toUtf8());
+            file.close();
+            openedFile = path;
+        }
+    }
 }
 
 void MainWindow::selectRandom()
