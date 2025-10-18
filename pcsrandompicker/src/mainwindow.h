@@ -19,5 +19,17 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QStringList texts;
+
+private:
+    void refresh();
+
+private slots:
+    void open();
+    void save();
+    void saveAs();
+    void selectRandom();
+    void add();
+    void remove();
 };
 #endif // MAINWINDOW_H

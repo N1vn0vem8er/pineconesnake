@@ -15,6 +15,7 @@ qt_add_executable(pcsrandompicker
     src/mainwindow.cpp
     src/mainwindow.h
     src/mainwindow.ui
+    src/tilewidget.h src/tilewidget.cpp src/tilewidget.ui
 )
 
 target_link_libraries(pcsrandompicker
