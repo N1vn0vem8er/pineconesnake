@@ -2,6 +2,7 @@
 #include "tilewidget.h"
 #include "ui_mainwindow.h"
 #include <QInputDialog>
+#include <random>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->addButton, &QPushButton::clicked, this, &MainWindow::add);
+    connect(ui->randomButton, &QPushButton::clicked, this, &MainWindow::selectRandom);
 }
 
 MainWindow::~MainWindow()
@@ -47,7 +49,10 @@ void MainWindow::saveAs()
 
 void MainWindow::selectRandom()
 {
-
+    std::random_device rg;
+    std::mt19937_64 generator(rg());
+    std::uniform_int_distribution<int> random(0, texts.length() - 1);
+    ui->selectedLabel->setText(texts.value(random(generator)));
 }
 
 void MainWindow::add()

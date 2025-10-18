@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PCS Random Picker</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -30,8 +30,14 @@
     </item>
     <item>
      <widget class="QLabel" name="selectedLabel">
+      <property name="styleSheet">
+       <string notr="true">font-size: 40px;</string>
+      </property>
       <property name="text">
        <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
     </item>
