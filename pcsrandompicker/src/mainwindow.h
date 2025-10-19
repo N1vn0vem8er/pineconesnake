@@ -32,5 +32,6 @@ private slots:
     void selectRandom();
     void add();
     void remove();
+    void edited(const QString& oldText, const QString& newText);
 };
 #endif // MAINWINDOW_H

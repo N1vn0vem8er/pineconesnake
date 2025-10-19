@@ -18,6 +18,12 @@ public:
 
 private:
     Ui::TileWidget *ui;
+
+private slots:
+    void edit();
+
+signals:
+    void edited(const QString& oldText, const QString& newText);
 };
 
 #endif // TILEWIDGET_H

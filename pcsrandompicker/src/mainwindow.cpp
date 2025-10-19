@@ -29,6 +29,7 @@ void MainWindow::refresh()
     for(const QString& i : std::as_const(texts))
     {
         TileWidget* widget = new TileWidget(ui->listWidget);
+        connect(widget, &TileWidget::edited, this, &MainWindow::edited);
         widget->setText(i);
         QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
         item->setSizeHint(widget->sizeHint());
@@ -106,4 +107,12 @@ void MainWindow::add()
 void MainWindow::remove()
 {
 
+}
+
+void MainWindow::edited(const QString &oldText, const QString &newText)
+{
+    const int index = texts.indexOf(oldText);
+    texts.removeOne(oldText);
+    texts.insert(index, newText);
+    refresh();
 }
