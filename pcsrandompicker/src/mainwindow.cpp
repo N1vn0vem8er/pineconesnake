@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionRemove, &QAction::triggered, this, &MainWindow::remove);
+    connect(ui->actionAdd, &QAction::triggered, this, &MainWindow::add);
 }
 
 MainWindow::~MainWindow()

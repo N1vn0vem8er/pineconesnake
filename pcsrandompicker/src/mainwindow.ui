@@ -173,21 +173,39 @@
    </property>
   </action>
   <action name="actionAdd">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListAdd"/>
+   </property>
    <property name="text">
     <string>Add</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionRemove">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
    <property name="text">
     <string>Remove</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
   </action>
   <action name="actionAbout_PCS_Random_Picker">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
    <property name="text">
     <string>About Random Picker</string>
    </property>
   </action>
   <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
    <property name="text">
     <string>About Qt</string>
    </property>
