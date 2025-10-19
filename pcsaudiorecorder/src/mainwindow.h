@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QMediaFormat>
+#include <QMediaRecorder>
+#include <qmediacapturesession.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,6 +23,9 @@ public:
 private:
     Ui::MainWindow *ui;
     QString selectedFile;
+    QMediaRecorder* recorder {nullptr};
+    QMediaCaptureSession* session {nullptr};
+    QAudioInput* audioInput {nullptr};
 
 private:
     QString getFileFormatName(QMediaFormat::FileFormat format) const;
@@ -28,5 +33,6 @@ private:
 
 private slots:
     void selectFile();
+    void record();
 };
 #endif // MAINWINDOW_H

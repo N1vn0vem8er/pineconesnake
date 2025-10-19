@@ -4,12 +4,15 @@
 #include <QAudioDevice>
 #include <QMediaFormat>
 #include <QFileDialog>
+#include <QMediaCaptureSession>
+#include <QAudioInput>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    recorder = new QMediaRecorder(this);
     for(const QAudioDevice& i : QMediaDevices::audioInputs())
     {
         ui->inputsComboBox->addItem(i.description());
@@ -23,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->codecsComboBox->addItem(getCodecName(i));
     }
     connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
+    connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
 }
 
 MainWindow::~MainWindow()
@@ -105,5 +109,28 @@ void MainWindow::selectFile()
     if(!path.isEmpty())
     {
         selectedFile = path;
+    }
+}
+
+void MainWindow::record()
+{
+    if(selectedFile.isEmpty())
+        return;
+    if(recorder->recorderState() == QMediaRecorder::StoppedState)
+    {
+        ui->recordButton->setText(tr("Stop"));
+        session = new QMediaCaptureSession(recorder);
+        audioInput = new QAudioInput(session);
+        session->setAudioInput(audioInput);
+        session->setRecorder(recorder);
+        recorder->setOutputLocation(QUrl::fromLocalFile(selectedFile));
+        recorder->record();
+    }
+    else if(recorder->recorderState() == QMediaRecorder::RecordingState || recorder->recorderState() == QMediaRecorder::PausedState)
+    {
+        ui->recordButton->setText(tr("Record"));
+        if(session)
+            session->deleteLater();
+        recorder->stop();
     }
 }
