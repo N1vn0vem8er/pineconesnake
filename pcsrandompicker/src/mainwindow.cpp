@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
+    connect(ui->actionRemove, &QAction::triggered, this, &MainWindow::remove);
 }
 
 MainWindow::~MainWindow()
@@ -30,6 +31,7 @@ void MainWindow::refresh()
     {
         TileWidget* widget = new TileWidget(ui->listWidget);
         connect(widget, &TileWidget::edited, this, &MainWindow::edited);
+        connect(widget, &TileWidget::removed, this, &MainWindow::removed);
         widget->setText(i);
         QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
         item->setSizeHint(widget->sizeHint());
@@ -106,7 +108,15 @@ void MainWindow::add()
 
 void MainWindow::remove()
 {
-
+    for(const auto& i : ui->listWidget->selectedItems())
+    {
+        TileWidget* widget = qobject_cast<TileWidget*>(ui->listWidget->itemWidget(i));
+        if(widget)
+        {
+            texts.removeOne(widget->getText());
+        }
+    }
+    refresh();
 }
 
 void MainWindow::edited(const QString &oldText, const QString &newText)
@@ -114,5 +124,11 @@ void MainWindow::edited(const QString &oldText, const QString &newText)
     const int index = texts.indexOf(oldText);
     texts.removeOne(oldText);
     texts.insert(index, newText);
+    refresh();
+}
+
+void MainWindow::removed(const QString &text)
+{
+    texts.removeOne(text);
     refresh();
 }

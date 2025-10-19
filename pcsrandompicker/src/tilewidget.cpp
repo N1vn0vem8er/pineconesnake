@@ -8,6 +8,7 @@ TileWidget::TileWidget(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->editButton, &QPushButton::clicked, this, &TileWidget::edit);
+    connect(ui->removeButton, &QPushButton::clicked, this, &TileWidget::remove);
 }
 
 TileWidget::~TileWidget()
@@ -20,6 +21,11 @@ void TileWidget::setText(const QString &text)
     ui->label->setText(text);
 }
 
+QString TileWidget::getText() const
+{
+    return ui->label->text();
+}
+
 void TileWidget::edit()
 {
     bool ok;
@@ -29,4 +35,9 @@ void TileWidget::edit()
         emit edited(ui->label->text(), text);
         setText(text);
     }
+}
+
+void TileWidget::remove()
+{
+    emit removed(ui->label->text());
 }

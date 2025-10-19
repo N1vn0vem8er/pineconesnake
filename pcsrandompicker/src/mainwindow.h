@@ -33,5 +33,6 @@ private slots:
     void add();
     void remove();
     void edited(const QString& oldText, const QString& newText);
+    void removed(const QString& text);
 };
 #endif // MAINWINDOW_H
