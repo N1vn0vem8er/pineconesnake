@@ -3,7 +3,12 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QMessageBox>
 #include <random>
+
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveAs);
     connect(ui->actionRemove, &QAction::triggered, this, &MainWindow::remove);
     connect(ui->actionAdd, &QAction::triggered, this, &MainWindow::add);
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_Random_Picker, &QAction::triggered, this, &MainWindow::showAbout);
 }
 
 MainWindow::~MainWindow()
@@ -132,4 +139,18 @@ void MainWindow::removed(const QString &text)
 {
     texts.removeOne(text);
     refresh();
+}
+
+void MainWindow::showAbout()
+{
+    QMessageBox::about(this, tr("About PCS Random Picker"), tr(R"(
+    <html>
+        <body>
+            <h3>PCS Random Picker</h3>
+            <p>PCS Random Picker is an application for picking random text from the list. It is a part of the <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License <a href="%3">GPL 3</a></p>
+        </body>
+    </html>
+)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
