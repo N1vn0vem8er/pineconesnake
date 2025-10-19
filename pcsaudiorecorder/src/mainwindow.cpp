@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fileFormatComboBox->addItem(tr("Default"));
     ui->codecsComboBox->addItem(tr("Default"));
     ui->inputsComboBox->addItem(tr("Default"));
+    ui->qualityComboBox->addItem(tr("Default"));
+    ui->encodeingModeComboBox->addItem(tr("Default"));
     for(const QAudioDevice& i : QMediaDevices::audioInputs())
     {
         devicesMap[i.description()] = i;
@@ -32,6 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
         const QString name = getCodecName(i);
         codecsMap[name] = i;
         ui->codecsComboBox->addItem(name);
+    }
+    for(const QString& i : qualityMap.keys())
+    {
+        ui->qualityComboBox->addItem(i);
+    }
+    for(const QString& i : encodingModeMap.keys())
+    {
+        ui->encodeingModeComboBox->addItem(i);
     }
     connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
@@ -130,15 +140,19 @@ void MainWindow::record()
         session = new QMediaCaptureSession(recorder);
         audioInput = new QAudioInput(session);
         if(ui->inputsComboBox->currentIndex() != 0)
-            audioInput->setDevice(devicesMap[ui->inputsComboBox->currentText()]);
+            audioInput->setDevice(devicesMap.value(ui->inputsComboBox->currentText()));
         session->setAudioInput(audioInput);
         session->setRecorder(recorder);
         QMediaFormat format;
         if(ui->fileFormatComboBox->currentIndex() != 0)
-            format.setFileFormat(formatsMap[ui->fileFormatComboBox->currentText()]);
+            format.setFileFormat(formatsMap.value(ui->fileFormatComboBox->currentText()));
         if(ui->codecsComboBox->currentIndex() != 0)
-            format.setAudioCodec(codecsMap[ui->codecsComboBox->currentText()]);
+            format.setAudioCodec(codecsMap.value(ui->codecsComboBox->currentText()));
         recorder->setMediaFormat(format);
+        if(ui->encodeingModeComboBox->currentIndex() != 0)
+            recorder->setEncodingMode(encodingModeMap.value(ui->encodeingModeComboBox->currentText()));
+        if(ui->qualityComboBox->currentIndex() != 0)
+            recorder->setQuality(qualityMap.value(ui->qualityComboBox->currentText()));
         recorder->setOutputLocation(QUrl::fromLocalFile(selectedFile));
         recorder->record();
     }

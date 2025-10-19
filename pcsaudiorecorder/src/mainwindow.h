@@ -30,6 +30,15 @@ private:
     QMap<QString, QMediaFormat::AudioCodec> codecsMap;
     QMap<QString, QMediaFormat::FileFormat> formatsMap;
     QMap<QString, QAudioDevice> devicesMap;
+    const QMap<QString, QMediaRecorder::Quality> qualityMap {
+        {"VeryLowQuality", QMediaRecorder::Quality::VeryLowQuality},
+        {"LowQuality", QMediaRecorder::Quality::LowQuality},{"NormalQuality", QMediaRecorder::Quality::NormalQuality},
+        {"HighQuality", QMediaRecorder::Quality::HighQuality},{"VeryHighQuality", QMediaRecorder::Quality::VeryHighQuality}
+    };
+    const QMap<QString, QMediaRecorder::EncodingMode> encodingModeMap{
+        {"AverageBitRateEncoding", QMediaRecorder::EncodingMode::AverageBitRateEncoding},{"ConstantBitRateEncoding", QMediaRecorder::EncodingMode::ConstantBitRateEncoding},
+        {"ConstantQualityEncoding", QMediaRecorder::EncodingMode::ConstantQualityEncoding},{"TwoPassEncoding", QMediaRecorder::EncodingMode::TwoPassEncoding}
+    };
 
 private:
     QString getFileFormatName(QMediaFormat::FileFormat format) const;
