@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMediaFormat>
 #include <QMediaRecorder>
+#include <qaudiodevice.h>
 #include <qmediacapturesession.h>
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +27,9 @@ private:
     QMediaRecorder* recorder {nullptr};
     QMediaCaptureSession* session {nullptr};
     QAudioInput* audioInput {nullptr};
+    QMap<QString, QMediaFormat::AudioCodec> codecsMap;
+    QMap<QString, QMediaFormat::FileFormat> formatsMap;
+    QMap<QString, QAudioDevice> devicesMap;
 
 private:
     QString getFileFormatName(QMediaFormat::FileFormat format) const;

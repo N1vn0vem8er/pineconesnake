@@ -13,17 +13,25 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     recorder = new QMediaRecorder(this);
+    ui->fileFormatComboBox->addItem(tr("Default"));
+    ui->codecsComboBox->addItem(tr("Default"));
+    ui->inputsComboBox->addItem(tr("Default"));
     for(const QAudioDevice& i : QMediaDevices::audioInputs())
     {
+        devicesMap[i.description()] = i;
         ui->inputsComboBox->addItem(i.description());
     }
     for(const QMediaFormat::FileFormat& i : QMediaFormat().supportedFileFormats(QMediaFormat::ConversionMode()))
     {
-        ui->fileFormatComboBox->addItem(getFileFormatName(i));
+        const QString name = getFileFormatName(i);
+        formatsMap[name] = i;
+        ui->fileFormatComboBox->addItem(name);
     }
     for(const QMediaFormat::AudioCodec& i : QMediaFormat().supportedAudioCodecs(QMediaFormat::ConversionMode()))
     {
-        ui->codecsComboBox->addItem(getCodecName(i));
+        const QString name = getCodecName(i);
+        codecsMap[name] = i;
+        ui->codecsComboBox->addItem(name);
     }
     connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
@@ -121,8 +129,16 @@ void MainWindow::record()
         ui->recordButton->setText(tr("Stop"));
         session = new QMediaCaptureSession(recorder);
         audioInput = new QAudioInput(session);
+        if(ui->inputsComboBox->currentIndex() != 0)
+            audioInput->setDevice(devicesMap[ui->inputsComboBox->currentText()]);
         session->setAudioInput(audioInput);
         session->setRecorder(recorder);
+        QMediaFormat format;
+        if(ui->fileFormatComboBox->currentIndex() != 0)
+            format.setFileFormat(formatsMap[ui->fileFormatComboBox->currentText()]);
+        if(ui->codecsComboBox->currentIndex() != 0)
+            format.setAudioCodec(codecsMap[ui->codecsComboBox->currentText()]);
+        recorder->setMediaFormat(format);
         recorder->setOutputLocation(QUrl::fromLocalFile(selectedFile));
         recorder->record();
     }
