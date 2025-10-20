@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->inputsComboBox->addItem(tr("Default"));
     ui->qualityComboBox->addItem(tr("Default"));
     ui->encodeingModeComboBox->addItem(tr("Default"));
+    openedFileLabel = new QLabel(ui->statusbar);
+    ui->statusbar->addPermanentWidget(openedFileLabel);
     for(const QAudioDevice& i : QMediaDevices::audioInputs())
     {
         devicesMap[i.description()] = i;
@@ -127,6 +129,7 @@ void MainWindow::selectFile()
     if(!path.isEmpty())
     {
         selectedFile = path;
+        openedFileLabel->setText(selectedFile);
     }
 }
 

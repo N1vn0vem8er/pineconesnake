@@ -5,6 +5,7 @@
 #include <QMediaFormat>
 #include <QMediaRecorder>
 #include <qaudiodevice.h>
+#include <qlabel.h>
 #include <qmediacapturesession.h>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +31,7 @@ private:
     QMap<QString, QMediaFormat::AudioCodec> codecsMap;
     QMap<QString, QMediaFormat::FileFormat> formatsMap;
     QMap<QString, QAudioDevice> devicesMap;
+    QLabel* openedFileLabel {nullptr};
     const QMap<QString, QMediaRecorder::Quality> qualityMap {
         {"VeryLowQuality", QMediaRecorder::Quality::VeryLowQuality},
         {"LowQuality", QMediaRecorder::Quality::LowQuality},{"NormalQuality", QMediaRecorder::Quality::NormalQuality},
