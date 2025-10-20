@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QMediaCaptureSession>
 #include <QAudioInput>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -47,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
+    connect(recorder, &QMediaRecorder::durationChanged, this, [&](qint64 val){ui->durationLabel->setText(QString("%1:%2:%3").arg(((val / 1000) / 60) % 24).arg(((val / 1000) / 60) % 60).arg((val / 1000) % 60));});
 }
 
 MainWindow::~MainWindow()
@@ -136,7 +138,10 @@ void MainWindow::selectFile()
 void MainWindow::record()
 {
     if(selectedFile.isEmpty())
+    {
+        QMessageBox::critical(this, tr("Error"), tr("Select file before recording"));
         return;
+    }
     if(recorder->recorderState() == QMediaRecorder::StoppedState)
     {
         ui->recordButton->setText(tr("Stop"));
