@@ -49,6 +49,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->selectFileButton, &QPushButton::clicked, this, &MainWindow::selectFile);
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(recorder, &QMediaRecorder::durationChanged, this, [&](qint64 val){ui->durationLabel->setText(QString("%1:%2:%3").arg(((val / 1000) / 60) % 24).arg(((val / 1000) / 60) % 60).arg((val / 1000) % 60));});
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::selectFile);
+    connect(ui->actionClose, &QAction::triggered, this, [&]{selectedFile.clear();});
+    connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
+    connect(recorder, &QMediaRecorder::recorderStateChanged, this, [&](QMediaRecorder::RecorderState state){
+            ui->actionClose->setEnabled(state == QMediaRecorder::RecorderState::StoppedState);
+    });
 }
 
 MainWindow::~MainWindow()
