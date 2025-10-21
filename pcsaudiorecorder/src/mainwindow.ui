@@ -137,7 +137,20 @@
     <addaction name="actionAbout_PCS_Audio_Recorder"/>
     <addaction name="actionAbout_Qt"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuSettings">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <addaction name="actionCloseFileAfterRecording"/>
+    </widget>
+    <addaction name="menuSettings"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -188,6 +201,19 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionClose_File_After_Recording">
+   <property name="text">
+    <string>Close File After Recording</string>
+   </property>
+  </action>
+  <action name="actionCloseFileAfterRecording">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Close File After Recording</string>
    </property>
   </action>
  </widget>

@@ -7,12 +7,17 @@
 #include <QMediaCaptureSession>
 #include <QAudioInput>
 #include <QMessageBox>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QSettings settings("pcsaudiorecorder");
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("state").toByteArray());
+    ui->actionCloseFileAfterRecording->setChecked(settings.value("closeFileAfterRecording", false).toBool());
     recorder = new QMediaRecorder(this);
     ui->fileFormatComboBox->addItem(tr("Default"));
     ui->codecsComboBox->addItem(tr("Default"));
@@ -50,15 +55,31 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->recordButton, &QPushButton::clicked, this, &MainWindow::record);
     connect(recorder, &QMediaRecorder::durationChanged, this, [&](qint64 val){ui->durationLabel->setText(QString("%1:%2:%3").arg(((val / 1000) / 60) % 24).arg(((val / 1000) / 60) % 60).arg((val / 1000) % 60));});
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::selectFile);
-    connect(ui->actionClose, &QAction::triggered, this, [&]{selectedFile.clear();});
+    connect(ui->actionClose, &QAction::triggered, this, [&]{selectedFile.clear(); openedFileLabel->clear();});
     connect(ui->actionExit, &QAction::triggered, qApp, &QApplication::closeAllWindows);
     connect(recorder, &QMediaRecorder::recorderStateChanged, this, [&](QMediaRecorder::RecorderState state){
-            ui->actionClose->setEnabled(state == QMediaRecorder::RecorderState::StoppedState);
+        if(state == QMediaRecorder::RecorderState::StoppedState)
+        {
+            ui->actionClose->setEnabled(true);
+            if(ui->actionCloseFileAfterRecording->isChecked())
+            {
+                selectedFile.clear();
+                openedFileLabel->clear();
+            }
+        }
+        else
+        {
+            ui->actionClose->setEnabled(false);
+        }
     });
 }
 
 MainWindow::~MainWindow()
 {
+    QSettings settings("pcsaudiorecorder");
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("state", saveState());
+    settings.setValue("closeFileAfterRecording", ui->actionCloseFileAfterRecording->isChecked());
     delete ui;
 }
 
