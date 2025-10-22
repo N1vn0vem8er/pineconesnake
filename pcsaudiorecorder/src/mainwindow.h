@@ -49,5 +49,6 @@ private:
 private slots:
     void selectFile();
     void record();
+    void showAbout();
 };
 #endif // MAINWINDOW_H

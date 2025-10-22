@@ -8,6 +8,9 @@
 #include <QAudioInput>
 #include <QMessageBox>
 #include <QSettings>
+#define VERSION "0.1.0"
+#define LICENSELINK "https://www.gnu.org/licenses/gpl-3.0.html"
+#define PROJECTLINK "https://github.com/N1vn0vem8er/pineconesnake"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -72,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
             ui->actionClose->setEnabled(false);
         }
     });
+    connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
+    connect(ui->actionAbout_PCS_Audio_Recorder, &QAction::triggered, this, &MainWindow::showAbout);
 }
 
 MainWindow::~MainWindow()
@@ -198,4 +203,18 @@ void MainWindow::record()
             session->deleteLater();
         recorder->stop();
     }
+}
+
+void MainWindow::showAbout()
+{
+    QMessageBox::about(this, tr("About PCS Audio Recorder"), tr(R"(
+    <html>
+        <body>
+            <h3>PCS Audio Recorder</h3>
+            <p>PCS Audio Recorder is a simple audio recorder. It is a part of the <a href="%1">Pinecone Snake</a> project.</p>
+            <p>Version: %2</p>
+            <p>License: <a href="%3">GPL 3</a></p>
+        </body>
+    </html>
+)").arg(PROJECTLINK, VERSION, LICENSELINK));
 }
