@@ -50,5 +50,6 @@ private slots:
     void selectFile();
     void record();
     void showAbout();
+    void pause();
 };
 #endif // MAINWINDOW_H

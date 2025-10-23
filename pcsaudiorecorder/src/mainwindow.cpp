@@ -77,8 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Audio_Recorder, &QAction::triggered, this, &MainWindow::showAbout);
-    connect(ui->pauseButton, &QPushButton::clicked, this, [&]{if(recorder->recorderState() == QMediaRecorder::RecorderState::RecordingState) recorder->pause();
-        else if(recorder->recorderState() == QMediaRecorder::RecorderState::PausedState) recorder->record();});
+    connect(ui->pauseButton, &QPushButton::clicked, this, &MainWindow::pause);
 }
 
 MainWindow::~MainWindow()
@@ -219,4 +218,20 @@ void MainWindow::showAbout()
         </body>
     </html>
 )").arg(PROJECTLINK, VERSION, LICENSELINK));
+}
+
+void MainWindow::pause()
+{
+    if(recorder->recorderState() == QMediaRecorder::RecorderState::RecordingState)
+    {
+        recorder->pause();
+        ui->pauseButton->setText(tr("Resume"));
+        ui->pauseButton->setIcon(QIcon::fromTheme("media-playback-start"));
+    }
+    else if(recorder->recorderState() == QMediaRecorder::RecorderState::PausedState)
+    {
+        recorder->record();
+        ui->pauseButton->setText(tr("Pause"));
+        ui->pauseButton->setIcon(QIcon::fromTheme("media-playback-pause"));
+    }
 }
