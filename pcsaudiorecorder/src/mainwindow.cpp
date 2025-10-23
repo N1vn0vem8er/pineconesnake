@@ -77,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(ui->actionAbout_Qt, &QAction::triggered, this, [&]{QMessageBox::aboutQt(this, tr("About Qt"));});
     connect(ui->actionAbout_PCS_Audio_Recorder, &QAction::triggered, this, &MainWindow::showAbout);
+    connect(ui->pauseButton, &QPushButton::clicked, this, [&]{if(recorder->recorderState() == QMediaRecorder::RecorderState::RecordingState) recorder->pause();
+        else if(recorder->recorderState() == QMediaRecorder::RecorderState::PausedState) recorder->record();});
 }
 
 MainWindow::~MainWindow()
