@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PCS Audio Recorder</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Input Device</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="inputsComboBox"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Audio Codec</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="codecsComboBox"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>File Format</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="fileFormatComboBox"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Encoding Mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Quality</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="encodeingModeComboBox"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="qualityComboBox"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="durationLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="recordButton">
+        <property name="text">
+         <string>Record</string>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::MediaRecord"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pauseButton">
+        <property name="text">
+         <string>Pause</string>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::MediaPlaybackPause"/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="selectFileButton">
+        <property name="text">
+         <string>Select File</string>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionClose"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="actionAbout_PCS_Audio_Recorder"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <widget class="QMenu" name="menuSettings">
+     <property name="title">
+      <string>Settings</string>
+     </property>
+     <addaction name="actionCloseFileAfterRecording"/>
+    </widget>
+    <addaction name="menuSettings"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAbout_PCS_Audio_Recorder">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About PCS Audio Recorder</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::HelpAbout"/>
+   </property>
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+   </property>
+   <property name="text">
+    <string>Select</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ListRemove"/>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::ApplicationExit"/>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionClose_File_After_Recording">
+   <property name="text">
+    <string>Close File After Recording</string>
+   </property>
+  </action>
+  <action name="actionCloseFileAfterRecording">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Close File After Recording</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
