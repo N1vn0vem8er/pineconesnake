@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(pcsaudiorecorder LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Multimedia)
+find_package(Qt6 6.9 REQUIRED COMPONENTS Core Widgets Multimedia)
 
 qt_standard_project_setup()
 
